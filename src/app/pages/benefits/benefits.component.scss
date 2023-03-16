@@ -1,0 +1,69 @@
+$charcoal__grey		: #37383a;
+$dusty__orange		: #e6854a;
+$black__color		: #242424;
+$color_tapa_approx: #737373;
+$blue__color: #004467;
+
+.benefits-section {
+	padding: 60px 0;
+}
+.content-tab {
+	h4 {
+		font: 18px/28px 'Montserrat-SemiBold';
+		color: #292a2b;
+	}
+}
+.benefit-box {
+    text-align: center;
+    max-width: 65%;
+    margin: 30px auto 30px;
+	.img-box {
+	    width: 130px;
+	    height: 130px;
+	    margin: 0 auto 15px;
+	    border: 1px dashed #cae0c0;
+	    border-radius: 100%;
+	}
+	h5 {
+		font: 14px/20px 'Montserrat-SemiBold';
+		color: #565c62;
+	}
+	p {
+		font: 11px/20px 'Montserrat-Medium';
+		color: #89939c;
+	}
+}
+.question_tabs {
+	position: absolute;
+    right: 0;
+    bottom: -68px;
+    display: block;
+	span {
+		width: 140px;
+	    height: 140px;
+	    font: 500 17px/20px 'Montserrat', sans-serif;
+	    border-radius: 100%;
+	    text-transform: uppercase;
+	    display: flex;
+	    text-align: center;
+	    background: $dusty__orange;
+	    align-items: center;
+	    color: #fff;
+	    float: left;
+	    padding: 10px 20px;
+		&.pinner {
+			background: #bad141;
+		}
+		&:first-child {
+			margin-right: 10px;
+		}
+	}
+}
+.desc_text {
+	font: 20px/34px 'Metropolis-MediumItalic';
+	color: $black__color;
+	padding-right: 285px;
+}
+
+
+

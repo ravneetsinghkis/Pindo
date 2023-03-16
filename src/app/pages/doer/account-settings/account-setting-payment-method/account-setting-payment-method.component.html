@@ -1,0 +1,242 @@
+<div [attr.data-isprofilepayment]="isProfilePayment" [attr.data-doerbanktotal]="doerBankTotal"></div>
+
+<div class="dummy_content_ text-center" [hidden]="isProfilePayment">
+
+  <div class="dsc-text text-left py-3 px-3">
+    <p class="mb-0">Add a bank account so Pinners can pay you directly through PinDo.</p>
+    <p class="mb-0">All payment information is held on Stripe, a secure e-commerce platform.</p>
+  </div>
+
+  <div *ngIf="doerBankTotal == 0">
+    <div class="paymentInfo-list d-flex justify-content-between px-3 pb-3">
+      <div class="payment-info d-flex align-items-center">
+        <span class="payment-type-img mr-3">
+          <img src="assets/images/payment-cards-icons/bank.svg" width="36" />
+        </span>
+        <div class="payment-info-text">
+          <button mat-flat-button class="btn btn-orangeColor text-uppercase" (click)="openBankFormPopup()">
+            <span class="ic-plus mr-1" style="font-size: 12px;"></span> Add Bank Account
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr class="m-0" />
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <!-- <div class="icon-space mb-4">
+        <img src="assets/images/icon-set/02.svg" alt="">
+      </div> -->
+      <div class="col-md-10 offset-md-1 py-1">
+        <h6 class="maincardsubHeading pt-4">No Accepted Payment Methods</h6>
+        <p>Please select your accepted methods of payment.</p>
+      </div>
+      <!-- <button mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="closeModal()">
+        Update Now
+      </button> -->
+    </div>
+  </div>
+</div>
+
+<div class="card-settings-body" >
+  <div *ngIf="doerBankTotal == 0 && isProfilePayment">
+    <div class="paymentInfo-list d-flex justify-content-between px-3 py-3">
+      <div class="payment-info d-flex align-items-center">
+        <span class="payment-type-img mr-3">
+          <img src="assets/images/payment-cards-icons/bank.svg" width="36" />
+        </span>
+        <div class="payment-info-text">
+          <button mat-flat-button class="btn btn-orangeColor text-uppercase" (click)="openBankFormPopup()">
+            <span class="ic-plus mr-1" style="font-size: 12px;"></span> Add Bank Account
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr class="m-0" />
+  </div>
+
+  <div *ngFor="let card of doerBankAccounts; let i = index">
+    <div class="paymentInfo-list d-flex justify-content-between px-3 py-3">
+      <div class="payment-info d-flex align-items-center">
+        <span class="payment-type-img mr-3">
+          <img src="assets/images/payment-cards-icons/bank.svg" width="36"
+            *ngIf="card?.object == 'bank_account'" />
+        </span>
+        <div class="payment-info-text">
+          <span class="numbText"><span class="light-color">XXXX XXXX XXXX</span>
+            {{ card?.last4 }}</span>
+          <span class="numbText ml-4" *ngIf="stripeAccountConnected && card?.object == 'bank_account'">
+            <span class="stripe-text">STRIPE ACCOUNT CONNECTED</span>
+          </span>
+          <!-- <button type="btn" mat-flat-button class="btn-orangeColor btn-sm ml-3" *ngIf="card?.object=='bank_account' && card?.is_verified==0 && stripeAccountConnected" (click)="verifyBank(card?.id)">Verify</button> -->
+
+          <ng-container *ngIf="! stripeAccountConnected && doerBankTotal > 0 && card?.object == 'bank_account'">
+            <button mat-flat-button class="btn text-uppercase ml-4" (click)="goToStripe()" style="background-color: #da2a24;">
+              <span class="ic-plus mr-1" style="font-size: 12px;"></span> Connect With Stripe
+            </button>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="action-item-list d-flex align-items-center flex-shrink-0 ml-3">
+        <span class="orange-tag text-uppercase" *ngIf="card?.is_primary == 1">PRIMARY</span>									
+        <span class="ic-edit-2 action-item orangeColor ml-3" *ngIf="card?.object == 'bank_account'"
+          (click)="toggleParentPopup(card)" matTooltip="Edit Bank"></span>
+        <span class="ic-delete action-item orangeColor ml-3" (click)="deleteCard(card)"
+          *ngIf="card?.object == 'bank_account'" matTooltip="Delete Bank"></span>
+      </div>
+    </div>
+    <!--end paymentInfo-list-->
+
+    <hr class="m-0" />
+  </div>
+
+  <div class="listOf-paymentMethods">
+    <ng-container *ngIf="paymentModel.choosePayment.paymentCredit">
+      <div class="list-block d-flex align-items-center pt-3 pb-3 px-3">
+        <span class="icon-item ic-credit-card mr-2 flex-shrink-0"></span>
+        <p class="methods-nameText">Credit Card</p>
+      </div>
+      <hr class="m-0">
+    </ng-container>
+
+    <ng-container *ngIf="paymentModel.choosePayment.paymentByBank">
+      <div class="list-block d-flex align-items-center pt-3 pb-3 px-3">
+        <span class="icon-item ic-bank mr-2 flex-shrink-0" style="font-size: 20px;"></span>
+        <p class="methods-nameText">Bank</p>
+      </div>
+      <hr class="m-0">
+    </ng-container>
+
+    <ng-container *ngIf="paymentModel.choosePayment.paymentCash">
+      <div class="list-block d-flex align-items-center pt-3 pb-3 px-3">
+        <span class="icon-item ic-funds mr-2 flex-shrink-0" style="font-size: 18px;"></span>
+        <p class="methods-nameText">Cash</p>
+      </div>
+      <hr class="m-0">
+    </ng-container>
+
+    <ng-container *ngIf="paymentModel.choosePayment.paymentCheque">
+      <div class="list-block d-flex align-items-center pt-3 pb-3 px-3">
+        <span class="icon-item ic-funds mr-2 flex-shrink-0" style="font-size: 18px;"></span>
+        <p class="methods-nameText">Check</p>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- overlayPopup -->
+<div class="overlayFullPopup" #popUpVar>
+  <div class="fullPopupHeader px-3">
+    <button mat-icon-button class="btn-back orangeColor" (click)="closeModal()"><span
+        class="or or-return"></span></button>
+    <h3 class="heading-text mb-0 text-uppercase">ACCEPTED METHODS OF PAYMENT</h3>
+  </div>
+  <hr class="m-0">
+  <div class="fullPopupContent">
+    <div class="container">
+      <div class="popUpcontentHeading mb-4 mb-xl-5">
+        <h4 class="text-center regular-heading">Select one or more of the below options for accepting payments.</h4>
+      </div>
+
+
+      <div class="pMethod-checkbox-wrap d-flex align-items-center justify-content-center pt-0 pb-0 pb-md-2 pb-xl-4 flex-wrap" [attr.data-stripe]="stripeAccountConnected">
+
+        <div class="pMethod-checkbox-block mx-3 orangeCheckbox" [attr.data-credit]="credit_flag">
+          <div class="pMethod-checkbox">
+            <input [disabled]="!stripeAccountConnected" name="serviceradio" type="checkbox" id="cat_1"
+              [(ngModel)]="paymentModel.choosePayment.paymentCredit">
+
+            <label for="cat_1" *ngIf="stripeAccountConnected">
+              <div class="circleBox d-flex align-items-center justify-content-center">
+                <span class="ic-credit-card"></span>
+              </div>
+              <p class="infoText mb-2">Credit Card</p>
+              <p class="sm-infoText">2.9% + $0.30 / Transaction</p>
+            </label>
+
+            <label for="cat_1" matTooltip="You must have a bank account connected in order to accept electronic payments. Would you like to connect it now?"
+              matTooltipClass="customMatTooltip" matTooltipPosition="above" *ngIf="!stripeAccountConnected">
+              <div class="circleBox d-flex align-items-center justify-content-center">
+                <span class="ic-credit-card"></span>
+                <span class="circle-plus ic-plus" (click)="openCard(stripeAccountConnected ? 'credit' : 'bank')"></span>
+              </div>
+              <p class="infoText mb-2">Credit Card</p>
+              <p class="sm-infoText">2.9% + $0.30 / Transaction</p>
+            </label>
+          </div>
+        </div>
+
+        <div class="pMethod-checkbox-block mx-3 orangeCheckbox" [attr.data-bank]="bank_flag">
+          <div class="pMethod-checkbox">
+            <input [disabled]="!stripeAccountConnected" name="serviceradio" type="checkbox" id="cat_2"
+              [(ngModel)]="paymentModel.choosePayment.paymentByBank">
+
+            <label for="cat_2" *ngIf="stripeAccountConnected">
+              <div class="circleBox d-flex align-items-center justify-content-center">
+                <span class="ic-bank"></span>
+              </div>
+              <p class="infoText mb-2">Bank</p>
+              <!-- <p class="sm-infoText">2.9% + $0.30 / Transaction</p> -->
+              <p class="sm-infoText">0.8% with a $5.00 cap / Transaction</p>
+            </label>
+
+            <label for="cat_2" matTooltip="You must have a bank account connected in order to accept electronic payments. Would you like to connect it now?"
+              matTooltipClass="customMatTooltip" matTooltipPosition="above" *ngIf="!stripeAccountConnected">
+              <div class="circleBox d-flex align-items-center justify-content-center">
+                <span class="ic-bank"></span>
+                <span class="circle-plus ic-plus" (click)="openCard('bank')"></span>
+              </div>
+              <p class="infoText mb-2">Bank</p>
+              <!-- <p class="sm-infoText">2.9% + $0.30 / Transaction</p> -->
+              <p class="sm-infoText">0.8% with a $5.00 cap / Transaction</p>
+            </label>
+
+          </div>
+        </div>
+
+        <div class="pMethod-checkbox-block mx-3 orangeCheckbox">
+          <div class="pMethod-checkbox">
+            <input name="serviceradio" type="checkbox" id="pMethod_3"
+              [(ngModel)]="paymentModel.choosePayment.paymentCash">
+
+            <label for="pMethod_3">
+              <div class="circleBox d-flex align-items-center justify-content-center">
+                <span class="ic-funds"></span>
+              </div>
+              <p class="infoText mb-2">Cash</p>
+              <p class="sm-infoText">No payment processing fees</p>
+            </label>
+          </div>
+        </div>
+
+        <div class="pMethod-checkbox-block mx-3 orangeCheckbox">
+          <div class="pMethod-checkbox">
+            <input name="serviceradio" type="checkbox" id="pMethod_4"
+              [(ngModel)]="paymentModel.choosePayment.paymentCheque">
+
+            <label for="pMethod_4">
+              <div class="circleBox d-flex align-items-center justify-content-center">
+                <span class="ic-bank-check"></span>
+              </div>
+              <p class="infoText mb-2">Check</p>
+              <p class="sm-infoText">No payment processing fees</p>
+            </label>
+          </div>
+        </div>
+
+      </div>
+      <!--end pMethod-checkbox-wrap-->
+
+      <div class="btn-holder text-center mt-3">
+
+        <button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mr-2"
+          (click)="submitPaymentForm()">SAVE</button>
+        <button mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase"
+          (click)="closeModal()">CANCEL</button>
+      </div>
+
+    </div>
+  </div>
+</div>

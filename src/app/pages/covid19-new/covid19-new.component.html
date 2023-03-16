@@ -1,0 +1,356 @@
+<div class="covid-content-wrap">
+  <div class="covid-sec-1">
+    <div class="container">
+      <div class="row">
+        <div class="covid-col-1">
+          <div class="sec-1-text text-center text-md-left">
+            <h5>Find a service provider.</h5>
+            <h1>PIN</h1>
+            <h3>A JOB</h3>
+            <h4>Trust top tradespeople and</h4>
+            <h4>professionals in your</h4>
+            <h4>neighborhood to get stuff done.</h4>
+          </div>
+        </div>
+        <div class="covid-col-2">
+          <div class="marker-img">
+            <img src="assets/images/covid19/marker_circle.png" class="max-img" alt="">
+          </div>
+        </div>
+        <div class="covid-col-3">
+          <div class="sec-1-text text-center text-md-left">
+            <h5>Pay us only when hired.</h5>
+            <h1>DO</h1>
+            <h3>A JOB</h3>
+            <h4>No subscription fees.</h4>
+            <h4>No lead generation fees.</h4>
+            <h4>Pay us only when you book a job.</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="covid-banner-btns">
+    <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div>
+          <button class="covid-job-btn" (click)="registerAsPinner(1)">PIN A JOB NOW</button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="get-btn-padd">
+          <button class="covid-get-btn" (click)="registerAsDoer(2)">BECOME A DOER NOW</button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="covid-sec-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="sec-2-heading">
+            <h2>Reasons to <span>Post your project</span> <br> with PinDo</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 order-md-1">
+          <div class="sec-2-text-wrap">
+          <div class="layer-text">
+            <h4>Word-of-mouth referral</h4>
+            <ul>
+              <li>
+                <a>Our search algorithm lists the top-ranking service providers recommended by your contacts and chosen community for referrals you trust</a>
+              </li>
+            </ul>
+          </div>
+          <div class="layer-text">
+            <h4>Local, local, local</h4>
+            <ul>
+              <li>
+                <a>Our open marketplace connects local businesses to customers, helping small businesses grow and communities thrive</a>
+              </li>
+            </ul>
+          </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 order-md-3">
+          <div class="sec-1-text-wrap">
+            <div class="layer-text">
+              <h4>Business friendly fee structure</h4>
+              <ul>
+                <li>
+                  <a>Free to join, Free to use</a>
+                </li>
+                <li>
+                  <a>No subscription or lead generation fees</a>
+                </li>
+                <li>
+                  <a>Service providers pay a fee only after they get booked for a paying job.</a>
+                </li>
+              </ul>
+              </div>
+              <div class="layer-text">
+              <h4>Trade & professional services</h4>
+              <ul>
+                <li>
+                  <a>Small businesses cover a wide range of services, so we do too</a>
+                </li>
+                <li>
+                  <a>Home Services, Pet Services, Health & Wellness, Lessons, Personal Services and Professional Services</a>
+                </li>
+              </ul>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 order-md-2">
+          <div class="layer-img">
+            <img src="assets/images/covid19/covid-layer.svg" class="max-img" alt="">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="covid-sec-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="sec-3-heading">
+            <h2>LOCAL DOERS</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="home-localDoer-slider covid-slider">
+            <!-- Swiper -->
+            <div class="swiper-container home-swiper-container">
+              <div class="swiper-wrapper">
+
+                <div class="swiper-slide" *ngFor="let doer of localDoersList">
+                  <div class="localDoer-card">
+                    <div class="feature-tag orangeTag text-uppercase" *ngIf="doer?.featured == 1">FEATURED DOER</div>
+                    <div class="prfl-info d-flex align-items-center mb-3">
+                      <div class="prfl-img hover" (click)="commonservice.openWithNewTabDoerOrPinner(doer.id, 2)">
+                        <img src="{{ imageUrl_own + '/company_logo/' + doer?.company_logo }}" onerror="src='assets/images/default-userImg-orange.svg'">
+                      </div>
+                      <div class="prfl-info-content pl-2">
+                        <div class="rating-block text-right">
+                          <div class="d-flex align-items-center">
+                            <div class="rating-star d-flex">
+                              <ng-container>
+                                <!-- <star-rating value="3.5" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3" size="18px"
+                                  readonly="true">
+                                </star-rating> -->
+                                <star-rating [showHalfStars]="true" [starType]="'svg'" [rating]="doer?.rating_avg" [readOnly]="true" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3" size="18px"></star-rating>
+                              </ng-container>
+                            </div>
+                            <span class="rating-star-text ml-1">{{ doer?.rating_avg }}</span>
+                            <span class="smInfo ml-2">({{ doer?.review_count }} True Review<ng-container *ngIf="doer?.review_count > 1">s</ng-container>)</span>
+                          </div>
+                        </div>
+                        <div class="prfl-text">
+                          <h4 class="nameText mb-0 hover" *ngIf="doer?.profile_type == 1" (click)="commonservice.openWithNewTabDoerOrPinner(doer.id, 2)">{{ doer?.name }}</h4>
+                          <h4 class="nameText mb-0 hover" *ngIf="doer?.profile_type == 2" (click)="commonservice.openWithNewTabDoerOrPinner(doer.id, 2)">{{ doer?.company_name }}</h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    <ng-container *ngFor="let item of doer?.doer_parent_cat_and_child_cat_dtls | slice:0:1">
+                      <div class="service-infoBox-content d-xl-flex align-items-center">
+
+                        <div class="heading-block d-flex align-items-center">
+                          <span class="catIcon color-themeOrange mr-2" [ngClass]="{'ic-home': item?.parent_category_details?.id == 2 ,
+                          'ic-covid_19_new':item?.parent_category_details?.id == 3,
+                          'ic-entertainment':item?.parent_category_details?.id == 19,
+                          'ic-personal-care':item?.parent_category_details?.id == 16 ,
+                           'ic-book':item?.parent_category_details?.id == 17 ,
+                          'ic-health':item?.parent_category_details?.id == 18 ,
+                          'ic-petcare':item?.parent_category_details?.id == 20}"></span>
+                          <h4 class="headingText mb-0">{{ item?.parent_category_details.name }}</h4>
+                        </div>
+
+                        <div class="service-infoBox d-flex align-items-center pl-2">
+                          <div class="d-flex align-items-center flex-wrap">
+                            <ng-container *ngFor="let subitem of item?.child_cat_dtls; let j=index">
+                              <span class="custom-chips-text my-1 mx-1" *ngIf="j<2"><span class="chips-box">{{ subitem?.child_category_details.name }}</span></span>
+                            </ng-container>
+                          </div>
+                          <span class="custom-chips-text my-1 flex-shrink-0" *ngIf="item?.child_cat_dtls.length - 2 > 0" (click)="openExtraCategories(item?.child_cat_dtls, item?.parent_category_details.name)"><span class="chips-box">+{{ item?.child_cat_dtls.length - 2 }}</span></span>
+                        </div>
+
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="doer?.doer_parent_cat_and_child_cat_dtls.length > 1">
+                      <p class="more-cats" (click)="showMoreCats(doer?.doer_parent_cat_and_child_cat_dtls)">
+                        +{{ doer?.doer_parent_cat_and_child_cat_dtls.length - 1 }} <ng-container *ngIf="doer?.doer_parent_cat_and_child_cat_dtls.length - 1 < 2">Category</ng-container><ng-container *ngIf="doer?.doer_parent_cat_and_child_cat_dtls.length - 1 > 1">Categories</ng-container>
+                      </p>
+                    </ng-container>
+
+                    <div class="doerBadges">
+                      <h4>PinDo Badges</h4>
+                      <div class="badgCont d-flex justify-content-between" *ngIf="doer?.user_badges?.length>0">
+                        <div class="doerBadge d-flex w-100">
+                          <div class="badges-slider">
+                            <!-- Swiper -->
+                            <div class="swiper-container">
+                              <div class="swiper-wrapper">
+                                <div class="swiper-slide" *ngFor="let eachBadge of commonservice.removeDuplicates( doer?.user_badges, 'badge_id' )">
+                                  <div class="badgeImg">
+                                    <div class="badge_cont text-center d-flex justify-content-center w-100 h-100"
+                                      (click)="tooltip.show()" matTooltipPosition="above"
+                                      matTooltip="{{eachBadge.badge_details?.name}}" matTooltipClass="actually-green-tooltip">
+                                      <img src="{{globalconstant.uploadUrl}}/badges/{{eachBadge.badge_details?.icon}}" alt="">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+      
+                            </div>
+                            <!-- Add Arrows -->
+                            <div class="swiper-button-next doerBadges-next"></div>
+                            <div class="swiper-button-prev doerBadges-prev"></div>
+                          </div>
+      
+                        </div>
+                      </div>
+                      <ng-container *ngIf="doer?.user_badges?.length==0">
+                        <p>No Badges Earned Yet</p>
+                      </ng-container>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next home-localDoer-slider-next"></div>
+            <div class="swiper-button-prev home-localDoer-slider-prev"></div>
+          </div>
+
+          <div class="covid-heroSlider heroSlider mt-4">
+            <!-- Swiper -->
+            <div class="swiper-container">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide" *ngFor="let adBanner of adBanners">
+                  <img src="{{ baseUrl + '/' + adBanner.image_path }}" alt="">
+                </div>
+              </div>
+              <!-- Add Pagination -->
+              <div class="swiper-pagination swiper-pagination-white"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="covid-sec-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="sec-4-heading">
+            <h2>PUBLIC PINS</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-6 col-lg-4" *ngFor="let pin of pinList; let i = index">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-id">ID: {{ pin?.pin_unique_id }}</h6>
+              <h4 class="card-title hover" (click)="toggleChildPopup(i)">{{ pin?.title }}</h4>
+              <p class="card-location" *ngIf="pin?.address == null"><i class="fa fa-map-marker-alt"></i> Not Yet AVailable</p>
+              <p class="card-location" *ngIf="pin?.address != null">
+                <a [href]="(pin?.city && pin?.state)?getAddLink(pin?.city+'+'+pin?.state):(pin?.city && !pin?.state)?getAddLink(pin?.city):(!pin?.city && pin?.state)?getAddLink(pin?.state):getAddLink('')"
+										target="_blank"><i class="fas fa-map-marker-alt"></i>
+										<ng-container *ngIf="pin?.city!=null && pin?.city!=''">{{ pin?.city }},
+										</ng-container>
+										<ng-container *ngIf="pin?.state!=null && pin?.state!=''">{{ pin?.state }}
+										</ng-container>
+									</a>
+              </p>
+              <button class="card-btn">{{pin?.parent_child_cat?.parent_det?.name}} > {{pin?.parent_child_cat?.name}}</button>
+              <h6 class="card-tag">Tags</h6>
+              <div class="d-flex tag-set">
+                <span *ngIf="pin?.city">
+									<a [href]="getAddLink(pin?.city)" target="_blank">{{pin?.city}}</a>
+                </span>
+                <span *ngIf="pin?.state && (pin?.city!=pin?.state)">
+									<a [href]="getAddLink(pin?.state)" target="_blank">{{pin?.state}}</a>
+								</span>
+                <ng-container *ngIf="pin?.job_type!=null">
+									<span *ngIf="pin?.job_type==0">One-time job</span>
+									<span *ngIf="pin?.job_type==1">Recurring</span>
+								</ng-container>
+
+								<ng-container *ngIf="pin?.how_often!=null">
+									<span *ngIf="pin?.how_often==0">Daily</span>
+									<span *ngIf="pin?.how_often==1">Weekly</span>
+									<span *ngIf="pin?.how_often==2">Bi-weekly</span>
+									<span *ngIf="pin?.how_often==3">Monthly</span>
+                </ng-container>
+
+								<span *ngIf="is_urgent==1">Urgent Requirement</span>
+
+								<ng-container *ngIf="pin?.time_of_day!=null">
+									<span *ngIf="pin?.time_of_day==0">Morning</span>
+									<span *ngIf="pin?.time_of_day==1">Afternoon</span>
+									<span *ngIf="pin?.time_of_day==2">Evening</span>
+								</ng-container>
+
+								<ng-container *ngIf="pin?.day_of_week!=null">
+									<span *ngIf="pin?.day_of_week==0">Anyday</span>
+									<span *ngIf="pin?.day_of_week==1">Weekday</span>
+									<span *ngIf="pin?.day_of_week==3">Individual Days</span>
+									<ng-container *ngIf="pin?.day_of_week==3">
+										<span *ngIf="pin?.ind_monday==1">Monday</span>
+										<span *ngIf="pin?.ind_tuesday==1">Tuesday</span>
+										<span *ngIf="pin?.ind_wednesday==1">Wednesday</span>
+										<span *ngIf="pin?.ind_thursday==1">Thursday</span>
+										<span *ngIf="pin?.ind_friday==1">Friday</span>
+										<span *ngIf="pin?.ind_saturday==1">Saturday</span>
+										<span *ngIf="pin?.ind_sunday==1">Sunday</span>
+									</ng-container>
+								</ng-container>
+								<ng-container *ngIf="pin?.pinner_details?.company_name!=null">
+									<span>Company</span>
+									<span>{{pin?.pinner_details?.company_name}}</span>
+								</ng-container>
+              </div>
+              <div class="media pt-2 mb-4">
+                <img class="d-flex align-self-center mr-3 blurImg" src="{{ baseUrl }}/profile_photo/{{ pin?.pinner_details?.profile_photo }}" onerror="this.src='assets/images/default-userImg-green.svg';">
+                <div class="media-body">
+                  <h5 class="m-0 media-text blurText">{{pin?.pinner_details?.username}}</h5>
+                </div>
+              </div>
+              <div class="d-flex">
+                <a class="flex-fill card-link br-1" (click)="toggleChildPopup(i)">VIEW DETAILS</a>
+                <a class="flex-fill card-link" *ngIf="getLoginStatus()==0" (click)="openDialog(pin.id,pin.slug)">APPLY NOW</a>
+                <a class="flex-fill card-link" *ngIf="getLoginStatus()==2" routerLink="/doer/apply-pins/{{pin.slug}}">APPLY NOW</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="arrow-up" *ngIf="pinList.length < totalPinCount">
+        <a (click)="viewMorePins()"><i class="fa fa-angle-down"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-public-pin-details #pinDetails [pinSlug]="selectedPin" (applyCLicked)="openDialog($event)">
+</app-public-pin-details>

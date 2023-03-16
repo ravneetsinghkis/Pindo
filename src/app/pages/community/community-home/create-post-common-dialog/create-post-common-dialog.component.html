@@ -1,0 +1,154 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+
+    <form autocomplete="off" [formGroup]="create_post" name="create_post" (ngSubmit)="onSubmitCreatePost(create_post.value)">
+
+      <div class="comnForm">
+
+        <div class="form-group">
+          <div class="form-control-wrap">
+            <mat-select disableOptionCentering="true" placeholder="Select a post type" class="form-control" formControlName="post_type" [(ngModel)]="post_type" (selectionChange)="changePostType()">
+              <mat-option value="1">
+                Start a conversation
+              </mat-option>
+              <mat-option value="2">
+                Searching for
+              </mat-option>
+              <mat-option value="3">
+                I've got a recommendation
+              </mat-option>
+            </mat-select>
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('post_type').hasError('required') && submitted">This Field
+            is Required</label>
+        </div>
+
+        <div class="form-group">
+          <div class="form-control-wrap">
+            <mat-select disableOptionCentering placeholder="Send to" class="form-control"
+              formControlName="send_to" [(ngModel)]="searchfor_send_to">
+              <mat-option value="contact">
+                Contacts
+              </mat-option>
+              <mat-option value="community">
+                Community
+              </mat-option>
+              <mat-option value="both">
+                Both
+              </mat-option>
+            </mat-select>
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('send_to').hasError('required') && submitted">This Field is Required</label>
+        </div>
+
+
+        <div class="form-group">
+          <div class="form-control-wrap">
+            <mat-select placeholder="Select Category" class="form-control" formControlName="category" name="category"
+              [(ngModel)]="parentcategory" (selectionChange)="changeParentCategorySearch()">
+              <mat-option *ngFor="let allparentcate of allparent_category" [value]="allparentcate.id">
+                {{allparentcate.name}}
+              </mat-option>
+            </mat-select>
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('category').hasError('required') && submitted">This Field is Required</label>
+        </div>
+
+
+        <div class="form-group" *ngIf='child_cat_list.length > 0'>
+          <div class="form-control-wrap d-flex flex-wrap">
+            <div class="custom-chips-radio my-1 mx-1" *ngFor="let chieldcate of child_cat_list">
+              <input name="sub_category" [(ngModel)]="subcategory" (ngModelChange)="subcategoryChangeHandler($event)" type="radio" [value]="chieldcate.id"
+                formControlName="sub_category">
+              <span class="chips-box"> {{chieldcate.name}}</span>
+            </div>
+
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('sub_category').hasError('required') && submitted">This Field is Required</label>
+        </div>
+
+        <div class="form-group">
+          <div class="form-control-wrap withCounter">
+            <mat-form-field appearance="outline">
+              <mat-label>Message</mat-label>
+              <textarea matInput placeholder="" maxlength="500" formControlName="message" name="message"
+                (keydown)="wordCountFunc($event)"></textarea>
+            </mat-form-field>
+            <!-- <textarea class="form-control" placeholder="Message" maxlength="500" formControlName="message" name="message" (keydown)="wordCountFunc($event)"></textarea> -->
+            <span class="counterNumb">{{msgCountNumb}}</span>
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('message').hasError('required') && submitted">This Field is Required</label>
+          <label class="formLabel-error" *ngIf="create_post.get('message').hasError('maxlength') && submitted">Word
+            Limit max 500.</label>
+
+        </div>
+
+        <div class="form-group">
+          <div class="form-control-wrap">
+            <div class="input-group mb-3">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile01"
+                  (change)="setFile($event.target.files)"
+                  accept="{{ commonservice.allowedPostUploadedFileExtensions }}">
+                <label class="custom-file-label text-truncate" for="inputGroupFile01" #fileName>
+                  <span class="top-label">Add File</span>
+                  Attach JPEG or PDF</label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="post_type == 3">
+          <div class="form-control-wrap">
+            
+              <mat-form-field appearance="outline">
+                <mat-label>Add Doer</mat-label>
+                <input type="text" matInput formControlName="doer_prfl" (keyup)="searchRecomendedUser($event)" [matAutocomplete]="auto">
+                <span matPrefix>@</span>
+              </mat-form-field>
+
+              <mat-autocomplete #auto="matAutocomplete" class="sendTo-autocomplete">
+                <mat-option *ngFor="let option of housepriceoptions" [value]="option?.username" (click)='getSelectedUser(option)' [ngClass]="lang_flag==2?'text-right font-style-new':''">
+
+                    <div class="prfl-info d-flex align-items-center pr-2">
+                      <ng-container *ngIf="option?.user_type == 1">
+                          <div class="prfl-img mr-2">
+                            <img [src]="option?.profile_photo!=null?image_url+option?.profile_photo:'assets/images/default-userImg-green.svg'"
+                            OnError="this.src='assets/images/default-userImg-green.svg'">
+                          </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="option?.user_type == 2">
+                          <div class="prfl-img mr-2">
+                              <img [src]="option?.company_logo!=null?companylogo_url+option?.company_logo:'assets/images/default-userImg-orange.svg'"
+                              OnError="this.src='assets/images/default-userImg-orange.svg'">
+                          </div>
+                      </ng-container>
+                        <div class="prfl-text">
+                            <!-- <p class="nameText mb-0"> {{option?.username}}</p> -->
+                            <p class="nameText mb-0" *ngIf="(option?.user_type == 2 && option?.profile_type == 2); else onlyProfileName">{{ option?.company_name }}</p>
+                            <ng-template #onlyProfileName>
+                              <p class="nameText mb-0">{{ option?.first_name }} {{ option?.last_name }}</p>
+                            </ng-template>
+                          </div>
+                    </div>
+
+                </mat-option>
+              </mat-autocomplete>
+
+              <label class="formLabel-error" *ngIf="create_post.get('doer_prfl').hasError('required') && submitted">This Field is Required</label>
+        </div>
+      </div>
+
+        <div class="btn-holder d-flex">          
+          <button mat-button type="button" (click)="closeDialog()" class="col btn btn-gray-border text-uppercase mr-2">Cancel</button>
+          <button mat-flat-button class="btn-greenColor col  text-uppercase" type="submit">Create</button>
+        </div>
+      </div>
+
+      <label class="formLabel-error" #create_post_general_error *ngIf="create_post.invalid && submitted">Please complete all required fields</label>
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,120 @@
+<div class="dummy_content no_minheight" [hidden]="isChildOtherAdressPopulated">
+	<div class="row">
+		<div class="col-md-4 align-self-center">
+			<div class="icon-space text-center">
+  				<img src="assets/images/updateaddresspinner.png" alt="">
+  			</div>
+		</div>
+		<div class="col-md-8 align-self-center">
+			<h6 class="maincardsubHeading">Add Additional Addresses</h6>
+			<div class="col-md-5 pl-0">
+				<p>Add any additional addresses where Doers may be providing services.</p>
+				<button mat-raised-button color="primary" (click)="togglePopup()" class="text-uppercase mat-primary">
+	                select
+	            </button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="address_listing inmainlisting" *ngIf="isChildOtherAdressPopulated">
+	<div class="total_address" *ngFor="let eachLocation of locations;let i = index;">
+		<div class="border-box">			
+			<p class="d-flex align-items-start">
+				<i style="position: relative; top: 4px;" class="fas fa-map-marker-alt mr-2"></i>
+       <span>
+				{{eachLocation.address}}, {{eachLocation.zipcode}}
+				<span class="d-block" *ngIf="eachLocation.address2!=null && eachLocation.address2!=''">{{eachLocation.address2}}</span>
+			</span>
+			</p>					
+		</div>
+	</div>					
+</div>
+<div class="overlayPopup" #popUpVar>
+	<div class="popupHeader">
+		<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+		<h3>Add or Update Your Address</h3>
+	</div>
+	<div class="popupContent">
+		<div class="container">
+			<div class="col-md-8 offset-md-2">
+				<form #updateContInfo="ngForm" novalidate (ngSubmit)="submitFunction(updateContInfo,'closePopup')"> 
+					  <mat-form-field appearance="outline">
+                          <mat-label>Address Line</mat-label>
+                          <!-- <input matInput name="addOne" #contAddOne="ngModel" [(ngModel)]="contactModel.addOne" placeholder="Address Line 1*" required> -->
+                          <input matInput ngx-google-places-autocomplete name="address" #s_address="ngModel" [(ngModel)]="contactModel.address" [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Address Line*" required>
+                          <mat-error *ngIf="s_address?.errors && (updateContInfo.submitted) && s_address?.errors?.required">This field required</mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                          <mat-label>Address 2</mat-label>
+                          <!-- <input matInput name="addOne" #contAddOne="ngModel" [(ngModel)]="contactModel.addOne" placeholder="Address Line 1*" required> -->
+                          <input matInput name="address2" #s_addresstwo="ngModel" [(ngModel)]="contactModel.address2" placeholder="Address 2">
+                          <!-- <mat-error *ngIf="s_address?.errors && (updateContInfo.submitted) && s_address?.errors?.required">This field required</mat-error> -->
+                      </mat-form-field>
+                      <div class="row">
+                      	<div class="col-md-6">
+                      		<mat-form-field appearance="outline">
+		                          <mat-label>Country</mat-label>
+		                          <input matInput name="country" #contCountry="ngModel" [(ngModel)]="contactModel.addCountry" placeholder="Country*" required>
+		                          <mat-error *ngIf="contCountry.errors && (updateContInfo.submitted) && contCountry.errors.required">This field required</mat-error>  
+		                           
+		                    </mat-form-field>
+                      	</div>
+                      	<div class="col-md-6">
+                      		<mat-form-field appearance="outline">
+		                          <mat-label>City</mat-label>
+		                          <input matInput name="city" #contCity="ngModel" [(ngModel)]="contactModel.addCity" placeholder="City*" required>
+		                          <mat-error *ngIf="contCity.errors && (updateContInfo.submitted) && contCity.errors.required">This field required</mat-error>  
+		                          
+		                     </mat-form-field>
+                      	</div>
+                      </div>
+                      <div class="row">
+                      	<div class="col-md-6">
+                      		<mat-form-field appearance="outline">
+		                          <mat-label>State</mat-label>
+		                          <input matInput name="state" #contState="ngModel" [(ngModel)]="contactModel.addState" placeholder="State*" required>
+		                          <mat-error *ngIf="contState.errors && (updateContInfo.submitted) && contState.errors.required">This field required</mat-error>  
+		                           
+		                    </mat-form-field>
+                      	</div>
+                      	<div class="col-md-6">
+                      		<mat-form-field appearance="outline">
+		                          <mat-label>Zip</mat-label>
+		                          <input matInput name="zipcode" #contZip="ngModel" [(ngModel)]="contactModel.addZip" placeholder="Zip*" required>
+		                          <mat-error *ngIf="contZip.errors && (updateContInfo.submitted) && contZip.errors.required">This field required</mat-error>
+		                    </mat-form-field>
+                      	</div>
+                      	<div class="d-flex justify-content-center pt-5 col-md-12">
+		                    <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2 mb-2 mb-sm-0">
+		                        <ng-container *ngIf="inEditMode">Update</ng-container>
+		                        <ng-container *ngIf="!inEditMode">Save</ng-container>
+		                    </button>                    
+		                    <div class="custombtnboder">
+		                      <button type="button" mat-button class="text-uppercase mr-2 mb-2 mb-sm-0" (click)="submitFunction(updateContInfo,'openPopup')">
+		                        Save and Continue
+		                      </button>
+		                      <button type="button" mat-button class="text-uppercase mb-2 mb-sm-0" (click)="resetForm(updateContInfo)">
+		                        Reset
+		                      </button>
+		                    </div>
+		                  </div>
+                      </div>
+				</form>
+				<div class="address_listing mt-5" *ngIf="locations.length>0;">
+					<div class="total_address" *ngFor="let eachLocation of locations;let i = index;">
+						<mat-checkbox (change)="onPrimarySelection(i)" [(ngModel)]="eachLocation.is_primary" [disabled]="inEditMode">&nbsp;</mat-checkbox>
+						<div class="border-box">
+							<span class="prm_box" *ngIf="eachLocation.is_primary==1">Primary</span>
+							<p>{{eachLocation.address}}, {{eachLocation.zipcode}}</p>
+							<p *ngIf="eachLocation.address2!=null && eachLocation.address2!=''">{{eachLocation.address2}}</p>
+							<div class="border-box-action">
+								<button mat-icon-button class="btn-action float-left" (click)="editThisAddress(i)" [disabled]="inEditMode"><i class="far fa-edit"></i></button>
+								<button mat-icon-button class="btn-action float-left" (click)="removeThisAddress(i)" [disabled]="inEditMode"><i class="far fa-trash-alt"></i></button>
+							</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

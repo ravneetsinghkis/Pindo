@@ -1,0 +1,52 @@
+<div mat-dialog-content>
+  <div class="total-dialogCntent text-center">
+
+    <ng-container *ngIf="data?.option =='disable_apply_pin_1'">    
+        <div class="col-md-12">
+          <h3>Enable Electronic Payments</h3>
+          <div class="text-left">
+            <p>It looks like you have not registered for electronic transactions yet. Please go to Account Settings and set up the following:</p>
+            <p>1. A credit card is required to pay the PinDo fee when you are hired. This must be done for you to quote a Pin.</p>
+            <p>2. If you would also like to enable Pinners to pay you electronically, please add a bank account.</p>
+            <p>Upon completion, you may return to the Pin to quote.</p>
+          </div>          
+        </div>
+    
+        <div class="btn-holder text-center pt-xl-4 pt-2">
+          <button type="button" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+          (click)="goToAccountPaymentSettings('online')">ADD PAYMENT METHOD</button>
+          <button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2" mat-dialog-close
+          >NOT READY TO QUOTE</button>
+        </div>
+    </ng-container>
+    
+    <ng-container *ngIf="data?.option =='disable_apply_pin_2'">
+      <div class="col-md-12">
+        <h3>Enable Quoting</h3>
+        <p class="text-left">It looks like you have not added a credit card yet. A credit card is required in order to quote a Pin. Your credit card will be charged the PinDo fee only if you are hired.</p>
+      </div>
+  
+      <div class="btn-holder text-center pt-xl-4 pt-2">
+        <button type="button" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+        (click)="goToAccountPaymentSettings('online')">ADD PAYMENT METHOD</button>
+        <button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2" mat-dialog-close
+        >NOT READY TO QUOTE</button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="data?.option =='disable_apply_pin_3'">
+      <div class="col-md-12">
+        <h3>Enable Payment Methods from Pinners</h3>
+        <p class="text-left">It looks like you have not selected how you want Pinners to pay you yet. To receive electronic payments please choose Credit Card and/or Bank Account in Account Settings and register your bank account.</p>
+        <p class="text-left">If you only want to receive payments off platform please choose Cash and/or Check in Account Settings. Upon completion, you may return to the Pin to quote.</p>
+      </div>
+  
+      <div class="btn-holder text-center pt-xl-4 pt-2">
+        <button type="button" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+        (click)="goToAccountPaymentSettings('offline')">ADD PAYMENT METHOD</button>
+        <button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2" mat-dialog-close
+        >NOT READY TO QUOTE</button>
+      </div>
+    </ng-container>
+  </div>
+</div>

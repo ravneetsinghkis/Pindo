@@ -1,0 +1,117 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+
+    <div class="header-content mb-0 d-flex justify-content-between">
+      <div class="heading pb-3">
+
+        <span class="heading-text">
+          <span style="position: relative; top: 1px;" class="ic-light-bulb mr-2"></span>
+          <span>I’ve got a recommendation</span>
+        </span>
+
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+    <hr class="mt-0 mb-3">
+
+    <form autocomplete="off" [formGroup]="create_post" name="create_post"
+      (ngSubmit)="onSubmitCreatePost(create_post.value)">
+
+      <div class="comnForm">
+        <div class="form-group">
+          <div class="form-control-wrap">
+            <mat-select placeholder="Send to" class="form-control" formControlName="send_to"
+             >
+              <mat-option value="contact">
+                Contacts
+              </mat-option>
+              <mat-option value="community">
+                Community
+              </mat-option>
+              <mat-option value="both">
+                Both
+              </mat-option>
+            </mat-select>
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('send_to').hasError('required') && submitted">This Field
+            is Requerd</label>
+        </div>
+
+        <div class="form-group">
+          <div class="form-control-wrap">
+            <input type="text" formControlName="doer_prfile_id" class="form-control" placeholder="Doer profile"
+              aria-label="Area" (keyup)="searchRecomendedUser($event)" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" class="sendTo-autocomplete">
+              <mat-option *ngFor="let user of userDetailsList" [value]="user?.id" (click)='getSelectedUser(user)'
+                [ngClass]="lang_flag==2?'text-right font-style-new':''">
+
+                <div class="prfl-info d-flex align-items-center pr-2">
+                  <div class="prfl-img mr-2">
+                    <img
+                      [src]="user?.user_type == 1?
+                        user?.profile_photo!=null? image_url+user?.profile_photo : 'assets/images/default-userImg-green.svg'
+                        : user?.company_logo!=null?companylogo_url+user?.company_logo:'assets/images/default-userImg-orange.svg'">
+                  </div>
+                  <div class="prfl-text">
+                    <p class="nameText mb-0"> {{user?.username}}</p>
+                  </div>
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('doer_prfile_id').hasError('required') && submitted">This
+            Field is Required</label>
+        </div>
+
+        <div class="form-group">
+          <div class="form-control-wrap">
+            <mat-select placeholder="Select Category" class="form-control" formControlName="category_id" name="category_id"
+              (selectionChange)="changeParentCategorySearch()">
+              <mat-option *ngFor="let parentcate of allparent_category" [value]="parentcate.id">
+                {{parentcate.name}}
+              </mat-option>
+            </mat-select>
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('category_id').hasError('required') && submitted">This
+            Field is Required</label>
+        </div>
+
+        <div class="form-group" *ngIf='child_cat_list.length > 0'>
+          <div class="form-control-wrap d-flex flex-wrap">
+
+            <div class="custom-chips-radio orange my-1 mx-1" *ngFor="let chieldcate of child_cat_list">
+              <input name="sub_category" [(ngModel)]="subcategory" type="radio" [value]="chieldcate.id"
+                formControlName="sub_category">
+              <span class="chips-box"> {{chieldcate.name}}</span>
+            </div>
+
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('sub_category').hasError('required') && submitted">This
+            Field is Required</label>
+        </div>
+
+        <div class="form-group">
+          <div class="form-control-wrap withCounter">
+            <textarea class="form-control" [(ngModel)]="description_msg" maxlength="500" placeholder="Message"
+              formControlName="message" name="message" (keydown)="wordCountFunc($event)"></textarea>
+            <span class="counterNumb">{{msgCountNumb}}</span>
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('message').hasError('required') && submitted">This Field
+            is Required</label>
+          <label class="formLabel-error" *ngIf="create_post.get('message').hasError('maxlength') && submitted">Word
+            Limit max 500.</label>
+
+        </div>
+
+        <div class="btn-holder">
+          <button mat-flat-button class="btn-orangeColor mr-3 text-uppercase" type="submit">Post</button>
+          <button mat-button type="button" (click)="closeDialog()" class="btn-withoutBg text-uppercase">Cancel</button>
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>

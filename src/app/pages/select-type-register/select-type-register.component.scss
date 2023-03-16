@@ -1,0 +1,75 @@
+.custombtnboder {
+    .mat-button {
+        font-family: 'Montserrat-SemiBold';
+        line-height: 60px;
+        color: #bad141;
+        padding: 0 45px;
+        /*border-radius: 30px;*/
+        border: 2px solid #bad141;
+    }
+}
+.custombtnboder .mat-button:not(:disabled):hover {
+    border-color: #3abd00;
+}
+.custombtnboder .mat-button:disabled {
+    opacity: .7;
+}
+.custombtnboder .mat-button-focus-overlay {
+    background-color: rgba(237, 255, 218, 0.34);
+}
+.loginNowSection {
+    p {
+        font: 16px/24px 'Montserrat-SemiBold';
+        color: #b7bfc7;
+        a {
+            color: #0668c1;
+            &:hover {
+                color: #bad141;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+.maincontentPartLoginModule{
+&.scrollElement{
+    padding-top: 150px;
+    padding-bottom: 0;
+    height: auto;
+    overflow-y: unset;
+    height: calc(100vh - 70px);
+}
+.back-btn{
+    top: 120px;
+}
+}
+
+
+
+@media only screen and (max-width: 1200px) {
+    .custombtnboder {
+        .mat-button {
+            line-height: 46px;
+            padding: 0 30px;            
+        }        
+    }
+    .loginNowSection {
+        p {
+            font: 14px/20px 'Montserrat-SemiBold';
+        }
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .maincontentPartLoginModule{
+        .back-btn {
+            top: 110px;
+        }
+        &.scrollElement {
+            padding-top: 150px !important;
+        }
+    }
+
+
+
+}

@@ -1,0 +1,146 @@
+@mixin commonfooterTextStyle {
+	font: 16px/35px 'Montserrat-Medium';
+	color: #b1bac3;
+}
+footer.bigfooter {
+	// background: #37383a;
+	background: #384756;
+	.footer-logo {
+		margin-bottom: 55px;
+		a {
+			display: inline-block;
+		}
+	}
+	.right-border {
+		border-right: 1px solid rgba(243, 246, 249, 0.1);
+	}
+	.common-footgap {
+		padding: 20px 0;
+	}
+	ul {
+		margin: 0;
+		padding-left: 115px;
+		li {
+			list-style-type: none;
+			margin: 10px 0;
+			a {
+				text-decoration: none;
+				font: 16px/20px 'Montserrat-Regular';
+				color: #fff;
+				display: inline-block;
+				i {
+					color: #bad141;
+				}
+				&:hover {
+					color: #bad141;
+				}
+			}
+		}
+	}
+	.copyRight-text {
+		// background: #313335;
+		background: #334252;
+		margin-top: 55px;
+		p {
+			font: 16px/69px 'Montserrat-Regular';
+			// color: #a4a4a4;
+			color: #fff;
+		}
+	}
+}
+.copyRight-text {
+	position: relative;
+    margin-top: 70px;
+	p {
+		@include commonfooterTextStyle;
+		margin-bottom: 0;
+	}
+}
+footer.loginFooter {
+	border-top: 1px solid #d8d8d8;
+	// background: transparent;
+	background-color: #ffffff;
+	font: 13px/14px 'Montserrat-Regular';
+	color: #89939c;
+	padding: 14px 0;
+	text-align: center;
+	// text-transform: uppercase;
+	letter-spacing: 1px;	
+	&:before{
+		display: none;
+	}
+
+	.footer-link{
+		ul{margin: 0; padding: 6px 0; list-style: none;
+		li{
+			a{ margin: 0 10px; cursor: pointer;color: #89939c;
+			&:hover,&:active{color: #bad141; text-decoration: none;}
+			}  
+		}
+		}
+	}
+	.footer-solial-list{
+		a{ font-size: 16px;cursor: pointer;  margin: 0 10px;
+			color: #89939c;
+			&:hover,&:active{color: #bad141;}
+		}
+	}
+
+}
+
+
+@media only screen and (max-width: 1199px) {
+
+	footer{
+		&.bigfooter{
+			ul {
+				padding-left: 87px;
+			  }
+		}
+	}
+
+}
+
+@media only screen and (max-width: 991px) {
+	footer.bigfooter .copyRight-text {
+		margin-top: 30px !important;
+	}
+	footer.bigfooter .copyRight-text p {
+	    font-size: 12px;
+	}
+	body footer.bigfooter .footer-logo img {
+	    max-height: 40px;
+	}
+	body footer.bigfooter .footer-logo {
+	    margin-bottom: 30px !important;
+	}
+	footer.bigfooter ul {
+		padding-left: 47px;
+	}
+	footer.bigfooter ul li {
+		margin: 5px 0;
+	}
+	footer.bigfooter .common-footgap {
+		padding: 5px 0;
+	}
+}
+@media only screen and (max-width: 767px) {
+	footer.bigfooter .right-border {
+	    border-right: none !important;
+	    border-bottom: 1px solid rgba(242, 242, 242, 0.06);
+	}
+	footer.bigfooter .footer-logo {
+	    margin-bottom: 5px !important;
+	}
+	footer.bigfooter ul {
+		padding-left: 0 !important;
+		text-align: center;
+	}
+	footer.bigfooter ul li a {
+		font: 12px/27px 'Montserrat-Regular';
+	}
+
+	footer.loginFooter {
+		background: #fff;
+	}
+}

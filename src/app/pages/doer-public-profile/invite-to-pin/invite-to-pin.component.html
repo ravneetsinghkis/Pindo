@@ -1,0 +1,153 @@
+<!-- <div class="header_doerprof text-center container-fluid">
+	<button mat-icon-button class="btn-back float-left" (click)="backClicked()"><span class="or or-return"></span></button>
+	<p>Invite to pins</p>
+</div> -->
+<div class="common_topgap">
+	<div class="top-section text-center d-flex justify-content-center">
+		<div class="align-self-center">
+			<h2>Invite to Pins</h2>
+			<p>Invite selected Doer to quote on one or more of your Pins...</p>
+		</div>
+	</div>
+	<div class="publicPinListing" *ngIf="pinList.length > 0">
+		<div class="container">
+			<div class="doer-listing row pt-0">
+				<div class="col-lg-6 col-xl-4" *ngFor="let eachDoer of pinList;let i = index;">
+					<div class="indv-doer">
+						<div class="doer-selectCheckbox">
+							<input type="checkbox" (change)="selectedDoer(i)" name="doername-{{i}}"
+								#doerOne{{i}}="ngModel" [(ngModel)]="inviteDoerModel[eachDoer.id]" id="doer-{{i}}">
+							<label for="doer-{{i}}">&nbsp;</label>
+						</div>
+						<div class="profDoer d-flex mb-4 align-items-center">
+							<span class="prof_img">
+								<img src="{{baseUrl}}/profile_photo/{{eachDoer?.pinner_details?.profile_photo}}"
+									onError="this.src='assets/images/inddoer1.jpg';" alt="">
+							</span>
+							<div class="prof_infoDoer">
+								<h4>{{eachDoer?.pinner_details?.name}}</h4>
+								<!-- <p class="adress_doer"><i class="fas fa-map-marker-alt"></i>Not Yet AVailable</p> -->
+								<!-- <p class="adress_doer" *ngIf="eachDoer.address != null"><i class="fas fa-map-marker-alt"></i>{{ eachDoer.address }}</p> -->
+
+							</div>
+						</div>
+						<div class="name_section mb-4">
+							<h2>{{eachDoer?.title}}</h2>
+							<h4>ID: {{eachDoer?.pin_unique_id}}</h4>
+						</div>
+						<div class="qtnList mb-4">
+							<span class="quotationlist green-pin">
+								{{eachDoer?.parent_child_cat?.parent_det?.name}} > {{eachDoer?.parent_child_cat?.name}}
+							</span>
+							<!-- <span class="quotationlist" *ngIf="eachDoer?.has_budget==0">No Budget</span>
+	            			<span class="quotationlist" *ngIf="eachDoer?.has_budget==1">$ {{eachDoer.budget_value}}</span> -->
+							<span class="quotationlist" *ngIf="eachDoer?.address!=null && eachDoer?.address!=''">
+								<i class="fas fa-map-marker-alt mr-2"></i>{{eachDoer?.address}}
+							</span>
+							<ng-container *ngIf="eachDoer?.job_type!=null">
+								<span class="quotationlist" *ngIf="eachDoer?.job_type==0">One-time job</span>
+								<span class="quotationlist" *ngIf="eachDoer?.job_type==1">Recurring</span>
+							</ng-container>
+
+							<ng-container *ngIf="eachDoer?.how_often!=null">
+								<span class="quotationlist" *ngIf="eachDoer?.how_often==0">Daily</span>
+								<span class="quotationlist" *ngIf="eachDoer?.how_often==1">Weekly</span>
+								<span class="quotationlist" *ngIf="eachDoer?.how_often==2">Bi-weekly</span>
+								<span class="quotationlist" *ngIf="eachDoer?.how_often==3">Monthly</span>
+							</ng-container>
+							<span class="quotationlist" *ngIf="is_urgent==1">Urgent Requirement</span>
+
+
+							<ng-container *ngIf="eachDoer?.time_of_day!=null">
+								<span class="quotationlist" *ngIf="eachDoer?.time_of_day==0">Morning</span>
+								<span class="quotationlist" *ngIf="eachDoer?.time_of_day==1">Afternoon</span>
+								<span class="quotationlist" *ngIf="eachDoer?.time_of_day==2">Evening</span>
+							</ng-container>
+
+							<ng-container *ngIf="eachDoer?.day_of_week!=null">
+								<span class="quotationlist" *ngIf="eachDoer?.day_of_week==0">Anyday</span>
+								<span class="quotationlist" *ngIf="eachDoer?.day_of_week==1">Weekday</span>
+								<span class="quotationlist" *ngIf="eachDoer?.day_of_week==3">Individual Days</span>
+								<ng-container *ngIf="eachDoer?.day_of_week==3">
+									<span class="quotationlist" *ngIf="eachDoer?.ind_monday==1">Monday</span>
+									<span class="quotationlist" *ngIf="eachDoer?.ind_tuesday==1">Tuesday</span>
+									<span class="quotationlist" *ngIf="eachDoer?.ind_wednesday==1">Wednesday</span>
+									<span class="quotationlist" *ngIf="eachDoer?.ind_thursday==1">Thursday</span>
+									<span class="quotationlist" *ngIf="eachDoer?.ind_friday==1">Friday</span>
+									<span class="quotationlist" *ngIf="eachDoer?.ind_saturday==1">Saturday</span>
+									<span class="quotationlist" *ngIf="eachDoer?.ind_sunday==1">Sunday</span>
+								</ng-container>
+							</ng-container>
+							<ng-container *ngIf="eachDoer?.pinner_details?.company_name!=null">
+								<span class="quotationlist">Company</span>
+								<span class="quotationlist">{{eachDoer?.pinner_details?.company_name}}</span>
+							</ng-container>
+						</div>
+						<div class="doerStats mb-4" *ngIf="eachDoer?.pin_tasks.length>0">
+							<h4>Job Tasks</h4>
+							<div class="task-list"><span
+									*ngFor="let eachTask of eachDoer?.pin_tasks">{{eachTask.task_details?.name}}</span>
+							</div>
+						</div>
+						<!-- <div class="abs-btngrp">
+							<mat-button-toggle-group>
+						      <mat-button-toggle value="View Details" (click)="toggleChildPopup(i)">View Details</mat-button-toggle>		
+							  <mat-button-toggle value="Apply Now" *ngIf="getLoginStatus()==0" (click)="openDialog(eachDoer.id)">Apply Now</mat-button-toggle>
+							  
+							  <mat-button-toggle *ngIf="getLoginStatus()==2" value="Apply Now" routerLink="/doer/apply-pins/{{eachDoer.slug}}">Apply Now</mat-button-toggle>
+							</mat-button-toggle-group>
+						</div> -->
+						<div class="invite-panel d-flex justify-content-between" *ngIf="commonservice?.islogin!=0">
+
+							<div class="container  d-flex align-items-center h-100 justify-content-between">
+
+								<p><span class="numbr">{{ totalDoerSelected }}</span> pin<ng-container
+										*ngIf="totalDoerSelected>1">s</ng-container> selected</p>
+
+								<div class="d-flex align-items-center">
+									<div class="totBtn">
+										<button type="button" mat-raised-button color="primary"
+											class="text-uppercase mat-primary" routerLink="/pinner/create-new-pin">
+											New Pin
+										</button>
+									</div> <span class="ml-2 mr-2" style="line-height: 34px; color: #242424;">Or</span>
+									<div class="totBtn">
+										<button type="submit" mat-raised-button color="primary"
+											[disabled]="totalDoerSelected==0 || totalDoerSelected>5"
+											class="text-uppercase mat-primary" (click)="inviteDoerToPin()">
+											Invite
+										</button>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="publicPinListing" *ngIf="pinList.length == 0 && afterInit">
+		<div class="container">
+			<div class="dummy_content text-center">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="icon-space mb-4">
+							<img src="assets/images/nocontentinvite.png" alt="">
+						</div>
+						<div class="col-md-10 offset-md-1">
+							<h6 class="maincardsubHeading">No Pins Found</h6>
+							<p>Create New pin to invite a doer to that pin.</p>
+						</div>
+						<button mat-raised-button color="primary" class="text-uppercase mat-primary"
+							routerLink="/pinner/create-new-pin">
+							Create New Pin
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

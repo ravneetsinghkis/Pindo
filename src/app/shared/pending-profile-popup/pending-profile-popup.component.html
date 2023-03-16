@@ -1,0 +1,37 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="swal2-popup d-block p-0" style="min-width: 100%">
+      <h2 class="swal2-title">Complete Profile</h2>
+      <div class="swal2-content">
+        <ng-container *ngIf="userType == 1">
+          <div style="text-align: justify; text-align-last: center;" class="pb-3">{{ myGlobals.pinner_profile_complete_msg }}</div>
+        </ng-container>
+        <ng-container *ngIf="userType == 2">
+          <div style="text-align: justify">To connect with Pinners and bid for jobs, please fill in the following required fields:</div>
+          <br/>
+          <ul style="text-align: left">
+            <span style="font-weight: bold; text-decoration: underline;">To be seen by Pinners</span>
+            <li>Contact Information: Add a primary phone number</li>
+            <li>Location Settings: Add address and range of service</li>
+            <li>Services Offered: At least one selected</li>
+            <br/>
+            <span style="font-weight: bold; text-decoration: underline;">To Quote and be Hired</span>
+            <li>How to Pay PinDo*: Add credit card</li>
+            <li>How Pinners Pay You: At least one selected (credit card, bank, cash, check)</li>
+          </ul>
+          <div class="text-left mb-3">
+            <small>
+              * PinDo fees only apply if you are awarded a job. NO subscription or lead generation fees.
+              <br>
+              Your customers can pay you directly by Bank/ACH or credit card when you add a bank account.
+            </small>
+          </div>
+        </ng-container>
+
+      </div>
+      <div class="text-center mb-1">
+        <button class="btn text-uppercase" mat-button (click)="closeDialog()" [ngClass]="userType == 1 ? 'btn-greenColor' : 'btn-orangeColor'">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

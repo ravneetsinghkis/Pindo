@@ -1,0 +1,442 @@
+/***** service tags *****/
+$serviceTagText : #89939c;
+$tagsBack 		: #f6fbff;
+$color__white	: #fff;
+$categoreOrange	: #e6854a;
+
+.servicePopulated-tags {
+	margin-top: 20px;
+	span {
+		font-size: 11px;
+		color: $serviceTagText;
+		font-family: 'Montserrat-SemiBold';
+		background: $tagsBack; 
+		display: inline-block;
+		padding: 5px 20px;
+		margin-right: 10px;
+	}
+}
+
+.category-name {
+	color: $color__white;
+	font-size: 11px;
+	line-height: 15px;
+	font-family: 'Montserrat-SemiBold';
+	background-color: $categoreOrange;
+	padding: 8px 20px;
+	position: absolute;
+	left: -10px;
+	top: -17px;
+	text-transform: uppercase;
+	box-shadow: 6px 6px 35px 5px rgba(230, 133, 74, 0.32);
+}
+.selectSercice {
+	border-bottom: 1px solid #e0eadb;
+}
+.singleService {
+	position: relative;
+	float: left;
+	overflow: hidden;	
+	input[type="radio"] {
+		position: absolute;
+		left: -999px;
+	}
+	input[type="radio"]+label {
+		font: 13px/40px 'Montserrat-SemiBold';
+		color: #656b70;
+		padding: 5px 10px;
+		margin-bottom: 0;
+	}
+	input[type="radio"]:checked+label {
+		&:before {
+			content:'';
+			width: 100%;
+			position: absolute;
+			height: 3px;
+			background: #bad141;
+			bottom: 0;
+			left: 0;
+		}
+	}
+	.totalSubCat {
+		width: 25px;
+	    height: 25px;
+	    background: #bad141;
+	    font: 11px/25px 'Montserrat-SemiBold';
+	    border-radius: 25px;
+	    color: #fff;
+	    position: relative;
+	    /* right: 0; */
+	    top: -10px;
+	    text-align: center;
+	    display: inline-block;
+	    margin-right: 5px;
+	}
+}
+.mt-20 {
+	margin-top: 20px !important;
+}
+.customright_gap {
+	padding-right: 50px;		
+	.remove_btnabs {
+		color: #95a7ac;
+	    border: 2px solid #95a7ac;
+	    width: 25px;
+	    height: 25px;
+	    flex-shrink: 0;
+	    position: absolute;
+	    right: 0;
+	    top: 50%;
+	    transform: translateY(-50%);
+	}
+}
+.each_grp.hasRemove {
+    position: relative;
+    padding-right: 65px;
+}
+body .absrightPos {
+    width: 100px;
+    position: absolute;
+    right: 50px;
+    top: auto;
+    bottom: -12px;
+    height: 30px;
+}
+.remove_btnabs.mat-icon-button .mat-icon {
+	vertical-align: top;
+    font-size: 16px;
+    line-height: 23px;
+    text-align: center;
+    width: 22px;
+}
+mat-spinner {
+	position: absolute;
+	right: 0;
+	display: none;
+}
+.invite-panel {
+    width: 545px;
+    position: fixed;
+    padding: 12px 10px;
+    background: #75861E;
+    height: 60px;
+    border-radius: 40px;
+    z-index: 33;
+    color: #fff;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    bottom: 70px;
+    p {
+    	font: 12px/36px 'Montserrat-SemiBold';
+    	color: #fff;
+    	margin-bottom: 0;
+    	text-transform: uppercase;
+    	margin-left: 25px;
+    }
+}
+
+/*newly included*/
+.filterSection h4 {
+    font: 14px/18px 'Montserrat-SemiBold';
+    color: #565c62;
+    margin-bottom: 20px;
+    span {
+    	font-size: 79%;
+    	color: #6c7277;
+    }
+}
+
+.chooseCategoryCheckbox {
+	position: relative;
+	overflow: hidden;
+	input[type="checkbox"],input[type="radio"] {
+		position: absolute;
+		left: -999px;
+	}
+	input[type="checkbox"]+label,input[type="radio"]+label {
+		font: 12px/16px 'Montserrat-SemiBold';
+	    color: #565c62;
+	    padding-top: 110px;
+	    min-width: 90px;
+	    text-align: center;
+		span {			
+		    width: 90px;
+		    height: 90px;
+		    background: #75861e;
+		    border-radius: 100%;
+		    position: absolute;
+		    top: 0;
+		    border: 1px solid #75861e;		    
+		    left: 50%;
+		    transform: translateX(-50%);
+		    box-shadow: 0 0 3px rgba(0, 0, 0, 0.06);
+		    img {
+		    	width: 45px;
+		    	position: absolute;
+		    	left: 50%;
+		    	top: 50%;
+		    	transform: translate(-50%,-50%);
+		    }
+		}
+	}
+	input[type="checkbox"]:checked+label,input[type="radio"]:checked+label {
+		color: #565c62;
+		span {
+			border-color: #fff;
+			background: #fff;
+			svg * {
+				fill: #fff;
+			}
+		}
+	}
+}
+.greyCheck {
+	position: relative;
+	float: left;
+	margin-right: 10px;
+	overflow: hidden;
+	input[type="checkbox"],input[type="radio"] {
+		position: absolute;
+		left: -999px;
+	}
+	input[type="checkbox"]+label,input[type="radio"]+label {
+		font: 13px/40px 'Montserrat-Medium';
+		color: #98a4ae;
+		border: 1px solid #d0dde7;
+		border-radius: 25px;
+		display: block;
+		cursor: pointer;
+		padding: 0 20px;
+		min-width: 85px;
+    	text-align: center;
+	}
+	input[type="checkbox"]:checked+label,input[type="radio"]:checked+label {
+		border-color: #bad141;
+		background: #bad141;
+		color: #fff;
+		box-shadow: 0px 7px 5px rgba(122, 225, 76, 0.3);
+		.indvrating {
+			color: #fff !important;
+		}
+	}
+	input[type="checkbox"]:disabled+label,input[type="radio"]:disabled+label {
+		cursor: no-drop;
+	}
+	&.ratingCheckbox {
+		.indvrating {
+			font-size: 12px;
+		    line-height: 16px;
+		    color: #f0b927;
+		    display: inline-block;
+		    margin-right: 3px;
+		    position: relative;
+    		top: -1px;		    
+		}
+		input[type="checkbox"]:checked+label {
+		    .indvrating {
+		    	color: #fff;
+		    }	
+		}
+	}
+}
+.filterSection {
+    padding: 90px 0;
+    background: #f6fbff;
+    position: relative;
+}
+.eachFilterBlock + .eachFilterBlock {
+    margin-top: 55px;
+    clear: both;
+    float: left;
+    width: 100%;
+}
+.popupContent {
+	padding: 0;
+}
+.filterBottomPanel {
+	position: absolute;
+    bottom: -38px;
+    background: #fff;
+    left: 110px;
+    right: 110px;
+    padding: 0 20px;
+    box-shadow: 0px 8px 20px rgba(6, 104, 193, 0.08);
+    border-radius: 5px;
+    min-height: 82px;
+    .selectedFilters {
+    	padding: 0;
+    	width: 50%;
+    	white-space: nowrap;
+    	overflow: auto;
+    	.mat-button {
+    		line-height: 84px;
+		    min-width: 60px;
+		    color: #98a4ae;
+    	}    	
+    }
+    .swiper-slide {
+    	width: 120px;
+    }
+	.selectedFilterBox {
+		font: 13px/40px 'Montserrat-Medium';
+		color: #98a4ae;
+		border: 1px solid #d0dde7;
+		border-radius: 25px;
+		display: block;
+		cursor: pointer;
+		padding: 0 20px;
+		min-width: 112px;
+    	text-align: center;
+    	display: inline-block;
+    	margin: 20px 10px 20px 0;
+    	cite {
+    		max-width: 90px;
+		    overflow: hidden;
+		    white-space: nowrap;
+		    text-overflow: ellipsis;
+		    margin-right: 8px;
+		    float: left;
+    	}
+	}
+	.right_filter {
+		ul {
+			li {
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+				float: left;
+				font: 12px/84px 'Montserrat-SemiBold';
+				color: #7d8e9e;
+				text-transform: uppercase;
+				.btn-link {
+					font: 12px/82px 'Montserrat-SemiBold';
+					color: #7d8e9e;
+					text-transform: uppercase;
+					border: none;
+					&:hover {
+						color: #035670;
+						text-decoration: none;
+					}
+					&.active {
+						color: #bad141;
+					}
+				}
+				.mat-button {
+					font: 12px/82px 'Montserrat-SemiBold';
+					color: #7d8e9e;
+					text-transform: uppercase;
+					&::after {
+						content: "\f107";
+						font-family: "Font Awesome\ 5 Free";
+						font-weight: 900;
+					}
+					&.opened {
+						&::after {
+							content: "\f106";
+						}
+					}
+				}				
+			}
+		}
+	}
+}
+.form-control {
+	line-height: 52px;
+    border: none;
+    box-shadow: 0px 4px 15px 5px rgba(6, 104, 193, 0.06); 
+    padding: 5px 20px;
+}
+.border-box .inner-borderbox {
+	position: relative;
+}
+@media only screen and (max-width: 767px) {
+	.eachFilterBlock + .eachFilterBlock {
+		margin-top: 5px;
+	}
+	.filterBottomPanel {
+		position: static;
+	    height: auto;
+	    flex-wrap: wrap;
+	    background: none;
+	    box-shadow: none;
+	    margin-top: 50px;
+	    float: left;
+	    width: 100%;
+	    padding: 0;
+	}
+	.filterBottomPanel .selectedFilters {
+		padding: 15px 15px 10px;
+	    background: #fff;
+	    margin-bottom: 35px;
+	    box-shadow: 0px 8px 20px rgba(6, 104, 193, 0.08);
+	    width: 100%;
+	    overflow: visible;
+    	position: relative;
+    	white-space: normal;
+	}
+	.filterBottomPanel .selectedFilters::before {
+		content: 'selected Filters';
+	    display: block;
+	    position: absolute;
+	    top: -34px;
+	    font: 16px/18px 'Lato-Bold';
+	    color: #565c62;
+	    margin-bottom: 20px;
+	    left: 0px;
+	    text-transform: capitalize;
+	}
+	.filterBottomPanel .selectedFilterBox {
+		font: 13px/30px 'Lato-Regular';
+		margin: 0px 10px 5px 0;
+	}
+	.right_filter.align-self-center {
+	    display: block;
+	    text-align: center;
+	    width: 100%;
+	}
+	.right_filter.align-self-center button {
+	    display: inline-block;
+	    margin: 0;
+	}
+	.filterSection {
+	    padding: 30px 0;
+	}
+	.filterBottomPanel .selectedFilters .mat-button {
+		line-height: 40px;
+	}
+}
+.eachFilterBlock h4 a {
+    color: #035670;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.prevselectedItems span {
+    font: 13px/40px 'Montserrat-Medium';
+    color: #bdbdbd;
+    border: 1px solid #ececec;
+    border-radius: 25px;
+    display: block;
+    cursor: pointer;
+    padding: 0 20px;
+    min-width: 85px;
+    text-align: center;
+    margin-right: 10px;
+    background: #f1f1f1;
+    cursor: no-drop;
+}
+
+.formArray-row-wrap{
+	padding-right: 50px;
+	position: relative;
+	.delete_btn{ color: #fc0000; font-size: 14px; position: absolute; right: 0;   top: 55px;
+		background-color: transparent;
+		border: none; cursor: pointer;}
+}
+.chooseSubCategory{ position: relative;
+	.add_btn{  position: absolute;
+		right: 0;
+		top: -25px;
+		border: none;
+		cursor: pointer;}
+}

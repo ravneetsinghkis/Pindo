@@ -1,0 +1,59 @@
+
+.help-attach .custom-file-input {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: calc(54px + 2px);
+    margin: 0;
+    opacity: 0;
+}
+.help-attach .custom-file {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: calc(54px + 2px);
+    margin-bottom: 0;
+}
+.help-attach .custom-file-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    height: calc(54px + 2px);
+    padding: .375rem .75rem;
+    line-height: 42px;
+    color: #d0d8df;
+    background-color: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: .25rem;
+}
+.help-attach:hover .custom-file-label {
+    border: 1px solid rgba(0, 0, 0, 0.87);
+}
+.help-attach .custom-file-label::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    display: block;
+    height: calc(calc(54px + 2px) - 1px * 2);
+    padding: .375rem .75rem;
+    line-height: 2.5;
+    color: #d0d8df;
+    content: "Browse";
+    background-color: transparent;
+    border-left: 0px solid #e0e0e0;
+    border-radius: 0 .25rem .25rem 0;
+}
+.help-attach .custom-file-input:lang(en)~.custom-file-label::after {
+    content: "\f2aa";
+    font: normal normal normal 30px/1.5 LineAwesome;
+}
+
+@media only screen and (max-width: 1400px) { 
+.help-section .filterSection .help-btn-wrap .custombtnboder {
+    margin-top: 0px !important;
+}
+}

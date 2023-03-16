@@ -1,0 +1,56 @@
+<div class="common_topgap">
+	<!-- <div class="newtop_section">
+		<div class="container h-100 posn_rel">
+			<div class="d-flex flex-wrap align-content-center h-100 posn_rel">
+				<div class="text_back">
+					SUPPORT
+				</div>
+				<div class="inn_div align-self-center">
+					<h2>Support</h2>
+					<p>what can we do for you?</p>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<div class="support-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="desc_text">Need help? Ok, let's get your question answered. Fill out and submit a request and
+						we'll get back to you within 24 hours</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-panel-support">
+						<div class="col-12 mb-3">
+							<h3>SUBMIT A REQUEST</h3>
+						</div>
+						<mat-tab-group [selectedIndex]="selectedTab">
+							<mat-tab class="pinner" #tabpinner
+								[disabled]="!tabpinner.isActive && (((userDetails | json) != '{}' && userDetails?.user_type==2))">
+								<ng-template mat-tab-label>
+									<i class="fas fa-user-circle"></i>I am a Pinner<span>I want stuff done</span>
+								</ng-template>
+								<div class="col-12 pt-4 pinner_sec">
+									<app-pinner-support [subjectOptns]="subjects"></app-pinner-support>
+								</div>
+							</mat-tab>
+							<mat-tab id="secondtab" #tab
+								[disabled]="!tab.isActive && (((userDetails | json) != '{}' && userDetails?.user_type==1))">
+								<ng-template mat-tab-label>
+									<i class="fas fa-user-circle"></i>I am a Doer<span>I get stuff done</span>
+								</ng-template>
+								<div class="col-12 pt-4">
+									<app-doer-support class="doer_sec" [subjectOptns]="subjects"></app-doer-support>
+								</div>
+							</mat-tab>
+						</mat-tab-group>
+						<!-- <mat-tab-group animationDuration="0ms">
+						  <mat-tab label="First"></mat-tab>
+						  <mat-tab label="Second">Content 2</mat-tab>
+						</mat-tab-group> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,59 @@
+.matComnForm{
+    .upload-prflImg{
+      .prflImg-box {
+        border-radius: 6px;
+        border: none;
+        padding: 0;
+        width: auto;
+        height: auto;
+        text-align: center;
+        display: inline-block;
+
+        .img-holder{
+          z-index: 2;
+          position: relative;
+          height: 100px;
+          width: 100px;
+          background-color: #F3F6F9;
+          margin: 0 auto;
+          line-height: 100px;
+          img {
+            border-radius: 6px;
+          }
+          .ic-plus{
+            font-size: 24px;
+            line-height: 75px;
+          }
+        }
+
+        .linkText{
+          color: #262626;	font-size: 16px; border-bottom: none; text-decoration: none;     margin-top: 5px;
+          display: inline-block;
+        }
+
+        .input-field{
+          display: inline-block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+  
+      input[type="file"]{
+        position: absolute;
+      text-indent: -99999px;
+      width: 100%;
+      cursor: pointer;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      z-index: 2;
+      }
+  
+        }
+
+      }
+ 
+    }
+  } 

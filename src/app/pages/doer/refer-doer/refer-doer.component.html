@@ -1,0 +1,130 @@
+<div class="totalDashboard" cdkScrollable>
+	<div class="container">
+		<div class="mainHeading">
+			<div class="meta-heading">
+				<button mat-icon-button class="btn-back float-left mr-3" (click)="backClicked()"><span class="or or-return"></span></button>
+				<h3>Refer A Doer</h3>
+				<p>If you know the perfect Doer for this job, enter his/her email address to send a referral.</p>
+			</div>
+		</div>
+		<div class="referDoer">
+			<div class="referDoerTopSection mb-5">
+				<mat-form-field appearance="outline" [ngClass]="{'ng-invalid':(duplicates && !notValidDoerEmail) || (notValidDoerEmail && !duplicates)}">
+				  <mat-chip-list #chipList>
+				    <mat-chip
+				      *ngFor="let eachSelectedDoer of selectedDoer"
+				      [selectable]="selectable"
+				      [removable]="removable"
+				      (removed)="remove(eachSelectedDoer)">
+				      {{eachSelectedDoer}}
+				      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+				    </mat-chip>
+				    <input
+				      placeholder="Enter email address of the doer" id="toremoveVal"
+				      #fruitInput
+				      [matAutocomplete]="auto"
+				      [matChipInputFor]="chipList"
+				      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+				      [matChipInputAddOnBlur]="addOnBlur"
+				      (matChipInputTokenEnd)="add($event)" (keyup)="onChangePopulate($event);">
+				  </mat-chip-list>
+				  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+				    <mat-option *ngFor="let eachDoer of doerListInfo" [value]="eachDoer">
+				      {{eachDoer}}
+				    </mat-option>
+				  </mat-autocomplete>
+				  <mat-hint *ngIf="duplicates && !notValidDoerEmail">Duplicate Entry</mat-hint>
+				  <mat-hint *ngIf="notValidDoerEmail && !duplicates">Not Valid Doer Email</mat-hint>
+				</mat-form-field>
+			</div>
+			<div class="referDoerListing">
+				<div class="doer-listing row pt-0" *ngIf="doerListing.length>0">
+				<div class="col-lg-6 col-xl-4" *ngFor="let eachDoer of doerListing;let i = index;">					
+					<div class="indv-doer posn_rel">	
+						<h4 style="cursor: pointer;" (click)="commonservice.openWithNewTab(eachDoer.id)">{{eachDoer.name}}</h4>					
+						<div class="removeDoer">
+							<button type="button" (click)="removeDoer(i)"><i class="fas fa-times-circle"></i></button>
+						</div>
+						<div class="profDoer d-flex mb-4">
+							<!-- <span class="prof_img">
+								<img *ngIf="" src="assets/images/inddoer1.jpg"  alt="">
+								<img src="{{baseCompUrl}}/company_logo/{{eachActivePinData.profile_photo}}" onError="this.src='assets/images/avatar.png';" alt="">
+							</span> -->
+							<span class="prof_img" style="cursor:pointer;" (click)="commonservice.openWithNewTab(eachDoer.id)" *ngIf="eachDoer?.company_logo!='' && eachDoer?.company_logo!=null">
+			    				<img src="{{eachDoer?.company_logo}}" onError="this.src='assets/images/inddoer1.jpg';" alt="">
+			    			</span>
+			    			<span class="prof_img no-img" style="cursor:pointer;" (click)="commonservice.openWithNewTab(eachDoer.id)" *ngIf="eachDoer?.company_logo=='' || eachDoer?.company_logo==null">
+			    				<img src="{{eachDoer?.profile_photo}}" onError="this.src='assets/images/inddoer1.jpg';" alt="">
+			    			</span>
+							<div class="prof_infoDoer">
+								
+								<p class="adress_doer" *ngIf="eachDoer.address == null"><i class="fas fa-map-marker-alt"></i>Not Yet AVailable</p>
+								<p class="adress_doer" *ngIf="eachDoer.address != null"><i class="fas fa-map-marker-alt"></i>{{ eachDoer.address }} {{eachDoer?.city}}, {{eachDoer?.state}} {{eachDoer?.zipcode}}</p>
+								<div class="ratingDoer d-flex" style="cursor:pointer;" (click)="commonservice.openWithNewTab(eachDoer.id)" *ngIf="eachDoer?.review_count!=0">
+									<span class="indvrating" *ngFor="let eachRating of convertToarray(eachDoer?.rating_avg,'filled')"><i class="fas fa-star"></i></span>
+									<p>{{eachDoer?.rating_avg}}.0 ({{eachDoer?.review_count}} True Reviews)</p>
+								</div>
+							</div>
+						</div>
+						<div class="doerStats mb-4">
+							<h4>Doer Stats</h4>
+							<!-- <span class="statBox">100 Verified Jobs</span> -->
+							<!-- <span class="statBox" (click)="goToPins('Ongoing',eachDoer.id)">{{eachDoer?.ongoing_pins}} Ongoing Jobs</span>
+							<span class="statBox" (click)="goToPins('Completed',eachDoer.id)">{{eachDoer?.pins_completed}} Completed Jobs</span> -->
+
+							<span class="statBox">{{eachDoer?.ongoing_pins}} Ongoing Jobs</span>
+							<span class="statBox">{{eachDoer?.pins_completed}} Completed Jobs</span>
+						</div>
+
+						<div class="hiredBy d-flex justify-content-between mb-4" *ngIf="eachDoer.hiredByFriendList?.length>0">
+							<p *ngIf="eachDoer.hiredByFriendList.length==1">Hired By <span>{{eachDoer.hiredByFriendList?.length}} Contact</span>
+							</p>
+							<p *ngIf="eachDoer.hiredByFriendList?.length>1">Hired By <span>{{eachDoer.hiredByFriendList?.length}} Contacts</span>
+							</p>
+							<div class="hiredCont" (click)="openPinnerListPopup(eachDoer?.id)">							
+								<span class="hiredBox" *ngFor="let each_pinner of eachDoer.hiredByFriendList">
+									<img src="{{componentapiUrl}}/profile_photo/{{each_pinner?.pinner_details?.profile_photo}}" onError="this.src='assets/images/default-userImg-green.svg';" title="{{each_pinner?.pinner_details?.name}}">
+								</span>
+								<!-- <span class="hiredBox">
+									<img src="assets/images/hired4.jpg">
+								</span> -->
+								<span class="hireNumber" *ngIf="eachDoer.hiredByFriendList?.length>4">+{{(hiredByFriendList?.length-4)}}</span> 
+							</div>
+						</div>
+
+						<div class="doerBadges">
+							<h4>PinDo Badges</h4>
+							<div class="badgCont d-flex justify-content-between" *ngIf="eachDoer?.user_badges.length>0">
+								<div class="doerBadge d-flex">
+									<ng-container *ngFor="let eachBadge of eachDoer?.user_badges | slice:0:3">
+										<span class="indvBadg" (click)="commonservice.openWithNewTab(eachDoer.id)" matTooltip="{{eachBadge.badge_details.name}}" matTooltipClass="green-tooltip"><img src="assets/images/badges-icon/badge-1.png"></span>
+									</ng-container>									
+								</div>
+								<ng-container *ngIf="eachDoer?.user_badges.length>3">
+									<p (click)="commonservice.openWithNewTab(eachDoer.id)">and {{eachDoer?.user_badges.length}} more badges....</p>
+								</ng-container>
+							</div>
+							<ng-container *ngIf="eachDoer?.user_badges.length==0">
+								<p>No Badges Earned Yet</p>
+							</ng-container>
+						</div>
+						<div class="abs-btngrp">
+							<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+							  <mat-button-toggle value="View Details" (click)="commonservice.openWithNewTab(eachDoer?.user_details?.id)">View Details</mat-button-toggle>
+							  <!-- <mat-button-toggle value="Message" (click)="goToChat(eachDoer?.user_details?.id)">Message</mat-button-toggle> -->
+							</mat-button-toggle-group>
+						</div>
+					</div>
+					<div class="invite-panel d-flex justify-content-between">
+						<p>{{totalDoerSelected}} doers selected</p>
+						<div class="totBtn">
+		                    <button type="button" (click)="inviteDoer()" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+		                        Invite
+		                    </button>
+		                </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

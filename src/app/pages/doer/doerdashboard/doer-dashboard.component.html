@@ -1,0 +1,367 @@
+<div class="totalDashboard customtop_padding activityDashboard">
+	<!-- <div class="top-section topCutomisedNewBar">
+		<div class="container">
+			<div class="mainHeading">
+				<h1>MY ACTIVITY</h1>
+			</div>
+		</div>
+	</div> -->
+	<div class="container mt-4 doer_orange">
+		<div class="row mb-3">
+			<div class="col-xl-12">
+				<mat-card class="pindoCart doerdetails dashboardCart">
+					<mat-card-header>
+						<mat-card-title>
+							To-Do List
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content class="p-0">
+						<div class="total-table" *ngIf="toDoList.length>0">
+							<div class="table-header d-flex">
+								<div class="coltab text-uppercase">
+									Date / Time
+								</div>
+								<div class="coltab text-uppercase flex-3">
+									Pending Activities
+								</div>
+								<div class="coltab text-uppercase">
+									&nbsp;
+								</div>
+							</div>
+							<div class="table-body white-bg dashBoardScrollItem orange_customScroll">
+								<!-- <div class="forScroll max-359" infiniteScroll [infiniteScrollDistance]="2"
+									[infiniteScrollUpDistance]="1.5" [infiniteScrollThrottle]="150"
+									(scrolled)="onscrollTodoLoad()" [fromRoot]="true"
+									> -->
+
+								<div class="forScroll max-359" infiniteScroll [infiniteScrollDistance]="2"
+									[infiniteScrollThrottle]="150" [scrollWindow]="false" (scrolled)="onscrollTodoLoad(10)"
+									[fromRoot]="true" [infiniteScrollContainer]="'.dashBoardScrollItem'" *ngIf="toDoList?.length > 0">
+
+									<div class="table-row d-flex" *ngFor="let eachToDo of toDoList;let i =index;">
+
+										<div class="coltab" data-heading="Date  Time"
+											title="{{eachToDo?.createdAt | date:'dd LLL yyyy h:mm a'}}">
+											<p>{{eachToDo?.createdAt | date:'dd LLL yyyy h:mm a'}}</p>
+										</div>
+										<div class="coltab flex-3" data-heading="Activities" (click)="gotoTodoLink(eachToDo)"
+											style="cursor:pointer;">
+											<p class="no_whitespace" [innerHtml]="eachToDo?.todo_title"></p>
+										</div>
+										<div class="coltab" data-heading="Actions">
+											<div class="d-flex" *ngIf="eachToDo?.notification_type=='endorsement'">
+												<button mat-mini-fab class="custom_accept mr-2"
+													(click)="approveRejectEndorsement(i,1,'Are you sure you want to accept the endorsement?')">
+													<mat-icon aria-label="Accept Endorsement"><i class="fas fa-check"></i></mat-icon>
+												</button>
+												<button mat-mini-fab class="custom_accept custom_reject"
+													(click)="approveRejectEndorsement(i,0,'Are you sure you want to decline the endorsement?')">
+													<mat-icon aria-label="Reject Endorsement"><i class="far fa-trash-alt"></i></mat-icon>
+												</button>
+											</div>
+
+											<div class="d-flex" *ngIf="eachToDo?.notification_type=='confirm_payment_by_doer'">
+												<button mat-mini-fab class="custom_accept mr-2"
+													(click)="paymentConfirmation(i,eachToDo?.linked_id)">
+													<mat-icon aria-label="Accept Payment"><i class="fas fa-check"></i>
+													</mat-icon>
+												</button>
+												<button mat-mini-fab class="custom_accept custom_reject"
+													(click)="paymentRejection(i,eachToDo?.linked_id)">
+													<mat-icon aria-label="Reject Payment"><i class="far fa-trash-alt"></i></mat-icon>
+												</button>
+
+											</div>
+
+											<div class="d-flex" *ngIf="eachToDo?.notification_type==null">
+												<button mat-mini-fab class="custom_accept custom_reject"
+													(click)="removeToDoList(i,eachToDo?.todo_link,eachToDo.id)">
+													<mat-icon aria-label="Remove"><i class="far fa-trash-alt"></i></mat-icon>
+												</button>
+
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</div>
+
+			<div class="btn-holder text-center mt-3 mb-3 w-100" *ngIf="toDoLimit == 5">
+				<button mat-flat-button class="btn-orangeColor mr-3 text-uppercase" (click)="onscrollTodoLoad(5)">View
+					More</button>
+			</div>
+
+			<div class="col-xl-3 mt-3 mt-md-0 d-none">
+				<mat-card class="pindoCart dashboardCart">
+					<mat-card-content class="p-10">
+						<ngui-map center="{{lat}},{{lng}}" styles='{{gbConst.styles}}' zoom="10" [streetViewControl]="false"
+							[fullscreenControl]="false" [panControl]="false" [disableDefaultUI]="true" [draggable]="false"
+							[fullscreenControlOptions]="{position: 'TOP_CENTER'}" [scrollwheel]="true">
+							<marker position="{{lat}},{{lng}}" draggable="false" [icon]="{url:'assets/images/doers_marker.png'}"></marker>
+							<circle center="{{lat}},{{ lng}}" [strokeColor]="'#bd6d3c'" [fillColor]="'#E6854A'" [strokeOpacity]="0.8" [strokeWeight]="0.8" [editable]="false" radius="6000" draggable="false"></circle>
+						</ngui-map>
+						<div class="content-partdashboardmap">
+							<div class="top_content d-flex justify-content-between w-100">
+								<h6><i class="fas fa-map-marker-alt mr-2 orange-text"></i>{{address}}
+								</h6>
+								<!-- <h6>{{locations[0]?.zipcode}}</h6> -->
+							</div>
+							<div class="bottom-content">
+								<div class="row">
+									<div class="col-6">
+										<p class="d-flex justify-content-between w-100">
+											<span>Pinners&nbsp;&nbsp;:</span><span><b>{{total_number_activity?.total_pinner_number}}</b></span>
+										</p>
+										<p class="d-flex justify-content-between w-100">
+											<span>Doers&nbsp;&nbsp;:</span><span><b>{{total_number_activity?.total_doer_number}}</b></span>
+										</p>
+									</div>
+									<div class="col-6">
+										<p class="d-flex justify-content-between w-100">
+											<span>Pins&nbsp;&nbsp;:</span><span><b>{{total_number_activity?.total_pins}}</b></span>
+										</p>
+										<p class="d-flex justify-content-between w-100">
+											<span>Post&nbsp;&nbsp;:</span><span><b>{{total_number_activity?.total_posts}}</b></span>
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="abs-btngrp orange_group">
+								<mat-button-toggle-group>
+									<mat-button-toggle value="MY COMMUNITY" routerLink="/doer/community-home">MY
+										COMMUNITY
+									</mat-button-toggle>
+									<mat-button-toggle value="CONTACTS" routerLink="/doer/community-contacts">CONTACTS
+									</mat-button-toggle>
+								</mat-button-toggle-group>
+							</div>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</div>
+
+		</div>
+		<div class="row mb-3">
+			<div class="col-lg-12">
+				<mat-card class="pindoCart dashboardCart">
+					<mat-card-header>
+						<mat-card-title>
+							Active Pins
+							<button mat-raised-button class="dashboardprimary text-uppercase float-right"
+								routerLink="/doer/my-pins">view all</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content class="p-0">
+						<div class="total-table">
+							<div class="table-header d-flex">
+								<div class="coltab withFilter">
+									Date / Time
+								</div>
+								<div class="coltab flex-2 withFilter">
+									Pin Details
+								</div>
+								<div class="coltab flex-2 withFilter">
+									Status
+								</div>
+								<div class="coltab flex-2 withFilter">
+									Pin Location
+								</div>
+								<div class="coltab flex-2 withFilter">
+									Pinner
+								</div>
+
+							</div>
+							<perfect-scrollbar style="max-width: 1220px; max-height: 335px;" [autoPropagation]="true">
+								<div class="table-body white-bg" *ngIf="ongoingPinList.length>0">
+									<div class="table-row d-flex" *ngFor="let eachOngoingPin of ongoingPinList">
+										<a routerLink="/doer/quotation-preview/{{eachOngoingPin.slug}}" class="forredirection"></a>
+										<div class="coltab" data-heading="Date / Time">
+											<p>
+												{{eachOngoingPin.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{eachOngoingPin.created_at?.split('-').join('/') | date:'h:mm a'}}
+											</p>
+										</div>
+										<div class="coltab flex-2 align-self-center" data-heading="Pin Details">
+											<p class="linkStyle">{{eachOngoingPin.title}}</p>
+											<div class="green-pin orange-color">
+												{{eachOngoingPin?.parent_child_cat?.parent_det?.name}} >
+												{{eachOngoingPin?.parent_child_cat?.name}}
+											</div>
+										</div>
+										<div class="coltab flex-2 align-self-center" data-heading="Status">
+											<p class="linkStyle" *ngIf="eachOngoingPin?.ongoing_applications_my_pins?.status == 0">
+												INVITED/QUOTING</p>
+											<p class="linkStyle" *ngIf="eachOngoingPin?.ongoing_applications_my_pins?.status == 1">
+												QUOTATION
+												SUBMITTED</p>
+											<p class="linkStyle" *ngIf="eachOngoingPin?.ongoing_applications_my_pins?.status == 6"><span
+													class="color-themeOrange"><b>HIRED</b></span></p>
+										</div>
+										<div class="coltab flex-2" data-heading="Pin Location">
+											<p *ngIf="eachOngoingPin?.address" class="no_whitespace">
+												{{eachOngoingPin.address}},
+												{{eachOngoingPin?.city}},
+												{{eachOngoingPin?.state}} {{eachOngoingPin?.zipcode}}</p>
+										</div>
+										<div class="coltab flex-2 align-self-center" data-heading="Service Location">
+											<div class="prof-info">
+												<span class="prof-img" *ngIf="eachOngoingPin.pinner_details.profile_photo!=''">
+													<img src="{{baseCompUrl}}/profile_photo/{{eachOngoingPin.pinner_details.profile_photo}}"
+														onError="this.src='assets/images/avatar.png';" alt="">
+												</span>
+												<span class="prof-img no-img" *ngIf="eachOngoingPin?.pinner_details?.profile_photo==''">
+													<img src="assets/images/avatar.png" alt="">
+												</span>
+												<h5>{{eachOngoingPin?.pinner_details?.name}}</h5>
+											</div>
+										</div>
+										<!-- <div class="coltab" data-heading="Budget">
+						    		<p *ngIf="eachOngoingPin.budget_value!=null">$ {{eachOngoingPin.budget_value}}</p>
+						    		<p *ngIf="eachOngoingPin.budget_value==null">No Budget</p>
+						    	</div> -->
+
+										<!-- <div class="abs-dropdown d-flex justify-content-around">
+						    		<div class="single_drop">
+							    		<button mat-icon-button [matMenuTriggerFor]="menu">
+										  <i class="fas fa-ellipsis-h"></i>
+										</button>
+										<mat-menu #menu="matMenu" [overlapTrigger]="false">
+										  <a mat-menu-item disabled>
+										    <span>Complete</span>
+										  </a>
+										  <a mat-menu-item disabled>
+										    <span>Cancel</span>
+										  </a>
+										</mat-menu>
+									</div>
+						    	</div> -->
+									</div>
+								</div>
+							</perfect-scrollbar>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<div class="col-lg-12">
+				<mat-card class="pindoCart dashboardCart">
+					<mat-card-header>
+						<mat-card-title>
+							Earning Statistics
+							<button mat-raised-button routerLink="/doer/transactions"
+								class="dashboardprimary text-uppercase float-right">view all</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="selectBarOptions">
+							<mat-form-field appearance="outline">
+								<mat-select placeholder="Select Year" [(value)]="selected" (selectionChange)="onYearSelect()">
+									<mat-option *ngFor="let food of foods" [value]="food.value">
+										{{food.viewValue}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<span class="total_earnings">Total
+								Earning<cite>$&nbsp;{{totalEarnings | number:'1.2-2'}}</cite></span>
+						</div>
+						<canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [legend]="barChartLegend"
+							[chartType]="barChartType" [colors]="chartColors" [options]="barChartOptions" height="200"></canvas>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+		<div class="row mb-3 d-none d-xl-flex">
+			<div class="col-lg-6 mb-3 mb-md-0">
+				<mat-card class="pindoCart doerdetails custom_styling dashboardCart">
+					<mat-card-header>
+						<mat-card-title>
+							ENDORSEMENTS
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="total_endorse">
+							<div class="custom-padding">
+								<div class="endorse_box clearfix"
+									*ngFor="let eachEndorsement of endorsmentDetails; let outerIndex = index;">
+									<ng-container *ngIf="eachEndorsement?.has_endorsed=='1'">
+										<h4><span
+												[innerHTML]="eachEndorsement.parent_category_details.icon | keepHtml"></span>{{eachEndorsement?.parent_category_details?.name}}
+										</h4>
+										<ng-container
+											*ngFor="let indvEndorsement of eachEndorsement.child_categories;let innerIndex = index;">
+											<div class="indv_endorse float-left" *ngIf="indvEndorsement.endorsements?.length>0">
+												<div class="hiredBy d-flex justify-content-between">
+													<p>{{indvEndorsement?.child_category_details?.name}}
+														<span>{{ indvEndorsement?.endorsements?.length }}</span></p>
+												</div>
+											</div>
+										</ng-container>
+									</ng-container>
+								</div>
+							</div>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</div>
+			<div class="col-lg-6">
+				<mat-card class="pindoCart doerdetails dashboardCart">
+					<mat-card-header>
+						<mat-card-title>
+							Recent Reviews
+							<!-- Add Arrows -->
+							<div class="recentsliderarrows sidebysidearrows clearfix col-lg-10 offset-lg-1">
+								<div class="swiper-button-prev commonstyle"><i class="fas fa-chevron-left"></i></div>
+								<div class="swiper-button-next commonstyle"><i class="fas fa-chevron-right"></i></div>
+							</div>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="total_reviewslider">
+							<!-- Swiper -->
+							<div class="swiper-container">
+								<div class="swiper-wrapper">
+									<div class="swiper-slide" *ngFor="let eachdoerrating_review of doerrating_review;">
+										<div class="tot_review text-center">
+											<div class="rev_top text-center">
+												<div class="right_revtop d-inline-block">
+													<h4>{{eachdoerrating_review?.pin_details?.title}}</h4>
+													<div class="rev_rat">
+														Pinner rated&nbsp;&nbsp;
+														<span class="indv_rat"
+															*ngFor="let eachrating of countratingArray(eachdoerrating_review?.rating)"><i
+																class="fas fa-star"></i></span>
+													</div>
+												</div>
+											</div>
+											<div class="mid-content pt-2 pb-3">
+												<p *ngIf="eachdoerrating_review?.review!=null && eachdoerrating_review?.review!=''">
+													{{eachdoerrating_review?.review}}</p>
+											</div>
+											<div class="d-flex justify-content-center">
+												<div class="rev_by mt-40">
+													<span class="rev_logo">
+														<img
+															src="{{baseCompUrl}}/profile_photo/{{eachdoerrating_review?.pinner_details?.profile_photo}}"
+															onError="this.src='assets/images/prof_img.jpg';" alt="">
+													</span>
+													<h4>{{eachdoerrating_review?.pinner_details?.name}}</h4>
+													<h6 *ngIf="eachdoerrating_review?.pinner_details?.address!=null">
+														{{eachdoerrating_review?.pinner_details?.address}}
+													</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+</div>

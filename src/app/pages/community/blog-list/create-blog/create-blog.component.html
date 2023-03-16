@@ -1,0 +1,132 @@
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left orangeColor" (click)="backBtn()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">Create Blog</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3 ">
+
+				<form #myForm="ngForm" autocomplete="off" [formGroup]="blog_submit" name="blog_submit"
+					(ngSubmit)="onSubmitCreatePost(blog_title,myckeditor,category)">
+					<div class="matComnForm">
+
+						<div class="upload-prflImg mb-4 text-center">
+							<div class="prflImg-box mb-0 mx-auto">
+
+								<div class="img-holder">
+									<img *ngIf="imageUrl" src="{{imageUrl}}">
+									<span *ngIf="!imageUrl" class="ic-plus color-themeOrange"></span>
+									<div class="deleteImg-action">
+									</div>
+								</div>
+
+								<div class="input-field">
+									<input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)">
+								</div>
+								<span class="linkText"
+									[ngClass]="{'orange': commonservice.islogin==1 && appService.user_type==2}">Select
+									Image</span>
+
+							</div>
+
+
+
+
+							<label class="formLabel-error d-block" *ngIf="fileToUpload==null && submitted">Image
+								Required
+							</label>
+						</div>
+
+						<mat-form-field appearance="outline" style="margin-bottom: 2.5%;">
+							<mat-label>Blog Title</mat-label>
+							<input type="text" #blog_title formControlName="blog_title" matInput>
+							<mat-error *ngIf="blog_submit.get('blog_title').hasError('required') && submitted">This
+								Field is
+								Required
+							</mat-error>
+						</mat-form-field>
+
+						<div class="mb-3">
+							<ckeditor style="height:140px;" formControlName="myckeditor" id="chat_message" name="description"
+								[config]="ckEditorConfig" #myckeditor></ckeditor>
+							<mat-error *ngIf="blog_submit.get('myckeditor').hasError('required') && submitted">This
+								Field is
+								Required</mat-error>
+						</div>
+
+						<!-- start category -->
+						<mat-form-field appearance="outline">
+							<mat-label>Category</mat-label>
+							<mat-select [(ngModel)]="parentcategory" #category formControlName="category"
+								(ngModelChange)="changeParentCategory()">
+								<mat-option *ngFor="let allparentcate of allparent_category" [value]="allparentcate.id">
+									{{allparentcate.name}}
+								</mat-option>
+							</mat-select>
+
+							<mat-error *ngIf="blog_submit.get('category').hasError('required') && submitted">This Field
+								is
+								Required</mat-error>
+						</mat-form-field>
+
+						<!-- End category -->
+
+						<div class="d-flex flex-wrap" *ngIf='child_cat_list.length > 0'>
+							<div class="custom-chips-radio my-1 mx-1 orange" *ngFor="let chieldcate of child_cat_list">
+								<input name="subcate_id" formControlName="subcate_id" type="radio" [(ngModel)]="subcate_id"
+									[value]="chieldcate.id" (change)="changeChieldCategory()">
+								<span class="chips-box">{{chieldcate?.name}}</span>
+							</div>
+							<mat-error *ngIf="blog_submit.get('subcate_id').hasError('required') && submitted">This
+								Field is
+								Required</mat-error>
+						</div>
+
+						<!-- end sub cate -->
+
+						<!-- <div class="d-flex flex-wrap">
+
+				<div class="custom-chips-radio my-1 mx-1" >
+					<input type="radio" name="sub_category" >
+					<span class="chips-box">Sub Cat 1</span>
+				</div>
+				<div class="custom-chips-radio my-1 mx-1" >
+						<input type="radio" name="sub_category" >
+						<span class="chips-box">Sub Cat 2</span>
+						</div>
+
+						<div class="custom-chips-radio my-1 mx-1" >
+							<input type="radio" name="sub_category" >
+							<span class="chips-box">Sub Cat 3</span>
+							</div>
+
+							<div class="custom-chips-radio my-1 mx-1" >
+								<input type="radio" name="sub_category" >
+								<span class="chips-box">Sub Cat 4</span>
+								</div>
+
+								<div class="custom-chips-radio my-1 mx-1" >
+									<input type="radio" name="sub_category" >
+									<span class="chips-box">Sub Cat 5</span>
+									</div>
+			</div> -->
+
+
+						<div class="btn-holder text-center mt-4">
+							<button type="submit" mat-flat-button class="btn btn-greenColor smFont-lg-size text-uppercase mx-2"
+								[ngClass]="[(commonservice.islogin==1 && appService.user_type==2)?'btn-orangeColor':'btn-greenColor']">SAVE</button>
+							<button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+								(click)="backBtn()">CANCEL</button>
+						</div>
+
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>

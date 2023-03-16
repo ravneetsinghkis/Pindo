@@ -1,0 +1,67 @@
+.mat-form-field-appearance-outline .mat-form-field-suffix {
+    top: 5px
+}
+.mat-form-field {
+    width: 100%;
+}
+.valu_box {
+    border: 1px solid #c8d0d8;
+    border-radius: 5px;
+    font: 13px/50px 'Montserrat-Medium';
+    color: #8b9aa9;
+    padding: 0 15px;
+}
+button.btn_removeList {
+    position: absolute;
+    right: -50px;
+    border: 1px solid #c8d0d8;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 11px;
+    color: #c8d0d8;
+    top: 11px;
+}
+.total_listing {
+    position: relative;
+}
+.upload-btn-wrapper {
+    width: 100%;
+    color: #919191;
+    padding: 7px 5px 7px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    position: relative;
+    span {
+      float: left;
+      line-height: 39px;
+    }
+    button {
+      float: right;
+    }
+    input[type="file"] {
+      opacity: 0;
+      width: 100%;
+      position: absolute;
+      height: 100%;
+      left: 0;
+      top: 0px;
+  }
+}
+.forScroll {
+    max-height: 250px;
+}
+.badges-section .swiper-slide img {
+    max-height: 40px;
+    object-fit: contain;
+    max-width: 100%;
+}
+
+.prfl-orange-btn{
+    height: 60px;
+    color: #fff;
+    padding: 0 50px;}
+
+    .badges-section{
+        .request-badge-btn{ line-height: 12px !important; padding: 8px 15px; position: absolute; left: 7px; top: -12px;}
+    }

@@ -1,0 +1,12 @@
+<div class="block-wrap" [formGroup]="group">
+	<div class="block-heading mb-2">
+		<h3 class="headingText-type2" [innerHTML]="field.label | keepHtml"></h3>
+	 </div>
+
+	<mat-form-field appearance="outline">	
+		<input matInput [formControlName]="field.name" [type]="field.inputType">	
+		<ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
+	        <mat-error *ngIf="group.get(field.name).hasError(validation.name)">This is a required Field<!-- <span>{{validation.message}}</span> --></mat-error>
+	    </ng-container>
+	</mat-form-field>
+</div>

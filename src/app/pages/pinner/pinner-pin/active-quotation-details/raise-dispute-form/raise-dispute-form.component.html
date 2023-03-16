@@ -1,0 +1,72 @@
+<div class="overlayPopup" #popUpVar>
+  <div class="popupHeader">
+    <button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+    <h3>Raise Dispute</h3>
+  </div>
+  <div class="popupContent">
+    <div class="container">
+      <p class="text-center">Things happen. Please provide details regarding your dispute.</p>
+      <div class="col-md-6 offset-md-3">
+        <form #disputePinForm="ngForm" (ngSubmit)="disputePinadd(disputePinForm)" novalidate [formGroup]="dispute_pin_form">
+          <input type="hidden" name="dispute_pin_id" formControlName="dispute_pin_id" >
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>{{pin_id_title}} </mat-label>
+                  <mat-select  disabled>
+                    <mat-option >
+                     {{pin_id_title}}
+                    </mat-option>
+                  </mat-select> 
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Type of dispute</mat-label>
+                  <mat-select placeholder="Select Dispute type" formControlName="dispute_reason_type" required>
+                    <mat-option *ngFor="let each_type of types" [value]="each_type.value">
+                      {{each_type.viewValue}}
+                    </mat-option>
+                  </mat-select> 
+                <mat-error *ngIf="disputePinForm?.submitted && f.dispute_reason_type.errors?.required">This field required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Reason for dispute</mat-label>
+                <textarea matInput id="dispute_reason_desc" formControlName="dispute_reason_desc" type="text" placeholder="Dispute Reason" required> </textarea>
+                <mat-error *ngIf="disputePinForm?.submitted && f.dispute_reason_desc.errors?.required">This field required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="upload-btn-wrapper clearfix">
+                <span><ng-container *ngIf="uploadedFileName==''">Upload supporting files</ng-container><ng-container *ngIf="uploadedFileName!=''">{{uploadedFileName}}</ng-container></span>
+                <button type="button" mat-icon-button>
+                  <mat-icon>cloud_upload</mat-icon>                    
+                </button>
+                <input type="file" name="pImg" (change)="accptFile($event)" formControlName="imgUrl" inputId="input-file" placeholder="Drop files below!">
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-center pt-5">
+            <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+                Submit
+            </button> 
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>

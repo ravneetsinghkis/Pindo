@@ -1,0 +1,32 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="swal2-popup d-block p-0" style="min-width: 100%">
+      <h2 class="swal2-title">Request a Community</h2>
+      <div class="">
+
+        <form [formGroup]="requestCommunityForm" #formDirective="ngForm" (submit)="submitRequest()">
+            <p class="mb-0">What Community do you want to add?</p>
+            <div class="row">
+              <div class="col-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Description</mat-label>
+                  <textarea formControlName="description" matInput placeholder="Description" rows="5"></textarea>
+                  <mat-error *ngIf="submitted && requestCommunityForm?.controls?.description?.errors?.required">This is a required field</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <p>Please submit your request and we will do our best to set it up for you as soon as possible.</p>
+
+            <div class="text-center">
+              <button type="button" mat-stroked-button class="text-uppercase lg-size mb-2 mr-3" (click)="closeDialog()">
+                Close
+              </button>
+              <button type="submit" mat-button class="text-uppercase lg-size mb-2 btn-greenColor">
+                submit
+              </button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>

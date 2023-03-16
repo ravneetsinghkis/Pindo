@@ -1,0 +1,102 @@
+<div class="update-profilecard">
+    <div class="row">  
+      <div class="col-md-4">
+        <div class="icon-space text-center prof-img">
+          <span class="rounded-profimg" *ngIf="imgUrl">
+            <img src="{{baseUrl}}/company_logo/{{imgUrl}}" alt="">
+          </span>
+          <span class="rounded-profimg" *ngIf="!imgUrl">
+            <img src="assets/images/default-userImg-orange.svg" alt="">
+          </span>
+        </div>
+      </div>
+      <div class="col-md-8 align-self-center">
+        <div class="single-updatebox">
+          <h4 class="maincardcontentHeading" *ngIf="basicDetailsFormModel?.profile_type==1 || (basicDetailsFormModel?.profile_type==2 && (basicDetailsFormModel?.company_name==null && basicDetailsFormModel?.company_name!=''))">{{basicDetailsFormModel?.name}}</h4>
+          <h4 class="maincardcontentHeading" *ngIf="basicDetailsFormModel?.profile_type==2">{{basicDetailsFormModel?.company_name}}</h4>
+          <p *ngIf="basicDetailsFormModel.profile_type==2 && basicDetailsFormModel?.tag_line!=''">{{basicDetailsFormModel?.tag_line}}</p>
+          <p *ngIf="basicDetailsFormModel?.username"><b>Screen Name</b> {{basicDetailsFormModel?.username}}</p>
+          <button class="btn btn-link" *ngIf="basicDetailsFormModel.tag_line==''" (click)="togglePopup()">Add a tagline for your business</button>
+        </div>
+        <div class="single-updatebox" *ngIf="basicDetailsFormModel.profile_type==2">
+          <h6 class="maincardsubHeading">Company Overview</h6>
+          <div class="dummy_content col-md-7 pl-0 no_minheight" *ngIf="basicDetailsFormModel.company_overview=='' || basicDetailsFormModel.company_overview==null">
+            <p>Add a brief overview about your company and the history of the company....</p>
+            <button class="btn btn-link" (click)="togglePopup()">Add Company Overview</button>
+          </div>
+          <div class="" *ngIf="basicDetailsFormModel.company_overview!=''">
+            <p>{{basicDetailsFormModel.company_overview}}<!--<a href="">Read More</a>--></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlayPopup" #popUpVar>
+      <div class="popupHeader">
+        <button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+        <h3>Update Basic Details</h3>
+      </div>
+      <div class="popupContent">
+        <div class="container">
+          <div class="col-md-6 offset-md-3">
+            <form #basicDetailsForm="ngForm" (ngSubmit)="submitDetails(basicDetailsForm.value,basicDetailsForm.valid,basicDetailsForm,'save')">
+              <div class="total_img mb-5 text-center">
+                <!-- <span *ngIf="imgUrl" class="rounded-profimg"  [ngClass]="{'alreadyHas':imgUrl!=''}"><img src="{{imgUrl}}" alt=""></span>
+                <span *ngIf="!imgUrl" class="rounded-profimg" ><img src="assets/images/default-userImg-orange.svg" alt=""></span> -->
+
+                <span class="rounded-profimgprv" *ngIf="imgUrl">
+                  <img src="{{baseUrl}}/company_logo/{{imgUrl}}" alt="">
+                </span>
+
+                <span class="rounded-profimgprv" *ngIf="!imgUrl">
+                  <img src="assets/images/default-userImg-orange.svg" alt="">
+                </span>
+
+                <input-file name="pImg" (acceptedFile)="accptFile($event)" fileAccept="image/*" (deletedFile)="onDelete($event)" [(ngModel)]="basicDetailsFormModel.imgUrl" inputId="input-file" placeholder="Drop files below!"></input-file>
+                <p class="error mt-4" *ngIf="exceedSizeLimit">File Size Limit Exceeded.</p>
+                <p class="mt-4">Click or drag and drop files to upload(Please Upload images of 1:1 ratio (eg 240x240) for better results)<br>
+                You can upload a JPG or PNG file (file size limit is 2 MB)</p> 
+                <div class="remove_custom" *ngIf="imgUrl" (click)="clearImage()"><mat-icon class="mat-icon material-icons">delete</mat-icon></div>
+              </div>
+              
+
+              <mat-form-field appearance="outline"  *ngIf="basicDetailsFormModel.profile_type==2">
+                   <mat-label>
+                  Company Name</mat-label>
+                  <input matInput name="company_name" #bDetComName="ngModel" [(ngModel)]="basicDetailsFormModel.company_name" placeholder="Company Name*" required>
+                  <mat-error *ngIf="bDetComName.errors && (basicDetailsForm.submitted) && bDetComName.errors.required">This field required</mat-error>  
+                  <mat-error *ngIf="bDetComName.errors && (basicDetailsForm.submitted) && (!bDetComName.errors.required)">Invalid Name.</mat-error>                  
+              </mat-form-field>              
+
+               <mat-form-field appearance="outline" *ngIf="basicDetailsFormModel.profile_type==2">
+                  <mat-label>Company Tagline</mat-label>
+                  <input matInput name="tag_line" #bDetComTag="ngModel" [(ngModel)]="basicDetailsFormModel.tag_line" placeholder="Company Tagline*" required>
+                  <mat-error *ngIf="bDetComTag.errors && (basicDetailsForm.submitted) && bDetComTag.errors.required">This field required</mat-error>  
+                  <mat-error *ngIf="bDetComTag.errors && (basicDetailsForm.submitted) && (!bDetComTag.errors.required)">Invalid Name.</mat-error> 
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" *ngIf="basicDetailsFormModel.profile_type==2">
+                  <mat-label>Short Description</mat-label>		                
+                  <textarea matInput name="company_overview" #bDetComOvw="ngModel" [(ngModel)]="basicDetailsFormModel.company_overview" placeholder="Overview*" required></textarea>  
+                
+                  <mat-error *ngIf="bDetComOvw.errors && (basicDetailsForm.submitted) && bDetComOvw.errors.required">This field required</mat-error>  
+                  <mat-error *ngIf="bDetComOvw.errors && (basicDetailsForm.submitted) && (!bDetComOvw.errors.required)">Invalid Name.</mat-error> 
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>Screen Name</mat-label>                    
+                  <input matInput name="username" #bUserName="ngModel" [(ngModel)]="basicDetailsFormModel.username" placeholder="Screen Name*" required>
+                
+                  <mat-error *ngIf="bUserName.errors && (basicDetailsForm.submitted) && bUserName.errors.required">This field required</mat-error>   
+              </mat-form-field>
+
+              <div class="d-flex justify-content-center pt-5">
+                <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+                    Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>

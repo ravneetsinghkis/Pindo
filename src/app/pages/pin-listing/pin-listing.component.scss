@@ -1,0 +1,9 @@
+.filterSection {
+    padding: 70px 0 100px;
+    background: #fff;
+    min-height: 390px;
+    background: #f5f9fd;
+}
+.filterSection .coltab:first-child,.filterSection .table-body .coltab:nth-of-type(1) {
+    padding-left: 15px !important; 
+}

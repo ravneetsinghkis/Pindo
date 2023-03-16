@@ -1,0 +1,595 @@
+<div class="scrollElement">
+	<div class="top-banner-section doer-account-settings-banner">
+		<div class="container d-flex align-items-start h-100">
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="main-headingText mb-2 text-uppercase">ACCOUNT SETTINGS</h1>
+					<h4 class="main-heading-subText mb-0 font-italic">
+						View and update communication, payment and privacy settings.
+					</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container overBanner-container">
+		<span class="leftFilterMenu ic-equalizer d-block d-xl-none"></span>
+		<div class="filterSideBar_overlay">
+		</div>
+		<div class="row">
+			<div class="col-xl-3 left-side-filter-col">
+				<div class="sideCard-shadow mb-3">
+					<div class="sideCard-main-header px-3">
+						<div class="main-header-inr withIcon-heading pt-3 pb-3 d-flex align-items-center">
+							<span class="iconItem  ic-personal-care mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">Account Setup</h4>
+						</div>
+						<hr class="mb-0 mt-0" />
+					</div>
+
+					<div class="sideCard-body px-3">
+						<ul class="settings-status-list doer-settings-status-list pb-3">
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<span class="stepText hover">Password</span>
+							</li>
+
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<span class="stepText hover">Profile Information</span>
+							</li>
+
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<span class="stepText hover">Contact Information <sup>*</sup></span>
+							</li>
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<span class="stepText hover">Location Settings <sup>*</sup></span>
+							</li>
+
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<span class="stepText hover">Services Offered <sup>*</sup></span>
+							</li>
+
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<!-- <span class="stepText">Payment Information <sup>*</sup></span> -->
+								<span class="stepText hover">How You Pay PinDo <sup>**</sup></span>
+
+							</li>
+
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<!-- <span class="stepText">Acpt. Payment Types <sup>*</sup></span> -->
+								<span class="stepText hover">How Pinners Pay You <sup>**</sup></span>
+
+							</li>
+
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<span class="stepText hover">Badges</span>
+							</li>
+
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<!-- <span class="stepText">Operating hours</span> -->
+								<span class="stepText hover">Operating Hours</span>
+
+							</li>
+
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<span class="stepText hover">Photo Gallery</span>
+							</li>
+
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<span class="stepText hover">Email Settings</span>
+							</li>
+
+							<li class="mt-3">
+								<span class="statusIcon"></span>
+								<span class="stepText hover">Privacy Settings</span>
+							</li>
+						</ul>
+
+						<p class="mb-0 pb-3 required-text orange"><sup>*</sup> Required to Market</p>
+						<p class="mb-0 pb-3 required-text orange"><sup>**</sup> Required to Quote</p>
+					</div>
+				</div>
+				<!--end sideCard-shadow-->
+
+				<button mat-flat-button class="btn btn-orangeColor lg-size btn-block mb-3 text-uppercase">
+					View Profile
+				</button>
+			</div>
+			<!--end col-md-3-->
+
+			<div class="col-xl-9">
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center">
+							<span class="iconItem ic-lock mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">PASSWORD</h4>
+						</div>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-3 py-3">
+						<div class="dsc-text">
+							<!-- <p class="mb-0">
+								Your password was changed {{ password_changed_date | customeTimeAgo }}. We recommend you
+								change your password every three months.
+							</p> -->
+
+							<!-- <p class="mb-0" >Password last changed on
+								------. We recommend changing your password every
+								3 months.</p> -->
+							<p class="mb-0" >We recommend changing your password every 3
+								months.</p>
+							<span class="link-text text-uppercase color-themeOrange"
+								>Change password</span>
+						</div>
+					</div>
+
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading d-flex align-items-center">
+							<span class="iconItem ic-profile mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">
+								Profile Information
+							</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							>
+							UPDATE
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+				
+					<div class="card-settings-body">
+
+						<div class="prfl-info d-flex align-items-center px-3 py-3">
+						  <div class="prfl-img mr-3 flex-shrink-0">
+							<img src="assets/images/default-userImg-orange-square.svg" alt="">
+						  </div>
+						  <div class="prfl-text">
+							<!-- <p class="nameText mb-0"><span>-----------------</span></p> -->
+							<p  class="mb-0">Username: <span class="infoText mb-0">---------------</span></p>
+							<p  class="mb-0">Company Name: <span class="infoText mb-0">------------------</span></p>
+							<p class="mb-0">Crew Referral Code: <span class="text-uppercase font-weight-bold">000000000000</span></p>
+						  </div>
+						</div>
+					  
+						<hr class="m-0">
+					  
+						<div class="prfl-dscInfo px-3 py-3">
+						  <h4 class="headingText mb-2">About Us</h4>
+						  <div class="dsc-text" id="desc">
+							  -----------------------------------<br>
+							  ----------------------------------------------------------
+						  </div>
+						</div>
+					  
+					  </div>
+
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center">
+							<span class="iconItem ic-contacts-1 mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">
+								Contact Information
+							</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							>
+							UPDATE
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-3 py-3">
+						<div class="d-lg-flex side-gap-3 flex-wrap">
+					  
+						  <div class="contact-info-block d-flex px-3 py-3">
+							<span class="ic-mail icon color-themeOrange mr-2" style="position: relative; top: -2px;"></span>
+							<div class="contact-info-content">
+							  <h4 class="title mb-2">E-mail Address</h4>
+							  <p class="data-text mb-0"><a href="mailto:">-------------</a></p>
+							</div>
+						  </div>
+					  
+						  <div class="contact-info-block d-flex px-3 py-3">
+							<span class="ic-phone icon color-themeOrange mr-2" style="position: relative; top: -2px;"></span>
+							<div class="contact-info-content">
+							  <h4 class="title mb-2">Primary Phone Number</h4>
+							  <p class="data-text mb-0"><a href="tel:---">000000000</a></p>
+							</div>
+						  </div>
+					  
+						  <div class="contact-info-block d-flex px-3 py-3">
+							<span class="ic-globe icon color-themeOrange mr-2" style="position: relative; top: -2px;"></span>
+							<div class="contact-info-content">
+							  <h4 class="title mb-2">Official Website</h4>
+							  <p class="data-text mb-0"><a target="_blank" href="#">---------------</a></p>
+							</div>
+						  </div>
+					  
+						</div>
+					  </div>
+				
+				</div>
+				<!--end card-settings-->
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading d-flex align-items-center">
+							<span class="iconItem  ic-map-pin-marked mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">
+								Location Settings
+							</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							>
+							UPDATE
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body" >
+
+						<div class="row">
+						  <div class="col-md-6">
+							<div class="adds-list d-flex justify-content-between px-3 py-3">
+							  <div class="adds-info d-flex">
+								<span class="ic-pointer color-themeOrange mr-2 flex-shrink-0" style="position: relative; top:0;"></span>
+								<div class="adds-text">
+								  <h4 class="headingtext mb-1">Main Address</h4>
+								  <p class="mb-0" >-------------
+								      </p>
+								  <p class="mb-0">------------<br>
+									-------------------------</p>
+								</div>
+							  </div>
+							</div>
+						  </div>
+					  
+						  <div class="col-md-6">
+							<div class="adds-list d-flex justify-content-between px-3 py-3">
+							  <div class="adds-info d-flex">
+								<span class="ic-pointer color-themeOrange mr-2 flex-shrink-0" style="position: relative; top:0;"></span>
+								<div class="adds-text">
+								  <h4 class="headingtext mb-1">Range of Service</h4>
+								  <p class="mb-0">----------- miles</p>
+								</div>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+			
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading d-flex align-items-center">
+							<span class="iconItem ic-service mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">SERVICES OFFERED</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							>
+							ADD SERVICES
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body">
+						<div class="serviceOffer-list-holder">
+
+						</div>
+					</div>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header ">
+						<div class="main-header-inr withIcon-heading pt-3 pb-3 d-flex align-items-center px-3">
+							<span class="iconItem ic-cards-payment mr-2"></span>
+							<h4 class="heading-text mb-0">
+								<!-- PAYMENT INFORMATION -->
+								How to receive electronic payments from Pinners (Bank) and pay PinDo (Bank or CC)
+							</h4>
+						</div>
+
+						<hr class="mb-0 mt-0" />
+
+					</div>
+
+					<div class="card-settings-body">
+						<div class="dsc-text py-3 px-3">
+							<p class="mb-0">A payment method is required to activate your profile and be seen by Pinners. All payment
+								information is held on Stripe, a secure, e-commerce software platform.</p>
+						</div>
+						<div>
+							<div class="paymentInfo-list d-flex justify-content-between px-3 py-3">
+								<div class="payment-info d-flex align-items-center">
+									<span class="payment-type-img mr-3">
+										<img src="assets/images/payment-cards-icons/bank.svg" width="36"/>
+									</span>
+									<div class="payment-info-text">
+										<span class="numbText"><span class="light-color">XXXX XXXX XXXX</span>
+											0000</span>
+										<!-- <span class="dateText ml-4">
+											<span >0</span>4/2023</span> -->
+									</div>
+								</div>
+
+								<div class="action-item-list d-flex align-items-center flex-shrink-0 ml-3">
+									<span class="orange-tag text-uppercase">PRIMARY</span>
+									<span class="ic-edit-2 action-item orangeColor ml-3"
+										matTooltip="Edit Card"></span>
+									<span class="ic-delete action-item orangeColor ml-3" matTooltip="Delete Card"></span>
+								</div>
+							</div>
+							<!--end paymentInfo-list-->
+
+							<hr class="m-0" />
+
+							<div class="paymentInfo-list d-flex justify-content-between px-3 py-3">
+								<div class="payment-info d-flex align-items-center">
+									<span class="payment-type-img mr-3">
+										<img src=" assets/images/payment-cards-icons/visa.svg" width="36"/>
+									</span>
+									<div class="payment-info-text">
+										<span class="numbText"><span class="light-color">XXXX XXXX XXXX</span>
+											0000</span>
+										<span class="dateText ml-4">
+											<span >0</span>4/2023</span>
+									</div>
+								</div>
+
+								<div class="action-item-list d-flex align-items-center flex-shrink-0 ml-3">
+									<!-- <span class="orange-tag text-uppercase" *ngIf="card?.is_primary == 1">PRIMARY</span> -->
+									<span class="ic-edit-2 action-item orangeColor ml-3"
+										matTooltip="Edit Card"></span>
+									<span class="ic-delete action-item orangeColor ml-3" matTooltip="Delete Card"></span>
+								</div>
+							</div>
+							<!--end paymentInfo-list-->
+
+						</div>
+
+						<div class="btn-holder px-3 pt-3 pb-3">
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase">
+								<span class="ic-plus mr-1" style="font-size: 12px;"></span> NEW
+								PAYMENT METHOD
+							</button>
+						</div>
+
+						
+					</div>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading d-flex align-items-center">
+							<span class="iconItem ic-cards-payment mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">
+								HOW PINNERS PAY YOU
+							</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							>
+							UPDATE
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+
+					<div  class="card-settings-body ng-star-inserted">
+						<div  class="listOf-paymentMethods">
+							<!----><!---->
+							<div  class="list-block d-flex align-items-center pt-3 pb-3 px-3 ng-star-inserted">
+								<span  class="icon-item ic-credit-card mr-2 flex-shrink-0"></span>
+								<p  class="methods-nameText">Credit Card</p>
+							</div>
+							<hr  class="m-0 ng-star-inserted" />
+							<!----><!---->
+							<div  class="list-block d-flex align-items-center pt-3 pb-3 px-3 ng-star-inserted">
+								<span  class="icon-item ic-bank mr-2 flex-shrink-0" style="font-size: 20px;"></span>
+								<p  class="methods-nameText">Bank</p>
+							</div>
+							<hr class="m-0 ng-star-inserted" />
+							<!----><!---->
+							<div  class="list-block d-flex align-items-center pt-3 pb-3 px-3 ng-star-inserted">
+								<span class="icon-item ic-funds mr-2 flex-shrink-0" style="font-size: 18px;"></span>
+								<p  class="methods-nameText">Cash</p>
+							</div>
+							<hr  class="m-0 ng-star-inserted" />
+							<!----><!---->
+							<div  class="list-block d-flex align-items-center pt-3 pb-3 px-3 ng-star-inserted">
+								<span  class="icon-item ic-funds mr-2 flex-shrink-0" style="font-size: 18px;"></span>
+								<p  class="methods-nameText">Check</p>
+							</div>
+						</div>
+					</div>
+					
+
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading d-flex align-items-center">
+							<span class="iconItem ic-badge mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">BADGES</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							>
+							MANAGE
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-3 py-3">
+						<div class="badge-list d-flex align-items-center">
+							
+						</div>
+					</div>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading d-flex align-items-center">
+							<span class="iconItem  ic-calendar mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">
+								HOURS OF OPERATION
+							</h4>
+						</div>
+
+						<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							>
+							UPDATE
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-0 py-3">
+						<div class="hours-operation">
+							<div class="infoBlock py-0 px-3 mb-3">
+								<h4 class="headingText mb-2">
+									Do you provide emergency service?
+								</h4>
+								<div class="radio-option-box">
+									<mat-radio-group class="d-flex flex-column" >
+										<mat-radio-button class="mat-radio-orangeColor">
+											<span
+												matTooltip="Willing and able to respond to Pin within 1 hour and provide service within 4 hours, seven days per week and 24 hours per day."
+												matTooltipClass="customMatTooltip" matTooltipPosition="above"
+												>Willing and able to respond to Pin within 1 hour and provide service within 4 hours, seven days per week and 24 hours per day.</span>
+											<span >
+                        Yes, I am available for emergency services
+                      </span>
+										</mat-radio-button>
+									</mat-radio-group>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading d-flex align-items-center">
+							<span class="iconItem ic-photo-gallery mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">PHOTO GALLERY</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							>
+							NEW ALBUM
+						</button>
+					</div>
+
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body py-3 px-3">
+						<div class="gallery-holder">
+							<h4 class="headingText mb-3">Albums</h4>
+							<div class="gallery-row d-flex align-items-center flex-wrap">
+								<div class="gallery-col">
+									<div class="gallery-photo-info custom">
+										<div class="img-holder mb-2">
+											<!-- <img *ngIf="item?.total_images_count > 0"
+												src="assets/images/useravatar.svg" /> -->
+											<img  src="assets/images/folder.svg" />
+										</div>
+										<h5 class="photo-title mb-0">
+										Folder name</h5>
+										<span class="photo-count">5 photos</span>
+									</div>
+								</div>
+								<div class="gallery-col">
+									<div class="gallery-photo-info custom">
+										<div class="img-holder mb-2">
+											<img src="assets/images/folder.svg" />
+										</div>
+										<h5 class="photo-title mb-0">
+										Folder name</h5>
+										<span class="photo-count">5 photos</span>
+									</div>
+								</div>
+							</div>
+							<!--end gallery-row-->
+						</div>
+					</div>
+				</div>
+				<!--end card-settings-->
+
+
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center">
+							<h4 class="heading-text mb-0 text-uppercase">email settings</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0">
+							UPDATE
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-3 py-3">
+						<div class="dsc-text">
+							<p>
+								Choose the notifications of activity on your PinDo account that you’d like to receive
+								via email.
+							</p>
+						</div>
+					</div>
+
+					<!-- <email-settings #emailSettingsInfo></email-settings> -->
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center">
+							<h4 class="heading-text mb-0 text-uppercase">PRIVACY settings</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0">
+							UPDATE
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-3 py-3">
+						<div class="dsc-text">
+							<p>
+								Choose the contact and personal information on your account that you’d like to share and
+								who you’d like to share it with.
+							</p>
+						</div>
+					</div>
+
+				</div>
+				<!--end card-settings-->
+			</div>
+			<!--end col-md-9-->
+		</div>
+		<!--end row-->
+	</div>
+	<!--end container-->
+</div>

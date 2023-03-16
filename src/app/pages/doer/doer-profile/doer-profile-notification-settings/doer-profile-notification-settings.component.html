@@ -1,0 +1,99 @@
+<form>
+  <div class="row">
+
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Likes </h4>
+      <div class="option-holder">
+       
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="likes_push_notification" name="likes_push_notification"
+          (change)="onChange(profile_details.id,'pinner','likes_push_notification','likes_push_notification')">
+          
+        </mat-slide-toggle>
+        
+      </div>
+    </div>
+    <!-- <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">comments</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="comments" name="comments"
+          (change)="onChange(profile_details.id,'pinner','comments','comments')">
+          
+        </mat-slide-toggle>
+        
+      </div> 
+    </div>-->
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Messages</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="messages_push_notification" name="messages_push_notification"
+          (change)="onChange(profile_details.id,'pinner','messages_push_notification','messages_push_notification')">
+          
+        </mat-slide-toggle>
+        
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Invitation Notification</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="invite_to_connect_push_notification" name="invite_to_connect_push_notification"
+          (change)="onChange(profile_details.id,'pinner','invite_to_connect_push_notification','invite_to_connect_push_notification')">
+          
+        </mat-slide-toggle>
+       
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3"> Accept Notification</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="accepts_push_notification" name="accepts_push_notification"
+          (change)="onChange(profile_details.id,'pinner','accepts_push_notification','accepts_push_notification')">
+          
+        </mat-slide-toggle>
+        
+      </div>
+    </div>
+    <!-- <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3"> New Add Community </h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="new_add_community" name="new_add_community"
+          (change)="onChange(profile_details.id,'pinner','new_add_community','new_add_community')">
+          
+        </mat-slide-toggle>
+        
+      </div>
+    </div> -->
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Invite To join Pindo</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="invite_to_join_pindo_push_notification" name="invite_to_join_pindo_push_notification"
+          (change)="onChange(profile_details.id,'pinner','invite_to_join_pindo_push_notification','invite_to_join_pindo_push_notification')">
+          
+        </mat-slide-toggle>
+   
+      </div>
+    </div>
+
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Comments</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="comment_push_notification" name="comment_push_notification"
+          (change)="onChange(profile_details.id,'pinner','comment_push_notification','comment_push_notification')">
+          
+        </mat-slide-toggle>
+   
+      </div>
+    </div>
+
+
+    
+  
+
+    <!--end col-->
+
+
+
+
+
+
+  </div>
+</form>

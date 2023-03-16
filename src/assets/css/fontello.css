@@ -1,0 +1,134 @@
+@font-face {
+  font-family: 'fontello';
+  src: url('../fonts/fontello.eot?41223141');
+  src: url('../fonts/fontello.eot?41223141#iefix') format('embedded-opentype'),
+       url('../fonts/fontello.woff2?41223141') format('woff2'),
+       url('../fonts/fontello.woff?41223141') format('woff'),
+       url('../fonts/fontello.ttf?41223141') format('truetype'),
+       url('../fonts/fontello.svg?41223141#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?41223141#fontello') format('svg');
+  }
+}
+*/
+ 
+ [class^="ic-"]:before, [class*=" ic-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+/*  width: 1em;
+  margin-right: .2em;*/
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+/*  line-height: 1em;*/
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+/*  margin-left: .2em;*/
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.ic-magnifier:before { content: '\e800'; } /* '' */
+.ic-graph:before { content: '\e801'; } /* '' */
+.ic-light-bulb:before { content: '\e802'; } /* '' */
+.ic-filter:before { content: '\e803'; } /* '' */
+.ic-close:before { content: '\e804'; } /* '' */
+.ic-equalizer:before { content: '\e805'; } /* '' */
+.ic-bookmark_off:before { content: '\e806'; } /* '' */
+.ic-bookmark_on:before { content: '\e807'; } /* '' */
+.ic-chat:before { content: '\e808'; } /* '' */
+.ic-check:before { content: '\e809'; } /* '' */
+.ic-contacts:before { content: '\e80a'; } /* '' */
+.ic-entertainment:before { content: '\e80b'; } /* '' */
+.ic-follow:before { content: '\e80c'; } /* '' */
+.ic-mail:before { content: '\e80d'; } /* '' */
+.ic-pin:before { content: '\e80e'; } /* '' */
+.ic-pointer:before { content: '\e80f'; } /* '' */
+.ic-send:before { content: '\e810'; } /* '' */
+.ic-thumb-up:before { content: '\e811'; } /* '' */
+.ic-user-plus:before { content: '\e812'; } /* '' */
+.ic-bell:before { content: '\e813'; } /* '' */
+.ic-book:before { content: '\e814'; } /* '' */
+.ic-calender-today:before { content: '\e815'; } /* '' */
+.ic-personal-care:before { content: '\e816'; } /* '' */
+.ic-petcare:before { content: '\e817'; } /* '' */
+.ic-home:before { content: '\e818'; } /* '' */
+.ic-eye:before { content: '\e819'; } /* '' */
+.ic-chat_fill:before { content: '\e81a'; } /* '' */
+.ic-chat-line:before { content: '\e81b'; } /* '' */
+.ic-angle-up:before { content: '\e81c'; } /* '' */
+.ic-bank:before { content: '\e81d'; } /* '' */
+.ic-credit-card:before { content: '\e81e'; } /* '' */
+.ic-emergency-service:before { content: '\e81f'; } /* '' */
+.ic-funds:before { content: '\e820'; } /* '' */
+.ic-angle-down:before { content: '\e821'; } /* '' */
+.ic-angle-left:before { content: '\e822'; } /* '' */
+.ic-angle-right:before { content: '\e823'; } /* '' */
+.ic-album:before { content: '\e824'; } /* '' */
+.ic-phone:before { content: '\e825'; } /* '' */
+.ic-plus:before { content: '\e826'; } /* '' */
+.ic-cards-payment:before { content: '\e827'; } /* '' */
+.ic-contacts-1:before { content: '\e828'; } /* '' */
+.ic-map-pin-marked:before { content: '\e829'; } /* '' */
+.ic-health:before { content: '\e82a'; } /* '' */
+.ic-reply:before { content: '\e82b'; } /* '' */
+.ic-arrow-down:before { content: '\e82c'; } /* '' */
+.ic-badge:before { content: '\e82d'; } /* '' */
+.ic-range-location:before { content: '\e82e'; } /* '' */
+.ic-globe:before { content: '\e82f'; } /* '' */
+.ic-lock:before { content: '\e830'; } /* '' */
+.ic-photo-gallery:before { content: '\e831'; } /* '' */
+.ic-profile:before { content: '\e832'; } /* '' */
+.ic-service:before { content: '\e833'; } /* '' */
+.ic-calendar:before { content: '\e834'; } /* '' */
+.ic-edit-2:before { content: '\e835'; } /* '' */
+.ic-thumsup:before { content: '\e836'; } /* '' */
+.ic-delete:before { content: '\e837'; } /* '' */
+.ic-return:before { content: '\e838'; } /* '' */
+.ic-edit-pencil:before { content: '\e839'; } /* '' */
+.ic-gear:before { content: '\e83a'; } /* '' */
+.ic-bank-check:before { content: '\e83b'; } /* '' */
+.ic-add-user:before { content: '\e83c'; } /* '' */
+.ic-group_people:before { content: '\e83d'; } /* '' */
+.ic-share:before { content: '\e83e'; } /* '' */
+.ic-attachment:before { content: '\e83f'; } /* '' */
+.ic-file:before { content: '\e840'; } /* '' */
+.ic-information:before { content: '\e841'; } /* '' */
+.ic-list:before { content: '\e842'; } /* '' */
+.ic-article:before { content: '\e843'; } /* '' */
+.ic-covid_19:before { content: '\e844'; } /* '' */
+.ic-covid_19_new:before { content: '\e845'; } /* '' */
+.ic-firstaid-plus-old:before { content: '\e846'; } /* '' */
+.ic-firstaid-plus:before { content: '\e847'; } /* '' */
+.ic-home-2:before { content: '\e848'; } /* '' */
+.ic-professional-services-2-old:before { content: '\e849'; } /* '' */
+.ic-covid-2:before { content: '\e84a'; } /* '' */
+.ic-entertainment-2:before { content: '\e84b'; } /* '' */
+.ic-professional-services-2:before { content: '\e84c'; } /* '' */

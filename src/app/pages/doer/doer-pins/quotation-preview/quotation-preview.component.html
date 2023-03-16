@@ -1,0 +1,445 @@
+<div class="totalDashboard" *ngIf="afterInit">
+	<app-raise-dispute-form [isHiddenPinId]="totalActiveQuotationDetails?.pin_details?.id" #popUpRaiseDispute>
+	</app-raise-dispute-form>
+	<div class="container">
+
+		<div class="mainHeading mt-4">
+			<div class="meta-heading">
+				<button mat-icon-button class="btn-back float-left mr-3" (click)="backClicked()"><span
+						class="or or-return"></span></button>
+				<p>Back to My Pins</p>
+			</div>
+			<h3>{{ totalActiveQuotationDetails?.pin_details?.title }}</h3>
+			<mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="total_ongoingOptions"
+				*ngIf="totalActiveQuotationDetails?.pin_details?.is_blocked==0 && totalActiveQuotationDetails?.pin_details?.status!=5">
+
+				<!-- class="btn-orangeColor" -->
+				<mat-button-toggle class="btn-orangeColor" (click)="triggerPaymentRequest()"
+					*ngIf="totalActiveQuotationDetails?.pin_details?.status==2" [hidden]="(totalActiveQuotationDetails?.pin_details?.status==2 && totalActiveQuotationDetails.status==3) || (totalActiveQuotationDetails.status==6 && totalActiveQuotationDetails.quotations.status == 4)">
+					Edit Details
+				</mat-button-toggle>
+
+				<mat-button-toggle class="btn-orangeColor"
+					*ngIf="totalActiveQuotationDetails?.pin_details?.status == 2 && totalActiveQuotationDetails.status == 6 && (totalActiveQuotationDetails?.quotations?.status == 0  || totalActiveQuotationDetails?.quotations?.status == 3)"
+					(click)="requestPayment()">
+					Request payment
+					<!-- && totalActiveQuotationDetails?.quotations?.status==0 -->
+				</mat-button-toggle>
+
+				<mat-button-toggle class="btn-orangeColor"
+					*ngIf="totalActiveQuotationDetails?.pin_details?.status == 2 && totalActiveQuotationDetails.status == 6 && totalActiveQuotationDetails?.quotations?.status == 1"
+					[disabled]="true">
+					Payment Requested
+					<!-- Already Sent -->
+				</mat-button-toggle>
+
+				<mat-button-toggle class="btn-orangeColor"
+					*ngIf="totalActiveQuotationDetails?.pin_details?.status==2 && totalActiveQuotationDetails.status==3"
+					[disabled]="true">
+					<!-- totalActiveQuotationDetails?.pin_details?.status==2-->
+					<!-- Condition above was there before -->
+					Quote rejected by Pinner
+				</mat-button-toggle>
+
+				<mat-button-toggle class="btn-orangeColor"
+					*ngIf="totalActiveQuotationDetails?.pin_details?.status==2 && totalActiveQuotationDetails.status==4"
+					[disabled]="true">
+					Declined By You
+				</mat-button-toggle>
+
+				<ng-container
+					*ngIf="totalActiveQuotationDetails?.pin_details?.status!=3 && totalActiveQuotationDetails?.pin_details?.status!=4 && totalActiveQuotationDetails?.quotations?.status!=4 && show_quotaion_preview=='false' && totalActiveQuotationDetails?.quotations?.status!=3 && totalActiveQuotationDetails?.status!=3 && totalActiveQuotationDetails?.status!=4 && totalActiveQuotationDetails?.status!=5">
+					<!-- <mat-button-toggle class="btn-orangeColor"
+						*ngIf="totalActiveQuotationDetails?.pin_details?.status==1 &&  totalActiveQuotationDetails?.status!=5"
+						routerLink="/doer/apply-pins/{{slug}}"> -->
+					<mat-button-toggle class="btn-orangeColor"
+						*ngIf="totalActiveQuotationDetails?.pin_details?.status==1 &&  totalActiveQuotationDetails?.status!=5"
+						(click)="allowDoerToQuote()">
+						<span
+							*ngIf="totalActiveQuotationDetails?.pin_details?.status==2 && totalActiveQuotationDetails?.status==6">Edit
+							Job Details</span>
+						<span *ngIf="totalActiveQuotationDetails?.pin_details?.status==1">Quote Pin</span>
+					</mat-button-toggle>
+
+					<!-- <mat-button-toggle class="btn-orangeColor"
+						[hidden]="totalActiveQuotationDetails?.quotations?.save_and_preview==0 || totalActiveQuotationDetails?.status==5 || totalActiveQuotationDetails?.status==6"
+						routerLink="/doer/refer-doer/{{totalActiveQuotationDetails?.pin_details?.id}}">
+						Refer Doer
+					</mat-button-toggle> -->
+
+					<mat-button-toggle class="btn-orangeColor"
+						*ngIf="totalActiveQuotationDetails?.pin_details?.status==1 &&  totalActiveQuotationDetails?.status!=5"
+						(click)="openSiteVisitDialog()">
+						Request Site Visit
+					</mat-button-toggle>
+
+					<mat-button-toggle class="btn-orangeColor"
+						*ngIf="totalActiveQuotationDetails?.pin_details?.status==1 &&  totalActiveQuotationDetails?.status!=5"
+						(click)="declineTheJob(totalActiveQuotationDetails?.pin_details?.id,totalActiveQuotationDetails?.id);">
+						Decline Quote
+					</mat-button-toggle>
+				</ng-container>
+				<mat-button-toggle (click)="closePin()" class="btn-orangeColor"
+					*ngIf="totalActiveQuotationDetails?.pin_details?.status==2 && totalActiveQuotationDetails?.status==6">
+					Close Pin
+				</mat-button-toggle>
+
+				<mat-button-toggle (click)="toggleChildPopup()" class="btn-orangeColor"
+					*ngIf="totalActiveQuotationDetails?.status==6 && totalActiveQuotationDetails?.pin_details?.status!=4">
+					Raise Dispute
+				</mat-button-toggle>
+			</mat-button-toggle-group>
+
+			<div class="alert alert-danger" role="alert"
+				*ngIf="totalActiveQuotationDetails?.pin_details?.status==2 && totalActiveQuotationDetails?.quotations?.status==3"
+				style="text-align: center;">
+				Your payment request has been rejected by pinner.<br><br>
+				<b>Reason: {{totalActiveQuotationDetails?.quotations?.reject_reason}}</b><br>
+				<b>Description: {{totalActiveQuotationDetails?.quotations?.reject_description}}</b><br><br>
+				<button type="button" class="btn btn-link"
+					(click)="goToChat(totalActiveQuotationDetails?.pin_details?.pinner_id,totalActiveQuotationDetails?.pin_details?.id)">Message
+					Pinner</button>or<button type="button" class="btn btn-link" (click)="toggleChildPopup()">Raise
+					Dispute</button>
+			</div>
+
+		</div>
+
+		<div class="alert alert-danger" role="alert"
+			*ngIf="totalActiveQuotationDetails?.pin_details?.status==2 && totalActiveQuotationDetails?.quotations?.status==4"
+			style="text-align: center;">
+			<p>{{ pinnerName }} says you have been paid outside of PinDo by cash or check. Can you confirm that payment?</p>			
+			<button type="button" mat-raised-button color="primary" class="btn btn-orangeColor"
+				(click)="paymentConfirmation(totalActiveQuotationDetails?.quotations?.id)" style="margin-right: 2%;">Yes I was
+				paid</button>
+			<button type="button" mat-raised-button color="primary" class="btn btn-orangeColor"
+				(click)="paymentRejection(totalActiveQuotationDetails?.quotations?.id)">No, not paid yet</button>
+		</div>
+
+		<div class="pinQuotationDetails"
+			[ngClass]="{'deactive': totalActiveQuotationDetails?.pin_details?.status==4 && totalActiveQuotationDetails?.pin_details?.dispute!=null}">
+			<div class="row flex-column-reverse flex-md-row">
+				<div class="col-md-12 col-lg-8 order-md-2 order-lg-1">
+					<mat-card class="pindoCart mb-4">
+						<mat-card-header>
+							<mat-card-title class="posn_rel">
+								Job Details
+								<!-- <p class="float-right total_qtn" *ngIf="toshowQuotation">Total Amount<span>$ {{totalPrice}}</span></p> -->
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<ng-container>
+								<div class="subcard-heading">
+									<p><span>{{totalActiveQuotationDetails?.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}
+											{{totalActiveQuotationDetails?.created_at?.split('-').join('/') | date:'h:mm a'}}</span>|<span>ID:
+											{{totalActiveQuotationDetails?.pin_details?.pin_unique_id}}</span></p>
+									<h5>{{totalActiveQuotationDetails?.pin_details?.title}}</h5>
+									<div class="heading-info mt-3 mb-5">
+										<span class="quotationlist orange-pin">
+											{{totalActiveQuotationDetails?.pin_details?.parent_child_cat?.parent_det?.name}} >
+											{{totalActiveQuotationDetails?.pin_details?.parent_child_cat?.name}}
+										</span>
+										<!-- <span class="quotationlist" *ngIf="totalActiveQuotationDetails?.pin_details?.has_budget==0">No Budget</span>
+	                    			<span class="quotationlist" *ngIf="totalActiveQuotationDetails?.pin_details?.has_budget==1">$ {{totalActiveQuotationDetails?.pin_details?.budget_value | number:'.2-2'}}</span> -->
+										<span class="quotationlist">
+											<ng-container *ngIf="totalActiveQuotationDetails?.pin_details?.address!=null">
+												<a [href]="addressLink" target="_blank"><i
+														class="fas fa-map-marker-alt mr-2"></i>{{totalActiveQuotationDetails?.pin_details?.address}}</a>
+											</ng-container>
+											<ng-container *ngIf="totalActiveQuotationDetails?.pin_details?.address==null">
+												<i class="fas fa-map-marker-alt mr-2"></i> No Address provided
+											</ng-container>
+										</span>
+									</div>
+								</div>
+								<h6 class="maincardsubHeading">Job Description</h6>
+								<p [innerHtml]="totalActiveQuotationDetails?.pin_details?.description"></p>
+								<!-- <div class="d-flex fileiconlisting">
+									<div class="fileiconlisting pt-3">
+										<ng-container *ngIf="totalActiveQuotationDetails?.pinAttachement_details?.length>0">
+											<h6 class="maincardsubHeading">Attachments Uploaded by Pinner</h6>
+											<div class="d-flex">
+												<span
+													*ngFor="let eachattachment of totalActiveQuotationDetails?.pinAttachement_details;let i = index;">
+													<p class="align-items-center fileicons">
+														<a href="{{uploadUrl}}/jobs/{{eachattachment?.name}}" target="_blank">
+															<span
+																*ngIf="(eachattachment.name.split('.')[eachattachment.name.split('.').length-1]=='pdf'); else that">
+																<img src="assets/images/PDF_Symbol.png" alt="">
+															</span>
+															<ng-template #that>
+																<span>
+																	<img src="{{uploadUrl}}/jobs/{{eachattachment?.name}}" alt="">
+																</span>
+															</ng-template>
+															{{eachattachment?.original_name}}
+														</a>
+													</p>
+												</span>
+											</div>
+										</ng-container>
+									</div>
+								</div> -->
+							</ng-container>
+						</mat-card-content>
+					</mat-card>
+
+					<mat-card class="pindoCart mb-4" *ngIf="dynamic_form_data?.length>0">
+						<mat-card-header>
+							<mat-card-title class="posn_rel">
+								Questions
+								<!-- <p class="float-right total_qtn" *ngIf="toshowQuotation">Total Amount<span>$ {{totalPrice}}</span></p> -->
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<ng-container *ngFor="let each_question of dynamic_form_data">
+								<ng-container *ngIf="each_question.values">
+									<h6 class="maincardsubHeading"
+										[innerHTML]="(each_question?.placeholder)?each_question?.placeholder:each_question?.label | keepHtml">
+									</h6>
+									<ng-container
+										*ngIf="(each_question?.type=='radiobutton' || each_question?.type=='checkbox') || each_question?.type=='select'">
+										<ng-container *ngFor="let each_value of each_question.values">
+											<p *ngIf="each_value?.selected==true">{{each_value?.label}}</p>
+										</ng-container>
+									</ng-container>
+								</ng-container>
+
+								<ng-container *ngIf="each_question?.type=='date'">
+									<h6 class="maincardsubHeading" [innerHTML]="each_question?.label | keepHtml"></h6>
+									<p>{{each_question?.value | date}}</p>
+								</ng-container>
+
+								<ng-container *ngIf="each_question?.type=='input' || each_question?.type=='textarea'">
+									<h6 class="maincardsubHeading" [innerHTML]="each_question?.label | keepHtml"></h6>
+									<p>{{each_question?.value}}</p>
+								</ng-container>
+							</ng-container>
+
+						</mat-card-content>
+					</mat-card>
+
+					<mat-card class="pindoCart" *ngIf="totalActiveQuotationDetails?.pin_details?.status==3">
+						<mat-card-header>
+							<mat-card-title>
+								Rate &amp; Review
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content class="clearfix">
+							<ng-container *ngIf="totalActiveQuotationDetails?.rating_review!=null">
+								<h4 class="avg_rating"><span class="indvrating"
+										*ngFor="let eachRating of convertToarray(totalActiveQuotationDetails?.rating_review?.rating,'filled')"><i
+											class="fas fa-star"></i></span><cite>{{totalActiveQuotationDetails?.rating_review?.rating}}
+										(Average)</cite></h4>
+
+								<h4 class="avg_rating"><span class="indvrating"
+										*ngFor="let eachRating of convertToarray(totalActiveQuotationDetails?.rating_review?.quality,'filled')"><i
+											class="fas fa-star"></i></span><cite>{{totalActiveQuotationDetails?.rating_review?.quality}}
+										(Quality)</cite></h4>
+
+								<h4 class="avg_rating"><span class="indvrating"
+										*ngFor="let eachRating of convertToarray(totalActiveQuotationDetails?.rating_review?.service,'filled')"><i
+											class="fas fa-star"></i></span><cite>{{totalActiveQuotationDetails?.rating_review?.service}}
+										(Service)</cite></h4>
+
+								<h4 class="avg_rating"><span class="indvrating"
+										*ngFor="let eachRating of convertToarray(totalActiveQuotationDetails?.rating_review?.value,'filled')"><i
+											class="fas fa-star"></i></span><cite>{{totalActiveQuotationDetails?.rating_review?.value}}
+										(Value)</cite></h4>
+
+								<div> {{totalActiveQuotationDetails?.rating_review?.review}}</div>
+							</ng-container>
+
+						</mat-card-content>
+					</mat-card>
+
+					<mat-card class="pindoCart"
+						*ngIf="totalActiveQuotationDetails?.pin_details?.status==4 && totalActiveQuotationDetails?.pin_details?.dispute!=null">
+						<mat-card-header>
+							<mat-card-title>
+								Dispute Reason
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<h4>{{totalActiveQuotationDetails?.pin_details?.dispute?.dispute_type}}</h4>
+							<p>{{totalActiveQuotationDetails?.pin_details?.dispute?.dispute_reason}}</p>
+						</mat-card-content>
+					</mat-card>
+					<!-- <mat-card class="pindoCart">
+					  <mat-card-header>
+					    <mat-card-title>
+					    	To-Do List
+					    </mat-card-title>
+					  </mat-card-header>
+					  <mat-card-content class="pt-0 pb-0">
+					  	<div class="total-table">
+					    	<div class="table-header d-flex">
+					    		<div class="coltab">
+					    			Date  Time
+					    		</div>
+					    		<div class="coltab flex-2">
+					    			Pending Activities
+					    		</div>
+					    		<div class="coltab">
+					    			&nbsp;
+					    		</div>
+					    	</div>
+					    	<div class="table-body white-bg">
+						    	<div class="table-row d-flex" *ngFor="let eachToDo of todo_list">
+						    		<div class="coltab" data-heading="Date  Time">
+										<p>{{eachToDo.created_at | date:'dd LLL yyyy'}}&nbsp;{{eachToDo.created_at | date:'h:mm a'}}</p>
+							    	</div>
+							    	<div class="coltab flex-2" data-heading="Pending Activities">
+										<p>{{eachToDo.message}}</p>
+							    	</div>
+							    	<div class="coltab" data-heading="">
+							    		<div class="w-100">
+							    			<button mat-raised-button class="dashboardprimary text-uppercase small_btn red_btn float-right">Decline</button>
+											<button mat-raised-button class="dashboardprimary text-uppercase small_btn green_btn float-right mr-2" *ngIf="eachToDo?.to_type=='PAYMENT_RELEASE_REQUEST'" (click)="togglePaymentReleasePopup(eachToDo.milestone_id,eachToDo.payment_method)">Approve</button>
+										</div>
+							    	</div>
+						    	</div>
+					    	</div>
+					    </div>
+					  </mat-card-content>
+					</mat-card>	 -->
+					<mat-card class="pindoCart" *ngIf="totalActiveQuotationDetails.quotations!=null">
+						<mat-card-header>
+							<mat-card-title>
+								Cover Letter
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							{{totalActiveQuotationDetails?.quotations?.cover_letter}}
+						</mat-card-content>
+					</mat-card>
+
+					<mat-card class="pindoCart" *ngIf="totalActiveQuotationDetails?.pinAttachement_details?.length>0">
+						<mat-card-header>
+							<mat-card-title>
+								Attachments
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content class="d-flex fileiconlisting">
+							<ng-container>
+								<div class="d-flex">
+									<span
+										*ngFor="let eachattachment of totalActiveQuotationDetails?.pinAttachement_details;let i = index;">
+										<p class="align-items-center fileicons">
+											<a href="{{uploadUrl}}/jobs/{{eachattachment?.name}}" target="_blank">
+												<!-- <a href="{{baseCompUrl}}/jobs/{{eachattachment?.name}}" target="_blank"> -->
+												<span
+													*ngIf="(eachattachment.name.split('.')[eachattachment.name.split('.').length-1]=='pdf'); else that">
+													<img src="assets/images/PDF_Symbol.png" alt="">
+												</span>
+												<ng-template #that>
+													<span>
+														<img src="{{uploadUrl}}/jobs/{{eachattachment?.name}}" alt="">
+													</span>
+												</ng-template>
+												{{eachattachment?.original_name}}
+											</a>
+										</p>
+									</span>
+								</div>
+							</ng-container>
+						</mat-card-content>
+					</mat-card>
+
+					<mat-card class="pindoCart" [ngClass]="{'deactiveqtn': totalActiveQuotationDetails?.pin_details?.status==3}"
+						*ngIf="totalActiveQuotationDetails.quotations!=null">
+						<mat-card-header>
+							<mat-card-title>
+								Payment Details
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+
+							<div class="spacing_box" *ngIf="totalActiveQuotationDetails.quotations!=null">
+								<div class="forScroll">
+									<div class="border-box hasideBar d-flex align-items-center"
+										*ngFor="let eachNormalMilestone of totalActiveQuotationDetails?.quotations?.normal_milestones;">
+										<div class="d-flex flex-column w-100">
+											<h4>{{eachNormalMilestone?.name}}</h4>
+											<div class="together">
+												<p class="custom-style float-left"><span class="subInfo">Quantity:
+														{{eachNormalMilestone.quantity | number:'.2-2'}}</span></p>
+
+												<p class="custom-style float-left"><span class="subInfo">Rate:
+														{{eachNormalMilestone.rate | currency}}</span></p>
+
+												<p class="custom-style float-left"><span class="subInfo">Amount:
+														{{eachNormalMilestone.price | currency}}</span></p>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="spacing_box" *ngIf="totalActiveQuotationDetails.quotations!=null">
+								<div class="row indvQuotaion mr-0 ml-0">
+									<div class="flex-fill">
+										<div class="indvQuotaionBox">
+											<h5>Total Amount</h5>
+										</div>
+									</div>
+									<div class="flex-fill" *ngIf="totalActiveQuotationDetails?.quotations?.payment_mode==3">
+										<div class="indvQuotaionBox">
+											<h5>{{ totalActiveQuotationDetails?.quotations?.normal_milestones["0"]?.price | currency }}</h5>
+											<p>Hourly Rate</p>
+										</div>
+									</div>
+									<div class="flex-fill">
+										<div class="indvQuotaionBox">
+											<h5>{{totalActiveQuotationDetails?.quotations?.total_quotation_amount | currency}}</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</mat-card-content>
+					</mat-card>
+				</div>
+
+				<div class="col-md-12 col-lg-4 order-md-1 order-lg-2">
+					<div class="indv-doer hire-doerapplyquote">
+						<div class="profDoer d-flex mb-4 align-items-center no_background"
+							(click)="(totalActiveQuotationDetails?.pin_details?.status >= 2 || isMsgExists == 1 || totalActiveQuotationDetails?.status == 0 || totalActiveQuotationDetails?.invited_by_pinner == 1) && commonservice.openWithNewTabDoerOrPinner(totalActiveQuotationDetails?.pinner_details?.id,1)">
+							<span class="prof_img" *ngIf="totalActiveQuotationDetails?.pinner_details?.profile_photo!=''" title="{{ totalActiveQuotationDetails?.application_dtls?.invited_by_pinner }}">
+								<img
+									[ngClass]="totalActiveQuotationDetails?.pin_details?.status >= 2 || isMsgExists == 1 || totalActiveQuotationDetails?.status == 0 || totalActiveQuotationDetails?.invited_by_pinner == 1 ? '': 'blurImg'"
+									src="{{myGlobalsQuot.uploadUrl}}/profile_photo/{{totalActiveQuotationDetails?.pinner_details?.profile_photo}}"
+									onError="this.src='assets/images/default-userImg-green.svg';" alt="">
+							</span>
+							<span class="prof_img no-img" *ngIf="totalActiveQuotationDetails?.pinner_details?.profile_photo==''">
+								<img
+									[ngClass]="totalActiveQuotationDetails?.pin_details?.status >= 2 || isMsgExists == 1 || totalActiveQuotationDetails?.status == 0? '':'blurImg'"
+									src="assets/images/default-userImg-green.svg" alt="">
+							</span>
+							<h4
+								[ngClass]="totalActiveQuotationDetails?.pin_details?.status >= 2 || isMsgExists == 1 || totalActiveQuotationDetails?.status == 0 || totalActiveQuotationDetails?.invited_by_pinner == 1 ? '': 'blurText'">
+								{{totalActiveQuotationDetails?.pinner_details?.name}}</h4>
+						</div>
+
+
+						<!-- <h4>Future Pinner stuff: </h4>
+					    <p>Pinner Rating/Score</p> -->
+
+						<div class="abs-btngrp"
+							*ngIf="totalActiveQuotationDetails?.status!=4 && totalActiveQuotationDetails?.status!=3 && totalActiveQuotationDetails?.pin_details?.status != 3">
+							<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+								<!-- <mat-button-toggle class="green-btn" value="Accept" *ngIf="totalDataDetails?.application_dtls?.status==2" (click)="acceptTheJob(fetchedPinDetails?.id,totalDataDetails?.application_dtls?.id);">Accept</mat-button-toggle>
+					            <mat-button-toggle *ngIf="totalDataDetails?.application_dtls?.status==0 || totalDataDetails?.application_dtls?.status==2" class="red-btn" value="Decline" (click)="declineTheJob(fetchedPinDetails?.id,totalDataDetails?.application_dtls?.id);">Decline</mat-button-toggle>
+					            <mat-button-toggle *ngIf="totalDataDetails?.application_dtls?.status==4" class="red-btn" value="Declined" disabled>Declined By You</mat-button-toggle>
+					            <mat-button-toggle *ngIf="totalDataDetails?.application_dtls?.status==3" class="red-btn" value="Declined" disabled>Declined By Pinner</mat-button-toggle> -->
+								<mat-button-toggle value="Message" class="btn-orangeColor text-white"
+									(click)="goToChat(totalActiveQuotationDetails?.pinner_details?.id,totalActiveQuotationDetails?.pin_id)">
+									Message</mat-button-toggle>
+							</mat-button-toggle-group>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

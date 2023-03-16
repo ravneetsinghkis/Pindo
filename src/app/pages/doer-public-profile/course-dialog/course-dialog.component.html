@@ -1,0 +1,50 @@
+<ng-container *ngIf="display_data['popType']=='Give-endorsement'">
+<div class="total_course">
+    <h6 class="special_header">Endorse The Doer</h6>
+    <p class="subheading">Select the category and endorse this doer</p>
+    <mat-form-field appearance="outline">
+        <mat-select placeholder="Select Sub Category" [(value)]="selected" (selectionChange)="onCatSelect()">
+            <mat-option *ngFor="let eachCat of categoryList" [value]="eachCat?.id">
+              {{eachCat?.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <ng-container *ngIf="subCategoryList.length>0">
+        <p class="subheading">Select Sub-category</p>
+        <div class="chooseSubCategory eachFilterBlock clearfix">            
+            <ng-container *ngFor="let eachSubCat of subCategoryList;let i=index;">
+            <div class="greyCheck">
+                <input type="checkbox" id="subCat-{{eachSubCat.id}}" [checked]="eachSubCat.endorsed==1" (change)="selectedSubCatsChange($event,i)">
+                <label for="subCat-{{eachSubCat.id}}">{{eachSubCat.name}}</label>
+            </div>
+            </ng-container>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="subCategoryList.length==0 && selected!=''">
+        No Data Found
+    </ng-container>
+    <div class="d-flex justify-content-center pt-5" *ngIf="subCategoryList.length>0" style="clear:both;">
+        <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="endorseDoer()">
+            Endorse/Rescind Endorsement
+        </button>
+    </div>
+</div>
+</ng-container>
+<ng-container *ngIf="display_data['popType']=='endorsedBy'">
+    <div class="endorsedBy">
+        <h3>Endorsed By</h3>
+        <div class="totalendorsescroll">
+            <div class="indvendorsement d-flex align-items-center" *ngFor="let eachEndorsement of display_data?.endorsementDetails;">
+                <span class="endorseImg">
+                    <img src="{{baseCompUrl}}/company_logo/{{eachEndorsement?.pinner_details?.company_logo}}" onError="this.src='assets/images/avatar.png';" alt="">
+                </span>
+                <div class="total_info">
+                    <h5>{{eachEndorsement?.pinner_details?.name}} <cite class="float-right removeEndorsement" (click)="removeEndorsement(eachEndorsement?.id)"><i class="fas fa-times" *ngIf="display_data.user_type==2 && (eachEndorsement?.endorsed_by_doer_id==loggedinDoerId)"></i></cite></h5>
+                    <p>{{eachEndorsement?.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}</p>
+                </div>
+            </div>            
+        </div>
+    </div>
+</ng-container>
+
+

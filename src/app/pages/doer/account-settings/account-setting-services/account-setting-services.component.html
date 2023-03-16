@@ -1,0 +1,239 @@
+<ng-container *ngFor="let eachService of serviceOffered;let i=index;">
+	<div class="serviceOffer-list pt-3 pb-0 px-3">
+		<div class="serviceOffer-info-block d-flex align-items-center w-100 pb-3">
+			<div class="catInfo-block d-sm-flex align-items-center w-100">
+				<span class="nameIcon-block d-flex align-items-center flex-shrink-0 pr-sm-2 mb-2 mb-sm-0">
+					<span class="catIcon-item flex-shrink-0 text-center color-themeOrange"> <span [ngClass]="{'ic-home-2': eachService?.id == 2 ,
+					'ic-covid-2':eachService?.id == 3,
+					'ic-entertainment-2':eachService?.id == 19,
+					'ic-personal-care':eachService?.id == 16 ,
+					 'ic-book':eachService?.id == 17 ,
+					'ic-professional-services-2':eachService?.id == 18 ,
+					'ic-petcare':eachService?.id == 20}"></span></span>
+					<span class="catName ml-2">{{eachService?.name}}</span>
+				</span>
+				<div class="serviceOffer-info-block d-flex align-items-center minWdFlex flex-column">
+					<div class="catInfo-block d-flex align-items-center justify-content-between w-100 mb-2"
+						*ngFor="let eachSubcatService of eachService.children | sortPipe : 'name';let child_index =index;">
+						<span class="orange-badge">{{eachSubcatService?.name}}</span>
+						<!-- *ngIf="eachSubcatService?.doer_categories?.hourly_rate == null" -->
+						<div class="action-item-holder flex-shrink-0 pl-2">
+							<span class="action-item ic-edit-2 orangeColor"
+								(click)="editService(eachService?.id, eachSubcatService?.id)"></span>
+							<span class="action-item ic-delete ml-1 orangeColor"
+								(click)="deleteService(eachSubcatService?.doer_categories?.category_id, eachSubcatService?.doer_categories?.parent_cat_id, eachSubcatService?.doer_categories?.id)"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr class="m-0" *ngIf="i < serviceOffered.length - 1">
+	</div>
+</ng-container>
+
+<!-- <div class="serviceOffer-list d-flex align-items-center justify-content-between pt-3 pb-3 px-3">
+	<div class="serviceOffer-info-block d-flex align-items-center">
+		<div class="catInfo-block d-flex align-items-center">
+			<span class="nameIcon-block d-flex align-items-center flex-shrink-0">
+				<span class="catIcon-item flex-shrink-0 text-center color-themeOrange"> <span
+						class="ic-petcare"></span></span>
+				<span class="catName ml-2">Pets Care</span>
+			</span>
+			<span class="orange-badge ml-4">Dog Walking</span>
+		</div>
+		<span class="price-info ml-5">$10/hour</span>
+	</div>
+	<div class="action-item-holder flex-shrink-0 pl-3">
+		<span class="action-item ic-edit-2 orangeColor"></span>
+		<span class="action-item ic-delete ml-3 orangeColor"></span>
+	</div>
+</div> -->
+
+<!-- <hr class="m-0"> -->
+
+<!-- overlayPopup -->
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back orangeColor" (click)="closeModal()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase" *ngIf="!inEditMode">Add Service</h3>
+		<h3 class="heading-text mb-0 text-uppercase" *ngIf="inEditMode">Edit Service</h3>
+	</div>
+
+	<hr class="m-0">
+	<div class="fullPopupContent">
+
+		<div class="container">
+
+			<div class="service-categorySelect-wrap pt-0 pb-4">
+				<!-- d-flex align-items-center justify-content-center -->
+
+				<!-- <div class="categorySelect-block mx-3 orangeColor" *ngFor="let service of parentServices">
+					<div class="categorySelect-box">
+						<input name="serviceradio" type="radio" id="cat_1-{{service?.id}}"
+							(change)="selectCat(service?.id, service?.name)"
+							[checked]="service?.id == selected_id ? true: false" #radio>
+						<label for="cat_1-{{service?.id}}">
+							<div class="circleBox d-flex align-items-center justify-content-center">
+								<span [ngClass]="{'ic-home': service?.id == 2 ,
+								'ic-calender-today':service?.id == 3,
+								'ic-entertainment':service?.id == 19,
+								'ic-personal-care':service?.id == 16 ,
+								 'ic-book':service?.id == 17 ,
+								'ic-health':service?.id == 18 ,
+								'ic-petcare':service?.id == 20}"></span>
+							</div>
+							<span class="infoText">{{ service?.name }}</span>
+						</label>
+					</div>
+				</div> -->
+
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" *ngFor="let service of parentServices">
+							<div class="categorySelect-block orangeColor">
+								<div class="categorySelect-box">
+									<input name="serviceradio" type="radio" id="cat_1-{{service?.id}}"
+										(change)="selectCat(service?.id, service?.name)"
+										[checked]="service?.id == selected_id ? true: false" #radio>
+									<label for="cat_1-{{service?.id}}">
+										<div class="circleBox d-flex align-items-center justify-content-center">
+											<span [ngClass]="{'ic-home-2': service?.id == 2 ,
+										'ic-covid-2':service?.id == 3,
+										'ic-entertainment-2':service?.id == 19,
+										'ic-personal-care':service?.id == 16 ,
+										 'ic-book':service?.id == 17 ,
+										'ic-professional-services-2':service?.id == 18 ,
+										'ic-petcare':service?.id == 20}"></span>
+										</div>
+										<span class="infoText">{{ service?.name }}</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Add Pagination -->
+				</div>
+				<div class="swiper-button-next"></div>
+				<div class="swiper-button-prev"></div>
+
+			</div>
+			<hr class="m-0">
+
+			<div class="service-subCategory-wrap pt-4 pb-4">
+
+				<div class="subCategory-content d-flex align-items-center flex-wrap mb-4">
+					<div class="custom_radioOrange" *ngFor="let sub of selectedChildServices">
+						<input name="sub_category" type="radio" id="sub_cat_2-{{ sub?.id }}"
+							(change)="selectSubcategory(sub?.id, sub?.name, $event.target)" [checked]="sub?.id == selectedSubValue ? true: false"
+							[disabled]="sub?.id == selectedSubValue ? false: true">
+						<label for="sub_cat_2-{{ sub?.id }}" *ngIf="sub?.id == selectedSubValue">{{ sub?.name }}</label>
+						<label for="sub_cat_2-{{ sub?.id }}" *ngIf="sub?.id != selectedSubValue"
+							matTooltip="You have added this service already!">{{ sub?.name }}</label>
+					</div>
+				</div>
+
+				<hr class="m-0">
+
+				<div class="subCategory-content d-flex align-items-center flex-wrap mt-4">
+
+					<div class="custom_checkOrange" *ngFor="let sub of childServices">
+						<input name="sub_category" type="checkbox" id="sub_cat_1-{{ sub?.id }}"
+							(change)="selectSubcategory(sub?.id, sub?.name, $event.target)" [disabled]="inEditMode">
+						<label for="sub_cat_1-{{ sub?.id }}">{{ sub?.name }}</label>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="service-subCategory-wrap pb-4" *ngIf="childServices.length == 0">
+				<span>No-subcategories found</span>
+			</div>
+			<!--end subCategory-wrap-->
+
+			<hr class="m-0">
+
+			<form [formGroup]="formNewServiceRequest" (ngSubmit)="requestSubcategorySubmit()">
+				<div class="requestSubCat-box mt-3 d-lg-flex align-items-end justify-content-center">
+					<div class="titleText mr-lg-3 mb-2 text-center text-lg-left">Don't see a subcategory you need? Request it now.</div>
+					<div class="formField d-flex align-items-end justify-content-center">
+						<input type="text" class="mr-3 inputField" formControlName="newService">
+						<button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mr-2" [disabled]="emptyNewServiceName">SUBMIT</button>
+					</div>
+				</div>
+			</form>
+
+
+			<div class="row justify-content-center">
+				<div class="col-lg-8 col-xl-6 col-12">
+					<div class="matComnForm">
+
+
+
+						<div class="block-wrap">
+
+							<div class="block-heading mb-3 mb-xl-4 mt-3 mt-xl-4">
+								<div class="catInfoRow d-flex justify-content-center flex-wrap">
+									<span class="catText orangeColor d-flex align-items-center"><span [ngClass]="{'ic-home-2': pID == 2 ,
+										'ic-covid-2': pID == 3,
+										'ic-entertainment-2': pID == 19,
+										'ic-personal-care': pID == 16 ,
+										 'ic-book': pID == 17 ,
+										'ic-professional-services-2': pID == 18 ,
+										'ic-petcare': pID == 20}"></span>
+										<span>&nbsp;{{ pName }}</span> </span>
+									<span class="sm-tag orange-tag text-uppercase ml-2 align-self-center" *ngIf="sName && inEditMode">{{ sName }}</span>
+
+									<ng-container *ngIf="! inEditMode">
+										<span class="sm-tag orange-tag text-uppercase ml-2 align-self-center mb-1" *ngFor="let subCat of subCatNames">{{ subCat }}</span>
+									</ng-container>
+								</div>
+							</div>
+
+							<form [formGroup]="formRate">
+								<div class="form-row d-none" *ngIf="sName">
+									<div class="col-md-4">
+										<mat-form-field appearance="outline">
+											<mat-label>Service Rate ($)</mat-label>
+											<input matInput name="pin_name" type="number" placeholder="unit" formControlName="rate">
+											<!-- <mat-error
+												*ngIf="i1.value && formRate.controls.rate.errors && formRate.controls.rate.errors.pattern">
+												Please provide a valid amount. Please note that you can only use numbers
+												and not symbols or
+												letters.</mat-error> -->
+										</mat-form-field>
+									</div>
+
+									<div class="col-md-8">
+										<mat-form-field appearance="outline">
+											<mat-label>PER</mat-label>
+											<input matInput name="pin_name" placeholder="unit" type="text" formControlName="qty">
+											<!-- <mat-error
+												*ngIf="i2.value && formRate.controls.qty.errors && formRate.controls.qty.errors.pattern">
+												Please provide a valid amount. Please note that you can only use numbers
+												and not symbols or
+												letters.</mat-error> -->
+										</mat-form-field>
+									</div>
+								</div>
+							</form>
+
+						</div>
+						<!--end block-wrap-->
+
+						<div class="btn-holder" class="mt-0 mt-xl-3  text-center">
+							<button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mr-2"
+								(click)="onSubmit('exit')" [disabled]="sName ? false: true">SAVE</button>
+							<button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mr-2"
+								(click)="onSubmit('stay')" [disabled]="sName ? false: true" *ngIf="!inEditMode">SAVE & NEW</button>
+							<button mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase"
+								(click)="closeModal()">CANCEL</button>
+						</div>
+					</div>
+					<!--end matComnForm-->
+				</div>
+			</div>
+		</div>
+		<!--end container-->
+	</div>
+</div>

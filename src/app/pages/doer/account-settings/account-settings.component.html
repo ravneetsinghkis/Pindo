@@ -1,0 +1,728 @@
+<div class="scrollElement">
+	<div class="top-banner-section doer-account-settings-banner">
+		<div class="container d-flex align-items-start h-100">
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="main-headingText mb-2 text-uppercase">ACCOUNT SETTINGS</h1>
+					<h4 class="main-heading-subText mb-0 font-italic">
+						View and update communication, payment and privacy settings.
+					</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container overBanner-container">
+		<span class="leftFilterMenu ic-equalizer d-block d-xl-none" (click)="leftFilterTgl($event)"></span>
+		<div class="filterSideBar_overlay" (click)="leftFilterOverClick($event)" [ngClass]="leftFilterBoxOpen?'open':''">
+		</div>
+		<div class="row">
+			<div class="col-xl-3 left-side-filter-col" [ngClass]="leftFilterBoxOpen? 'open':''">
+				<div class="sideCard-shadow mb-3">
+					<div class="sideCard-main-header px-3">
+						<div class="main-header-inr withIcon-heading pt-3 pb-3 d-flex align-items-center">
+							<span class="iconItem  ic-personal-care mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">Account Setup</h4>
+						</div>
+						<hr class="mb-0 mt-0" />
+					</div>
+
+					<div class="sideCard-body px-3">
+						<ul class="settings-status-list doer-settings-status-list pb-3">
+							<li class="mt-3" [ngClass]="{ completed: profilePasswordInformationComplete }">
+								<span class="statusIcon"></span>
+								<span class="stepText hover" (click)="toggleParentPopup('changePasswordInfo')">Password</span>
+							</li>
+
+							<li class="mt-3" [ngClass]="{ completed: profileBasicInformationComplete }">
+								<span class="statusIcon"></span>
+								<span class="stepText hover" (click)="toggleParentPopup('basicDetails')">Profile Information</span>
+							</li>
+
+							<li class="mt-3" [ngClass]="{ completed: profileContactInformationComplete }">
+								<span class="statusIcon"></span>
+								<span class="stepText hover" (click)="toggleParentPopup('contactInfo')">Contact Information <sup>*</sup></span>
+							</li>
+							<li class="mt-3" [ngClass]="{ completed: profileLocationInformationComplete }">
+								<span class="statusIcon"></span>
+								<span class="stepText hover" (click)="toggleParentPopup('locationInfo')">Location Settings <sup>*</sup></span>
+							</li>
+
+							<li class="mt-3" [ngClass]="{
+                  completed: profileServiceOfferedInformationComplete
+                }">
+								<span class="statusIcon"></span>
+								<span class="stepText hover" (click)="toggleParentPopup('addDoerService')">Services Offered <sup>*</sup></span>
+							</li>
+
+							<li class="mt-3" [ngClass]="{ completed: profilePaymentInformationComplete }" [attr.data-volt]="isVolunteer" [attr.data-ppic]="profilePaymentInformationComplete">
+								<span class="statusIcon"></span>
+								<!-- <span class="stepText">Payment Information <sup>*</sup></span> -->
+								<span class="stepText hover pp_{{ isVolunteer }}" (click)="toggleParentPopup('addPaymentMethodInfo')">How You Pay PinDo <sup *ngIf="isVolunteer == 0">**</sup></span>
+
+							</li>
+
+							<li class="mt-3" [ngClass]="{
+								completed: profileAcceptPaymentMethodInformationComplete
+							  }" [attr.data-papmi]="profileAcceptPaymentMethodInformationComplete">
+								<span class="statusIcon"></span>
+								<!-- <span class="stepText">Acpt. Payment Types <sup>*</sup></span> -->
+								<span class="stepText hover" (click)="toggleParentPopup('updatePaymentMethodInfo')">How Pinners Pay You <sup *ngIf="isVolunteer == 0">**</sup></span>
+
+							</li>
+
+							<li class="mt-3" [ngClass]="{ completed: profileBadgesInformationComplete }">
+								<span class="statusIcon"></span>
+								<span class="stepText hover" (click)="badgeManageOpenDialog()">Badges</span>
+							</li>
+
+							<li class="mt-3" [ngClass]="{
+                  completed: profileHouresOfOperationInformationComplete
+                }">
+								<span class="statusIcon"></span>
+								<!-- <span class="stepText">Operating hours</span> -->
+								<span class="stepText hover" (click)="toggleParentPopup('profileOpeningHours')">Operating Hours</span>
+
+							</li>
+
+							<li class="mt-3" [ngClass]="{
+                  completed: profilePhotoGalleryInformationComplete
+                }">
+								<span class="statusIcon"></span>
+								<span class="stepText hover" (click)="toggleParentPopup('addAlbumInfo')">Photo Gallery</span>
+							</li>
+
+							<!-- <li class="mt-3" [ngClass]="{'completed':profileBasicInformationComplete}">
+                <span class="statusIcon"></span>
+                <span class="stepText">Basic Information</span>
+              </li> -->
+
+							<!-- <li class="mt-3" [ngClass]="{'completed':profileNotificationInformationComplete}">
+                <span class="statusIcon"></span>
+                <span class="stepText">Notification Settings</span>
+              </li> -->
+							<li class="mt-3" [ngClass]="{
+                  completed: profileEmailSettingInformationComplete
+                }">
+								<span class="statusIcon"></span>
+								<span class="stepText hover" (click)="toggleParentPopup('EmailSettingsComponent')">Email Settings</span>
+							</li>
+
+							<li class="mt-3" [ngClass]="{
+                  completed: profilePrivacySettingInformationComplete
+                }">
+								<span class="statusIcon"></span>
+								<span class="stepText hover" (click)="toggleParentPopup('PrivacySettingsComponent')">Privacy Settings</span>
+							</li>
+						</ul>
+
+						<p class="mb-0 pb-3 required-text orange"><sup>*</sup> Required to Market</p>
+						<p class="mb-0 pb-3 required-text orange"><sup>**</sup> Required to Quote</p>
+					</div>
+				</div>
+				<!--end sideCard-shadow-->
+
+				<button mat-flat-button class="btn btn-orangeColor lg-size btn-block mb-3 text-uppercase"
+					(click)="viewProfile()">
+					View Profile
+				</button>
+
+				<button mat-flat-button class="btn btn-orangeColor lg-size btn-block mb-3 mt-0 text-uppercase" *ngIf="showSendProfileToDoer" (click)="showSendProfileToDoerPopup()">
+					Send Profile To Doer
+				</button>
+			</div>
+			<!--end col-md-3-->
+
+			<div class="col-xl-9">
+				<div class="card-settings mb-4">
+					<div class="card-main-header  px-3 pt-3 pb-3">
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profilePasswordInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center">
+							<span class="iconItem ic-lock mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">PASSWORD</h4>
+						</div>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-3 py-3">
+						<div class="dsc-text">
+							<!-- <p class="mb-0">
+								Your password was changed {{ password_changed_date | customeTimeAgo }}. We recommend you
+								change your password every three months.
+							</p> -->
+
+							<p class="mb-0" *ngIf="password_changed_date">Password last changed on
+								{{password_changed_date | date:'MMMM d, y' }}. We recommend changing your password every
+								3 months.</p>
+							<p class="mb-0" *ngIf="!password_changed_date">We recommend changing your password every 3
+								months.</p>
+							<span class="link-text text-uppercase color-themeOrange"
+								(click)="toggleParentPopup('changePasswordInfo')">Change password</span>
+						</div>
+					</div>
+
+					<app-change-password #changePasswordInfo (accountSettingDetailsPopulate)="
+              getAccountSettingUpdateDetailsByType($event, 'passwordUpdate')
+            ">
+					</app-change-password>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileBasicInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<span class="iconItem ic-profile mr-2"></span>
+								<h4 class="heading-text mb-0 text-uppercase">
+									Profile Information
+								</h4>
+							</div>
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="toggleParentPopup('basicDetails')">
+							UPDATE
+							</button>
+						</div>
+					
+					</div>
+					<hr class="mb-0 mt-0" />
+					<account-setting-basic-details [isHiddenBasicDetails]="basicDetails" #accountSettingBasicDetails
+						(profileBasicDetails)="getProfileBasicDetails($event)"></account-setting-basic-details>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileContactInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<span class="iconItem ic-contacts-1 mr-2"></span>
+								<h4 class="heading-text mb-0 text-uppercase">
+									Contact Information
+								</h4>
+							</div>
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="toggleParentPopup('contactInfo')">
+							UPDATE
+							</button>
+						</div>
+						
+					</div>
+					<hr class="mb-0 mt-0" />
+					<account-setting-contact-information #contactInfo (profileContactDetails)="getProfileContactDetails($event)">
+					</account-setting-contact-information>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileLocationInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<span class="iconItem  ic-map-pin-marked mr-2"></span>
+								<h4 class="heading-text mb-0 text-uppercase">
+									Location Settings
+								</h4>
+							</div>
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="toggleParentPopup('locationInfo')">
+							UPDATE
+							</button>
+						</div>
+						
+					</div>
+					<hr class="mb-0 mt-0" />
+					<!-- <account-setting-location-information #locationInfo (profileLocationDetails)="getLocationDetails($event)"></account-setting-location-information> -->
+					<account-setting-location-information #locationInfo
+						(profileLocationDetails)="getProfileLocationDetails($event)">
+					</account-setting-location-information>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileServiceOfferedInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<span class="iconItem ic-service mr-2"></span>
+								<h4 class="heading-text mb-0 text-uppercase">SERVICES OFFERED</h4>
+							</div>
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="toggleParentPopup('addDoerService')">
+							ADD SERVICES
+							</button>
+						</div>
+						
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body">
+						<div class="serviceOffer-list-holder">
+							<account-setting-services (listingPopulated)="getServicesOfferedDetails($event)" #addDoerService>
+							</account-setting-services>
+						</div>
+					</div>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profilePaymentInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading d-flex align-items-center ">
+							<span class="iconItem ic-cards-payment mr-2"></span>
+							<h4 class="heading-text mb-0 text-uppercase">
+								<!-- PAYMENT INFORMATION -->
+								How to pay PinDo
+							</h4>
+						</div>
+
+						
+
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body" [attr.data-connect]="stripeAccountConnected">
+						<div class="dsc-text py-3 px-3">
+							<p class="mb-0">A payment method is required in order to quote and be hired.</p>
+							<p class="mb-0">All payment information is held on Stripe, a secure e-commerce platform.</p>
+							<!-- <p class="mb-0">Add a bank account so Pinners can pay you directly through PinDo.</p> -->
+							<ng-container *ngIf="stripePendingRequirements.length">
+								<h6 class="mt-3">Stripe Notice:</h6>
+								<p class="text-danger" *ngFor="let requirement of stripePendingRequirements; let i = index">{{ i + 1 }}. {{ requirement }}</p>
+								<p class="text-danger font-weight-bold">Please resolve the above issues after <a rel="nofollow" href="https://dashboard.stripe.com/login" target="_blank">login</a> to Stripe.</p>
+							</ng-container>
+						</div>
+						<div *ngFor="let card of cardDetails; let i = index">
+							<ng-container *ngIf="card?.object == 'card'">
+								<div class="paymentInfo-list d-flex justify-content-between px-3 py-3">
+									<div class="payment-info d-flex align-items-center">
+										<span class="payment-type-img mr-3">
+											<img *ngIf="card.object == 'card' && card.brand != null" src=" assets/images/payment-cards-icons/{{
+							card.brand.toLowerCase()
+						  }}.svg" width="36" />
+											<!-- <img src="assets/images/payment-cards-icons/bank.svg" width="36"
+												*ngIf="card?.object == 'bank_account'" /> -->
+										</span>
+										<div class="payment-info-text">
+											<span class="numbText"><span class="light-color">XXXX XXXX XXXX</span>
+												{{ card?.last4 }}</span>
+											<span class="dateText ml-4" *ngIf="card.expiry_month && card.exp_date">
+												<span *ngIf="card.expiry_month<10">0</span>{{ card?.expiry_month }}/{{ card?.exp_date }}
+											</span>
+											<!-- <span class="numbText ml-4" *ngIf="stripeAccountConnected && card?.object == 'bank_account'">
+												<span class="stripe-text">STRIPE ACCOUNT CONNECTED</span>
+											</span> -->
+											<!-- <button type="btn" mat-flat-button class="btn-orangeColor btn-sm ml-3" *ngIf="card?.object=='bank_account' && card?.is_verified==0 && stripeAccountConnected" (click)="verifyBank(card?.id)">Verify</button> -->
+	
+											<!-- <ng-container *ngIf="! stripeAccountConnected && doerBankTotal > 0 && card?.object == 'bank_account'">
+												<button mat-flat-button class="btn btn-orangeColor text-uppercase ml-4" (click)="addPaymentMethodInfo.goToStripe()">
+													<span class="ic-plus mr-1" style="font-size: 12px;"></span> Connect With Stripe
+												</button>
+											</ng-container> -->
+										</div>
+									</div>
+	
+									<div class="action-item-list d-flex align-items-center flex-shrink-0 ml-3">
+										<span class="orange-tag text-uppercase" *ngIf="card?.is_primary == 1">PRIMARY</span>									
+										<span class="ic-edit-2 action-item orangeColor ml-3"
+											(click)="toggleParentPopup('editPaymentMethodInfo', card, 'card')" *ngIf="card?.object == 'card'"
+											matTooltip="Edit Card"></span>
+										<!-- <span class="ic-edit-2 action-item orangeColor ml-3" *ngIf="card?.object == 'bank_account'"
+											(click)="toggleParentPopup('editPaymentMethodInfo', card, 'bank')" matTooltip="Edit Bank"></span> -->
+										<span class="ic-delete action-item orangeColor ml-3" (click)="deleteCard(card)"
+											*ngIf="card?.object == 'card'" matTooltip="Delete Card"></span>
+										<!-- <span class="ic-delete action-item orangeColor ml-3" (click)="deleteCard(card)"
+											*ngIf="card?.object == 'bank_account'" matTooltip="Delete Bank"></span> -->
+									</div>
+								</div>
+	
+								<hr class="m-0" />
+							</ng-container>
+						</div>
+
+						<!-- Start of add bank & CC -->
+						<!-- <div *ngIf="doerBankTotal == 0">
+							<div class="paymentInfo-list d-flex justify-content-between px-3 py-3">
+								<div class="payment-info d-flex align-items-center">
+									<span class="payment-type-img mr-3">
+										<img src="assets/images/payment-cards-icons/bank.svg" width="36" />
+									</span>
+									<div class="payment-info-text">
+										<button mat-flat-button class="btn btn-orangeColor text-uppercase" (click)="openBankFormPopup()">
+											<span class="ic-plus mr-1" style="font-size: 12px;"></span> Add Bank Account
+										</button>
+									</div>
+								</div>
+							</div>
+							<hr class="m-0" />
+						</div> -->
+
+						<div *ngIf="doerCreditCardTotal == 0">
+							<div class="paymentInfo-list d-flex justify-content-between px-3 py-3">
+								<div class="payment-info d-flex align-items-center">
+									<span class="payment-type-img mr-3">
+										<img src="assets/images/payment-cards-icons/credit-card.svg" width="36" />
+									</span>
+									<div class="payment-info-text">
+										<button mat-flat-button class="btn btn-orangeColor text-uppercase" (click)="toggleParentPopup('addPaymentMethodInfo2')">
+											<span class="ic-plus mr-1" style="font-size: 12px;"></span> Add Credit Card
+										</button>
+									</div>
+								</div>
+							</div>
+							<!--end paymentInfo-list-->
+
+							<hr class="m-0" />
+						</div>
+
+						<!-- <div *ngIf="! stripeAccountConnected && doerBankTotal > 0">
+							<div class="paymentInfo-list d-flex justify-content-between px-3 py-3">
+								<div class="payment-info d-flex align-items-center">
+									<div class="payment-info-text">
+										<button mat-flat-button class="btn btn-orangeColor text-uppercase" (click)="addPaymentMethodInfo.goToStripe()">
+											<span class="ic-plus mr-1" style="font-size: 12px;"></span> Connect With Stripe
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<hr class="m-0" />
+						</div> -->
+						<!-- End of add bank & CC -->
+
+						<div class="btn-holder px-3 pt-3 pb-3" *ngIf="doerBankTotal > 0 && doerCreditCardTotal > 0">
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase"
+								(click)="toggleParentPopup('addPaymentMethodInfo')">
+								<span class="ic-plus mr-1" style="font-size: 12px;"></span> NEW
+								PAYMENT METHOD
+							</button>
+						</div>
+
+						<add-payment-method #addPaymentMethodInfo [sibling]="updatePaymentMethodInfo"
+							(refreshCardList)="refreshCardList($event)" (bankAdded)="bankAddedSuccess($event)" (openBankFormPopupEvent)="openBankFormPopup()">
+						</add-payment-method>
+					</div>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileAcceptPaymentMethodInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<span class="iconItem ic-cards-payment mr-2"></span>
+								<h4 class="heading-text mb-0 text-uppercase">
+									HOW PINNERS PAY YOU
+								</h4>
+							</div>
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="toggleParentPopup('updatePaymentMethodInfo')">
+							UPDATE
+							</button>
+
+						</div>
+						
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<account-setting-payment-method [isProfilePayment]="dummyProfilePayment" [sibling]="addPaymentMethodInfo"
+						[addBankComp]="AddBankComponentInfo"
+						[stripeAccountConnected]="stripeAccountConnected"
+						[cardList]="cardDetails" #updatePaymentMethodInfo
+						(listingPopulated)="lengthUpdate($event, 'profilePayment')"
+						[doerBankTotal]="doerBankTotal"
+						(openBankModal)="openBankFormPopup()"
+						[doerBankAccounts]="doerBankAccounts"
+						(connectStripe)="addPaymentMethodInfo.goToStripe()"
+						(toggleParentModal)="listenEditBankModal($event)"
+						(deleteBankInit)="listenDeleteBank($event)">
+					</account-setting-payment-method>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileBadgesInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<span class="iconItem ic-badge mr-2"></span>
+								<h4 class="heading-text mb-0 text-uppercase">BADGES</h4>
+							</div>
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="badgeManageOpenDialog()">
+							MANAGE
+							</button>
+						</div>
+						
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-3 py-3">
+						<div class="badge-list d-flex align-items-center">
+							<div class="badgeImg my-1 mr-4" *ngFor="let eachBadge of profileBadgesDetails">
+								<div class="badge_cont text-center d-flex justify-content-center h-100"
+									matTooltip="{{ eachBadge.badge_details?.name }}" aria-label="">
+									<img src="{{ badge_url }}{{ eachBadge.badge_details?.icon }}" alt="" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileHouresOfOperationInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading d-flex align-items-center justify-content-between ">
+							<div class="d-flex align-items-center">
+								<span class="iconItem  ic-calendar mr-2"></span>
+								<h4 class="heading-text mb-0 text-uppercase">
+									HOURS OF OPERATION
+								</h4>
+							</div>
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="toggleParentPopup('profileOpeningHours')">
+							UPDATE
+							</button>
+						</div>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-0 py-3">
+						<div class="hours-operation">
+							<div class="infoBlock py-0 px-3 mb-3">
+								<h4 class="headingText mb-2">
+									Do you provide emergency service?
+								</h4>
+								<div class="radio-option-box">
+									<mat-radio-group class="d-flex flex-column" [(ngModel)]="isOpenEmergencyService">
+										<mat-radio-button class="mat-radio-orangeColor" *ngFor="let emservice of emergencyService"
+											[value]="emservice.value" (click)="setEmergencyServices(emservice.value)">
+											<span
+												matTooltip="Willing and able to respond to Pin within 1 hour and provide service within 4 hours, seven days per week and 24 hours per day."
+												matTooltipClass="customMatTooltip" matTooltipPosition="above"
+												*ngIf="emservice.value == 1">{{ emservice.text }}</span>
+											<span *ngIf="emservice.value == 0">{{
+                        emservice.text
+                      }}</span>
+										</mat-radio-button>
+									</mat-radio-group>
+								</div>
+							</div>
+
+							<hr class="m-0" />
+							<account-setting-opening-hours [isOpeningHours]="dummyOpeningHours" #accountSettingOpeningHours
+								(listingPopulated)="lengthUpdate($event, 'profileOpeningHours')">
+							</account-setting-opening-hours>
+						</div>
+					</div>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profilePhotoGalleryInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<span class="iconItem ic-photo-gallery mr-2"></span>
+								<h4 class="heading-text mb-0 text-uppercase">PHOTO GALLERY</h4>
+							</div>
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="toggleParentPopup('addAlbumInfo')">
+							NEW ALBUM
+							</button>
+						</div>
+						
+					</div>
+
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body py-3 px-3">
+						<div class="gallery-holder">
+							<h4 class="headingText mb-3">Albums</h4>
+							<div class="gallery-row d-flex align-items-center flex-wrap" *ngIf="gallery_data">
+								<div class="gallery-col" *ngFor="let item of gallery_data">
+									<div class="gallery-photo-info custom">
+										<div class="img-holder mb-2" (click)="editAlbum(item?.id)">
+											<img *ngIf="item?.total_images_count > 0"
+												src="{{ gallery_url }}{{ item?.deafault_image?.name }}" />
+											<img *ngIf="item?.total_images_count == 0" src="assets/images/folder.svg" />
+										</div>
+										<h5 class="photo-title mb-0" (click)="editAlbum(item?.id)">
+											{{ item?.folder_name }}</h5>
+										<span class="photo-count" (click)="editAlbum(item?.id)">{{ item?.total_images_count }}
+											photos</span>
+									</div>
+								</div>
+							</div>
+							<!--end gallery-row-->
+						</div>
+						<add-album #addAlbumInfo (refreshGallery)="refreshGalleryList($event)"></add-album>
+					</div>
+				</div>
+				<!--end card-settings-->
+
+
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileEmailSettingInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<h4 class="heading-text mb-0 text-uppercase">email settings</h4>
+							</div>
+
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="toggleParentPopup('EmailSettingsComponent')">
+							UPDATE
+							</button>
+						</div>
+						
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-3 py-3">
+						<div class="dsc-text">
+							<p>
+								Choose the notifications of activity on your PinDo account that you’d like to receive
+								via email.
+							</p>
+						</div>
+					</div>
+
+					<email-settings #emailSettingsInfo></email-settings>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profilePrivacySettingInformationComplete }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<h4 class="heading-text mb-0 text-uppercase">PRIVACY settings</h4>
+							</div>
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="toggleParentPopup('PrivacySettingsComponent')">
+							UPDATE
+							</button>
+						</div>
+						
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-3 py-3">
+						<div class="dsc-text">
+							<p>
+								Choose the contact and personal information on your account that you’d like to share and
+								who you’d like to share it with.
+							</p>
+						</div>
+					</div>
+
+					<privacy-settings [basicDetails]="accountSettingBasicDetails" #privacySettingsInfo></privacy-settings>
+				</div>
+				<!--end card-settings-->
+
+				<div class="card-settings mb-4">
+					<div class="card-main-header px-3 pt-3 pb-3">
+
+						<div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': isCrewMember }">
+							<span class="statusText mr-2">Status</span>
+							<span class="statusIcon"></span>
+						</div>
+
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<h4 class="heading-text mb-0 text-uppercase">BECOME A CREW MEMBER</h4>
+							</div>
+							<button mat-flat-button class="btn btn-orangeColor text-uppercase flex-shrink-0"
+							(click)="toggleParentPopup('CrewApplicationComponent')">
+							LEARN MORE
+							</button>
+						</div>
+						
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-settings-body px-3 py-3">
+						<div class="dsc-text">
+							<p>Learn more about becoming a PinDo Crew Member and help PinDo grow. You will receive referral payments for the users that you recruit. It's free, no strings attached!</p>
+						</div>
+					</div>
+
+					<app-crew-application #crewApplication></app-crew-application>
+				</div>
+				<!--end card-settings-->
+
+			</div>
+			<!--end col-md-9-->
+		</div>
+		<!--end row-->
+	</div>
+	<!--end container-->
+</div>
+
+<app-add-bank #AddBankComponentInfo (bankAddedStripe)="bankAddedRedirectStripe($event)"></app-add-bank>
+
+<app-verify-bank  (onVerifyingBankAccount)="getAccountSettingUpdateDetailsByType($event,'paymentInformation')" #verifyBankAccountInfo></app-verify-bank>
+

@@ -1,0 +1,4 @@
+.border-box.hasideBar .btn-link.customeditLink,
+.border-box.hasideBar .btn-link.customeditLink.red_btn {
+	display: none;
+}

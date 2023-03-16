@@ -1,0 +1,36 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between mb-0">
+      <div class="heading pb-3">
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+
+    <div class="lg-content text-center px-sm-4 px-0 pb-3">
+
+      <div class="content-heading mb-sm-4 mb-3">
+        <h3 class="content-heading-text">Post to Social</h3>
+      </div>
+      <form autocomplete="off">
+
+        <div class="postSocialForm">
+
+          <div class="form-group text-left mb-4">
+            <label class="form-label">Share Link:</label>
+            <div class="inline-form-group">
+              <input type="text" readonly class="form-control" [(ngModel)]="linkText" name="link" #inputTarget />
+              <button type="button" mat-flat-button class="btn-greenColor text-uppercase" (click)="onCopyLink(linkText)"
+                (cbOnSuccess)="onSuccess()" [ngxClipboard]="inputTarget" (cbOnError)="onError()">COPY LINK</button>
+            </div>
+          </div>
+
+          <div class="btn-holder text-center">
+            <!-- <button type="button" class="btn btn-social btn-facebook text-uppercase"><i class="fab fa-facebook-f"></i>
+              POST TO FACEBOOK</button> -->
+              <share-button [theme]="'modern-dark'" button="facebook" [showText]="true" [url]="fbShareUrl"></share-button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

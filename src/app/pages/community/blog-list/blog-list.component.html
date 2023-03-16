@@ -1,0 +1,209 @@
+<div class="noScrollElement">
+  <div class="blog-banner c_home">
+    <!-- <div class="transBgText">Blog</div>
+    <div class="container h-100 d-flex align-items-center">
+      <div class="banner-text-content">
+        <h1 class="main-heading">Blog</h1>
+        <p class="sub-heading mb-0 mt-lg-3 mt-0">Share your experience.</p>
+      </div>
+    </div> -->
+  </div>
+
+  <div class="container">
+
+    <div class="blogSearch-box-wrap mb-xl-4 mb-3">
+      <div class="blogSearch-box">
+        <input matInput placeholder="Search the blog" value="" (keyup.enter)="searchBlogByName()" [(ngModel)]="name">
+        <button class="search-btn" [ngClass]="{'orange': commonservice.islogin==1 && appService.user_type==2}"
+          type="button" (click)="searchBlogByName()"><span class="ic-magnifier"></span></button>
+      </div>
+    </div>
+    <!--end blogSearch-box-wrap-->
+
+    <div class="row">
+
+      <div class="col-blog-custom-left mb-4">
+
+        <span class="blogRightMenu ic-equalizer d-block d-xl-none" (click)="blogRightTgl($event)"></span>
+        <div class="filterSideBar_overlay" (click)="rightBlogOverClick($event)" [ngClass]="blogRightBoxOpen?'open':''">
+        </div>
+
+        <div class="row">
+          <ng-container *ngIf="blog_list_array?.length > 0 ;else noblogshow">
+            <ng-container *ngFor="let bloglist of blog_list_array">
+
+              <div class="col-md-4">
+                <div class="blog-list-block mb-4" (click)="goTOBlogDetailsPage(bloglist.id)">
+                  <div class="img-holder">
+                    <img [src]="bloglist.image!=null?blog_image_url+bloglist.image:assets/images/recent2.jpg"
+                      onError="this.src='assets/images/recent2.jpg';" alt="">
+
+                    <span class="catType-circel" *ngIf="bloglist?.category?.id != null "
+                      [ngClass]="{'orange-bg': commonservice.islogin==1 && appService.user_type==2}">
+                      <i [ngClass]="{'ic-home-2': bloglist?.category?.id === 2 ,
+                      'ic-covid-2':bloglist?.category?.id === 3,
+                      'ic-entertainment-2':bloglist?.category?.id === 19,
+                      'ic-personal-care':bloglist?.category?.id === 16 ,
+                      'ic-book':bloglist?.category?.id === 17 ,
+                      'ic-professional-services-2':bloglist?.category?.id === 18 ,
+                      'ic-petcare':bloglist?.category?.id === 20}">
+                      </i>
+                    </span>
+                  </div>
+
+                  <div class="px-3 post-content">
+                    <div class="head-content py-3">
+                      <h4 class="nameText" [ngClass]="{'orange': commonservice.islogin==1 && appService.user_type==2}">
+                        {{bloglist.name}}</h4>
+                    </div>
+                    <hr class="mb-0 mt-0">
+
+                    <div class="dsc-content py-3">
+                      <p [innerHTML]="bloglist.description | words : 20"></p>
+                    </div>
+
+                    <div class="footer-content d-flex align-items-center pb-3">
+                      <div class="prfl-info d-flex align-items-center">
+
+                        <div class="prfl-img circle mr-2">
+                          <img *ngIf="bloglist?.user_type ==2"
+                            [src]="bloglist?.user?.company_logo!=null?companylogo_url+bloglist?.user?.company_logo:'assets/images/default-userImg-orange.svg'"
+                            onError="this.src='assets/images/default-userImg-orange.svg';"
+                            (click)="openUserDetails(bloglist?.user?.id,bloglist?.user_type)">
+
+                          <img *ngIf="bloglist?.user_type ==1"
+                            [src]="bloglist?.user?.profile_photo!=null?profile_url+bloglist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                            onError="this.src='assets/images/default-userImg-green.svg';"
+                            (click)="openUserDetails(bloglist?.user?.id,bloglist?.user_type)">
+
+                          <img *ngIf="bloglist?.user_type==0" src="{{pindologo}}">
+                        </div>
+
+                        <div class="prfl-text" *ngIf="bloglist?.user_type != 0"
+                          (click)="openUserDetails(bloglist?.user?.id,bloglist?.user_type)">
+                          <p class="nameText mb-0" *ngIf="bloglist?.user_type ==1">
+                            {{bloglist?.user?.name}}</p>
+
+                          <p class="nameText mb-0" *ngIf="bloglist?.user_type ==2">
+                            {{bloglist?.user?.company_name}}</p>
+                        </div>
+                        <div class="prfl-text" *ngIf="bloglist?.user_type == 0">
+                          <p class="nameText mb-0">PinDo</p>
+                        </div>
+                      </div>
+                      <span class="dateText">{{bloglist.createdAt | date}}</span>
+                    </div>
+                    <!--end footer-content-->
+
+                  </div>
+                </div>
+                <!--end blog-list-block-->
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-template #noblogshow>
+            <div class="no_content d-flex white-bg">
+              <div class="col-md-5">
+                <img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+              </div>
+              <div class="col-md-7 align-self-center">
+                <ng-container>
+                  <h5>Sorry. No posts matched your search criteria. Please choose a different search and try again.</h5>
+                  <!-- <p>No Pins found with selected filters.</p> -->
+                </ng-container>
+              </div>
+            </div>
+
+          </ng-template>
+          <!--end row-->
+        </div>
+
+      </div>
+      <!--end col-blog-custom-left-->
+
+      <div class="col-blog-custom-right" [ngClass]="blogRightBoxOpen? 'open':''">
+
+        <!-- <button *ngIf="commonservice.islogin==1 && appService.user_type==2" mat-flat-button
+          [ngClass]="[(commonservice.islogin==1 && appService.user_type==2)?'btn-orangeColor':'btn-greenColor']"
+          class="lg-size btn-block mb-3 text-uppercase" (click)="toggleParentPopup('CreateBlogComponent')">CREATE A
+          BLOG</button> -->
+
+        <!-- <create-blog #createBlogInfo></create-blog> -->
+
+        <div class="sideCard-border mb-3">
+
+          <div class="sideCard-main-header px-3">
+            <div class="main-header-inr pt-2 pb-2">
+
+              <mat-select [(ngModel)]="parentcategory" (ngModelChange)="changeParentCategory($event)"
+                placeholder="SEARCH BY CATEGORY">
+                <mat-option *ngFor="let allparentcate of allparent_category" [value]="allparentcate.id">
+                  {{allparentcate.name}}
+                </mat-option>
+              </mat-select>
+
+            </div>
+            <hr class="mb-0 mt-0">
+          </div>
+
+          <div class="sideCard-body px-3 py-2">
+
+            <span class="clearText mb-2 pb-1 pt-1" (click)="clearFilter()">Clear All</span>
+
+            <div class="d-flex flex-wrap">
+              <div class="custom-chips-radio my-1 mx-1"
+                [ngClass]="{'orange': commonservice.islogin==1 && appService.user_type==2}"
+                *ngFor="let chieldcate of child_cat_list">
+                <input name="filter_goal" type="radio" [(ngModel)]="subcate_id" [value]="chieldcate.id"
+                  (change)="changeChieldCategorySearch()">
+                <span class="chips-box">{{chieldcate.name}}</span>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <!--end sideCard-border-->
+
+        <div class="sideCard-border mb-3">
+
+          <div class="sideCard-main-header px-3">
+            <div class="main-header-inr pt-3 pb-3">
+              <h4 class="heading-text mb-0 text-uppercase">TRENDING</h4>
+            </div>
+            <hr class="mb-0 mt-0">
+          </div>
+
+          <div class="sideCard-body scroll-height px-3 py-2" infiniteScroll [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="50" [scrollWindow]="false" (scrolled)="onScroll()"
+            *ngIf="tranding_list?.length > 0">
+
+            <div class="sm-post-list-row pb-2 pt-2" *ngFor="let trendingbloglist of tranding_list">
+              <div class="sm-post-info d-flex cursorPointer">
+
+                <div class="sm-post-img">
+                  <img [src]="trendingbloglist?.user_type == 1?trendingbloglist?.user?.profile_photo!=null?profile_url+trendingbloglist?.user?.profile_photo:'assets/images/default-userImg-green.svg'
+                    :trendingbloglist?.user_type == 2? trendingbloglist?.user?.company_logo!=null?companylogo_url+trendingbloglist?.user?.company_logo:'assets/images/default-userImg-orange.svg'
+                    :pindologo" (click)="openUserDetails(trendingbloglist?.user?.id,trendingbloglist?.user_type)">
+                </div>
+
+                <div class="sm-post-text pl-3">
+                  <h4 class="headingText" (click)="goTOBlogDetailsPage(trendingbloglist?.id)">{{trendingbloglist?.name}}
+                  </h4>
+                  <p class="dateText mb-0">{{trendingbloglist?.createdAt | date}}</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <!--end sideCard-border-->
+        <!--end sideCard-border-->
+      </div>
+      <!--end col-blog-custom-right-->
+    </div>
+  </div>
+</div>
+
+<create-blog #createBlogInfo></create-blog>

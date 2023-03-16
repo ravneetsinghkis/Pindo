@@ -1,0 +1,82 @@
+<!-- <div class="headingPage text-center mobiletop60">  
+  <h2><button mat-icon-button class="btn-back float-left mr-3" *ngIf="stepToEnable!=''" (click)="toggleBackStep()"><span class="or or-return"></span></button>Create New Account</h2>
+  <h6>Please provide a bit of info to create your new PinDo account.</h6>
+</div> -->
+
+<div class="maincontentPartLoginModule register-bg scrollElement">
+
+    <button mat-icon-button class="btn-back float-left mr-3 back-btn" *ngIf="stepToEnable!=''" (click)="toggleBackStep()"><span class="or or-return"></span></button>
+
+  <ng-container *ngIf="stepToEnable==''">
+
+    <!-- <h3 class="topicHeading text-center">What type of user are you?</h3> -->
+
+    <div class="container-fluid h-100 d-flex">
+
+        <div class="loginRegister-form-wrap mt-auto mb-auto">
+
+            <div class="main-heading-block mb-4">
+                <h4 class="heading-text text-uppercase text-center">REGISTER</h4>
+                <p class="sub-heading-text text-center">Create a new PinDo account.</p>
+            </div>
+
+<!-- 
+      <div class="row justify-content-center">
+        <div class="selectTypeBox d-flex">
+          <div class="circleSelect pinner">
+            <input type="radio" (change)="selectRegisterType('pinner')" id="circleSelect1" name="SelectType">
+            <label for="circleSelect1" matTooltip="A Pinner is a person who will be hiring Service Providers (Doers) for jobs" [matTooltipPosition]="'left'" matTooltipClass="blue-tooltip">I am a Pinner</label>
+          </div>
+          <div class="circleSelect doer">
+            <input type="radio" (change)="selectRegisterType('doer')" id="circleSelect2" name="SelectType">
+            <label for="circleSelect2" matTooltip="A Doer is a person or company who offers services to people (Pinners) in the community" [matTooltipPosition]="'right'" matTooltipClass="blue-tooltip">I am a Doer</label>
+          </div>
+        </div>      
+      </div> -->
+
+      
+       <div class="d-flex justify-content-center">
+          <div class="registerSelectTypeBox d-flex mb-3">
+            <div class="registerSelectNav pinner mx-1">
+              <input type="radio" (change)="selectRegisterType('pinner')" id="circleSelect1" name="SelectType">
+              <label class="d-flex align-items-center justify-content-start mb-0" for="circleSelect1" matTooltip="A Pinner is a person who will be hiring Service Providers (Doers) for jobs" [matTooltipPosition]="'left'" matTooltipClass="pinner-tooltip">
+                  <i class="material-icons">
+                      account_circle
+                      </i>
+                      <span class="text-left ml-2">
+                          <span class="d-block text_1 mb-1">I am a Pinner</span> <span class="d-block text_2">I want stuff done</span>
+                      </span>
+               
+              </label>
+            </div>
+
+            <div class="registerSelectNav doer mx-1">
+              <input type="radio" (change)="selectRegisterType('doer')" id="circleSelect2" name="SelectType">
+              <label class="d-flex align-items-center justify-content-start mb-0" for="circleSelect2" matTooltip="A Doer is a person or company who offers services to people (Pinners) in the community" [matTooltipPosition]="'right'" matTooltipClass="doer-tooltip">
+                  <i class="material-icons">
+                      account_circle
+                      </i>
+                      <span class="text-left ml-2">
+                          <span class="d-block text_1 mb-1">I am a Doer</span> <span class="d-block text_2">I get stuff done</span>
+                      </span>
+                
+              </label>
+            </div>
+
+          </div>      
+        </div>
+
+      <div class="text-center"><button [ngClass]="{'btn-orangeColor' : selectType === 'doer', 'btn-greenColor' : selectType === 'pinner', 'btn-proceed': !selectType}"  mat-button class="text-uppercase  w-100 lg-size mb-2" (click)="enableNextStepFunc(selectType)" [disabled]="!enableNextStep">Proceed to Next step</button></div>
+
+      <div class="text-center loginBottom-text mt-3"> <span class="infoText mr-2">Already have an account?</span> <a class="linkText" routerLink="/login">Login</a>
+      </div>
+ 
+      </div>
+      
+    </div> 
+
+  </ng-container> 
+
+  <app-register-as-pinner *ngIf="stepToEnable=='pinnershow'" [shared]="autocompleteData"></app-register-as-pinner>
+  <app-register-as-doer *ngIf="stepToEnable=='doershow'" [shared]="autocompleteData" [showPasswords]="showPasswords"></app-register-as-doer>
+</div>

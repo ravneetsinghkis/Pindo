@@ -1,0 +1,82 @@
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left orangeColor" (click)="closeModal()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">Privacy Settings</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3">
+				<form>
+					<div class="pTable">
+						<div class="pTable-row d-flex pTable-row--head">
+							<div class="pTable-cell column-heading field-cell text-uppercase">Field</div>
+							<div class="pTable-cell  column-heading checkbox-cell d-flex justify-content-center text-uppercase">
+								PUBLIC</div>
+							<div class="pTable-cell column-heading checkbox-cell d-flex justify-content-center text-uppercase">
+								COMMUNITY</div>
+						</div>
+
+						<div class="pTable-row align-items-center">
+							<div class="pTable-cell field-cell">
+								<div class="pTable-cell--heading">Field</div>
+								<div class="pTable-cell--content field-cell--content">
+									Address
+								</div>
+							</div>
+							<div class="pTable-cell checkbox-cell">
+								<div class="pTable-cell--heading">Public</div>
+								<div class="pTable-cell--content">
+									<div class="slide-toggle-holder d-flex justify-content-center">
+										<mat-slide-toggle class="custom-slide-toggle orange-slide-toggle"
+											(change)="toggle($event, 'addr_public')" [checked]="checked.addr_public">
+										</mat-slide-toggle>
+									</div>
+									<p class="addsText mb-0 mt-1 text-center" *ngIf="checked.addr_public == false">If you choose not to
+										share your full address on your PinDo Profile, only your town and state will be shown.</p>
+									<p class="addsText mb-0 mt-1 text-center" *ngIf="checked.addr_public == true">Your contacts will
+										always see your full address</p>
+								</div>
+							</div>
+							<div class="pTable-cell checkbox-cell">
+								<div class="pTable-cell--heading">Community</div>
+								<div class="pTable-cell--content">
+									<div class="slide-toggle-holder d-flex justify-content-center">
+										<mat-slide-toggle class="custom-slide-toggle orange-slide-toggle"
+											(change)="toggle($event, 'addr_comm')" [checked]="checked.addr_comm">
+										</mat-slide-toggle>
+									</div>
+									<p class="addsText mb-0 mt-1 text-center" *ngIf="checked.addr_comm == false">If you choose not to
+										share your full address on your PinDo Profile, only your town and state will be shown.</p>
+									<p class="addsText mb-0 mt-1 text-center" *ngIf="checked.addr_comm == true">Your contacts will always
+										see your full address</p>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="pTable-row">
+							<div class="pTable-footer-cell p-2 w-100">
+								<p class="mb-0 text-center">Your contacts can see all the information above.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="btn-holder text-center mt-4">
+						<button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+							(click)="onSave()">SAVE</button>
+						<button mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+							(click)="closeModal()">CANCEL</button>
+					</div>
+
+					<div class="pTable-top-heading mt-5 mb-3">
+						<h3 class="pTable-top-headingText text-center">For the best experience on PinDo, your username, activity
+							summary, and submitted reviews will automatically be public. Your full address will only be seen by your
+							Contacts and your Community will see your town & state.</h3>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

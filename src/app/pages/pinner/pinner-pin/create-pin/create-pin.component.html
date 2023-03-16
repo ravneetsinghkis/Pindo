@@ -1,0 +1,671 @@
+<div class="scrollElement">
+
+  <div class="overlayFullPopup opened">
+    <div class="fullPopupHeader px-3">
+      <button mat-icon-button class="btn-back float-left" (click)="backClicked()"><span
+          class="or or-return"></span></button>
+      <div class="container">
+        <div class="createPin-page-header">
+          <h3 class="heading-text mb-0 text-uppercase">{{pinCreationOrUpdate}}</h3>
+
+          <div class="step-header d-flex align-items-center mx-auto justify-content-lg-center justify-content-md-end">
+            <div class="step-header-block" [ngClass]="headerState==1?'active':''">
+              <div class="blockText-block">
+                <div class="dot"></div>
+                <div class="blockText">
+                  1. Select Category
+                </div>
+              </div>
+            </div>
+
+            <div class="step-header-block" [ngClass]="headerState==2?'active':''">
+              <div class="blockText-block">
+                <div class="dot"></div>
+                <div class="blockText">
+                  2. Pin Details
+                </div>
+              </div>
+            </div>
+
+            <div class="step-header-block" [ngClass]="headerState==3?'active':''">
+              <div class="blockText-block">
+                <div class="dot"></div>
+                <div class="blockText">
+                  3. Get Quotes
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!--end step-header-->
+        </div>
+      </div>
+      <!--end container-->
+    </div>
+    <hr class="m-0">
+    <div class="fullPopupContent createPinContent">
+
+      <form *ngIf="openBasicPart" [formGroup]="createPinStep1Form">
+        <div class="createPin-step-wrap">
+          <div class="createPin-step-content">
+            <div class="container">
+
+              <div class="step1-heading-block text-center  mb-2 mb-md-4">
+                <h3 class="headingText">Post Your Pin For Doers To Bid On</h3>
+                <p>Follow the steps below to post your Pin. Once posted you will start receiving Doer bids note: Doers
+                  may
+                  ask questions to clarify your job before providing a bid.</p>
+              </div>
+
+              <div class="categorySelect-wrap d-md-flex flex-wrap align-items-center justify-content-center pt-0 pb-md-4 pb-2">
+                <div class="categorySelect-block mx-xl-4 mx-lg-3 mx-md-3 mx-0 mb-md-2 mb-lg-0 greenColor" *ngFor="let category of parentCategoriesList">
+
+                  <div class="categorySelect-box">
+                    <input name="category_id" formControlName="category_id" type="radio" value="{{category.id}}"
+                      (change)="getSubCatList(category.id)">
+                    <label for="cat_1">
+                      <div class="circleBox d-flex align-items-center justify-content-center">
+                        <span [ngClass]="{'ic-home-2': category.id === 2 , 
+                      'ic-covid-2':category.id === 3, 
+                      'ic-entertainment-2':category.id === 19,
+                      'ic-personal-care':category.id === 16 , 
+                      'ic-book':category.id === 17 , 
+                      'ic-professional-services-2':category.id === 18 , 
+                      'ic-petcare':category.id === 20}"></span>
+                      </div>
+                      <span class="infoText">{{category.name}}</span>
+                    </label>
+                  </div>
+                </div>
+                <!--end categorySelect-block-->
+              </div>
+              <hr class="m-0">
+
+              <div class="subCategory-wrap pt-3 pb-3 pt-md-4 pb-md-4">
+
+                <div class="subCategory-content" >
+
+                  <div class="custom_radioGreen" *ngFor="let subCategory of subCategoriesList">
+                    <input name="sub_category" formControlName="sub_category" type="radio" value="{{subCategory.id}}"
+                      id="{{subCategory.id}}" (change)="handleSubCategoryValue(subCategory.id)">
+                    <label for="{{subCategory.id}}">{{subCategory.name}}</label>
+                  </div>
+                </div>
+
+              </div>
+              <!--end subCategory-wrap-->
+
+              <div class="matComnForm mb-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Name Your Pin <sup>*</sup></mat-label>
+                  <input matInput formControlName="pin_name" name="pin_name" type="text" class="form-control"
+                    placeholder="Pin name" #pin_name="matInput">
+                  <mat-error *ngIf="primaryDetailsController?.pin_name?.errors?.required">
+                    Required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+          </div>
+          <div class="createPin-step-footer d-flex align-items-start">
+            <div class="container text-right">
+
+              <div class="btn-holder">
+                <button mat-flat-button type="button" class="btn btn-gray-border smFont-lg-size text-uppercase mr-2"
+                  (click)="backClicked()">CANCEL</button>
+                <button mat-flat-button type="submit" class="btn btn-greenColor smFont-lg-size text-uppercase"
+                  (click)="createPinStep1_OnSubmit()">NEXT</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!--end createPin-step-wrap createPin-step-1-->
+      </form>
+
+      <div class="createPin-step-wrap createPin-step-2" *ngIf="!openBasicPart">
+        <div class="createPin-step-content">
+          <div class="container">
+
+            <div class="step-top-header pb-4">
+
+              <div class="pin-title d-flex align-items-center mb-2">
+                <h3 class="pin-title-text mr-2 mb-0">{{pinDetails.pin_name}}</h3>
+                <span class="typeText mr-2" *ngIf="buttonName=='POST'">(draft)</span>
+                <span class="action-btn ic-edit-pencil" (click)="updatePinFristStep()"></span>
+              </div>
+
+              <div class="pin-breadcrumbs d-flex align-items-center">
+                <div class="breadcrumbs-content mr-2 d-flex align-items-center">
+                  <div class="cat-icon color-themeGreen mr-2">
+                    <span (click)="updatePinFristStep()" [ngClass]="{'ic-home-2': pinDetails.parentCategoryId == 2 , 
+                      'ic-covid-2':pinDetails.parentCategoryId == 3, 
+                      'ic-entertainment-2':pinDetails.parentCategoryId == 19,
+                      'ic-personal-care':pinDetails.parentCategoryId == 16 , 
+                      'ic-book':pinDetails.parentCategoryId == 17 , 
+                      'ic-professional-services-2':pinDetails.parentCategoryId == 18 , 
+                      'ic-petcare':pinDetails.parentCategoryId == 20}">
+                    </span>
+
+                  </div>
+                  <span class="ic-angle-right mr-2"></span>
+
+                  <div class="tag-holder d-flex align-items-center ng-star-inserted">
+                    <div class="tag-item"> {{pinDetails?.parentCategoryName}} <i class="material-icons">
+                        keyboard_arrow_right </i> {{pinDetails?.subCategoryName}}</div>
+                  </div>
+
+                </div>
+
+                <span class="action-btn ic-edit-pencil" (click)="updatePinFristStep()"></span>
+              </div>
+            </div>
+
+            <hr class="m-0">
+
+            <div class="row">
+              <div class="col-lg-3 mt-4">
+
+                <div class="sideCard-shadow mb-3">
+
+                  <div class="sideCard-main-header px-3">
+                    <div class="main-header-inr withIcon-heading pt-3 pb-3 d-flex align-items-center">
+                      <h4 class="heading-text mb-0 text-uppercase">PROGRESS</h4>
+                    </div>
+                    <hr class="mb-0 mt-0">
+                  </div>
+
+                  <div class="sideCard-body px-3">
+                    <ul class="settings-status-list pb-3">
+                      <li class="mt-3" [ngClass]="basicDetailsComplete?'completed':''">
+                        <span class="statusIcon"></span>
+                        <span class="stepText">Basic details</span>
+                      </li>
+
+                      <li class="mt-3" [ngClass]="locationDetailsComplete?'completed':''">
+                        <span class="statusIcon"></span>
+                        <span class="stepText">Location details</span>
+                      </li>
+
+                      <li class="mt-3" [ngClass]="scheduleDetailsComplete?'completed':''">
+                        <span class="statusIcon"></span>
+                        <span class="stepText">Scheduling</span>
+                      </li>
+
+                      <li class="mt-3" [ngClass]="additionalDetailsComplete?'completed':''">
+                        <span class="statusIcon"></span>
+                        <span class="stepText">Additional information</span>
+                      </li>
+                    </ul>
+
+                  </div>
+
+                </div>
+                <!--end sideCard-shadow-->
+
+              </div>
+              <!--end col-md-3-->
+
+              <div class="col-lg-9 mt-0 mt-lg-4">
+
+
+                <div class="createPin-accordion-wrap mb-4">
+
+                  <div class="createPin-accordion greenColor-accordion">
+
+                    <div class="createPin-panel">
+                      <div class="createPin-panel-header" [ngClass]="{'createPin-expanded': step1PanelExpanded}"
+                        (click)="expandPanel($event, 1)">
+                        <div class="header-content d-flex align-items-center" style="height:50px;">
+                          <div class="panel-header-title">
+                            BASIC DETAILS
+                          </div>
+                        </div>
+                      </div>
+                      <!--end createPin-panel-header-->
+
+                      <!-- <div class="createPin-panel-body" [ngClass]="{'createPin-body-expanded': step1PanelExpanded}"
+                        *ngIf="step1PanelExpanded"> -->
+                        <div class="createPin-panel-body" [ngClass]="{'createPin-body-expanded': step1PanelExpanded}"
+                        [hidden]="!step1PanelExpanded">
+
+                        <div class="body-content pt-3">
+
+                          <form [formGroup]="createPinStep2Form" #step2EditForm="ngForm">
+
+                            <div class="matComnForm">
+                              <div class="block-wrap">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Description</mat-label>
+                                  <textarea matInput formControlName="descriptiopn" name="descriptiopn" type="text"
+                                    class="form-control">
+                                  </textarea>
+                                  <mat-error *ngIf="basicDetailsController?.descriptiopn?.errors?.required">
+                                    Required
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+
+                              <div class="block-wrap">
+                                <div class="block-heading mb-2">
+                                  <h3 class="headingText-type2">Urgent?</h3>
+                                </div>
+
+                                <div class="d-flex">
+                                  <div class="custom_radiogreen mr-3">
+                                    <mat-radio-group class="green-color" name="is_urgent" formControlName="is_urgent">
+                                      <mat-radio-button value="0" class="mr-4">Yes</mat-radio-button>
+                                      <mat-radio-button value="1">No</mat-radio-button>
+                                    </mat-radio-group>
+
+                                  </div>
+                                </div>
+
+                              </div>
+
+                            </div>
+                            <!--end matComnForm-->
+
+                          </form>
+
+                        </div>
+
+
+                        <div class="action-row">
+                          <!-- <button mat-flat-button class="btn-action text-uppercase mr-3" (click)="previousStep()"><span
+                              class="ic-angle-left"></span> Back</button> -->
+                          <button mat-flat-button class="btn-action text-uppercase" (click)="nextStep('location')">Next
+                            <span class="ic-angle-right"></span></button>
+                        </div>
+
+                      </div>
+                      <!--end createPin-panel-body-->
+
+
+
+                    </div>
+                    <!--end createPin-panel-->
+
+
+                    <div class="createPin-panel">
+                      <div class="createPin-panel-header" [ngClass]="{'createPin-expanded': step2PanelExpanded}"
+                        (click)="expandPanel($event, 2)">
+                        <div class="header-content d-flex align-items-center" style="height:50px;">
+                          <div class="panel-header-title">
+                            LOCATION DETAILS
+                          </div>
+                        </div>
+                      </div>
+                      <!--end createPin-panel-header-->
+
+                      <div class="createPin-panel-body" [ngClass]="{'createPin-body-expanded': step2PanelExpanded}"
+                      [hidden]="!step2PanelExpanded">
+                        <div class="body-content pt-3">
+
+                          <div class="matComnForm">
+
+                            <div class="block-wrap mb-2">
+
+                              <div class="d-flex flex-column">
+                                <mat-radio-group class="green-color" [value]="pinDetails.address"
+                                  (change)="handleAddressSelectionChange($event)">
+                                  <mat-radio-button *ngFor="let eachLoc of pinnerLocationsList" [(value)]="eachLoc.id"
+                                    class="d-block mb-2" id="{{eachLoc.id}}">
+                                    {{eachLoc.address}}, {{eachLoc.city}},
+                                    {{eachLoc.state}}&nbsp;{{eachLoc.zipcode}}
+                                    <cite
+                                      class="prm_address sm-tag green-tag text-uppercase ml-2 flex-shrink-0 align-self-center"
+                                      *ngIf="eachLoc?.is_primary==1">Primary</cite>
+
+                                  </mat-radio-button>
+                                  <mat-radio-button [value]="'dl'" class="d-block mb-2">Doer's Location
+                                  </mat-radio-button>
+                                  <mat-radio-button value="0" class="d-block mb-2">New Address</mat-radio-button>
+                                </mat-radio-group>
+
+                              </div>
+
+                            </div>
+
+                            <form *ngIf="showNewLocation" [formGroup]="createNewAddressForm"
+                              #newAddressEditForm="ngForm">
+                              <div class="block-wrap">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Address Line<sup>*</sup></mat-label>
+                                  <input matInput name="addressLine" formControlName="addressLine" type="text" ngx-google-places-autocomplete [options]='mapOptions' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)">
+                                  <mat-error
+                                    *ngIf="formNewAddressRef?.addressLine?.errors?.required && newLocationSubmitted">
+                                    Required
+                                  </mat-error>
+
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Address 2</mat-label>
+                                  <input matInput name="addressLine2" formControlName="addressLine2" type="text">
+                                </mat-form-field>
+
+                                <div class="form-row">
+                                  <div class="col-md-6">
+                                    <mat-form-field appearance="outline">
+                                      <mat-label>City<sup>*</sup></mat-label>
+                                      <input matInput name="city" formControlName="city" type="text">
+                                      <mat-error
+                                        *ngIf="formNewAddressRef?.city?.errors?.required && newLocationSubmitted">
+                                        Required
+                                      </mat-error>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <mat-form-field appearance="outline">
+                                      <mat-label>State<sup>*</sup></mat-label>
+                                      <mat-select placeholder="State" name="state" formControlName="state">
+                                        <mat-option value="" disabled selected>Choose State</mat-option>
+                                        <mat-option [value]="eachState.state_code" *ngFor="let eachState of stateList">
+                                          {{eachState.state}}({{eachState.state_code}})
+                                        </mat-option>
+                                      </mat-select>
+                                      <mat-error
+                                        *ngIf="formNewAddressRef?.state?.errors?.required && newLocationSubmitted">
+                                        Required
+                                      </mat-error>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <mat-form-field appearance="outline">
+                                      <mat-label>Zip<sup>*</sup></mat-label>
+                                      <input matInput name="zipcode" formControlName="zipcode" type="text">
+                                      <mat-error
+                                        *ngIf="formNewAddressRef?.zipcode?.errors?.required && newLocationSubmitted">
+                                        Required
+                                      </mat-error>
+                                    </mat-form-field>
+                                  </div>
+
+                                </div>
+
+                              </div>
+                            </form>
+
+                          </div>
+
+                        </div>
+                        <!--end body-content-->
+
+                        <div class="action-row">
+                          <button mat-flat-button class="btn-action text-uppercase mr-3"
+                            (click)="previousStep('basic')"><span class="ic-angle-left"></span> Back</button>
+                          <button mat-flat-button class="btn-action text-uppercase"
+                            (click)="nextStep('scheduling')">Next <span class="ic-angle-right"></span></button>
+                        </div>
+
+                      </div>
+                      <!--end createPin-panel-body-->
+                    </div>
+                    <!--end createPin-panel-->
+
+
+
+                    <div class="createPin-panel">
+                      <div class="createPin-panel-header" [ngClass]="{'createPin-expanded': step3PanelExpanded}"
+                        (click)="expandPanel($event, 3)">
+                        <div class="header-content d-flex align-items-center" style="height:50px;">
+                          <div class="panel-header-title">
+                            Scheduling
+                          </div>
+                        </div>
+                      </div>
+                      <!--end createPin-panel-header-->
+
+                      <div class="createPin-panel-body" [ngClass]="{'createPin-body-expanded': step3PanelExpanded}"
+                      [hidden]="!step3PanelExpanded">
+                        <form [formGroup]="createPinStep4Form" #step4EditForm="ngForm">
+
+                          <div class="body-content pt-3">
+
+                            <div class="matComnForm">
+
+                              <div class="block-wrap mb-2">
+
+                                <div class="block-heading mb-2">
+                                  <h3 class="headingText-type2">Time of day</h3>
+                                </div>
+
+                                <div class="d-flex flex-column">
+
+                                  <mat-radio-group class="green-color d-flex flex-column" name="time_of_day"
+                                    formControlName="time_of_day">
+                                    <mat-radio-button value="3" class="mr-0 mb-0">Anytime</mat-radio-button>
+                                    <mat-radio-button value="0" class="mr-0 mb-0">Morning (08.00 am - 12:00 pm)
+                                    </mat-radio-button>
+                                    <mat-radio-button value="1" class="mr-0 mb-0">Afternoon (12:00 pm - 05:00 pm)
+                                    </mat-radio-button>
+                                    <mat-radio-button value="2" class="mr-0 mb-0">Evening (05:00 pm - 09:00 pm)
+                                    </mat-radio-button>
+                                  </mat-radio-group>
+                                </div>
+
+                              </div>
+                              <!--end block-wrap-->
+
+                              <div class="block-wrap mb-2">
+
+                                <div class="block-heading mb-2">
+                                  <h3 class="headingText-type2">Day of week</h3>
+                                </div>
+
+                                <div class="d-flex flex-wrap">
+
+                                  <mat-radio-group class="green-color" name="day_of_week" formControlName="day_of_week"
+                                    (change)="handleDayOfWeekChange()">
+                                    <mat-radio-button value="0" class="my-1 mr-3">Any day
+                                    </mat-radio-button>
+                                    <mat-radio-button value="1" class="my-1 mr-3">Weekday
+                                    </mat-radio-button>
+                                    <mat-radio-button value="2" class="my-1 mr-3">Weekend
+                                    </mat-radio-button>
+                                    <mat-radio-button value="3" class="my-1 mr-3">Specific day
+                                    </mat-radio-button>
+                                  </mat-radio-group>
+                                </div>
+                                <!--end block-wrap-->
+                              </div>
+
+                              <div class="block-wrap" formArrayName="indv_days" *ngIf="indvdaysSelected">
+                                <div class="block-heading mb-2">
+                                  <h3 class="headingText-type2">Select the most convenient days</h3>
+                                </div>
+
+                                <div class="d-flex flex-wrap">
+                                  <ng-container
+                                    *ngFor="let eachIndvDay of frequencyRefControler['indv_days']['controls'];let i = index;">
+                                    <div class="custom-chips-checkbox my-1 mr-3">
+                                      <input type="checkbox" [id]="i" [formControlName]="i" [value]="indvDays[i].val">
+                                      <label class="chips-box" [for]="i">{{ indvDays[i].name }}</label>
+                                    </div>
+                                  </ng-container>
+                                </div>
+
+                                <label class="formLabel-error"
+                                  *ngIf="frequencyRefControler?.indv_days?.errors?.multipleCheckboxRequireOne && frequencySubmitted">
+                                  Please Select At least One</label>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </form>
+                        <!--end body-content-->
+
+                        <div class="action-row">
+                          <button mat-flat-button class="btn-action text-uppercase mr-3"
+                            (click)="previousStep('location')"><span class="ic-angle-left"></span> Back</button>
+                          <button mat-flat-button class="btn-action text-uppercase"
+                            (click)="nextStep('additional')">Next <span class="ic-angle-right"></span></button>
+                        </div>
+
+                      </div>
+                      <!--end createPin-panel-body-->
+
+
+
+                    </div>
+                    <!--end createPin-panel-->
+
+
+                    <div class="createPin-panel">
+                      <div class="createPin-panel-header" [ngClass]="{'createPin-expanded': step4PanelExpanded}"
+                        (click)="expandPanel($event, 4)">
+                        <div class="header-content d-flex align-items-center" style="height:50px;">
+                          <div class="panel-header-title">
+                            ADDITIONAL INFORMATION
+                          </div>
+                        </div>
+                      </div>
+                      <!--end createPin-panel-header-->
+
+                      <div class="createPin-panel-body" [ngClass]="{'createPin-body-expanded': step4PanelExpanded}"
+                      [hidden]="!step4PanelExpanded">
+
+                        <div class="body-content pt-3">
+
+
+                          <div class="matComnForm">
+
+                            <mat-card-content class="addntl_field">
+                              <ng-container class="dynamic-form row" *ngFor="let field of dynamicFormDetailsConfig;"
+                                dynamicField [field]="field" [group]="dynamicForm">
+                              </ng-container>
+                            </mat-card-content>
+
+
+                            <!-- DOCUMENT AND IMAGE SECTION -->
+                            <div class="block-wrap">
+
+
+                              <div class="upload-attachment-link mb-3">
+                                <input type="file" #Image accept="image/*,application/pdf" (change)="uploadAttachment($event)">
+                                <div class="linkText color-themeGreen"><span class="ic-attachment mr-2"></span> <span
+                                    class="nameText">Upload attachment</span></div>
+                              </div>
+
+
+                              <div class="d-flex align-items-center flex-wrap mb-3">
+                                <ng-container *ngFor="let eachAttach of attachment;let i=index">
+                                  <div class="uploaded-file-block d-flex align-items-center mr-3"
+                                    *ngIf="eachAttach.file_type=='docx' || eachAttach.file_type=='pdf'">
+                                    <a href="{{attachedUploadUrl}}{{eachAttach?.name}}" target="_blank">
+                                      <span class="ic-file color-themeGreen mr-2"></span>
+                                      <span class="fileName mr-2">{{eachAttach?.original_name}}</span>
+                                    </a>
+                                    <span class="ic-close color-themeGreen" (click)="removeAttachment(i)"></span>
+
+                                  </div>
+                                </ng-container>
+                              </div>
+
+                              <div class="d-flex align-items-center flex-wrap">
+
+                                <ng-container *ngFor="let eachAttach of attachment;let i=index">
+
+                                  <div class="uploaded-image-block mr-2 mb-2 mr-lg-3 mb-lg-3"
+                                    *ngIf="eachAttach.file_type!='docx' && eachAttach.file_type!='pdf'">
+                                    <span class="ic-close color-themeGreen" (click)="removeAttachment(i)"></span>
+                                    <a href="{{attachedUploadUrl}}{{eachAttach?.name}}" target="_blank">
+                                      <img src="{{attachedUploadUrl}}{{eachAttach?.name}}">
+                                    </a>
+                                  </div>
+                                </ng-container>
+                              </div>
+
+
+                              <div class="slide-toggle-holder d-flex align-items-center">
+                                <div class="mr-2 titleText">Make this Pin Public</div>
+                                <mat-slide-toggle class="custom-slide-toggle" [(ngModel)]="makePublic">
+                                </mat-slide-toggle>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="action-row">
+                          <button mat-flat-button class="btn-action text-uppercase mr-3"
+                            (click)="previousStep('scheduling')"><span class="ic-angle-left"></span> Back</button>
+                           
+                            <button mat-flat-button class="btn-action text-uppercase"
+                            (click)="nextStep('additionalClose')">Next <span class="ic-angle-right"></span></button>
+                        </div>
+
+                      </div>
+                      <!--end createPin-panel-body-->
+
+                    </div>
+                    <!--end createPin-panel-->
+
+                  </div>
+                  <!--end createPin-accordion-->
+                </div>
+                <!--end createPin-accordion-wrap-->
+
+              </div>
+              <!--end col-md-9-->
+
+            </div>
+            <!--end row-->
+
+          </div>
+        </div>
+        <div class="createPin-step-footer d-flex align-items-start">
+          <div class="container text-right">
+
+            <div class="d-md-flex justify-content-end align-items-center">
+
+              <!-- <div class="slide-toggle-holder d-flex align-items-center">
+                <div class="mr-2 titleText">Make this Pin Public</div>
+                <mat-slide-toggle class="custom-slide-toggle" [(ngModel)]="makePublic">
+                </mat-slide-toggle>
+              </div> -->
+
+              <div class="btn-holder">
+
+                <button mat-flat-button class=" btn-gray-border smFont-lg-size text-uppercase mr-2"
+                  (click)="submitPinDetails('draftMode')" *ngIf="pinDetails.complete_status!=1">SAVE AS
+                  DRAFT</button>
+
+                <ng-container
+                  *ngIf="(!basicDetailsComplete || !locationDetailsComplete || !scheduleDetailsComplete || !additionalDetailsComplete)">
+                  <button mat-flat-button class=" btn-greenColor smFont-lg-size text-uppercase mr-2"
+                    [disabled]="(!basicDetailsComplete || !locationDetailsComplete || !scheduleDetailsComplete || !additionalDetailsComplete)">{{buttonName}}</button>
+
+                  <button mat-flat-button class=" btn-greenColor smFont-lg-size text-uppercase"
+                    [disabled]="(!basicDetailsComplete || !locationDetailsComplete || !scheduleDetailsComplete || !additionalDetailsComplete)">{{buttonName}}
+                    & INVITE
+                    DOERS</button>
+                </ng-container>
+
+                <ng-container
+                  *ngIf="(basicDetailsComplete && locationDetailsComplete  && scheduleDetailsComplete &&additionalDetailsComplete)">
+                  <button mat-flat-button class=" btn-greenColor smFont-lg-size text-uppercase mr-2 "
+                    (click)="submitPinDetails('post')">{{buttonName}}</button>
+
+                  <button mat-flat-button class=" btn-greenColor smFont-lg-size text-uppercase"
+                    (click)="submitPinDetails('invite')">{{buttonName}}
+                    & INVITE
+                    DOERS</button>
+                </ng-container>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!--end createPin-step-wrap createPin-step-2-->
+
+    </div>
+    <!--end fullPopupContent-->
+  </div>
+</div>

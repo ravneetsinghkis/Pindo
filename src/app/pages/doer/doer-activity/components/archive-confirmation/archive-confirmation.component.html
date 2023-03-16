@@ -1,0 +1,12 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+
+    <h3 class="mt-3 mb-5">Do you want to archive this invitee?</h3>
+
+    <div class="btn-holder d-flex">          
+      <button mat-button type="button" mat-dialog-close class="col btn btn-gray-border text-uppercase mr-2">Cancel</button>
+      <button mat-flat-button class="btn-orangeColor col text-uppercase" cdkFocusInitial (click)="archiveInvitation(data.id)">Archive</button>
+    </div>
+
+  </div> 
+</div>

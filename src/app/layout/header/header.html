@@ -1,0 +1,989 @@
+<create-blog #createBlogInfo></create-blog>
+<div class="page-overlay burgerMenu-overlay" (click)="overlayClick('burgerMenu-overlay')" title="{{ detectHomePage }}">
+</div>
+
+<ng-container [ngSwitch]="detectHomePage">
+
+  <div class="burgerMenu">
+    <div class="header-social-top">
+      <div class="social-icon-holder  d-flex align-self-center justify-content-around">
+        <a href="https://l.facebook.com/l.php?u=https%3A%2F%2Ffb.me%2Fpindoit&h=AT3ClLLjLdpGMrJ3CqFgTwhUpDpZOIqlTMmsSxiAMNs-3z-0OEQW9ANQU4nlRew9qs_06bRKNmopG3Vhy75bBhUFKBdvSgrNtZtX-7bD_Xp-qx68CpZF5L1u6ujeWu07ML98xsTnaKbL18WiCP9KhA"
+          target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com/pindo_official" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.youtube.com/channel/UCXRUO9sOlSJJnJlJ1BAl4Fg" target="_blank"><i
+            class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/PinDo.Inc_/" target="_blank"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+
+
+    <div class="logo-holder d-flex align-self-center">
+
+      <button class="close_btn" (click)="burgerMenuToggle();">
+        <img src="assets/images/close.svg" alt="">
+      </button>
+      <a class="navbar-logo d-flex align-self-center" routerLink="/" title="">
+        <img src="./assets/images/pinner_beta_logo.svg" alt="logo" *ngIf="commonService.islogin==0">
+        <img src="./assets/images/pinner_beta_logo.svg" alt="logo"
+          *ngIf="(commonService.islogin==1 && appService.user_type==1)">
+        <img src="./assets/images/doer_beta_logo.svg" alt="logo"
+          *ngIf="commonService.islogin==1 && appService.user_type==2">
+        <img src="./assets/images/pin-it-do-it-done.svg" class="ml-2 subtext" alt="logo">
+      </a>
+
+    </div>
+
+    <ul class="burgerMenu-list">
+      <!-- <li>
+        <a routerLink="/covid19help"
+          routerLinkActive="active">
+          COVID-19 Help
+        </a>
+      </li> -->
+      <ng-container *ngIf="commonService.islogin==1">
+        <li>
+          <a [routerLink]="appService.user_type==2?'/doer/community-home':'/community/community-home'"
+            routerLinkActive="active">
+            Home
+          </a>
+        </li>
+        <!-- <li *ngIf="appService.user_type==1">
+          <a routerLink="pinner/create-new-pin" routerLinkActive="active">
+            Pin a job
+          </a>
+        </li> -->
+        <li>
+          <a [routerLink]="appService.user_type==2?'/doer/dashboard':'/pinner/dashboard'" routerLinkActive="active">
+            My Activity
+          </a>
+        </li>
+
+        <!-- <li>
+          <a [routerLink]="appService.user_type==2?'/doer/my-pins':'/pinner/my-pins'" routerLinkActive="active">
+            My Pins
+          </a>
+        </li> -->
+
+        <li *ngIf="appService.user_type==1">
+          <a routerLink="community/community-contacts" routerLinkActive="active">
+            My Contacts
+          </a>
+        </li>
+        <li *ngIf="appService.user_type==1">
+          <a routerLink="/public-pins" routerLinkActive="active">
+            Public Pins
+          </a>
+        </li>
+        <li *ngIf="appService.user_type==2">
+          <a routerLink="doer/community-contacts" routerLinkActive="active">
+            My Contacts
+          </a>
+        </li>
+        <li *ngIf="appService.user_type==2">
+          <a routerLink="/public-pins" routerLinkActive="active">
+            Find a Pin
+          </a>
+        </li>
+        <li *ngIf="appService.user_type==1">
+          <a routerLink="/services" routerLinkActive="active">
+            Find A Doer
+          </a>
+        </li>
+
+
+
+        <li>
+          <a routerLink="/blog-list" routerLinkActive="active">
+            Blog
+          </a>
+        </li>
+
+      </ng-container>
+
+      <ng-container *ngIf="commonService.islogin==0">
+        <li>
+          <a routerLink="/public-pins" routerLinkActive="active">
+            Find a Pin
+          </a>
+        </li>
+        <li>
+          <a routerLink="/services" routerLinkActive="active">
+            Find A Doer
+          </a>
+        </li>
+        <!-- <li>
+          <a routerLink="/how-it-works" routerLinkActive="active">How it Works</a>
+        </li> -->
+        <li>
+          <a routerLink="/blog-list" routerLinkActive="active">Blog</a>
+        </li>
+
+        <!-- <li>
+          <a routerLink="/benefits" routerLinkActive="active">Benefits</a>
+        </li> -->
+        <li>
+          <a routerLink="/faq" routerLinkActive="active">FAQs</a>
+        </li>
+      </ng-container>
+
+      <li>
+        <a routerLink="/crew-membership" routerLinkActive="active">PinDo Crew Membership</a>
+      </li>
+
+      <li>
+        <a routerLink="/support" routerLinkActive="active">Support</a>
+      </li>
+
+      <li>
+        <a routerLink="/terms-privacy" routerLinkActive="active">Privacy/Terms</a>
+      </li>
+    </ul>
+
+    <div class="burger-bottom" *ngIf="commonService.islogin==0">
+      <div class="btn-holder">
+        <button mat-flat-button class="btn-greenColor text-uppercase btn-block mb-1" routerLink="/login">Login</button>
+        <!-- <button mat-flat-button class="btn-blueColor text-uppercase btn-block mt-0"
+          routerLink="/register">Register</button> -->
+        <button mat-flat-button class="btn-blueColor text-uppercase btn-block mt-0"
+          (click)="onClickRegister()">Register</button>
+
+      </div>
+    </div>
+
+  </div>
+  <!--end burgerMenu-->
+
+  <div class="forMobile-header">
+
+    <div class="top_headerbar text-center">
+      <p *ngIf="commonService.addressHeader">
+
+        <span class="ic-pointer mr-2"
+          [ngClass]="(commonService.islogin==1 && appService.user_type==2)?'color-themeOrange':'color-themeGreen'">
+        </span>
+        <span class="mr-2">{{commonService.addressHeader['formatted_address']}}</span>
+        <a (click)="openDialog('changeAddress')"
+          [ngClass]="(commonService.islogin==1 && appService.user_type==2)?'color-themeOrange':'color-themeGreen'">(change)</a>
+      </p>
+      <p *ngIf="!commonService.addressHeader"><a (click)="openDialog('changeAddress')">Add Your Address</a></p>
+
+    </div>
+
+    <div class="covidTopbanner text-center">
+      <!-- routerLink="/covid19help" -->
+      <!-- <p class="m-0">See our <u>COVID-19 HELP</u> page for details</p> -->
+      <!-- <p class="m-0">click here to learn about our <strong>COVID-19 HELP</strong> program</p> -->
+        <div class="marquee" data-duration='6000'>
+           <a routerLink="/covid19help" class="mr-3">COVID-19 HELP Program - click here to learn more.</a>
+           <a routerLink="/crew-membership">PinDo Crew Membership -  click here to learn more.</a>
+        </div>
+
+        <!-- <div class="marquee-parent">
+          <div class="marquee-child marquee-child1">
+            <p class="mr-5 d-inline-block ">
+              COVID-19 HELP Program - <a routerLink="/covid19help">click here to learn more.</a>
+            </p>
+            <p class="mr-5 d-inline-block ">
+              PinDo Crew Membership - <a routerLink="/crew-membership"> click
+                here to learn more.</a>
+            </p>
+
+            <p class="mr-5 d-inline-block ">
+              COVID-19 HELP Program - <a routerLink="/covid19help">click here to learn more.</a>
+            </p>
+
+          </div>
+
+        </div> -->
+
+    </div>
+
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+
+      <div class="brand-holder d-flex align-self-center">
+        <button class="morphedmenubtn" id="open-button" (click)="burgerMenuToggle();">
+          <svg viewBox="0 0 800 600">
+            <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top">
+            </path>
+            <path d="M300,320 L540,320" id="middle"></path>
+            <path d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" id="bottom"
+              transform="translate(480, 320) scale(1, -1) translate(-480, -318) "></path>
+          </svg>
+        </button>
+        <a class="navbar-brand align-self-center" routerLink="/" title="">
+          <img src="./assets/images/pinner_beta_logo.svg" alt="logo" *ngIf="commonService.islogin==0">
+          <img src="./assets/images/pinner_beta_logo.svg" alt="logo"
+            *ngIf="(commonService.islogin==1 && appService.user_type==1)">
+          <img src="./assets/images/doer_beta_logo.svg" alt="logo"
+            *ngIf="commonService.islogin==1 && appService.user_type==2">
+          <img src="./assets/images/pin-it-do-it-done.svg" class="ml-2 subtext" alt="logo">
+        </a>
+      </div>
+
+
+      <div class="mobile-rihgt-holder align-self-center ml-auto">
+        <ul class="main-nav rightmainnav" *ngIf="commonService.islogin==1">
+
+          <li>
+            <div class="total_btnheader posn_rel" *ngIf="appService.user_type==1" routerLink="/pinner/create-new-pin">
+              <button mat-button matBadge="15">
+                <img src="assets/images/icons/header-green-pin-icon.svg" width="28">
+              </button>
+            </div>
+            <!-- <div class="total_btnheader posn_rel" *ngIf="appService.user_type==1" routerLink="/pinner/create-pin">
+              <button mat-button matBadge="15">
+                <img src="assets/images/icons/header-green-pin-icon.svg" width="28">
+              </button>
+            </div> -->
+          </li>
+          <li>
+            <div class="total_btnheader rel_notify color-themeOrange" *ngIf="appService.user_type==2"
+              routerLink="/doer/chat">
+              <button mat-button><i class="fas fa-envelope"></i><span class="new_notification"
+                  *ngIf="doerMsgCount!=0">{{doerMsgCount}}</span></button>
+            </div>
+          </li>
+          <li>
+            <div class="total_btnheader rel_notify color-themeGreen" *ngIf="appService.user_type==1"
+              routerLink="/pinner/chat">
+              <button mat-button><i class="fas fa-envelope"></i><span class="new_notification"
+                  *ngIf="pinnerMsgCount!=0">{{pinnerMsgCount}}</span></button>
+            </div>
+          </li>
+          <li>
+            <div class="total_btnheader rel_notify"
+              [ngClass]="appService.user_type==2?'color-themeOrange':'color-themeGreen'">
+              <button mat-button [matMenuTriggerFor]="menuNotify" (click)="showNoti()"><i
+                  class="material-icons">notifications</i><span class="new_notification"
+                  *ngIf="notifyShow==true">.</span></button>
+              <mat-menu #menuNotify="matMenu" [overlapTrigger]="false" class="notify_header" xPosition="before">
+                <div class="notification_section">
+                  <div class="notify_header clearfix">
+                    Notifications
+                    <a [routerLink]="appService.user_type==2?'/doer/notifications':'/pinner/notifications'"
+                      (click)="updateNotiSeen()">view
+                      all</a>
+                    <span class="new_notification">{{notiCount}}</span>
+                  </div>
+                  <div class="notification_body" *ngFor="let eachNotiData of notiData;let i=index;">
+                    <div class="single_notification" (click)="showNotification(eachNotiData.id,eachNotiData.link)"
+                      style="cursor: pointer;">
+                      {{eachNotiData?.title}}
+                    </div>
+
+                  </div>
+                </div>
+              </mat-menu>
+            </div>
+          </li>
+          <li class="formobDisplay">
+            <div class="total_btnheader">
+              <button mat-button [matMenuTriggerFor]="menuProfile" class="pr-0">
+                <span class="img-profile" *ngIf="appService.user_type==1">
+                  <img src="{{baseUrl}}/profile_photo/{{userInfo?.profile_photo}}"
+                    onError="this.src='assets/images/default-userImg-green.svg';" alt="">
+                </span>
+                <span class="img-profile" *ngIf="appService.user_type==2">
+                  <ng-container *ngIf="userInfo?.company_logo!=''"><img
+                      src="{{baseUrl}}/company_logo/{{userInfo?.company_logo}}"
+                      onError="this.src='assets/images/default-userImg-orange.svg';" alt=""></ng-container>
+                  <ng-container *ngIf="userInfo?.company_logo==''"><img
+                      src="{{baseUrl}}/profile_photo/{{userInfo?.profile_photo}}"
+                      onError="this.src='assets/images/default-userImg-orange.svg';" alt=""></ng-container>
+                </span>
+              </button>
+              <mat-menu #menuProfile="matMenu" [overlapTrigger]="false" class="headerDrop">
+                <div class="total_headerUserInfo" [ngClass]="{'doer-headerDrop-content':appService.user_type==2,
+                'pinner-headerDrop-content':appService.user_type==1}">
+                  <!-- <div class="prof_header">
+                    <span class="img-profile" *ngIf="appService.user_type==1">
+                      <img src="{{baseUrl}}/profile_photo/{{userInfo?.profile_photo}}"
+                        onError="this.src='assets/images/default-userImg-green.svg';" alt="">
+                    </span>
+                    <span class="img-profile" *ngIf="appService.user_type==2">
+                      <ng-container *ngIf="userInfo?.company_logo!=''"><img
+                          src="{{baseUrl}}/company_logo/{{userInfo?.company_logo}}"
+                          onError="this.src='assets/images/default-userImg-orange.svg';" alt=""></ng-container>
+                      <ng-container *ngIf="userInfo?.company_logo==''"><img
+                          src="{{baseUrl}}/profile_photo/{{userInfo?.profile_photo}}"
+                          onError="this.src='assets/images/default-userImg-orange.svg';" alt=""></ng-container>
+                    </span>
+                    <h3>Hello!
+                      <span *ngIf="appService.user_type==1">{{userInfo?.name}}</span>
+                      <span *ngIf="appService.user_type==2">
+                        {{userInfo?.name}}
+                      </span>
+                    </h3>
+                  </div> -->
+
+                  <ng-container *ngIf="commonService.islogin==1">
+
+                    <!-- <button mat-menu-item
+                      [routerLink]="appService.user_type==2?'/doer/community-home':'/community/community-home'">
+                      <span class="ic-home"></span>
+                      <span>Home</span>
+                    </button>
+
+                    <button mat-menu-item [routerLink]="appService.user_type==2?'/doer/dashboard':'/pinner/dashboard'">
+                      <span class="ic-list"></span>
+                      <span>My Activity</span>
+                    </button> -->
+
+                    <!-- <button mat-menu-item
+                      routerLink="/doer/community-home" *ngIf="appService.user_type==2">
+                      <span class="ic-home"></span>
+                      <span>Home</span>
+                    </button>
+
+                    <button mat-menu-item routerLink="/doer/dashboard" *ngIf="appService.user_type==2">
+                      <span class="ic-list"></span>
+                      <span>My Activity</span>
+                    </button> -->
+
+                    <!-- <button mat-menu-item *ngIf="appService.user_type==2" routerLink="/doer/transactions">
+                      <span class="ic-cards-payment"></span>
+                      <span>Transactions</span>
+                    </button> -->
+
+
+                    <button mat-menu-item
+                      [routerLink]="appService.user_type==2?'/doer/account-settings':'pinner/account-settings'">
+                      <span class="ic-gear"></span>
+                      <span>Account Settings</span>
+                    </button>
+
+                    <!-- <button mat-menu-item *ngIf="appService.user_type==2"
+                      [routerLink]="appService.user_type==2?'/doer/payment-settings-express':'/pinner/payment-settings'">
+                      <span class="ic-cards-payment"></span>
+                      <span>Payment Settings</span>
+                    </button> -->
+
+
+                    <!-- <button mat-menu-item *ngIf="appService.user_type==2" routerLink="/doer/doer-advertisement">
+                      <span class="ic-information"></span>
+                      <span>Request Advertisement</span>
+                    </button>
+
+                    <button mat-menu-item *ngIf="appService.user_type==2"
+                      (click)="toggleParentPopup('CreateBlogComponent')">
+                      <span class="ic-article"></span>
+                      <span>Create Blog</span>
+                    </button> -->
+
+                    <button mat-menu-item (click)="logout()">
+                      <span class="ic-reply"></span>
+                      <span>Logout</span>
+                    </button>
+                    <!-- <button mat-button class="syncwithFacebook" (click)="openDialog('sync')">SynC with
+                      facebook</button> -->
+                  </ng-container>
+
+                </div>
+              </mat-menu>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+
+      <ul class="main-nav rightmainnav">
+        <ng-container *ngIf="commonService.islogin==0">
+          <li (click)="onClickRegister()"><a routerLink="" class="register_btn">Register</a></li>
+          <li><a routerLink="/login">Login</a></li>
+        </ng-container>
+      </ul>
+
+    </div>
+  </div>
+
+
+  <header class="forDesktop" [ngClass]="{'doerheader':(commonService.islogin==1 && appService.user_type==2),
+      'pinnerHeader':commonService.islogin==1 && appService.user_type==1}">
+    <div class="top_headerbar text-center">
+      <p *ngIf="commonService.addressHeader!=null && commonService.addressHeader!=''">
+
+        <span class="ic-pointer mr-2"
+          [ngClass]="(commonService.islogin==1 && appService.user_type==2)?'color-themeOrange':'color-themeGreen'">
+        </span>
+        <span class="mr-2">{{commonService.addressHeader['formatted_address']}}</span>
+        <a (click)="openDialog('changeAddress')"
+          [ngClass]="(commonService.islogin==1 && appService.user_type==2)?'color-themeOrange':'color-themeGreen'">(change)</a>
+      </p>
+      <p *ngIf="commonService.addressHeader==null || commonService.addressHeader==''"><a
+          (click)="openDialog('changeAddress')">Add Your Address</a></p>
+      <div *ngIf="detectHomePage==1" class="social-iconsheader align-self-center">
+        <a href="https://l.facebook.com/l.php?u=https%3A%2F%2Ffb.me%2Fpindoit&h=AT3ClLLjLdpGMrJ3CqFgTwhUpDpZOIqlTMmsSxiAMNs-3z-0OEQW9ANQU4nlRew9qs_06bRKNmopG3Vhy75bBhUFKBdvSgrNtZtX-7bD_Xp-qx68CpZF5L1u6ujeWu07ML98xsTnaKbL18WiCP9KhA"
+          target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com/pindo_official" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.youtube.com/channel/UCXRUO9sOlSJJnJlJ1BAl4Fg" target="_blank"><i
+            class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/PinDo.Inc_/" target="_blank"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+
+        <div class="covidTopbanner text-center">
+          <!-- <p class="m-0">click here to learn about our <strong>COVID-19 HELP</strong> program</p> -->
+          <div class="marquee" data-duration='10000'>
+           
+            <a  class="mr-5" routerLink="/covid19help">COVID-19 HELP Program - click here to learn more.</a>
+         
+            <a class="mr-5" routerLink="/crew-membership">PinDo Crew Membership -  click
+              here to learn more.</a>
+
+              <a  class="mr-5" routerLink="/covid19help">COVID-19 HELP Program - click here to learn more.</a>
+         
+            <a  class="mr-5" routerLink="/crew-membership">PinDo Crew Membership -  click
+              here to learn more.</a>
+      
+
+          </div>
+       
+        </div>
+
+    <ng-container *ngSwitchCase="1">
+
+      <div class="container-fluid">
+        <div class="row justify-content-between h75 formobStyling">
+          <button class="close_btn" (click)="burgerMenuToggle();">
+            <img src="assets/images/close.svg" alt="">
+          </button>
+          <button class="morphedmenubtn" id="open-button" (click)="burgerMenuToggle();">
+            <svg viewBox="0 0 800 600">
+              <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top">
+              </path>
+              <path d="M300,320 L540,320" id="middle"></path>
+              <path d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" id="bottom"
+                transform="translate(480, 320) scale(1, -1) translate(-480, -318) "></path>
+            </svg>
+          </button>
+          <a class="navbar-brand align-self-center" routerLink="/" title="">
+            <img src="./assets/images/pinner_beta_logo.svg" alt="logo" *ngIf="commonService.islogin==0">
+            <img src="./assets/images/pinner_beta_logo.svg" alt="logo"
+              *ngIf="(commonService.islogin==1 && appService.user_type==1)">
+            <img src="./assets/images/doer_beta_logo.svg" alt="logo"
+              *ngIf="commonService.islogin==1 && appService.user_type==2">
+            <img src="./assets/images/pin-it-do-it-done.svg" class="ml-2 subtext" alt="logo">
+          </a>
+          <div class="align-self-center mobilemenu">
+            <ul class="main-nav">
+
+              <!-- <li>
+                <a routerLink="/covid19help"
+                  routerLinkActive="active">
+                  COVID-19 Help
+                </a>
+              </li> -->
+
+              <li *ngIf="commonService.islogin==1">
+                <a *ngIf="appService.user_type==1" routerLink="/community/community-home" routerLinkActive="active">
+                  Home
+                </a>
+                <a *ngIf="appService.user_type==2" routerLink="/doer/community-home" routerLinkActive="active">
+                  Home
+                </a>
+              </li>
+
+
+              <li>
+                <a *ngIf="commonService.islogin==1 && appService.user_type==2" mat-button routerLink="/doer/dashboard">
+                  My Activity
+                </a>
+                <a *ngIf="commonService.islogin==1 && appService.user_type==1" mat-button
+                  routerLink="/pinner/dashboard">
+                  My Activity
+                </a>
+              </li>
+              <!-- <li><a routerLink="/doer/my-pins" mat-button *ngIf="commonService.islogin==1 && appService.user_type==2">
+                  My Pins
+                </a>
+              </li> -->
+              <li>
+                <a routerLink="/doer/community-contacts" mat-button
+                  *ngIf="commonService.islogin==1 && appService.user_type==2">
+                  My Contacts
+                </a>
+              </li>
+              <!-- <li>
+                <a routerLink="/pinner/my-pins" mat-button *ngIf="commonService.islogin==1 && appService.user_type==1">
+                  My Pins
+                </a>
+              </li> -->
+              <li><a routerLink="/community/community-contacts" mat-button *ngIf="appService.user_type==1"
+                  routerLinkActive="active"> My
+                  Contacts</a></li>
+              <li>
+                <a routerLink="/public-pins" routerLinkActive="active" mat-button
+                  *ngIf="commonService.islogin==1 && appService.user_type==1">
+                  Public Pins
+                </a>
+              </li>
+              <li *ngIf="commonService.islogin==1 && appService.user_type==2">
+                <a routerLink="/public-pins" routerLinkActive="active" mat-button>
+                  Find a Pin
+                </a>
+              </li>
+              <li *ngIf="commonService.islogin==1 && appService.user_type==2">
+                <a routerLink="/blog-list" routerLinkActive="active">
+                  Blog
+                </a>
+              </li>
+              <li *ngIf="commonService.islogin==0 || (commonService.islogin==1 && appService.user_type==1)">
+                <a routerLink="/services" routerLinkActive="active">
+                  <ng-container>Find A Doer</ng-container>
+                </a>
+              </li>
+              <li *ngIf="commonService.islogin==1 && appService.user_type==1">
+                <a routerLink="/blog-list" routerLinkActive="active">
+                  Blog
+                </a>
+              </li>
+              <li *ngIf="commonService.islogin==0">
+                <a routerLink="/public-pins" routerLinkActive="active">Find a Pin</a>
+              </li>
+              <!-- <li *ngIf="commonService.islogin==0"><a routerLink="/how-it-works" routerLinkActive="active">How it
+                  Works</a></li> -->
+
+              <li *ngIf="commonService.islogin==0">
+                <a routerLink="/blog-list" routerLinkActive="active">
+                  <ng-container>Blog</ng-container>
+                </a>
+              </li>
+              <!-- <li *ngIf="commonService.islogin==0"><a routerLink="/benefits" routerLinkActive="active">Benefits</a></li> -->
+              <li *ngIf="commonService.islogin==0"><a routerLink="/faq" routerLinkActive="active">FAQs</a></li>
+            </ul>
+          </div>
+          <div class="rihgt-header align-self-center mobilemenu d-flex justify-content-end">
+            <ul class="main-nav rightmainnav">
+              <ng-container *ngIf="commonService.islogin==0">
+                <li (click)="onClickRegister()"><a routerLink="" class="register_btn">Register</a></li>
+                <li><a routerLink="/login">Login</a></li>
+              </ng-container>
+              <ng-container *ngIf="commonService.islogin!=0">
+                <li class="formobDisplay">
+
+                  <div class="total_btnheader posn_rel" *ngIf="appService.user_type==1"
+                    routerLink="/pinner/create-new-pin">
+                    <button mat-button matBadge="15">
+                      <img src="assets/images/icons/header-green-pin-icon.svg" width="28">
+                    </button>
+                  </div>
+
+
+
+                  <!-- <div class="total_btnheader posn_rel" *ngIf="appService.user_type==1" routerLink="/pinner/create-pin">
+                    <button mat-button matBadge="15">
+                      <img src="assets/images/icons/header-green-pin-icon.svg" width="28">
+                    </button>
+                  </div> -->
+
+
+                </li>
+                <li class="formobDisplay">
+                  <div class="total_btnheader rel_notify" *ngIf="appService.user_type==2" routerLink="/doer/chat">
+
+                    <button mat-button><i class="fas fa-envelope"></i><span class="new_notification"
+                        *ngIf="doerMsgCount!=0">{{doerMsgCount}}</span></button>
+                  </div>
+                </li>
+                <li class="formobDisplay">
+                  <div class="total_btnheader rel_notify" *ngIf="appService.user_type==1" routerLink="/pinner/chat">
+                    <button mat-button><i class="fas fa-envelope"></i><span class="new_notification"
+                        *ngIf="pinnerMsgCount!=0">{{pinnerMsgCount}}</span></button>
+                  </div>
+                </li>
+                <li class="formobDisplay">
+                  <div class="total_btnheader rel_notify">
+                    <button mat-button [matMenuTriggerFor]="menuNotify" (click)="showNoti()"><i
+                        class="material-icons">notifications</i><span class="new_notification"
+                        *ngIf="notifyShow==true">.</span>
+                    </button>
+                    <mat-menu #menuNotify="matMenu" [overlapTrigger]="false" class="notify_header" xPosition="before">
+                      <div class="notification_section">
+                        <div class="notify_header clearfix">
+                          Notifications
+                          <!--   <a [routerLink]="appService.user_type==2?'/doer/notifications':'/pinner/notifications'"  (click)="updateNotiSeen()">view
+                            all</a> -->
+                          <a [routerLink]="appService.user_type==2?'/doer/notifications':'/pinner/notifications'"
+                            (click)="updateNotiSeen()" (click)="updateNotiSeen()">view
+                            all</a>
+                          <span class="new_notification">{{notiCount}}</span>
+                        </div>
+                        <div class="notification_body" *ngFor="let eachNotiData of notiData;let i=index;">
+                          <div class="single_notification" (click)="showNotification(eachNotiData.id,eachNotiData.link)"
+                            style="cursor: pointer;">
+                            {{eachNotiData?.title}}
+                          </div>
+                        </div>
+                      </div>
+                    </mat-menu>
+                  </div>
+                </li>
+                <li class="formobDisplay">
+                  <div class="total_btnheader">
+                    <button mat-button [matMenuTriggerFor]="menuProfile">
+                      <span class="img-profile" *ngIf="appService.user_type==1">
+                        <img src="{{baseUrl}}/profile_photo/{{userInfo?.profile_photo}}"
+                          onError="this.src='assets/images/default-userImg-green.svg';" alt="">
+
+                      </span>
+                      <span class="img-profile" *ngIf="appService.user_type==2">
+                        <ng-container><img src="{{baseUrl}}/company_logo/{{userInfo?.company_logo}}"
+                            onError="this.src='assets/images/default-userImg-orange.svg';" alt=""></ng-container>
+                      </span>
+                    </button>
+                    <mat-menu #menuProfile="matMenu" [overlapTrigger]="false" class="headerDrop">
+                      <div class="total_headerUserInfo" [ngClass]="{'doer-headerDrop-content':appService.user_type==2,
+                      'pinner-headerDrop-content':appService.user_type==1}">
+                        <!-- <div class="prof_header">
+                          <span class="img-profile" *ngIf="appService.user_type==1">
+                            <img src="{{baseUrl}}/profile_photo/{{userInfo?.profile_photo}}"
+                              onError="this.src='assets/images/prof_img.jpg';" alt="">
+                          </span>
+                          <span class="img-profile" *ngIf="appService.user_type==2">
+                            <ng-container><img src="{{baseUrl}}/company_logo/{{userInfo?.company_logo}}"
+                                onError="this.src='assets/images/default-userImg-orange.svg';" alt=""></ng-container>
+                          </span>
+                          <h3>Hello!
+                            <span *ngIf="appService.user_type==1">{{userInfo?.name}}</span>
+                            <span *ngIf="appService.user_type==2">
+                              {{userInfo?.name}}
+                            </span>
+                          </h3>
+                        </div> -->
+
+                        <ng-container *ngIf="commonService.islogin==1">
+                          <!-- <button mat-menu-item
+                            [routerLink]="appService.user_type==2?'/doer/community-home':'/community/community-home'">
+                            <span class="ic-home"></span>
+                            <span>Home</span>
+                          </button>
+
+                          <button mat-menu-item
+                            [routerLink]="appService.user_type==2?'/doer/dashboard':'/pinner/dashboard'">
+                            <span class="ic-list"></span>
+                            <span>My Activity</span>
+                          </button> -->
+
+                          <!-- <button mat-menu-item *ngIf="appService.user_type==2" routerLink="/doer/transactions">
+                            <span class="ic-cards-payment"></span>
+                            <span>Transactions</span>
+                          </button> -->
+
+
+                          <button mat-menu-item
+                            [routerLink]="appService.user_type==2?'/doer/account-settings':'pinner/account-settings'">
+                            <span class="ic-gear"></span>
+                            <span>Account Settings</span>
+                          </button>
+
+                          <!-- <button mat-menu-item *ngIf="appService.user_type==2"
+                            [routerLink]="appService.user_type==2?'/doer/payment-settings-express':'/pinner/payment-settings'">
+                            <span class="ic-cards-payment"></span>
+                            <span>Payment Settings</span>
+                          </button> -->
+
+                          <!-- <button mat-menu-item *ngIf="appService.user_type==2" routerLink="/doer/doer-advertisement">
+                            <span class="ic-information"></span>
+                            <span>Request Advertisement</span>
+                          </button>
+
+                          <button mat-menu-item *ngIf="appService.user_type==2"
+                            (click)="toggleParentPopup('CreateBlogComponent')">
+                            <span class="ic-article"></span>
+                            <span>Create Blog</span>
+                          </button> -->
+
+                          <button mat-menu-item (click)="logout()">
+                            <span class="ic-reply"></span>
+                            <span>Logout</span>
+                          </button>
+                          <!-- <button mat-button class="syncwithFacebook" (click)="openDialog('sync')">SynC with
+                            facebook</button> -->
+                        </ng-container>
+                      </div>
+                    </mat-menu>
+                  </div>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="2">
+
+      <div class="container-fluid">
+        <div class="row justify-content-between h75 formobStyling">
+          <button class="close_btn" (click)="burgerMenuToggle();">
+            <img src="assets/images/close.svg" alt="">
+          </button>
+          <button class="morphedmenubtn" id="open-button" (click)="burgerMenuToggle();">
+            <svg viewBox="0 0 800 600">
+              <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top">
+              </path>
+              <path d="M300,320 L540,320" id="middle"></path>
+              <path d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" id="bottom"
+                transform="translate(480, 320) scale(1, -1) translate(-480, -318) "></path>
+            </svg>
+          </button>
+          <a class="navbar-brand align-self-center" routerLink="/" title="">
+            <img src="./assets/images/logo-home.svg" alt="logo" *ngIf="commonService.islogin==0">
+            <img src="./assets/images/pinner_beta_logo.svg" alt="logo"
+              *ngIf="(commonService.islogin==1 && appService.user_type==1)">
+            <img src="./assets/images/doer_beta_logo.svg" alt="logo"
+              *ngIf="commonService.islogin==1 && appService.user_type==2">
+            <img src="./assets/images/pin-it-do-it-done.svg" class="ml-2 subtext" alt="logo">
+          </a>
+          <div class="align-self-center mobilemenu">
+
+            <ul class="main-nav">
+              <!-- <li>
+                <a routerLink="/covid19help"
+                  routerLinkActive="active">
+                  COVID-19 Help
+                </a>
+              </li> -->
+
+              <li *ngIf="commonService.islogin==1">
+                <a *ngIf="appService.user_type==1" routerLink="/community/community-home" routerLinkActive="active">
+                  Home</a>
+                <a *ngIf="appService.user_type==2" routerLink="/doer/community-home" routerLinkActive="active"> Home</a>
+              </li>
+              <li>
+                <a *ngIf="appService.user_type==2" mat-button routerLink="/doer/dashboard" routerLinkActive="active"> My
+                  Activity</a>
+                <a *ngIf="appService.user_type==1" mat-button routerLink="/pinner/dashboard" routerLinkActive="active">
+                  My Activity</a>
+              </li>
+              <!-- <li><a routerLink="/doer/my-pins" mat-button *ngIf="appService.user_type==2" routerLinkActive="active"> My
+                  Pins</a></li> -->
+              <li><a routerLink="/doer/community-contacts" mat-button *ngIf="appService.user_type==2"
+                  routerLinkActive="active"> My
+                  Contacts</a></li>
+              <!-- <li><a routerLink="/pinner/my-pins" mat-button *ngIf="appService.user_type==1" routerLinkActive="active">
+                  My Pins</a></li> -->
+              <li><a routerLink="/community/community-contacts" mat-button *ngIf="appService.user_type==1"
+                  routerLinkActive="active"> My
+                  Contacts</a></li>
+              <li><a routerLink="/public-pins" mat-button *ngIf="appService.user_type==1" routerLinkActive="active">
+                  Public Pins</a></li>
+              <li *ngIf="appService.user_type==2"><a routerLink="/public-pins" routerLinkActive="active" mat-button>
+                  Find
+                  a Pin</a></li>
+              <li *ngIf="appService.user_type==2">
+                <a routerLink="/blog-list" routerLinkActive="active" mat-button>
+                  Blog
+                </a>
+              </li>
+              <li *ngIf="commonService.islogin==0 || (commonService.islogin==1 && appService.user_type==1)">
+                <a routerLink="/services" routerLinkActive="active">
+                  <ng-container> Find A Doer</ng-container>
+                </a>
+              </li>
+              <li *ngIf="appService.user_type==1">
+                <a routerLink="/blog-list" routerLinkActive="active" mat-button>
+                  Blog
+                </a>
+              </li>
+
+            </ul>
+          </div>
+          <div class="rihgt-header align-self-center mobilemenu d-flex justify-content-end">
+
+            <ul class="main-nav rightmainnav">
+
+              <ng-container *ngIf="commonService.islogin==0">
+                <li><a routerLink="/register">Register</a></li>
+                <li><a routerLink="/login">Login</a></li>
+              </ng-container>
+              <ng-container *ngIf="commonService.islogin!=0">
+                <li class="formobDisplay">
+
+                  <div class="total_btnheader posn_rel" *ngIf="appService.user_type==1"
+                    routerLink="/pinner/create-new-pin">
+                    <button mat-button matBadge="15">
+                      <img src="assets/images/icons/header-green-pin-icon.svg" width="28">
+                    </button>
+                  </div>
+
+
+                  <!-- <div class="total_btnheader posn_rel" *ngIf="appService.user_type==1" routerLink="/pinner/create-pin">
+                    <button mat-button matBadge="15">
+                      <img src="assets/images/icons/header-green-pin-icon.svg" width="28">
+                    </button>
+                  </div> -->
+
+                </li>
+                <li class="formobDisplay">
+                  <div class="total_btnheader rel_notify" *ngIf="appService.user_type==2" routerLink="/doer/chat">
+
+                    <button mat-button><i class="fas fa-envelope"></i><span class="new_notification"
+                        *ngIf="doerMsgCount!=0">{{doerMsgCount}}</span></button>
+                  </div>
+                </li>
+                <li class="formobDisplay">
+                  <div class="total_btnheader rel_notify" *ngIf="appService.user_type==1" routerLink="/pinner/chat">
+                    <button mat-button><i class="fas fa-envelope"></i><span class="new_notification"
+                        *ngIf="pinnerMsgCount!=0">{{pinnerMsgCount}}</span></button>
+                  </div>
+                </li>
+                <li class="formobDisplay">
+                  <div class="total_btnheader rel_notify">
+                    <button mat-button [matMenuTriggerFor]="menuNotify" (click)="showNoti()"><i
+                        class="material-icons">notifications</i><span class="new_notification"
+                        *ngIf="notifyShow==true">.</span></button>
+                    <mat-menu #menuNotify="matMenu" [overlapTrigger]="false" class="notify_header" xPosition="before">
+                      <div class="notification_section">
+                        <div class="notify_header clearfix">
+                          Notifications
+                          <a [routerLink]="appService.user_type==2?'/doer/notifications':'/pinner/notifications'"
+                            (click)="updateNotiSeen()">view
+                            all</a>
+                          <span class="new_notification">{{notiCount}}</span>
+                        </div>
+                        <div class="notification_body" *ngFor="let eachNotiData of notiData;let i=index;">
+                          <div class="single_notification" (click)="showNotification(eachNotiData.id,eachNotiData.link)"
+                            style="cursor: pointer;">
+                            {{eachNotiData?.title}}
+                          </div>
+                        </div>
+                      </div>
+                    </mat-menu>
+                  </div>
+                </li>
+                <li class="formobDisplay">
+                  <div class="total_btnheader">
+                    <button mat-button [matMenuTriggerFor]="menuProfile">
+                      <span class="img-profile" *ngIf="appService.user_type==1">
+                        <img src="{{baseUrl}}/profile_photo/{{userInfo?.profile_photo}}"
+                          onError="this.src='assets/images/default-userImg-green.svg';" alt="">
+                      </span>
+                      <span class="img-profile" *ngIf="appService.user_type==2">
+                        <ng-container *ngIf="userInfo?.company_logo!=''"><img
+                            src="{{baseUrl}}/company_logo/{{userInfo?.company_logo}}"
+                            onError="this.src='assets/images/default-userImg-orange.svg';" alt=""></ng-container>
+                        <ng-container *ngIf="userInfo?.company_logo==''"><img
+                            src="{{baseUrl}}/profile_photo/{{userInfo?.profile_photo}}"
+                            onError="this.src='assets/images/default-userImg-orange.svg';" alt=""></ng-container>
+                      </span>
+                    </button>
+                    <mat-menu #menuProfile="matMenu" [overlapTrigger]="false" class="headerDrop">
+                      <div class="total_headerUserInfo" [ngClass]="{'doer-headerDrop-content':appService.user_type==2,
+                      'pinner-headerDrop-content':appService.user_type==1}">
+
+                        <!-- <div class="prof_header">
+                          <span class="img-profile" *ngIf="appService.user_type==1">
+                            <img src="{{baseUrl}}/profile_photo/{{userInfo?.profile_photo}}"
+                              onError="this.src='assets/images/default-userImg-green.svg';" alt="">
+                          </span>
+                          <span class="img-profile" *ngIf="appService.user_type==2">
+                            <ng-container *ngIf="userInfo?.company_logo!=''"><img
+                                src="{{baseUrl}}/company_logo/{{userInfo?.company_logo}}"
+                                onError="this.src='assets/images/default-userImg-orange.svg';" alt=""></ng-container>
+                            <ng-container *ngIf="userInfo?.company_logo==''"><img
+                                src="{{baseUrl}}/profile_photo/{{userInfo?.profile_photo}}"
+                                onError="this.src='assets/images/default-userImg-orange.svg';" alt=""></ng-container>
+                          </span>
+                          <h3>Hello!
+                            <span *ngIf="appService.user_type==1">{{userInfo?.name}}</span>
+                            <span *ngIf="appService.user_type==2">
+                              {{userInfo?.name}}
+                            </span>
+                          </h3>
+                        </div> -->
+
+                        <ng-container *ngIf="commonService.islogin==1">
+
+                          <!-- <button mat-menu-item
+                            [routerLink]="appService.user_type==2?'/doer/community-home':'/community/community-home'">
+                            <span class="ic-home"></span>
+                            <span>Home</span>
+                          </button>
+
+
+                          <button mat-menu-item
+                            [routerLink]="appService.user_type==2?'/doer/dashboard':'/pinner/dashboard'">
+                            <span class="ic-list"></span>
+                            <span>My Activity</span>
+                          </button> -->
+
+                          <!-- <button mat-menu-item *ngIf="appService.user_type==2" routerLink="/doer/transactions">
+                            <span class="ic-cards-payment"></span>
+                            <span>Transactions</span>
+                          </button> -->
+
+
+                          <!-- <button mat-menu-item *ngIf="appService.user_type==2" routerLink="/doer/doer-advertisement">
+                            <span class="ic-information"></span>
+                            <span>Request Advertisement</span>
+                          </button>
+
+                          <button mat-menu-item *ngIf="appService.user_type==2"
+                            (click)="toggleParentPopup('CreateBlogComponent')">
+                            <span class="ic-article"></span>
+                            <span>Create Blog</span>
+                          </button> -->
+
+                          <button mat-menu-item
+                            [routerLink]="appService.user_type==2?'/doer/account-settings':'pinner/account-settings'">
+                            <span class="ic-gear"></span>
+                            <span>Account Settings</span>
+                          </button>
+
+                          <button mat-menu-item (click)="logout()">
+                            <span class="ic-reply"></span>
+                            <span>Logout</span>
+                          </button>
+
+                          <!-- <button mat-menu-item
+                            [routerLink]="appService.user_type==2?'/doer/manage-profile':'/pinner/manage-profile'">
+                            <span>Manage Profile</span>
+                          </button> -->
+
+                          <!-- <button mat-menu-item *ngIf="appService.user_type==2"
+                            [routerLink]="appService.user_type==2?'/doer/payment-settings-express':'/pinner/payment-settings'">
+                            <span>Payment Settings</span>
+                          </button> -->
+
+                          <!-- <button mat-button class="syncwithFacebook" (click)="openDialog('sync')">SynC with
+                            facebook</button> -->
+
+                        </ng-container>
+
+                      </div>
+                    </mat-menu>
+                  </div>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngSwitchCase="3">
+      <div class="container-fluid">
+        <div class="login_head d-flex justify-content-between h75 align-items-center">
+          <a class="navbar-brand align-self-center" routerLink="/" title="">
+            <!-- <img src="./assets/images/logo-home.svg" alt="logo" *ngIf="commonService.islogin==0"> -->
+            <img src="./assets/images/pinner_beta_logo.svg" alt="logo" *ngIf="commonService.islogin==0">
+            <img src="./assets/images/pinner_beta_logo.svg" alt="logo"
+              *ngIf="(commonService.islogin==1 && appService.user_type==1)">
+            <img src="./assets/images/doer_beta_logo.svg" alt="logo"
+              *ngIf="commonService.islogin==1 && appService.user_type==2">
+            <img src="./assets/images/pin-it-do-it-done.svg" class="ml-2 subtext" alt="logo"
+              *ngIf="commonService.islogin==0">
+          </a>
+          <!-- <a class="navbar-brand" routerLink="/" title=""><img src="./assets/images/PinDoLogin_Final.png" alt="logo"></a> -->
+          <p *ngIf="_islogin_==true"><span>Don’t have a PinDo account yet?</span> &nbsp;<a
+              routerLink="/register">Register</a></p>
+          <p *ngIf="_islogin_==false"><span>Already have an account?&nbsp;</span> &nbsp;<a routerLink="/login">Login</a>
+          </p>
+        </div>
+      </div>
+    </ng-container>
+  </header>
+
+</ng-container>

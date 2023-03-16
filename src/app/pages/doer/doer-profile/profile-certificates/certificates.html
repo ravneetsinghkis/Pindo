@@ -1,0 +1,164 @@
+<div class="dummy_content no_minheight" [hidden]="isHiddenCertificates">
+	<div class="row">
+		<div class="col-md-4 align-self-center">
+			<div class="icon-space text-center">
+  				<img src="assets/images/icon-set/04.svg" alt="">
+  			</div>
+		</div>
+		<div class="col-md-8 align-self-center">
+			<h6 class="maincardsubHeading">No Certificate</h6>
+			<div class="col-md-5 pl-0">
+				<p>Please add any relevant business certificates.</p>
+				<button mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="togglePopup()">
+	                Add Now
+	            </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div *ngIf="isHiddenCertificates">
+	<div class="border-box" *ngFor="let eachLicenseList of populateCertificateListing; let i = index;">
+		<h4>{{ eachLicenseList.name }}</h4>
+		<h6 *ngIf="eachLicenseList.reference_no!=null">Registration ID - {{ eachLicenseList.reference_no }}</h6>
+		<p *ngIf="eachLicenseList.description!=null">{{ eachLicenseList.description }}</p>		
+		<ng-container *ngIf="eachLicenseList?.documents?.length>0">
+			<div class="d-flex fileiconlisting flex-wrap">
+			<ng-container *ngFor="let eachFile of eachLicenseList?.documents">
+				<p class="align-items-center fileicons">
+					<a href="{{baseUrl}}/profile_document/{{eachFile?.name}}" target="_blank">
+						<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='jpg' || eachFile.name.split('.')[eachFile.name.split('.').length-1]=='jpeg'">
+							<img src="assets/images/icons/jpg.svg" alt="">
+						</span>
+						<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='png'">
+							<img src="assets/images/icons/png.svg" alt="">
+						</span>
+						<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='docx'">
+							<img src="assets/images/icons/docx-file-format.svg" alt="">
+						</span>
+						<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='pdf'">
+							<img src="assets/images/icons/pdf.svg" alt="">
+						</span>
+					{{ eachFile.name }}</a>
+				</p>
+			</ng-container>
+			</div>
+		</ng-container>
+	</div>	
+</div>
+
+<!-- overlayPopup -->
+<div class="overlayPopup" #popUpVar>
+	<div class="popupHeader">
+		<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+		<h3>Add Certificate Documents</h3>
+	</div>
+	<div class="popupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3">
+				<form #licensefrm="ngForm" novalidate (ngSubmit)="submitFunction(licensefrm.value,licensefrm.valid,licensefrm,'save')" enctype="multipart/form-data">
+					<div class="">
+		              <mat-form-field appearance="outline">
+		                <mat-label>Certificate Name</mat-label>
+		                <input matInput name="name" #licenseName="ngModel" [(ngModel)]="name" placeholder="License Name*" required>     
+		               
+		                <mat-error *ngIf="licenseName.errors && (licensefrm.submitted) && licenseName.errors.required">This field required</mat-error>  
+		                <mat-error *ngIf="licenseName.errors && (licensefrm.submitted) && (!licenseName.errors.required)">Invalid Name.</mat-error> 
+		              </mat-form-field>
+		            </div>
+		            <div class="">
+		              <mat-form-field appearance="outline">
+		                <mat-label>Reference ID</mat-label>
+		                <input matInput name="reference_no" #registartionID="ngModel" [(ngModel)]="reference_no" placeholder="Reference ID*" >     
+		               
+		                <!-- <mat-error *ngIf="registartionID.errors && (licensefrm.submitted) && registartionID.errors.required">This field required</mat-error>  
+		                <mat-error *ngIf="registartionID.errors && (licensefrm.submitted) && (!registartionID.errors.required)">Invalid Name.</mat-error>  -->
+		              </mat-form-field>
+		            </div>
+		            <div class="">
+		              <mat-form-field appearance="outline">
+		                <mat-label>Short Description</mat-label>		                
+		                <textarea matInput name="description" #sDesc="ngModel" [(ngModel)]="description" placeholder="Short Description*"></textarea>  
+		               
+		                <!-- <mat-error *ngIf="sDesc.errors && (licensefrm.submitted) && sDesc.errors.required">This field required</mat-error>  
+		                <mat-error *ngIf="sDesc.errors && (licensefrm.submitted) && (!sDesc.errors.required)">Invalid Name.</mat-error> --> 
+		              </mat-form-field>
+		            </div>
+		            <div class="">
+		            	<div class="upload-btn-wrapper clearfix">
+		                  <span>Upload Files</span>
+		                  <button type="button" mat-icon-button>
+		                    <mat-icon>cloud_upload</mat-icon>                    
+		                  </button>
+		                  <input type="file" name="pImg" (change)="onChange($event)" inputId="input-file" placeholder="Drop files below!" multiple>
+		                </div>
+		                <div class="fileNames d-flex flex-wrap">
+		                	<ng-container *ngIf="multipleFile.length>0">
+		                  		<ng-container *ngFor="let eachFile of multipleFile; let i=index;"> 
+		                  			<div class="eachFile">{{eachFile.name}} <span (click)="removeFile(i)"><i class="fas fa-times"></i></span></div>
+		                  		</ng-container>
+		                  	</ng-container>
+		                </div>
+		                <mat-error *ngIf="attachedfileerror!=''">{{attachedfileerror}}</mat-error>
+		              	<!-- <div class="help-attach">
+							<div class="custom-file">
+									<input type="file" class="custom-file-input" id="attachment_file" (change)="onChange($event)" name="attachment_file">
+									<label class="custom-file-label" for="customFile" *ngIf="upload_file==''">Upload Files</label>
+									<label class="custom-file-label" for="customFile" *ngIf="upload_file!=''">{{upload_file?.name}}</label>
+							</div>	
+						</div> -->
+		            </div>
+		            <div class="d-flex justify-content-center pt-5 flex-wrap align-content-end">
+			            <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+			                Save
+			            </button>
+			            <div class="custombtnboder mr-2">
+				            <button type="button" mat-button class="text-uppercase" (click)="submitFunction(licensefrm.value,licensefrm.valid,licensefrm,'save and continue')">
+				            	Save &amp; Continue
+				            </button>
+			            </div>
+			            <div class="custombtnboder hideInMob">
+				            <button type="button" mat-button class="text-uppercase" (click)="resetFunction(licensefrm)">
+				            	Reset
+				            </button>
+			            </div>
+		            </div>
+				</form>
+				<div class="listing_formsubmit pt-5" *ngIf="populateCertificateListing.length>0">
+					<div class="border-box" *ngFor="let eachLicenseList of populateCertificateListing; let i = index;">
+						<div class="border-box-action">
+							<button mat-icon-button class="btn-action float-left" (click)="editThisLicense(i)"><i class="far fa-edit"></i></button>
+							<button mat-icon-button class="btn-action float-left" (click)="removeThisLicense(i)"><i class="far fa-trash-alt"></i></button>
+						</div>
+						<h4>{{ eachLicenseList.name }}</h4>
+						<h6 *ngIf="eachLicenseList.reference_no!=null">Registration ID - {{ eachLicenseList.reference_no }}</h6>
+						<p *ngIf="eachLicenseList.description!=null">{{ eachLicenseList.description }}</p>
+						<ng-container *ngIf="eachLicenseList?.documents?.length>0">
+							<div class="d-flex fileiconlisting flex-wrap">
+							<ng-container *ngFor="let eachFile of eachLicenseList?.documents">
+								<p class="align-items-center fileicons">
+									<a href="{{baseUrl}}/profile_document/{{eachFile?.name}}" target="_blank">
+										<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='jpg' || eachFile.name.split('.')[eachFile.name.split('.').length-1]=='jpeg'">
+											<img src="assets/images/icons/jpg.svg" alt="">
+										</span>
+										<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='png'">
+											<img src="assets/images/icons/png.svg" alt="">
+										</span>
+										<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='docx'">
+											<img src="assets/images/icons/docx-file-format.svg" alt="">
+										</span>
+										<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='pdf'">
+											<img src="assets/images/icons/pdf.svg" alt="">
+										</span>
+									{{ eachFile.name }}</a>
+								</p>
+							</ng-container>
+							</div>
+						</ng-container>
+						<!-- <p *ngIf="eachLicenseList.attachment_file!=''" class="d-flex align-items-center"><mat-icon class="mr-2">cloud_upload</mat-icon>{{ eachLicenseList.attachment_file }}</p> -->
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

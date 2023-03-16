@@ -1,0 +1,45 @@
+.btn-social{position: relative;
+    padding-left: 60px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 45px;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-family: 'Montserrat-SemiBold';
+    font-size: 12px;
+    padding-right: 25px; 
+}
+.btn-social>:first-child{    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 42px;
+    line-height: 45px;
+    font-size: 16px;
+    text-align: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);}
+.btn-facebook{color:#fff;background-color:#004467;border-color:rgba(0,0,0,0.2);}
+.btn-facebook:focus,.btn-facebook.focus{color:#fff;	background-color: #004467;border-color:rgba(0,0,0,0.2);box-shadow: none;}
+.btn-facebook:hover{color:#fff;	background-color: #004467;border-color:rgba(0,0,0,0.2);box-shadow: none;}
+.btn-facebook:active,.btn-facebook.active,.open>.dropdown-toggle.btn-facebook{color:#fff;	background-color: #004467;border-color:rgba(0,0,0,0.2);box-shadow: none;}.btn-facebook:active:hover,.btn-facebook.active:hover,.open>.dropdown-toggle.btn-facebook:hover,.btn-facebook:active:focus,.btn-facebook.active:focus,.open>.dropdown-toggle.btn-facebook:focus,.btn-facebook:active.focus,.btn-facebook.active.focus,.open>.dropdown-toggle.btn-facebook.focus{color:#fff;background-color:#23345a;border-color:rgba(0,0,0,0.2); box-shadow: none;}
+.btn-facebook:active,.btn-facebook.active,.open>.dropdown-toggle.btn-facebook{background-image:none}
+.btn-facebook.disabled:hover,.btn-facebook[disabled]:hover,fieldset[disabled] .btn-facebook:hover,.btn-facebook.disabled:focus,.btn-facebook[disabled]:focus,fieldset[disabled] .btn-facebook:focus,.btn-facebook.disabled.focus,.btn-facebook[disabled].focus,fieldset[disabled] .btn-facebook.focus{	background-color: #004467;border-color:rgba(0,0,0,0.2);box-shadow: none;}
+.btn-facebook .badge{color:#004467;background-color:#fff}
+
+.postSocialForm{
+	.form-label{
+		color: #262626;	font-family: 'Montserrat-SemiBold'; font-size: 12px; line-height: 18px;
+	}
+	.inline-form-group{
+		position: relative;
+    padding-right: 120px;
+		.form-control{
+			color: #262626;	font-family: 'Montserrat-Regular';	font-size: 14px;	line-height: 24px; opacity: 1;
+		}
+		.btn-greenColor{position: absolute;
+			right: 2px;
+			top: 0;}
+	}
+}

@@ -1,0 +1,342 @@
+<form [formGroup]="form" (submit)="onSubmit($event)">
+	<!-- <mat-card class="pindoCart">
+		<mat-card-header>			    
+		    <mat-card-title>
+		    	Choose Category and subcategory		    		
+		    </mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="row">
+				<div class="col-md-6">
+					<mat-form-field appearance="outline">
+						<mat-select formControlName="parentcat" placeholder="Select Category" (selectionChange)="getSubCatList()">
+							<mat-option *ngFor="let item of parent_categories" [value]="item.id">{{item.name}}</mat-option>			
+						</mat-select>
+						<mat-error *ngIf="mainformRef.parentcat?.errors?.required">
+			                Please Fill in the field.
+			            </mat-error>
+					</mat-form-field>
+				</div>
+				<div class="col-md-6">
+					<mat-form-field appearance="outline">
+						<mat-select formControlName="sub_cat_id" placeholder="Select Sub-category">
+							<mat-option *ngFor="let item of sub_categories" [value]="item.id">{{item.name}}</mat-option>			
+						</mat-select>
+						<mat-error *ngIf="mainformRef.sub_cat_id?.errors?.required">
+			                Please Fill in the field.
+			            </mat-error>
+					</mat-form-field>
+				</div>
+			</div>
+		</mat-card-content>
+	</mat-card> -->
+	<mat-card class="pindoCart">
+		<mat-card-header>
+			<mat-card-title>
+				Job Type
+				<!-- <p>Not sure about the category? Just choose the closest one</p>			  -->
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="row">
+				<div class="col-12" formGroupName="staticForm">
+					<div class="block-wrap">
+						<div class="block-heading mb-2">
+							<h3 class="headingText-type2">Is this job urgent?</h3>
+						</div>
+						<mat-radio-group class="green-color" formControlName="is_urgent" (change)="handleIsUrgent()">
+							<mat-radio-button value="0" class="mr-4">Yes, this is urgent</mat-radio-button>
+							<mat-radio-button value="1">No, I don’t need it urgently</mat-radio-button>
+						</mat-radio-group>
+					</div>
+					<!-- <div class="total_field d-flex">
+			    		<p>What is the frequency?</p>
+			    		<mat-radio-group class="green-color" formControlName="job_type" (change)="handleJobTypeChange()">
+						  <mat-radio-button value="0" class="mr-4">One Time</mat-radio-button>
+						  <mat-radio-button value="1">Recurring</mat-radio-button>
+						</mat-radio-group>
+			    	</div>	 -->
+				</div>
+			</div>
+		</mat-card-content>
+	</mat-card>
+	<mat-card class="pindoCart" *ngIf="indvdaysSelected || showHowOften || showtimeofDay || showdayOfWeek">
+		<mat-card-header>
+			<mat-card-title>
+				Job Timing
+				<!-- <p>Not sure about the category? Just choose the closest one</p>			  -->
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="row" formGroupName="staticForm">
+				<div class="col-12" formGroupName="frequency">
+					<div class="block-wrap" *ngIf="showHowOften">
+
+						<div class="block-heading mb-2">
+							<h3 class="headingText-type2">How often</h3>
+							<p>Select how often you want the service?</p>
+						</div>
+
+
+						<mat-radio-group class="green-color" formControlName="how_often">
+							<mat-radio-button value="0" class="mr-4">Daily</mat-radio-button>
+							<mat-radio-button value="1" class="mr-4">Weekly</mat-radio-button>
+							<mat-radio-button value="2" class="mr-4">Bi-Weekly</mat-radio-button>
+							<mat-radio-button value="3">Monthly</mat-radio-button>
+						</mat-radio-group>
+					</div>
+					<div class="block-wrap">
+						<div class="block-heading mb-2">
+							<h3 class="headingText-type2">Time of Day</h3>
+							<p>Select the time that is best for you</p>
+						</div>
+
+						<mat-radio-group class="green-color" formControlName="time_of_day">
+							<mat-radio-button value="3" class="mr-4">Anytime</mat-radio-button>
+							<mat-radio-button value="0" class="mr-4">Morning (08:00 am - 12:00 pm)</mat-radio-button>
+							<mat-radio-button value="1" class="mr-4">Afternoon (12:00 pm - 05:00 pm)</mat-radio-button>
+							<mat-radio-button value="2">Evening (05:00 pm - 09:00 pm)</mat-radio-button>
+						</mat-radio-group>
+					</div>
+					<div class="block-wrap">
+						<div class="block-heading mb-2">
+							<h3 class="headingText-type2">Day of the Week</h3>
+							<p>Select the most convenient day of the week</p>
+						</div>
+
+						<mat-radio-group class="green-color" formControlName="day_of_week" (change)="handleDayOfWeekChange($event)">
+							<mat-radio-button value="0" class="mr-4">Anyday</mat-radio-button>
+							<mat-radio-button value="1" class="mr-4">Weekday</mat-radio-button>
+							<mat-radio-button value="2" class="mr-4">Weekends</mat-radio-button>
+							<mat-radio-button value="3">Specific Days</mat-radio-button>
+						</mat-radio-group>
+					</div>
+					<div class="block-wrap" formArrayName="indv_days" *ngIf="indvdaysSelected">
+						<div class="block-heading mb-2">
+							<h3 class="headingText-type2">Select the most convenient days</h3>
+						</div>
+
+						<ng-container *ngFor="let eachIndvDay of frequencyRef['indv_days']['controls'];let i = index;">
+							<div class="custom_dayscheckbox">
+								<input type="checkbox" [id]="i" [formControlName]="i" [value]="indvDays[i].val">
+								<label [for]="i">{{ indvDays[i].name }}</label>
+							</div>
+						</ng-container>
+						<mat-error *ngIf="frequencyRef?.indv_days?.errors?.multipleCheckboxRequireOne && formsubmitted">Please
+							Select At least One</mat-error>
+					</div>
+				</div>
+			</div>
+		</mat-card-content>
+	</mat-card>
+	<mat-card class="pindoCart">
+		<mat-card-header>
+			<mat-card-title>
+				Basic Information
+				<!-- <p>Not sure about the category? Just choose the closest one</p>			  -->
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="row">
+				<div class="col-12" formGroupName="staticForm">
+					<div class="block-wrap">
+						<div class="block-heading mb-2">
+							<h3 class="headingText-type2">Job Title</h3>
+						</div>
+
+						<mat-form-field appearance="outline">
+							<mat-label>Enter Job Title</mat-label>
+							<input matInput formControlName="title" placeholder="Enter Job Title*">
+							<mat-error *ngIf="formRef?.title?.errors?.required && formsubmitted">
+								Please Fill in Job Title
+							</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="block-wrap">
+						<div class="block-heading mb-2">
+							<h3 class="headingText-type2">Description</h3>
+						</div>
+						<mat-form-field appearance="outline">
+							<mat-label>Description</mat-label>
+							<textarea matInput placeholder="Description" formControlName="description"></textarea>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</mat-card-content>
+	</mat-card>
+
+	<mat-card class="pindoCart" *ngIf="fields['0']!='no data'">
+		<mat-card-header>
+			<mat-card-title>
+				Additional Information
+				<!-- <p>Not sure about the category? Just choose the closest one</p>			  -->
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content class="addntl_field">
+			<ng-container class="dynamic-form row" *ngFor="let field of fields;" dynamicField [field]="field" [group]="form">
+			</ng-container>
+		</mat-card-content>
+	</mat-card>
+	<mat-card class="pindoCart">
+		<mat-card-header>
+			<mat-card-title>
+				Job Location
+				<!-- <p>Not sure about the category? Just choose the closest one</p>			  -->
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<ng-container formGroupName="staticForm">
+				<input type="hidden" formControlName="lat">
+				<input type="hidden" formControlName="lng">
+				<h4 class="subcardcontentHeading">Select Service Location</h4>
+				<mat-radio-group class="green-color" formControlName="address" (change)="handleAddressSelectionChange($event)">
+					<mat-radio-button value="0" class="d-block mb-2">New Address</mat-radio-button>
+					<mat-radio-button *ngFor="let eachloc of pinnerLocations" [value]="eachloc.id" class="d-block mb-2"
+						id="{{eachloc.id}}">
+						{{eachloc.address}} <cite class="prm_address" *ngIf="eachloc?.is_primary==1">Primary Address</cite>
+					</mat-radio-button>
+					<mat-radio-button value="dl" class="d-block mb-2">Doer's Location</mat-radio-button>
+				</mat-radio-group>
+			</ng-container>
+		</mat-card-content>
+	</mat-card>
+	<mat-card class="pindoCart" *ngIf="showNewLocation">
+		<mat-card-header>
+			<mat-card-title>
+				Provide New Service Location
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content formGroupName="staticForm">
+			<ng-container formGroupName="newAddress">
+				<div class="row">
+					<div class="col-md-12">
+						<mat-form-field appearance="outline">
+							<mat-label>Address Line</mat-label>
+							<!-- <input matInput ngx-google-places-autocomplete placeholder="Address Line*" formControlName="addressLine" (onAddressChange)="handleAddressChange($event)"> -->
+							<input matInput name="country" placeholder="Address Line*" formControlName="addressLine">
+							<mat-error *ngIf="formnewAddressRef?.addressLine?.errors?.required && formsubmitted">
+								Please Fill in Address Line Field
+							</mat-error>
+							<!-- <mat-error *ngIf="s_address?.errors && (createNewPin.submitted) && s_address?.errors?.required">This field required</mat-error> -->
+						</mat-form-field>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<mat-form-field appearance="outline">
+							<mat-label>Country</mat-label>
+							<input matInput name="country" placeholder="Country*" formControlName="country" readonly="readonly">
+							<mat-error *ngIf="formnewAddressRef?.city?.errors?.required && formsubmitted">
+								Please Fill in City Field
+							</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="col-md-6">
+						<mat-form-field appearance="outline">
+							<mat-label>City</mat-label>
+							<input matInput name="city" placeholder="City*" formControlName="city">
+							<mat-error *ngIf="formnewAddressRef?.country?.errors?.required && formsubmitted">
+								Please Fill in Country Field
+							</mat-error>
+						</mat-form-field>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<mat-form-field appearance="outline">
+							<mat-label>State</mat-label>
+							<mat-select placeholder="State*" formControlName="state" name="state" required>
+								<mat-option *ngFor="let each_state of state_list" [value]="each_state.state_code">
+									{{each_state.state}}({{each_state.state_code}})
+								</mat-option>
+							</mat-select>
+							<mat-error *ngIf="formnewAddressRef?.state?.errors?.required && formsubmitted">This field required
+							</mat-error>
+						</mat-form-field>
+
+					</div>
+					<div class="col-md-6">
+						<mat-form-field appearance="outline">
+							<mat-label>Zip</mat-label>
+							<input matInput name="zipcode" placeholder="Zip*" formControlName="zipcode">
+							<mat-error *ngIf="formnewAddressRef?.zipcode?.errors?.required && formsubmitted">
+								Please Fill in Zip Field
+							</mat-error>
+						</mat-form-field>
+					</div>
+				</div>
+			</ng-container>
+		</mat-card-content>
+	</mat-card>
+	<mat-card class="pindoCart">
+		<mat-card-header>
+			<mat-card-title>
+				Attachments
+				<!-- <p>Not sure about the category? Just choose the closest one</p>			  -->
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<h4 class="subcardcontentHeading">Upload Attachment</h4>
+			<div class="total_attach clearfix">
+				<div class="upload_attachment">
+					<button type="button" mat-raised-button class="text-uppercase mat-primary">Add Attachment</button>
+					<input type="file" (change)="uploadAttachment($event)">
+				</div>
+			</div>
+			<ng-container *ngIf="attachment.length>0">
+				<div class="d-flex fileiconlisting flex-wrap">
+					<ng-container *ngFor="let eachFile of attachment;let i = index;">
+						<p class="align-items-center fileicons">
+							<a href="{{uploadUrl}}/jobs/{{eachFile?.name}}" target="_blank">
+								<span
+									*ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='jpg' || eachFile.name.split('.')[eachFile.name.split('.').length-1]=='jpeg'">
+									<img src="assets/images/icons/jpg.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='png'">
+									<img src="assets/images/icons/png.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='docx'">
+									<img src="assets/images/icons/docx-file-format.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='pdf'">
+									<img src="assets/images/icons/pdf.svg" alt="">
+								</span>
+								{{ eachFile.name }}</a>
+							<i class="far fa-times-circle removeattachment" (click)="removeAttachment(i);"></i>
+						</p>
+					</ng-container>
+					<hr>
+				</div>
+			</ng-container>
+		</mat-card-content>
+	</mat-card>
+	<mat-card class="pindoCart">
+		<mat-card-header>
+			<mat-card-title>
+				Public Pin
+				<!-- <p>Not sure about the category? Just choose the closest one</p>			  -->
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<ng-container formGroupName="staticForm">
+				<div class="block-wrap d-flex">
+					<div class="block-heading mb-2">
+						<h3 class="headingText-type2">Do you want to make this Pin Public?</h3>
+					</div>
+					<mat-radio-group class="green-color" formControlName="make_pin_public" (click)="publicPinDialog()">
+						<mat-radio-button value="1" class="mr-4">Yes I want to make this Pin Public</mat-radio-button>
+						<mat-radio-button value="0" id="private_pin">No I want to select specific Doers only</mat-radio-button>
+					</mat-radio-group>
+				</div>
+			</ng-container>
+		</mat-card-content>
+	</mat-card>
+	<div class="mt-3 d-flex justify-content-end">
+		<button type="submit" mat-raised-button color="primary">
+			Submit
+		</button>
+	</div>
+</form>

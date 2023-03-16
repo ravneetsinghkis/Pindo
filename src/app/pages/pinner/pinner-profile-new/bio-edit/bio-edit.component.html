@@ -1,0 +1,34 @@
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left" (click)="closeModal()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">EDIT BIO</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3 ">
+
+				<form autocomplete="off" [formGroup]="bio_update" name="bio_update"
+					(ngSubmit)="onSubmitUpdateBioInformation()">
+					<div class="matComnForm">
+						<div class="mb-3">
+							<ckeditor name="bioedit" [config]="ckEditorConfig" formControlName="bioedit"
+								skin="moono-lisa">
+							</ckeditor>
+						</div>
+						<div class="btn-holder text-center">
+							<button type="submit" mat-flat-button
+								class="btn btn-greenColor smFont-lg-size text-uppercase mx-2">SAVE</button>
+							<button type="button" mat-flat-button (click)="closeModal()"
+								class="btn btn-gray-border smFont-lg-size text-uppercase mx-2">CANCEL</button>
+						</div>
+
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>

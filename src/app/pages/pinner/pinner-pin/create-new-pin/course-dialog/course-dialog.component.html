@@ -1,0 +1,33 @@
+<div class="total-dialogCntent text-center">
+    <div class="img_matDialog mb-4">
+        <img  *ngIf="display_data.pin_type!='normal_pin'" src="assets/images/payment-icons/pin-icon.png" alt="">
+         <img  *ngIf="display_data.pin_type=='normal_pin'" src="assets/images/pinnerType.png" alt="">
+    </div>
+    <h2>{{display_data.title}}</h2>
+    <p *ngIf="display_data.content!=''">{{display_data.content}}</p>
+    <div class="d-flex justify-content-center pt-2">
+        <button *ngIf="display_data.pin_type=='save_pin' || display_data.pin_type=='update_pin'" type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" routerLink="/pinner/my-pins" [mat-dialog-close]="true">
+            DONE
+        </button>
+        <ng-container *ngIf="display_data.pin_type=='normal_pin'">
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-4" [mat-dialog-close]="true" (click)="publicPinChecker(true)">
+                Yes
+            </button>
+
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" [mat-dialog-close]="true" (click)="publicPinChecker(false)">
+                Cancel
+            </button>
+        </ng-container>
+        <ng-container *ngIf="display_data.pin_type=='emergency_pin'">
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-4" [mat-dialog-close]="true" (click)="emergencyPinChecker(true)">
+                Yes
+            </button>
+
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" [mat-dialog-close]="true" (click)="emergencyPinChecker(false)">
+                Cancel
+            </button>
+        </ng-container>
+    </div>
+</div>
+
+

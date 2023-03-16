@@ -1,0 +1,70 @@
+.special_header {
+	font: 14px/40px 'Montserrat-SemiBold';
+	color: #484f56;
+	position: relative;
+	margin-bottom: 20px;
+	&::before {
+		content: '';
+		width: 40px;
+		height: 1px;
+		background: #bad141;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+	}
+}
+body .mat-dialog-container.ng-trigger-slideDialog {
+    padding: 20px 35px;
+}
+.greyCheck {
+	position: relative;
+	float: left;
+	margin-right: 10px;
+	overflow: hidden;
+	input[type="checkbox"],input[type="radio"] {
+		position: absolute;
+		left: -999px;
+	}
+	input[type="checkbox"]+label,input[type="radio"]+label {
+		font: 13px/40px 'Montserrat-Regular';
+		color: #98a4ae;
+		border: 1px solid #d0dde7;
+		border-radius: 25px;
+		display: block;
+		cursor: pointer;
+		padding: 0 20px;
+		min-width: 85px;
+    	text-align: center;
+	}
+	input[type="checkbox"]:checked+label,input[type="radio"]:checked+label {
+		border-color: #bad141;
+		background: #bad141;
+		color: #fff;
+		box-shadow: 0px 7px 5px rgba(122, 225, 76, 0.3);
+		.indvrating {
+			color: #fff !important;
+		}
+	}
+	input[type="checkbox"]:disabled+label,input[type="radio"]:disabled+label {
+		cursor: no-drop;
+	}
+	&.ratingCheckbox {
+		.indvrating {
+			font-size: 12px;
+		    line-height: 16px;
+		    color: #f0b927;
+		    display: inline-block;
+		    margin-right: 3px;
+		    position: relative;
+    		top: -1px;		    
+		}
+		input[type="checkbox"]:checked+label {
+		    .indvrating {
+		    	color: #fff;
+		    }	
+		}
+	}
+}
+.chooseSubCategory {
+	width: 100%;
+}

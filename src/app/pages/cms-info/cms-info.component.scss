@@ -1,0 +1,35 @@
+.total_search {
+	mat-spinner {
+		position: absolute;
+	    right: 70px;
+	    top: 16px;
+	}
+	.mat-spinner {
+		display: none;
+	}
+}
+.filterSection {
+	padding: 60px 0;
+	background: #fff;
+	position: relative;
+	h4 {
+		font: 14px/18px 'Montserrat-SemiBold';
+		color: #565c62;
+		margin-bottom: 20px;
+	}
+}
+
+//colors
+$black: #000000;
+$color_tapa_approx: #737373;
+
+.privacy-section {
+	h3 {
+		font-size: 18px;
+		color: $black;
+	}
+	p {
+		font-size: 13px;
+		color: $color_tapa_approx;
+	}
+}

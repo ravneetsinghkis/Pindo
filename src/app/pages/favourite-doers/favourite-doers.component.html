@@ -1,0 +1,80 @@
+<div class="totalDashboard">
+	<div class="container">
+		<div class="mainHeading">
+			<h3>Favorite Doers</h3>
+			<p>You can see all your favorite pinners</p>
+		</div>
+		<div class="doer-listing row pt-0">
+			<div class="col-lg-6 col-xl-4 mb-4" *ngFor="let eachDoer of doerListing;">
+				<ng-container>
+					<div class="indv-doer">						
+						<span class="like-box liked" (click)="likeDoer($event,eachDoer?.user_details?.id)"></span>
+						<div class="profDoer d-flex mb-4">																
+							<span class="prof_img clickable_link" style="cursor:pointer;" (click)="commonservice.openWithNewTab(eachDoer.id)" *ngIf="eachDoer?.user_details?.company_logo!='' && eachDoer?.user_details?.company_logo!=null">
+			    				<img src="{{componentapiUrl}}/company_logo/{{eachDoer?.user_details?.company_logo}}" onError="this.src='assets/images/inddoer1.jpg';" alt="">
+			    			</span>
+			    			<span class="prof_img no-img clickable_link" style="cursor:pointer;" (click)="commonservice.openWithNewTab(eachDoer?.user_details?.id)" *ngIf="eachDoer?.user_details?.company_logo=='' || eachDoer?.user_details?.company_logo==null">
+			    				<img src="{{componentapiUrl}}/profile_photo/{{eachDoer?.user_details?.profile_photo}}" onError="this.src='assets/images/inddoer1.jpg';" alt="">
+			    			</span>
+							<div class="prof_infoDoer">
+								<h4 class="clickable_link" (click)="commonservice.openWithNewTab(eachDoer?.user_details?.id)">{{ eachDoer?.user_details?.name }}</h4>
+								<p class="adress_doer" *ngIf="eachDoer?.user_details?.address == null"><i class="fas fa-map-marker-alt"></i>Not Yet AVailable</p>
+								<p class="adress_doer" *ngIf="eachDoer?.user_details?.address != null"><a [href]="getAddLink(eachDoer?.user_details?.address)" target="_blank"><i class="fas fa-map-marker-alt"></i>{{ eachDoer?.user_details?.address }}</a></p>
+								<div class="ratingDoer d-flex" style="cursor:pointer;" (click)="commonservice.openWithNewTab(eachDoer?.user_details?.id)" *ngIf="eachDoer?.user_details?.review_count!=0">
+									<span class="indvrating" *ngFor="let eachRating of convertToarray(eachDoer?.user_details?.rating_avg,'filled')"><i class="fas fa-star"></i></span>
+									<p>{{eachDoer?.user_details?.rating_avg}}.0 ({{eachDoer?.user_details?.review_count}} True Reviews)</p>
+								</div>
+							</div>
+						</div>
+						<div class="doerStats mb-4">
+							<h4>Doer Stats</h4>
+							<!-- <span class="statBox">100 Verified Jobs</span> -->
+							<!-- <span class="statBox" (click)="goToPins('Ongoing',eachDoer?.user_details?.id)">{{eachDoer.ongoing_pin}} Ongoing Jobs</span>
+							<span class="statBox" (click)="goToPins('Completed',eachDoer?.user_details?.id)">{{eachDoer.completed_pin}} Completed Jobs</span> -->
+
+							<span class="statBox">{{eachDoer.ongoing_pin}} Ongoing Jobs</span>
+							<span class="statBox">{{eachDoer.completed_pin}} Completed Jobs</span>
+						</div>
+						<div class="hiredBy d-flex justify-content-between mb-4">
+							<p>Hired By <span>15 Friends</span></p>
+							<div class="hiredCont">							
+								<span class="hiredBox">
+									<img src="assets/images/hired1.jpg">
+								</span>
+								<span class="hiredBox">
+									<img src="assets/images/hired2.jpg">
+								</span>
+								<span class="hiredBox">
+									<img src="assets/images/hired3.jpg">
+								</span>
+								<span class="hiredBox">
+									<img src="assets/images/hired4.jpg">
+								</span>
+								<span class="hireNumber">+11</span>
+							</div>
+						</div>
+						<div class="doerBadges">
+							<h4>PinDo Badges</h4>
+							<div class="badgCont d-flex justify-content-between">
+								<div class="doerBadge d-flex">
+									<ng-container *ngFor="let eachBadge of eachDoer?.user_details?.user_badges | slice:0:3">
+										<span (click)="goToPublicProfile(eachDoer?.id)" class="indvBadg" matTooltip="{{eachBadge.badge_details.name}}" matTooltipClass="green-tooltip"><img src="assets/images/badges-icon/badge-1.png"></span>
+									</ng-container>									
+								</div>
+								<ng-container *ngIf="eachDoer?.user_details?.user_badges.length>3">
+								 	<p (click)="goToPublicProfile(eachDoer?.id)">and {{eachDoer?.user_details?.user_badges.length - 3}} more badges....</p>
+								</ng-container>
+							</div>
+						</div>
+						<div class="abs-btngrp">
+							<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+							  <mat-button-toggle value="View Details" (click)="commonservice.openWithNewTab(eachDoer?.user_details?.id)">View Details</mat-button-toggle>
+							  <mat-button-toggle value="Message" (click)="goToChat(eachDoer?.user_details?.id)">Message</mat-button-toggle>
+							</mat-button-toggle-group>
+						</div>
+					</div>
+				</ng-container>
+			</div>				
+		</div>
+	</div>
+</div>

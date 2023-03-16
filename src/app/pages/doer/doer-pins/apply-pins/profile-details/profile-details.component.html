@@ -1,0 +1,77 @@
+<div class="indv-doer hire-doerapplyquote">
+	<div class="profDoer d-flex mb-4 align-items-center no_background">
+		<span class="prof_img" *ngIf="fetchedPinDetails?.pinner_details?.profile_photo!=''">
+			<img [ngClass]="fetchedPinDetails?.status >= 2 || isMsgExists == 1 || totalDataDetails?.application_dtls?.status == 0? '': 'blurImg'"
+				src="{{gbConstant.uploadUrl}}/profile_photo/{{fetchedPinDetails?.pinner_details?.profile_photo}}"
+				onError="this.src='assets/images/default-userImg-green.svg';" alt="">
+		</span>
+		<span class="prof_img no-img" *ngIf="!fetchedPinDetails?.pinner_details?.profile_photo">
+			<img [ngClass]="fetchedPinDetails?.status >= 2 || isMsgExists == 1 || totalDataDetails?.application_dtls?.status == 0? '': 'blurImg'"
+				src="assets/images/default-userImg-green.svg" alt="">
+		</span>
+		<h4 [ngClass]="fetchedPinDetails?.status >= 2 || isMsgExists == 1 || totalDataDetails?.application_dtls?.status == 0? '': 'blurText'">
+			{{fetchedPinDetails?.pinner_details?.name}}</h4>
+	</div>
+	<!-- <div class="doerStats mb-4">
+        <ng-container *ngIf="totalDataDetails?.pin_details?.pin_tasks.length>0;">
+            <h4>Job Tasks</h4>
+            <div class="task-list mb-4">
+                <span *ngFor="let eachPinTask of totalDataDetails?.pin_details?.pin_tasks">{{eachPinTask?.task_details?.name}}</span>
+            </div>
+        </ng-container>
+        <h4 class="mb-2">Tags</h4>
+        <ng-container *ngIf="fetchedPinDetails?.job_type!=null">
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.job_type==0">One-time job</span>
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.job_type==1">Recurring</span>
+        </ng-container>
+        <ng-container *ngIf="fetchedPinDetails?.how_often!=null">
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.how_often==0">Daily</span>
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.how_often==1">Weekly</span>
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.how_often==2">Bi-weekly</span>
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.how_often==3">Monthly</span>
+        </ng-container>
+        <span class="quotationlist" *ngIf="is_urgent==1">Urgent Requirement</span>
+        <ng-container *ngIf="fetchedPinDetails?.time_of_day!=null">
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.time_of_day==0">Morning</span>
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.time_of_day==1">Afternoon</span>
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.time_of_day==2">Evening</span>
+        </ng-container>
+        <ng-container *ngIf="fetchedPinDetails?.day_of_week!=null">
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.day_of_week==0">Anyday</span>
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.day_of_week==1">Weekday</span>
+            <span class="quotationlist" *ngIf="fetchedPinDetails?.day_of_week==3">Individual Days</span>
+            <ng-container *ngIf="fetchedPinDetails?.day_of_week==3">
+                <span class="quotationlist" *ngIf="fetchedPinDetails?.ind_monday==1">Monday</span>
+                <span class="quotationlist" *ngIf="fetchedPinDetails?.ind_tuesday==1">Tuesday</span>
+                <span class="quotationlist" *ngIf="fetchedPinDetails?.ind_wednesday==1">Wednesday</span>
+                <span class="quotationlist" *ngIf="fetchedPinDetails?.ind_thursday==1">Thursday</span>
+                <span class="quotationlist" *ngIf="fetchedPinDetails?.ind_friday==1">Friday</span>
+                <span class="quotationlist" *ngIf="fetchedPinDetails?.ind_saturday==1">Saturday</span>
+                <span class="quotationlist" *ngIf="fetchedPinDetails?.ind_sunday==1">Sunday</span>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="fetchedPinDetails?.pinner_details?.company_name!=null">
+            <span class="quotationlist">{{fetchedPinDetails?.pinner_details?.company_name}}</span>
+        </ng-container>
+    </div> -->
+
+	<!-- <h4>Future Pinner stuff: </h4>
+    <p>Pinner Rating/Score</p>  -->
+
+	<div class="abs-btngrp">
+		<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+			<!-- <mat-button-toggle class="green-btn" value="Accept" *ngIf="totalDataDetails?.application_dtls?.status==2" (click)="acceptTheJob(fetchedPinDetails?.id,totalDataDetails?.application_dtls?.id);">Accept</mat-button-toggle> -->
+			<!-- <mat-button-toggle *ngIf="totalDataDetails?.application_dtls?.status==0 || totalDataDetails?.application_dtls?.status==2" class="red-btn" value="Decline" (click)="declineTheJob(fetchedPinDetails?.id,totalDataDetails?.application_dtls?.id);">Decline</mat-button-toggle> -->
+			<mat-button-toggle *ngIf="totalDataDetails?.application_dtls?.status==4" class="red-btn" value="Declined"
+				disabled>Declined By You</mat-button-toggle>
+			<mat-button-toggle *ngIf="totalDataDetails?.application_dtls?.status==3" class="red-btn" value="Declined"
+				disabled>Declined By Pinner</mat-button-toggle>
+			<mat-button-toggle
+				*ngIf="totalDataDetails?.application_dtls?.status!=4 && totalDataDetails?.application_dtls?.status!=3"
+				value="Message" (click)="goToChat(fetchedPinDetails?.pinner_details?.id,fetchedPinDetails?.id)" #messageBtn>Message
+			</mat-button-toggle>
+			<mat-button-toggle value="Message" routerLink="/doer/refer-doer/{{fetchedPinDetails?.id}}"
+				*ngIf="totalDataDetails?.quotation_dtls==null">Refer Doer</mat-button-toggle>
+		</mat-button-toggle-group>
+	</div>
+</div>

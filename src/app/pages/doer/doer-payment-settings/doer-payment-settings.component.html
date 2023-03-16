@@ -1,0 +1,221 @@
+<div class="totalDashboard">
+	<div class="container-fluid">
+		<div class="mainHeading">
+			<h3>How Pinners will pay you</h3>
+			<p>View, add or edit bank account/credit card.</p>
+		</div>
+		<div class="col-md-8 offset-md-2" *ngIf="ifBanksExist">
+			<div class="no_content row">
+				<div class="col-md-6 text-right">
+					<img src="assets/images/payment_nodata.png" class="mr-4" alt="">
+				</div>
+				<div class="col-md-6">
+					<h5>No Bank Added</h5>
+					<p>You have not added any Bank details to receive payment. Please add your Bank details to avail the services.</p>
+
+					<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="togglePopup()">
+	                    Add now
+	                </button>
+
+	                <!-- <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="toggleParentPopup('addBank')" [hidden]="dummyContactinformation">
+	                    Add now
+	                </button> -->
+	                <app-doer-add-bank [isHiddenaddBank]="addBankshow" #addBank (bankAdded)='bankAddedSuccess($event)'></app-doer-add-bank>
+				</div>
+			</div>
+		</div>
+		<div class="populatedCards" *ngIf="!ifBanksExist">
+			<div class="row">
+				<div class="col-md-4">
+					<mat-card class="pindoCart">
+					  <mat-card-header>
+					    <mat-card-title class="d-flex justify-content-between">
+					    	<div class="left_cardtitle">
+					    		<!-- <span class="bank-logo float-left mr-3"><img src="assets/images/payment-icons/citibank.png" alt=""></span> -->
+					    		Credit Card
+					    	</div>
+					    	<div class="custom_checkbox_tick">
+					    		<input type="radio" id="card-1">
+					    		<label for="card-1">&nbsp;</label>
+					    	</div>
+					    </mat-card-title>
+					  </mat-card-header>
+					  <mat-card-content>
+					  	<div class="row card_information">
+					  		<div class="col-md-9">
+					  			<h4 class="mb-3">Card Number<br>
+					  			49xx xxxx xxxx xx84</h4>
+					  			<p class="mb-4">Expiry Date - 04/29</p>
+					  			<div class="btn-group">
+					  				<button mat-raised-button class="dashboardprimary text-uppercase small_btn mr-3">Edit Card</button>
+					  				<button mat-raised-button class="dashboardprimary text-uppercase small_btn red_btn">Remove</button>
+					  			</div>
+					  		</div>
+					  		<div class="col-md-3 text-right">
+					  			<img src="assets/images/payment-icons/visa-icon.png" alt="">
+					  		</div>
+					  	</div>
+					  </mat-card-content>
+					</mat-card>
+				</div>
+				<div class="col-md-4">
+					<div class="add-cardbox d-flex align-items-center justify-content-center h-100 flex-column" (click)="togglePopup()">
+						<mat-icon class="addcardicon">add_circle_outline</mat-icon>
+						<button class="btn btn-link">Add New Card</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="overlayPopup popupavl" #popupref>
+		<div class="popupHeader">
+			<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+			<h3>Add New Bank </h3>
+		</div>
+		<div class="popupContent">
+			<div class="container">
+				<form #bankForm="ngForm" (ngSubmit)="onSubmit(bankForm)" novalidate [formGroup]="banks_form" autocomplete="off">
+					<div class="row">
+						<div class="col-md-6">
+							<mat-form-field appearance="outline">
+								<mat-label>First Name</mat-label>
+								<input matInput id="first_name" formControlName="first_name" type="text" placeholder="First Name" required>
+								<mat-error *ngIf="bankForm?.submitted && f.first_name.errors && !f.first_name.errors?.required">Invalid First Name</mat-error>
+								<mat-error *ngIf="bankForm?.submitted && f.first_name.errors?.required">This field required</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-md-6">
+							<mat-form-field appearance="outline">
+								<mat-label>Last Name</mat-label>
+								<input matInput id="last_name" formControlName="last_name" type="text" placeholder="Last Name" required>
+								<mat-error *ngIf="bankForm?.submitted && f.last_name.errors && !f.last_name.errors?.required">Invalid First Name</mat-error>
+								<mat-error *ngIf="bankForm?.submitted && f.last_name.errors?.required">This field required</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+					<!-- <div class="row">
+						<div class="col-md-6">
+							<mat-form-field appearance="outline">
+								<mat-label>Email</mat-label>
+								<input matInput id="email" formControlName="email" type="text" placeholder="Email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+								<mat-error *ngIf="bankForm?.submitted && f.email.errors && (f.email.errors.email || f.email.errors.pattern)">Invalid Email</mat-error>
+								<mat-error *ngIf="bankForm?.submitted && f.email.errors?.required">This field required</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-md-6">
+							<mat-form-field appearance="outline" color="primary">
+								<mat-label>Date of birth </mat-label>
+								<input matInput [matDatepicker]="pickerFrom" id="dob" formControlName="dob" placeholder="Date of birth" [max]="startDate"  required [disabled] >
+    							<mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+    							<mat-datepicker #pickerFrom [disabled]="false"></mat-datepicker>
+								<mat-error *ngIf="bankForm?.submitted && f.dob.errors && !f.dob.errors?.required">Invalid Dob</mat-error>
+								<mat-error *ngIf="bankForm?.submitted && f.dob.errors?.required">This field required</mat-error>
+							</mat-form-field>
+						</div>
+					</div> -->
+					<!-- <div class="row">
+						<div class="col-md-6">
+							<mat-form-field appearance="outline">
+								<mat-label>Country</mat-label>
+								<mat-select placeholder="Select Country" formControlName="country" required>
+							    	<mat-option *ngFor="let each_country of countries" [value]="each_country.iso_2">
+							      	{{each_country.name}}
+							    	</mat-option>
+							  	</mat-select>
+								<mat-error *ngIf="bankForm?.submitted && f.country.errors?.required">This field required</mat-error>
+							</mat-form-field>
+						</div>
+						
+					</div> -->
+					<div class="row">
+						<div class="col-md-6">
+							<mat-form-field appearance="outline">
+								<mat-label>Routing number</mat-label>
+								<input matInput id="routing_number" formControlName="routing_number" type="text" placeholder="Routing number" required>
+								<mat-error *ngIf="bankForm?.submitted && f.routing_number.errors?.required">This field required</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-md-6">
+							<mat-form-field appearance="outline">
+								<mat-label>Account number</mat-label>
+								<input matInput id="account_number" formControlName="account_number" type="text" placeholder="Account number" required>
+								<mat-error *ngIf="bankForm?.submitted && f.account_number.errors?.required">This field required</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+	                <!-- <div formGroupName="address">
+
+	                	<div class="row">
+		                  	<div class="col-md-6">
+		                      	<mat-form-field appearance="outline">
+		                          	<mat-label>Address Line</mat-label>
+		                          	<input matInput ngx-google-places-autocomplete formControlName="line1" [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Address Line*" required>
+		                          	<mat-error *ngIf="bankForm?.submitted && addressController.line1.errors?.required">This field required</mat-error>
+		                      	</mat-form-field>
+		                  	</div>
+		                  	<div class="col-md-6">
+								<mat-form-field appearance="outline">
+									<mat-label>Postal code</mat-label>
+									<input matInput id="postal_code" formControlName="postal_code" type="text" placeholder="Postal code" required>
+									<mat-error *ngIf="bankForm?.submitted && addressController.postal_code.errors?.required">This field required</mat-error>
+								</mat-form-field>
+							</div>
+		                </div>
+
+	                	<div class="row">
+
+							<div class="col-md-6">
+								<mat-form-field appearance="outline">
+									<mat-label>City</mat-label>
+									<input matInput id="city" formControlName="city" type="text" placeholder="City" required>
+									<mat-error *ngIf="bankForm?.submitted && addressController.city.errors?.required">This field required</mat-error>
+								</mat-form-field>
+							</div>
+
+							<div class="col-md-6">
+								<mat-form-field appearance="outline">
+									<mat-label>State</mat-label>
+									<input matInput id="state" formControlName="state" type="text" placeholder="State" required>
+									<mat-error *ngIf="bankForm?.submitted && addressController.state.errors?.required">This field required</mat-error>
+								</mat-form-field>
+							</div>
+						</div>
+			        </div> -->
+	                <div class="row">
+
+			        	<div class="col-md-6">
+							<mat-form-field appearance="outline">
+								<mat-label>SSN Last 4 digit</mat-label>
+								<input matInput id="ssn_last_4" formControlName="ssn_last_4" type="text" placeholder="SSN Last 4 digit" required>
+								<mat-error *ngIf="f.ssn_last_4.errors?.required">This field required</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-md-6">
+							<mat-form-field appearance="outline">
+								<mat-label>Type</mat-label>
+							  	<mat-select placeholder="Select Type" formControlName="type" required>
+							    	<mat-option *ngFor="let each_type of types" [value]="each_type.value">
+							      	{{each_type.viewValue}}
+							    	</mat-option>
+							  	</mat-select>
+							 	<mat-error *ngIf="bankForm?.submitted && f.type.errors?.required">This field required</mat-error>
+							</mat-form-field>
+						</div>
+			        	<!-- <div class="col-md-6">
+
+							<input type="file" name="pImg" (change)="accptFile($event)" formControlName="imgUrl" inputId="input-file" placeholder="Drop files below!">
+							<mat-error *ngIf="bankForm?.submitted && f.imgUrl.errors?.required">This field required</mat-error>
+			        	</div> -->
+			        </div>
+
+			        <div class="d-flex justify-content-center pt-5">
+						<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+	                        Update
+	                    </button>
+					</div>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>

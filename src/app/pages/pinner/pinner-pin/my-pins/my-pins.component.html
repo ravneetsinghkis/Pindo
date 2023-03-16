@@ -1,0 +1,804 @@
+<div class="totalDashboard customtop_padding" cdkScrollable>
+	<div class="topCutomisedNewBar pinner_section">
+
+	</div>
+	<div class="container top_200minus pinner_sectiontopMinus">
+		<div class="mainHeading">
+			<h1>My Pins</h1>
+			<p>View all the Pins listed and get their details.</p>
+		</div>
+		<div class="pins-section">
+			<div class="control-tabs d-flex">
+				<ng-container *ngIf="!inMobView">
+
+					<div class="tab_radio">
+						<input type="radio" [(ngModel)]="selectedTypeOfPin" value="Draft" name="pinner_type"
+							(change)="onPinSelection('Draft')" id="pin-6">
+						<label for="pin-6">Draft
+							<span class="tab-pin-number">{{countTotalDraftPin}}</span>
+						</label>
+					</div>
+
+					<div class="tab_radio">
+						<input type="radio" [(ngModel)]="selectedTypeOfPin" value="Active" (change)="onPinSelection('Active')"
+							checked name="pinner_type" id="pin-1">
+						<label for="pin-1">Invited / Quoting
+							<span class="tab-pin-number">{{countTotalInvitedPin}}</span>
+						</label>
+					</div>
+					<div class="tab_radio">
+						<input type="radio" [(ngModel)]="selectedTypeOfPin" value="Ongoing" (change)="onPinSelection('Ongoing')"
+							name="pinner_type" id="pin-2">
+						<label for="pin-2">Hired
+							<span class="tab-pin-number">{{countTotalOngoingPin}}</span>
+						</label>
+					</div>
+					<div class="tab_radio">
+						<input type="radio" [(ngModel)]="selectedTypeOfPin" value="Completed" name="pinner_type"
+							(change)="onPinSelection('Completed')" id="pin-3">
+						<label for="pin-3">Completed
+							<span class="tab-pin-number">{{countTotalCompletedPin}}</span>
+						</label>
+					</div>
+					<div class="tab_radio">
+						<input type="radio" [(ngModel)]="selectedTypeOfPin" value="Dispute" name="pinner_type"
+							(change)="onPinSelection('Dispute')" id="pin-4">
+						<label for="pin-4">Disputed
+							<span class="tab-pin-number">{{countTotalDisputePin}}</span>
+						</label>
+					</div>
+					<div class="tab_radio">
+						<input type="radio" [(ngModel)]="selectedTypeOfPin" value="Blocked" name="pinner_type"
+							(change)="onPinSelection('Blocked')" id="pin-5">
+						<label for="pin-5">Archived
+							<span class="tab-pin-number">{{countTotalBlockedPin}}</span>
+						</label>
+					</div>
+				</ng-container>
+				<mat-form-field *ngIf="inMobView" class="onlyformobile">
+					<mat-select [(value)]="selectedTypeOfPin" [(ngModel)]="selectedTypeOfPin"
+						(selectionChange)="onPinSelection(selectedTypeOfPin)" placeholder="Select Pin Status">
+						<mat-option value="Draft">Draft ({{countTotalDraftPin}})
+						</mat-option>
+						<mat-option value="Active">Invited / Quoting ({{countTotalInvitedPin}})</mat-option>
+						<mat-option value="Ongoing">Hired ({{countTotalOngoingPin}})</mat-option>
+						<mat-option value="Completed">Completed ({{countTotalCompletedPin}})</mat-option>
+						<mat-option value="Dispute">Disputed ({{countTotalDisputePin}})</mat-option>
+						<mat-option value="Blocked">Archived ({{countTotalBlockedPin}})</mat-option>
+					</mat-select>
+				</mat-form-field>
+
+				<div class="abs-buttongrp" (clickOutside)="onClickedOutside($event)">
+					<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+						<mat-button-toggle (click)="triggerClear();"
+							*ngIf="(filterPinModel['searchby']!='' || filterPinModel['start_date']!='' || filterPinModel['end_date']!='') && !toggleFilterBool">
+							Clear Filter
+						</mat-button-toggle>
+						<mat-button-toggle value="bold" (click)="toggleFilter();" class="filterApplied">
+							<ng-container *ngIf="!toggleFilterBool"></ng-container>
+							<ng-container *ngIf="toggleFilterBool"></ng-container>
+						</mat-button-toggle>
+					</mat-button-toggle-group>
+					<div class="absFilter" *ngIf="toggleFilterBool">
+						<h4>Search Pins</h4>
+						<form #filterPin="ngForm" (ngSubmit)="filterPinSubmit(filterPin)" autocomplete="off">
+							<div class="row posn_rel">
+								<div class="col-12">
+									<mat-form-field appearance="outline">
+										<mat-label>Search by name/Location</mat-label>
+										<input type="text" matInput name="searchby" #searchby="ngModel" [matAutocomplete]="tdAuto"
+											[(ngModel)]="filterPinModel.searchby" placeholder="Search by name/Location"
+											[required]="(filterPinModel.start_date=='' && filterPinModel.end_date=='')"
+											(ngModelChange)="searchPin(filterPinModel.searchby)" (optionSelected)="selectedVal($event)">
+										<mat-error *ngIf="searchby.errors && (filterPin.submitted) && searchby.errors.required">
+											This field
+											required</mat-error>
+										<mat-spinner [diameter]="30" id="mat-spinner"></mat-spinner>
+										<mat-autocomplete autoActiveFirstOption #tdAuto="matAutocomplete"
+											(optionSelected)="selectedVal($event)">
+											<mat-option *ngFor="let state of pinAutocomplete" [value]="state">
+												{{state}}
+											</mat-option>
+										</mat-autocomplete>
+									</mat-form-field>
+								</div>
+
+							</div>
+							<h4>Filter by date</h4>
+							<div class="row posn_rel" ngModelGroup="ValidateDates" appCompareDateStrings #dategrp="ngModelGroup">
+								<div class="col-md-6">
+									<mat-form-field appearance="outline"
+										[ngClass]="{'mat-form-field-invalid':(filterPin.submitted && dategrp.errors?.notEqual) || (fromDate.errors && (filterPin.submitted) && fromDate.errors?.required)}">
+										<mat-label>Start Date</mat-label>
+										<input name="start_date" (click)="pickerFrom.open()" matInput [matDatepicker]="pickerFrom"
+											#fromDate="ngModel" [(ngModel)]="filterPinModel.start_date" placeholder="Start Date" readonly
+											[required]="(filterPinModel.searchby=='' || filterPinModel.end_date!='') || (filterPin.submitted && dategrp.errors?.notEqual)">
+										<mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+										<mat-datepicker #pickerFrom></mat-datepicker>
+										<mat-error *ngIf="fromDate.errors && (filterPin.submitted) && fromDate.errors?.required">
+											This field
+											required</mat-error>
+									</mat-form-field>
+								</div>
+								<div class="col-md-6">
+									<mat-form-field appearance="outline"
+										[ngClass]="{'mat-form-field-invalid':(filterPin.submitted && dategrp.errors?.notEqual) || (fromDate.errors && (filterPin.submitted) && fromDate.errors?.required)}">
+										<mat-label>End Date</mat-label>
+										<input name="end_date" matInput (click)="pickerTo.open()" [matDatepicker]="pickerTo"
+											#endDate="ngModel" [(ngModel)]="filterPinModel.end_date" placeholder="End Date" readonly
+											[required]="(filterPinModel.searchby=='' || filterPinModel.start_date!='') || (filterPin.submitted && dategrp.errors?.notEqual)">
+										<mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+										<mat-datepicker #pickerTo></mat-datepicker>
+										<mat-error *ngIf="endDate.errors && (filterPin.submitted) && endDate.errors?.required">
+											This field
+											required</mat-error>
+									</mat-form-field>
+								</div>
+								<div class="mat-error text-center mat-custom-error col-md-12"
+									*ngIf="filterPin.submitted && dategrp.errors?.notEqual">
+									From Time is bigger than To time
+								</div>
+							</div>
+							<div class="custombtnboder text-center w-100">
+								<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2"
+									id="submitAutocomplete">
+									Apply
+								</button>
+								<button type="button" mat-button class="text-uppercase" (click)="clearForm(filterPin)">
+									Clear
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="pin-listing mb-3">
+
+				<ng-container *ngIf="selectedTypeOfPin=='Draft'">
+					<div class="total-table">
+						<div class="table-header d-flex" *ngIf="draftPinList?.length>0">
+							<div class="coltab withFilter">
+								Date / Time <div class="filterasc_desc sortAppl hasDesc" (click)="filterByColumn('created_at',$event)">
+								</div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Pin Details <div class="filterasc_desc" (click)="filterByColumn('title',$event)"></div>
+							</div>
+							<div class="coltab withFilter flex-2">
+								Pin location <div class="filterasc_desc" (click)="filterByColumn('address',$event)">
+								</div>
+							</div>
+						</div>
+						<div class="scrollcontainer" *ngIf="draftPinList.length>0" infiniteScroll [infiniteScrollDistance]="2"
+							[infiniteScrollUpDistance]="1.5" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [fromRoot]="true"
+							[infiniteScrollContainer]="'.totalDashboard'">
+							<div class="table-body white-bg">
+								<div class="table-row d-flex" *ngFor="let eachPin of draftPinList">
+
+									<a class="forredirection" routerLink="/pinner/edit-pin/{{eachPin.slug}}"></a>
+									<div class="coltab" data-heading="Date / Time">
+										<p>
+											{{eachPin.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{eachPin.created_at?.split('-').join('/') | date:'h:mm a'}}
+										</p>
+									</div>
+									<div class="coltab flex-2 align-self-center" data-heading="Pin Details">
+										<p class="linkStyle">{{eachPin?.title}}&nbsp;
+											<span class="green-text font-italic">
+												DRAFT
+											</span>
+										</p>
+
+										<div class="green-pin">
+											{{eachPin.parent_child_cat?.parent_det?.name}} >
+											{{eachPin.parent_child_cat?.name}}
+										</div>
+									</div>
+									<div class="coltab flex-2" data-heading="Pin Location">
+										<p *ngIf="eachPin?.address && eachPin?.location_id!=dl" class="no_whitespace"
+											[title]="eachPin?.address">
+											{{eachPin?.address}}, {{eachPin?.city}},
+											{{eachPin?.state}}
+											{{eachPin?.zipcode}}</p>
+										<p *ngIf="!eachPin?.address && eachPin?.location_id=='dl'" class="no_whitespace"
+											title="Doer location">
+											Doer Location</p>
+										<p *ngIf="!eachPin?.address && eachPin?.location_id==0" class="no_whitespace"
+											title="No location yet">
+											No location yet</p>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="table-body white-bg" *ngIf="draftPinList?.length==0">
+							<div class="table-row d-flex">
+								<div class="no_content row w-100">
+									<div class="col-md-5">
+										<img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+									</div>
+									<div class="col-md-7 align-self-center">
+										<ng-container>
+											<h5>No Pins Found</h5>
+											<p>No pins found with selected filter</p>
+										</ng-container>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+
+				<ng-container *ngIf="selectedTypeOfPin=='Active'">
+					<div class="total-table rightdropdown">
+						<div class="table-header d-flex" *ngIf="activePinData.length>0;">
+							<div class="coltab withFilter">
+								Date / Time <div class="filterasc_desc sortAppl hasDesc" (click)="filterByColumn('created_at',$event)">
+								</div>
+							</div>
+
+							<div class="coltab flex-2 withFilter">
+								Pin Details <div class="filterasc_desc" (click)="filterByColumn('title',$event)"></div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Service Location <div class="filterasc_desc" (click)="filterByColumn('address',$event)">
+								</div>
+							</div>
+
+							<div class="coltab withFilter">
+								Submitted
+							</div>
+						</div>
+						<ng-container>
+							<div class="scrollcontainer" *ngIf="activePinData.length>0" infiniteScroll [infiniteScrollDistance]="2"
+								[infiniteScrollUpDistance]="1.5" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [fromRoot]="true"
+								[infiniteScrollContainer]="'.totalDashboard'">
+								<div class="table-body white-bg">
+									<div class="table-row d-flex" *ngFor="let eachActivePinData of activePinData">
+										<a class="forredirection"
+											routerLink="/pinner/active-quotations/{{getEncryptedDoerId(eachActivePinData.id)}}"></a>
+										<div class="coltab" data-heading="Date / Time">
+											<p>
+												{{eachActivePinData.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{eachActivePinData.created_at?.split('-').join('/') | date:'h:mm a'}}
+											</p>
+										</div>
+
+										<div class="coltab flex-2 align-self-center" data-heading="Pin Details">
+											<p class="linkStyle">{{eachActivePinData.title}}</p>
+											<div class="green-pin">
+												{{eachActivePinData.parent_child_cat?.parent_det?.name}} >
+												{{eachActivePinData.parent_child_cat?.name}}
+											</div>
+										</div>
+										<div class="coltab flex-2 align-self-center" data-heading="Service Location">
+											<p *ngIf="eachActivePinData?.location_id!='dl'" class="no_whitespace">
+												{{eachActivePinData.address}}, {{eachActivePinData.city}},
+												{{eachActivePinData.state}}
+												{{eachActivePinData.zipcode}}</p>
+											<p *ngIf="eachActivePinData?.location_id=='dl'">Doer's Location</p>
+										</div>
+
+										<div class="coltab" data-heading="Submitted">
+											<p><span
+													class="quotation_number">{{eachActivePinData.no_quotation_submitted}}</span>&nbsp;Quotations
+											</p>
+										</div>
+										<div class="abs-dropdown d-flex justify-content-around">
+											<div class="single_drop">
+												<button mat-icon-button [matMenuTriggerFor]="menu">
+													<i class="fas fa-chevron-down"></i>
+												</button>
+												<mat-menu #menu="matMenu" [overlapTrigger]="false">
+
+													<a mat-menu-item routerLink="/pinner/edit-pin/{{eachActivePinData.slug}}">
+														<span>Edit</span>
+													</a>
+													<a mat-menu-item
+														routerLink="/pinner/active-quotations/{{getEncryptedDoerId(eachActivePinData.id)}}">
+														<span>Details</span>
+													</a>
+												</mat-menu>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-container>
+						<div class="table-body white-bg" *ngIf="activePinData.length==0">
+							<div class="table-row d-flex">
+								<div class="no_content row w-100">
+									<div class="col-md-5">
+										<img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+									</div>
+									<div class="col-md-7 align-self-center">
+										<ng-container>
+											<h5>No Pins Found Active</h5>
+											<p>No pins found with selected filter</p>
+										</ng-container>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+
+				<ng-container *ngIf="selectedTypeOfPin=='Ongoing'">
+					<div class="total-table">
+						<div class="table-header d-flex" *ngIf="ongoingPinList?.length>0">
+							<div class="coltab withFilter">
+								Date / Time <div class="filterasc_desc sortAppl hasDesc" (click)="filterByColumn('created_at',$event)">
+								</div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Pin Details <div class="filterasc_desc" (click)="filterByColumn('title',$event)"></div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Pin Location <div class="filterasc_desc" (click)="filterByColumn('address',$event)">
+								</div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Assigned Doer
+							</div>
+							<!-- <div class="coltab withFilter">
+				    			Budget <div class="filterasc_desc" (click)="filterByColumn('budget_value',$event)"></div>
+				    		</div> -->
+							<div class="coltab withFilter">
+								Total Amount
+							</div>
+						</div>
+						<div class="scrollcontainer" *ngIf="ongoingPinList.length>0" infiniteScroll [infiniteScrollDistance]="2"
+							[infiniteScrollUpDistance]="1.5" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [fromRoot]="true"
+							[infiniteScrollContainer]="'.totalDashboard'">
+							<div class="table-body white-bg">
+								<div class="table-row d-flex" *ngFor="let eachOngoingPin of ongoingPinList">
+									<a class="forredirection"
+										routerLink="/pinner/active-quotation-details/{{eachOngoingPin.slug}}/{{getEncryptedDoerId(eachOngoingPin.selected_application?.doer_id)}}"></a>
+									<div class="coltab" data-heading="Date / Time">
+										<p>
+											{{eachOngoingPin.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{eachOngoingPin.created_at?.split('-').join('/') | date:'h:mm a'}}
+										</p>
+									</div>
+									<div class="coltab flex-2 align-self-center" data-heading="Pin Details">
+										<p class="linkStyle">{{eachOngoingPin.title}}</p>
+										<div class="d-flex flex-wrap">
+											<div class="green-pin mr-2">
+												{{eachOngoingPin.parent_child_cat?.parent_det?.name}} >
+												{{eachOngoingPin.parent_child_cat?.name}}
+											</div>
+
+											<div class="green-pin orange-color" *ngIf="eachOngoingPin.pending_activities>0">
+												{{eachOngoingPin.pending_activities}} Activity
+											</div>
+										</div>
+									</div>
+									<div class="coltab flex-2" data-heading="Pin ID">
+										<!-- <p>{{eachOngoingPin.pin_unique_id}}</p> -->
+										<p *ngIf="eachOngoingPin?.address!=null" class="no_whitespace" [title]="eachOngoingPin?.address">
+											{{eachOngoingPin?.address}}, {{eachOngoingPin?.city}},
+											{{eachOngoingPin?.state}}
+											{{eachOngoingPin?.zipcode}}</p>
+									</div>
+									<div class="coltab flex-2 align-self-center" data-heading="Assigned Doer">
+										<div class="prof-info">
+											<span class="prof-img"
+												*ngIf="eachOngoingPin?.selected_application?.user_details?.company_logo!=''">
+												<img
+													src="{{baseCompUrl}}/company_logo/{{eachOngoingPin?.selected_application?.user_details?.company_logo}}"
+													onError="this.src='assets/images/avatar.png';" alt="">
+											</span>
+											<span class="prof-img no-img"
+												*ngIf="eachOngoingPin?.selected_application?.user_details?.company_logo==''">
+												<img src="assets/images/avatar.png" alt="">
+											</span>
+											<h5>
+												{{ eachOngoingPin?.selected_application?.user_details?.profile_type == 2 ? eachOngoingPin?.selected_application?.user_details?.company_name : eachOngoingPin?.selected_application?.user_details?.username }}
+											</h5>
+										</div>
+									</div>
+									<!-- <div class="coltab" data-heading="Budget">
+							    		<p *ngIf="eachOngoingPin.budget_value!=null">$ {{eachOngoingPin.budget_value}}</p>
+							    		<p *ngIf="eachOngoingPin.budget_value==null">No Budget</p>
+							    	</div> -->
+									<div class="coltab" data-heading="Total Amount">
+										<div>
+											<ng-container *ngIf="eachOngoingPin?.expenses!=null">$
+												{{eachOngoingPin?.expenses | number:'1.2-2'}}</ng-container>
+											<ng-container *ngIf="eachOngoingPin?.expenses==null">$ 0</ng-container>
+											<span class="rec_icon"
+												*ngIf="eachOngoingPin?.selected_application?.quotations?.payment_mode==3"><img
+													src="assets/images/recurring_symbol.png" alt=""></span>
+										</div>
+									</div>
+									<!-- <div class="abs-dropdown d-flex justify-content-around">
+							    		<div class="single_drop">
+								    		<button mat-icon-button [matMenuTriggerFor]="menu">
+											  <i class="fas fa-chevron-down"></i>
+											</button>
+											<mat-menu #menu="matMenu" [overlapTrigger]="false">
+											  <a mat-menu-item disabled>									    
+											    <span>Complete</span>
+											  </a>	
+											  <a mat-menu-item disabled>									    
+											    <span>Cancel</span>
+											  </a>									  
+											</mat-menu>
+										</div>									
+							    	</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="table-body white-bg" *ngIf="ongoingPinList.length==0">
+							<div class="table-row d-flex">
+								<div class="no_content row w-100">
+									<div class="col-md-5">
+										<img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+									</div>
+									<div class="col-md-7 align-self-center">
+										<ng-container>
+											<h5>No Pins Found</h5>
+											<p>No pins found with selected filter</p>
+										</ng-container>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+
+				<ng-container *ngIf="selectedTypeOfPin=='Completed'">
+					<div class="total-table">
+						<div class="table-header d-flex" *ngIf="CompletedPinList?.length>0">
+							<div class="coltab withFilter">
+								Date / Time <div class="filterasc_desc sortAppl hasDesc" (click)="filterByColumn('created_at',$event)">
+								</div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Pin Details <div class="filterasc_desc" (click)="filterByColumn('title',$event)"></div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Pin location <div class="filterasc_desc" (click)="filterByColumn('address',$event)">
+								</div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Assigned Doer
+							</div>
+							<!-- <div class="coltab withFilter">
+				    			Budget <div class="filterasc_desc" (click)="filterByColumn('budget_value',$event)"></div>
+				    		</div> -->
+							<div class="coltab withFilter">
+								Total Amount
+							</div>
+						</div>
+						<div class="scrollcontainer" *ngIf="CompletedPinList.length>0" infiniteScroll [infiniteScrollDistance]="2"
+							[infiniteScrollUpDistance]="1.5" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [fromRoot]="true"
+							[infiniteScrollContainer]="'.totalDashboard'">
+							<div class="table-body white-bg">
+								<div class="table-row d-flex" *ngFor="let eachCompletedPin of CompletedPinList">
+									<a class="forredirection"
+										routerLink="/pinner/active-quotation-details/{{eachCompletedPin.slug}}/{{getEncryptedDoerId(eachCompletedPin.selected_application?.doer_id)}}"></a>
+									<div class="coltab" data-heading="Date / Time">
+										<p>
+											{{eachCompletedPin.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{eachCompletedPin.created_at?.split('-').join('/') | date:'h:mm a'}}
+										</p>
+									</div>
+									<div class="coltab flex-2 align-self-center" data-heading="Pin Details">
+										<p class="linkStyle">{{eachCompletedPin.title}}</p>
+										<div class="green-pin">
+											{{eachCompletedPin.parent_child_cat?.parent_det?.name}} >
+											{{eachCompletedPin.parent_child_cat?.name}}
+										</div>
+									</div>
+									<div class="coltab flex-2" data-heading="Pin location">
+										<!-- <p>{{eachCompletedPin.pin_unique_id}}</p> -->
+										<p *ngIf="eachCompletedPin?.address!=null" class="no_whitespace"
+											[title]="eachCompletedPin?.address">{{eachCompletedPin?.address}},
+											{{eachCompletedPin?.city}},
+											{{eachCompletedPin?.state}} {{eachCompletedPin?.zipcode}}</p>
+									</div>
+									<div class="coltab flex-2 align-self-center" data-heading="Assigned Doer">
+										<div class="prof-info flex-column">
+											<span class="prof-img"
+												*ngIf="eachCompletedPin?.selected_application?.user_details?.company_logo!=''">
+												<img
+													src="{{baseCompUrl}}/company_logo/{{eachCompletedPin?.selected_application?.user_details?.company_logo}}"
+													onError="this.src='assets/images/avatar.png';" alt="">
+											</span>
+											<span class="prof-img no-img"
+												*ngIf="eachCompletedPin?.selected_application?.user_details?.company_logo==''">
+												<img src="assets/images/avatar.png" alt="">
+											</span>
+											<h5>
+												{{ eachOngoingPin?.selected_application?.user_details?.profile_type == 2 ? eachOngoingPin?.selected_application?.user_details?.company_name : eachOngoingPin?.selected_application?.user_details?.username }}
+											</h5>
+											<button *ngIf="eachCompletedPin.rating_to_doer==null" class="btn btn-link giveRating"
+												routerLink="/pinner/active-quotation-details/{{eachCompletedPin.slug}}/{{getEncryptedDoerId(eachCompletedPin.selected_application?.doer_id)}}">Rate
+												&amp; Write A Review</button>
+											<div class="ratingDoer d-flex w-100 align-items-center"
+												*ngIf="eachCompletedPin.rating_to_doer!=null">
+												<span class="indvrating"
+													*ngFor="let eachRating of convertToarray(eachCompletedPin?.rating_to_doer?.rating,'filled')"><i
+														class="fas fa-star"></i></span>
+												<p>{{eachCompletedPin?.rating_to_doer?.rating | number:'1.1-1'}}</p>
+											</div>
+										</div>
+									</div>
+									<!-- <div class="coltab" data-heading="Budget">
+							    		<p *ngIf="eachCompletedPin.budget_value!=null">$ {{eachCompletedPin.budget_value}}</p>
+							    		<p *ngIf="eachCompletedPin.budget_value==null">No Budget</p>
+							    	</div> -->
+									<div class="coltab" data-heading="Total Amount">
+										<div>
+											<ng-container *ngIf="eachCompletedPin?.expenses!=null">$
+												{{eachCompletedPin?.expenses | number:'1.2-2'}}</ng-container>
+											<ng-container *ngIf="eachCompletedPin?.expenses==null">$ 0</ng-container>
+											<span class="rec_icon"
+												*ngIf="eachCompletedPin?.selected_application?.quotations?.payment_mode==3"><img
+													src="assets/images/recurring_symbol.png" alt=""></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="table-body white-bg" *ngIf="CompletedPinList?.length==0">
+							<div class="table-row d-flex">
+								<div class="no_content row w-100">
+									<div class="col-md-5">
+										<img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+									</div>
+									<div class="col-md-7 align-self-center">
+										<ng-container>
+											<h5>No Pins Found</h5>
+											<p>No pins found with selected filter</p>
+										</ng-container>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+
+				<ng-container *ngIf="selectedTypeOfPin=='Dispute'">
+					<div class="total-table rightdropdown">
+						<div class="table-header d-flex" *ngIf="disputePinList?.length>0">
+							<div class="coltab withFilter">
+								Date / Time <div class="filterasc_desc sortAppl hasDesc" (click)="filterByColumn('created_at',$event)">
+								</div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Pin Details <div class="filterasc_desc" (click)="filterByColumn('title',$event)"></div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Pin Location <div class="filterasc_desc" (click)="filterByColumn('address',$event)">
+								</div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Assigned Doer
+							</div>
+							<!-- <div class="coltab withFilter">
+				    			Budget <div class="filterasc_desc" (click)="filterByColumn('budget_value',$event)"></div>
+				    		</div> -->
+							<div class="coltab withFilter">
+								Total Amount
+							</div>
+						</div>
+						<div class="scrollcontainer" *ngIf="disputePinList.length>0" infiniteScroll [infiniteScrollDistance]="2"
+							[infiniteScrollUpDistance]="1.5" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [fromRoot]="true"
+							[infiniteScrollContainer]="'.totalDashboard'">
+							<div class="table-body white-bg">
+								<div class="table-row d-flex" *ngFor="let eachDisputePin of disputePinList">
+									<!-- <a class="forredirection" routerLink="/pinner/active-quotation-details/{{eachCompletedPin.slug}}/{{getEncryptedDoerId(eachCompletedPin.selected_application.doer_id)}}"></a> -->
+									<a class="forredirection"
+										routerLink="/pinner/active-quotation-details/{{eachDisputePin.slug}}/{{getEncryptedDoerId(eachDisputePin.selected_application?.doer_id)}}"></a>
+									<div class="coltab" data-heading="Date / Time">
+										<p>
+											{{eachDisputePin.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{eachDisputePin.created_at?.split('-').join('/') | date:'h:mm a'}}
+										</p>
+									</div>
+									<div class="coltab flex-2 align-self-center" data-heading="Pin Details">
+										<p class="linkStyle">{{eachDisputePin.title}}</p>
+										<div class="green-pin">
+											{{eachDisputePin.parent_child_cat?.parent_det?.name}} >
+											{{eachDisputePin.parent_child_cat?.name}}
+										</div>
+									</div>
+									<div class="coltab flex-2" data-heading="Pin Location">
+										<!-- <p>{{eachDisputePin.pin_unique_id}}</p> -->
+										<p *ngIf="eachDisputePin?.address!=null" class="no_whitespace" [title]="eachDisputePin?.address">
+											{{eachDisputePin?.address}}, {{eachDisputePin?.city}},
+											{{eachDisputePin?.state}}
+											{{eachDisputePin?.zipcode}}</p>
+									</div>
+									<div class="coltab flex-2 align-self-center" data-heading="Assigned Doer">
+										<div class="prof-info">
+											<span class="prof-img"
+												*ngIf="eachDisputePin?.selected_application.user_details?.company_logo!=''">
+												<img
+													src="{{baseCompUrl}}/company_logo/{{eachDisputePin?.selected_application.user_details?.company_logo}}"
+													onError="this.src='assets/images/avatar.png';" alt="">
+											</span>
+											<span class="prof-img no-img"
+												*ngIf="eachDisputePin?.selected_application.user_details?.company_logo==''">
+												<img src="assets/images/avatar.png" alt="">
+											</span>
+
+											<h5>
+												{{ eachOngoingPin?.selected_application?.user_details?.profile_type == 2 ? eachOngoingPin?.selected_application?.user_details?.company_name : eachOngoingPin?.selected_application?.user_details?.username }}
+											</h5>
+										</div>
+									</div>
+									<!-- <div class="coltab" data-heading="Budget">
+							    		<p *ngIf="eachDisputePin.budget_value!=null">$ {{eachDisputePin.budget_value}}</p>
+							    		<p *ngIf="eachDisputePin.budget_value==null">No Budget</p>
+							    	</div> -->
+									<div class="coltab" data-heading="Total Amount">
+										<div>
+											<ng-container *ngIf="eachDisputePin?.expenses!=null">$
+												{{eachDisputePin?.expenses | number:'1.2-2'}}</ng-container>
+											<ng-container *ngIf="eachDisputePin?.expenses==null">$ 0</ng-container>
+											<span class="rec_icon"
+												*ngIf="eachDisputePin?.selected_application?.quotations?.payment_mode==3"><img
+													src="assets/images/recurring_symbol.png" alt=""></span>
+										</div>
+									</div>
+									<div class="abs-dropdown d-flex justify-content-around"
+										*ngIf="eachDisputePin?.dispute?.dispute_file!=''">
+										<div class="single_drop">
+											<a href="{{baseCompUrl}}/dispute/{{eachDisputePin?.dispute?.dispute_file}}" download
+												mat-icon-button class="forfileDownl">
+												<i class="far fa-file-alt"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="table-body white-bg" *ngIf="disputePinList?.length==0">
+							<div class="table-row d-flex">
+								<div class="no_content row w-100">
+									<div class="col-md-5">
+										<img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+									</div>
+									<div class="col-md-7 align-self-center">
+										<ng-container>
+											<h5>No Pins Found</h5>
+											<p>No pins found with selected filter</p>
+										</ng-container>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+
+				<ng-container *ngIf="selectedTypeOfPin=='Blocked'">
+					<div class="total-table">
+						<div class="table-header d-flex" *ngIf="blockedPinList?.length>0">
+							<div class="coltab withFilter">
+								Date / Time <div class="filterasc_desc sortAppl hasDesc" (click)="filterByColumn('created_at',$event)">
+								</div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Pin Details <div class="filterasc_desc" (click)="filterByColumn('title',$event)"></div>
+							</div>
+							<div class="coltab withFilter flex-2">
+								Pin location <div class="filterasc_desc" (click)="filterByColumn('address',$event)">
+								</div>
+							</div>
+							<div class="coltab flex-2 withFilter">
+								Assigned Doer
+							</div>
+							<!-- <div class="coltab withFilter">
+				    			Budget <div class="filterasc_desc" (click)="filterByColumn('budget_value',$event)"></div>
+				    		</div> -->
+							<div class="coltab withFilter">
+								Total Amount
+							</div>
+						</div>
+						<div class="scrollcontainer" *ngIf="blockedPinList.length>0" infiniteScroll [infiniteScrollDistance]="2"
+							[infiniteScrollUpDistance]="1.5" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [fromRoot]="true"
+							[infiniteScrollContainer]="'.totalDashboard'">
+							<div class="table-body white-bg">
+								<div class="table-row d-flex" *ngFor="let eachDisputePin of blockedPinList">
+									<!-- <a class="forredirection" routerLink="/pinner/active-quotation-details/{{eachCompletedPin.slug}}/{{getEncryptedDoerId(eachCompletedPin.selected_application.doer_id)}}"></a> -->
+									<a class="forredirection" *ngIf="eachDisputePin?.selected_application!=null"
+										routerLink="/pinner/active-quotation-details/{{eachDisputePin.slug}}/{{getEncryptedDoerId(eachDisputePin?.selected_application?.doer_id)}}"></a>
+									<div class="coltab" data-heading="Date / Time">
+										<p>
+											{{eachDisputePin.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{eachDisputePin.created_at?.split('-').join('/') | date:'h:mm a'}}
+										</p>
+									</div>
+									<div class="coltab flex-2 align-self-center" data-heading="Pin Details">
+										<p class="linkStyle">{{eachDisputePin?.title}}&nbsp;
+											<span *ngIf="eachDisputePin?.is_blocked=='1'" class="green-text font-italic">
+												Blocked
+											</span></p>
+										<div class="green-pin">
+											{{eachDisputePin.parent_child_cat?.parent_det?.name}} >
+											{{eachDisputePin.parent_child_cat?.name}}
+										</div>
+									</div>
+									<div class="coltab flex-2" data-heading="Pin Location">
+										<!-- <p>{{eachDisputePin.pin_unique_id}}</p> -->
+										<p *ngIf="eachDisputePin?.address!=null" class="no_whitespace" [title]="eachDisputePin?.address">
+											{{eachDisputePin?.address}}, {{eachDisputePin?.city}},
+											{{eachDisputePin?.state}}
+											{{eachDisputePin?.zipcode}}</p>
+									</div>
+									<div class="coltab flex-2 align-self-center" data-heading="Assigned Doer">
+										<div class="prof-info" *ngIf="eachDisputePin?.selected_application!=null">
+											<span class="prof-img"
+												*ngIf="eachDisputePin?.selected_application.user_details?.company_logo!=''">
+												<img
+													src="{{baseCompUrl}}/company_logo/{{eachDisputePin?.selected_application.user_details?.company_logo}}"
+													onError="this.src='assets/images/avatar.png';" alt="">
+											</span>
+											<span class="prof-img no-img"
+												*ngIf="eachDisputePin?.selected_application.user_details?.company_logo==''">
+												<img src="assets/images/avatar.png" alt="">
+											</span>
+
+											<h5>
+												{{ eachOngoingPin?.selected_application?.user_details?.profile_type == 2 ? eachOngoingPin?.selected_application?.user_details?.company_name : eachOngoingPin?.selected_application?.user_details?.username }}
+											</h5>
+
+											<button style="clear: both;"
+												*ngIf="eachDisputePin.rating_to_doer==null && eachDisputePin?.is_blocked!=1"
+												class="btn btn-link giveRating"
+												routerLink="/pinner/active-quotation-details/{{eachDisputePin.slug}}/{{getEncryptedDoerId(eachDisputePin?.selected_application?.doer_id)}}">Rate
+												&amp; Write A Review</button>
+											<div class="ratingDoer d-flex w-100 align-items-center"
+												*ngIf="eachDisputePin.rating_to_doer!=null">
+												<span class="indvrating"
+													*ngFor="let eachRating of convertToarray(eachDisputePin?.rating_to_doer?.rating,'filled')"><i
+														class="fas fa-star"></i></span>
+												<p>{{eachDisputePin?.rating_to_doer?.rating | number:'1.1-1'}}</p>
+											</div>
+										</div>
+										<p *ngIf="eachDisputePin?.selected_application==null">No Assigned Doers</p>
+									</div>
+									<!-- <div class="coltab" data-heading="Budget">
+							    		<p *ngIf="eachDisputePin.budget_value!=null">$ {{eachDisputePin.budget_value}}</p>
+							    		<p *ngIf="eachDisputePin.budget_value==null">No Budget</p>
+							    	</div> -->
+									<div class="coltab" data-heading="Total Amount">
+										<div>
+											<ng-container *ngIf="eachDisputePin?.expenses!=null">$
+												{{eachDisputePin?.expenses | number:'1.2-2'}}</ng-container>
+											<ng-container *ngIf="eachDisputePin?.expenses==null">$ 0</ng-container>
+											<span class="rec_icon"
+												*ngIf="eachDisputePin?.selected_application?.quotations?.payment_mode==3"><img
+													src="assets/images/recurring_symbol.png" alt=""></span>
+										</div>
+									</div>
+									<!-- <div class="abs-dropdown d-flex justify-content-around">
+							    		<div class="single_drop">
+								    		<a href="{{baseCompUrl}}/dispute/{{eachDisputePin?.dispute?.dispute_file}}" download mat-icon-button class="forfileDownl">
+											  <i class="far fa-file-alt"></i>
+											</a>										
+										</div>									
+							    	</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="table-body white-bg" *ngIf="blockedPinList?.length==0">
+							<div class="table-row d-flex">
+								<div class="no_content row w-100">
+									<div class="col-md-5">
+										<img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+									</div>
+									<div class="col-md-7 align-self-center">
+										<ng-container>
+											<h5>No Pins Found</h5>
+											<p>No pins found with selected filter</p>
+										</ng-container>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+
+
+			</div>
+		</div>
+	</div>
+</div>

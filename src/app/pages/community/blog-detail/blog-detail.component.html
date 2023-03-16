@@ -1,0 +1,223 @@
+<div class="noScrollElement">
+  <div class="blog-banner c_home">
+    <!-- <div class="transBgText">{{blog_data?.name}}</div>
+    <div class="container h-100 d-flex align-items-center">
+      <div class="banner-text-content">
+        <h1 class="main-heading">{{blog_data?.name}}</h1>
+      </div>
+    </div> -->
+  </div>
+
+  <div class="container">
+    <div class="blog-detail-wrap mb-5">
+      <div class="blog-detail-header d-flex align-items-center justify-content-between py-4 px-lg-5 px-3">
+
+        <div class="header-left">
+          <div class="tag-holder d-flex align-items-center mb-3"
+            [ngClass]="{'orange': commonservice.islogin==1 && appService.user_type==2}"
+            *ngIf="blog_data?.category_id != null && blog_data?.category_id != 0">
+            <div class="tag-item"> {{blog_data?.category?.name}} <i class="material-icons">
+                keyboard_arrow_right
+              </i> {{blog_data?.subcategory?.name}}</div>
+          </div>
+          <h2 class="header-main-heading mb-3">{{blog_data?.name}}</h2>
+
+          <div class="prfl-info minWdFlex d-flex align-items-center flex2">
+            <ng-container *ngIf="blog_data?.user_type == 0;else otherUser">
+              <div class="prfl-img mr-2 circle" *ngIf="blog_data?.user?.profile_photo == null"><img src="{{pindologo}}">
+              </div>
+              <div class="prfl-text">
+                <p class="nameText mb-1">PinDo</p>
+                <p class="timeText mb-0">Posted {{blog_data.createdAt | amTimeAgo}}</p>
+              </div>
+            </ng-container>
+
+            <ng-template #otherUser>
+              <div class="prfl-img mr-2 circle">
+                <img *ngIf="blog_data?.user_type == 1"
+                  [src]="blog_data?.user?.profile_photo!=null? image_url+blog_data?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                  onError="this.src='assets/images/default-userImg-green.svg';"
+                  (click)="openUserDetails(blog_data?.user?.id,blog_data?.user_type)">
+
+                <img *ngIf="blog_data?.user_type == 2"
+                  [src]="blog_data?.user?.company_logo!=null?companylogo_url+blog_data?.user?.company_logo:'assets/images/default-userImg-orange.svg'"
+                  onError="this.src='assets/images/default-userImg-orange.svg';"
+                  (click)="openUserDetails(blog_data?.user?.id,blog_data?.user_type)">
+              </div>
+              <div class="prfl-text">
+                <p class="nameText mb-1" (click)="openUserDetails(blog_data?.user?.id,blog_data?.user_type)">
+                  {{blog_data?.user?.first_name}}
+                  <span class="sm-light-color"
+                    (click)="openUserDetails(blog_data?.user?.id,blog_data?.user_type)">{{blog_data?.user?.last_name}}
+                  </span>
+                </p>
+                <p class="timeText mb-0">Posted {{blog_data?.createdAt | amTimeAgo}}</p>
+              </div>
+            </ng-template>
+
+          </div>
+
+        </div>
+
+        <div class="header-right" *ngIf="blog_data?.category_id != 0">
+          <div class="cat-icon" [ngClass]="{'orange-bg': commonservice.islogin==1 && appService.user_type==2}"
+            *ngIf="blog_data?.category_id != null">
+            <span class="catType-circel">
+              <i [ngClass]="{'ic-home-2': blog_data?.category_id == 2 , 
+                'ic-covid-2':blog_data?.category_id == 3, 
+                'ic-entertainment-2':blog_data?.category_id == 19,
+                'ic-personal-care':blog_data?.category_id == 16 , 
+                'ic-book':blog_data?.category_id == 17 , 
+                'ic-professional-services-2':blog_data?.category_id == 18 , 
+                'ic-petcare':blog_data?.category_id == 20}">
+              </i>
+            </span>
+          </div>
+        </div>
+
+      </div>
+      <!--end blog-detail-header-->
+
+      <div class="blog-detail-img mb-lg-5 mb-3">
+        <img [src]="blog_data?.image != null?blog_image_url+blog_data?.image: 'assets/images/recent2.jpg'"
+          onError="this.src='assets/images/recent2.jpg';">
+      </div>
+
+      <div class="blog-detail-content">
+        <div [innerHTML]="blog_data?.description | keepHtml" id="desc" *ngIf="(textSize < 310 && !continueStory) || continueStory">
+        </div>
+        <div [innerHTML]="blog_data?.description | keepHtml | words : 350" *ngIf="(textSize > 310 && !continueStory)"></div>
+      </div>
+
+      <span *ngIf="textSize > 310 && !continueStory" class="blog-link" (click)="continueStory=!continueStory">Continue
+        Story</span>
+
+      <hr class="mt-4 mb-4">
+
+      <div class="blog-detail-bottom d-flex align-items-center justify-content-between mb-4">
+
+        <div class="bottom-left">
+
+          <!-- <p class="mb-1"><span class="blog-link">Institute of Plumbing, 01708 372791</span></p>
+          <p class="mb-1"><span class="blog-link">Association of Plumbers and Heating Contractors</span></p>
+          <p class="mb-1"><span class="blog-link">Office of Fair Trading</span></p> -->
+
+        </div>
+        <!--end bottom-left-->
+
+        <div class="bottom-right">
+          <div class="solial-list d-none d-lg-flex align-items-center">
+            <a class="fb-ic"><i class="fab fa-facebook-f"></i></a>
+            <a class="tw-ic"><i class="fab fa-twitter"></i></a>
+            <a class="in-ic"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <!--end bottom-right-->
+
+      </div>
+
+    </div>
+
+    <div class="suggested-post-wrap mb-5">
+      <h3 class="main-sec-heading text-uppercase mb-lg-4 mb-3">SUGGESTED BLOGS</h3>
+
+      <div class="row">
+        <ng-container *ngIf="suggested_blog_data_array?.length > 0 ;else noblogshow">
+          <ng-container *ngFor="let suggestedbloglist of suggested_blog_data_array">
+
+            <div class="col-md-4">
+
+              <div class="blog-list-block mb-4">
+                <div class="img-holder" (click)="goTOBlogDetailsPage(suggestedbloglist.id)">
+                  <img
+                    [src]="suggestedbloglist.image != null?blog_image_url+suggestedbloglist.image:assets/images/recent2.jpg"
+                    onError="this.src='assets/images/recent2.jpg';" alt="">
+                  <span class="catType-circel"
+                    [ngClass]="{'orange-bg': commonservice.islogin==1 && appService.user_type==2}">
+                    <i [ngClass]="{'ic-home-2': suggestedbloglist?.category_id == 2, 
+                            'ic-covid-2':suggestedbloglist?.category_id == 3, 
+                            'ic-entertainment-2':suggestedbloglist?.category_id == 19,
+                            'ic-personal-care':suggestedbloglist?.category_id == 16 , 
+                            'ic-book':suggestedbloglist?.category_id == 17 , 
+                            'ic-professional-services-2':suggestedbloglist?.category_id == 18 , 
+                            'ic-petcare':suggestedbloglist?.category_id == 20}">
+                    </i>
+                  </span>
+                </div>
+
+                <div class="px-3 post-content">
+                  <div class="head-content py-3" (click)="goTOBlogDetailsPage(suggestedbloglist.id)">
+                    <h4 class="nameText" [ngClass]="{'orange': commonservice.islogin==1 && appService.user_type==2}">
+                      {{suggestedbloglist.name}}</h4>
+                  </div>
+                  <hr class="mb-0 mt-0">
+
+                  <div class="dsc-content py-3" (click)="goTOBlogDetailsPage(suggestedbloglist.id)">
+
+                    <p [innerHTML]="suggestedbloglist.description | words : 10"></p>
+                  </div>
+
+                  <div class="footer-content d-flex align-items-center pb-3">
+                    <div class="prfl-info d-flex align-items-center">
+
+                      <ng-container *ngIf="suggestedbloglist?.user_type == 0;else otherUserForSuggestion">
+                        <div class="prfl-img circle mr-2">
+                          <img src="{{pindologo}}">
+                        </div>
+                      </ng-container>
+
+                      <ng-template #otherUserForSuggestion>
+                        <div class="prfl-img circle mr-2">
+                          <img *ngIf="suggestedbloglist?.user_type == 1"
+                            [src]="suggestedbloglist?.user?.profile_photo!=null? suggestedbloglist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                            onError="this.src='assets/images/default-userImg-green.svg';"
+                            (click)="openUserDetails(suggestedbloglist?.user?.id,suggestedbloglist?.user_type)">
+
+                          <img *ngIf="suggestedbloglist?.user_type == 2"
+                            [src]="suggestedbloglist?.user?.company_logo!=null?companylogo_url+suggestedbloglist?.user?.company_logo:'assets/images/default-userImg-orange.svg'"
+                            onError="this.src='assets/images/default-userImg-orange.svg';"
+                            (click)="openUserDetails(suggestedbloglist?.user?.id,suggestedbloglist?.user_type)">
+                        </div>
+                      </ng-template>
+
+                      <div class="prfl-text" *ngIf="suggestedbloglist?.user_type != 0">
+                        <p class="nameText mb-0"
+                          (click)="openUserDetails(suggestedbloglist?.user?.id,suggestedbloglist?.user_type)">
+                          {{suggestedbloglist?.user?.name}}</p>
+                      </div>
+                      <div class="prfl-text" *ngIf="suggestedbloglist?.user_type == 0">
+                        <p class="nameText mb-0">PinDo</p>
+                      </div>
+                    </div>
+                    <span class="dateText">{{suggestedbloglist?.createdAt | date}}</span>
+                  </div>
+                </div>
+              </div>
+              <!--end blog-list-block-->
+            </div>
+
+          </ng-container>
+        </ng-container>
+        <ng-template #noblogshow>
+          <div class="no_content d-flex white-bg">
+            <div class="col-md-5">
+              <img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+            </div>
+            <div class="col-md-7 align-self-center">
+              <ng-container>
+                <h5>Sorry. No posts matched your search criteria. Please choose a different search and try again.</h5>
+                <!-- <p>No Pins found with selected filters.</p> -->
+              </ng-container>
+            </div>
+          </div>
+
+        </ng-template>
+        <!--end row-->
+      </div>
+
+    </div>
+    <!--end suggested-post-wrap-->
+
+  </div>
+
+</div>

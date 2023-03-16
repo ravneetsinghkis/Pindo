@@ -1,0 +1,267 @@
+<form [formGroup]="quotaionForm" (ngSubmit)="onSubmit(quoteFormTemplate.valid)" #quoteFormTemplate="ngForm"
+	*ngIf="showQuotationView">
+	<mat-card class="pindoCart">
+		<mat-card-header>
+			<mat-card-title>
+				Cover Letter
+				<div class="upload_attachment float-right">
+					<input type="file" (change)="uploadAttachment($event)">
+				</div>
+				<button type="button" mat-raised-button class="dashboardprimary text-uppercase float-right"
+					*ngIf="totalDataToPrepoluate?.quotation_dtls?.application_dtls?.status==6"
+					(click)="toShowCoverLetter=!toShowCoverLetter">Undo</button>
+				<p class="float-right cardtitlesubtext mr-2">Write a cover letter to describe your services</p>
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<mat-form-field appearance="outline" class="tot_payment cov_letter">
+				<mat-label>Type your cover letter here....</mat-label>
+				<textarea formControlName="cover_letter" matInput placeholder="Type your cover letter here...."></textarea>
+				<mat-error *ngIf="quoteFormRef.cover_letter.errors?.required && submitted">This is a required Field</mat-error>
+			</mat-form-field>
+		</mat-card-content>
+	</mat-card>
+
+	<mat-card class="pindoCart" *ngIf="chosenPaymentOption.length>0">
+		<mat-card-header>
+			<mat-card-title>
+				Payment Methods
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+
+			<ng-container>
+				<div class="total-paymentSet customrightgapfieldgroup">
+					<div class="row">
+						<div class="col-md-12">
+							<!-- <mat-checkbox class="mr-3" *ngFor="let eachpaymentOptions of chosenPaymentOption"
+								[value]="eachpaymentOptions?.value" [checked]="eachpaymentOptions.checked"
+								(change)="selectPaymentReceiveMethods($event)"> -->
+							<mat-checkbox class="mr-3" *ngFor="let eachpaymentOptions of chosenPaymentOption"
+								[value]="eachpaymentOptions?.value" [checked]="eachpaymentOptions.checked"
+								(change)="selectPaymentReceiveMethods($event)">
+								{{eachpaymentOptions?.text}}
+							</mat-checkbox>
+							<mat-error
+								*ngIf="submitted && selectedPaymentMethod.length == 0 && fetchedPinDetails.parent_category_id != 3">
+								Please select at least one payment option.
+							</mat-error>
+
+						</div>
+					</div>
+				</div>
+			</ng-container>
+
+
+		</mat-card-content>
+	</mat-card>
+
+	<mat-card class="pindoCart" *ngIf="fetchedPinDetails.parent_category_id != 3">
+		<mat-card-header>
+			<mat-card-title>
+				Payment Details
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+
+			<ng-container>
+				<div class="total-paymentSet customrightgapfieldgroup">
+					<ng-container formArrayName="items" *ngFor="let item of quotaionForm.get('items').controls; let i = index;">
+						<div class="row" [formGroupName]="i">
+							<div class="col-md-6">
+								<mat-form-field appearance="outline">
+									<mat-label>Description*</mat-label>
+									<input type="text" matInput placeholder="Description*" formControlName="description">
+									<mat-error *ngIf="submitted && quoteFormRef.items[i]?.description?.errors?.required">
+										Please Fill in Milestone Name
+									</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="col-md-2">
+								<mat-form-field appearance="outline">
+									<mat-label>Quantity*</mat-label>
+									<input type="text" matInput placeholder="Quantity*" formControlName="quantity"
+										(keyup)="calculateAmount(i)">
+									<span matPrefix>No.&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+									<mat-error *ngIf="submitted && quoteFormRef.items[i]?.quantity?.errors?.required">
+										Please Fill in Milestone Price
+									</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="col-md-2">
+								<mat-form-field appearance="outline">
+									<mat-label>Rate*</mat-label>
+									<input type="text" matInput placeholder="Rate*" formControlName="rate" (keyup)="calculateAmount(i)">
+									<span matPrefix>$&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+									<mat-error *ngIf="submitted && quoteFormRef.items[i]?.rate?.errors?.required">
+										Please Fill in Milestone Price
+									</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="col-md-2">
+								<mat-form-field appearance="outline">
+									<mat-label>Amount*</mat-label>
+									<input type="number" matInput placeholder="Amount*" formControlName="amount" readonly="readonly">
+									<span matPrefix>$&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+									<mat-error *ngIf="submitted && quoteFormRef.items[i]?.amount?.errors?.required">
+										Please Fill in Milestone Price
+									</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="delete-btn-holder" *ngIf="quotaionForm.get('items').controls.length!=1">
+								<button type="button" mat-icon-button color="primary" (click)="removeItem(i)" class="delete_btn">
+									<i class="material-icons">
+										delete
+									</i>
+								</button>
+							</div>
+						</div>
+					</ng-container>
+					<div class="absrightPos justify-content-end d-flex align-items-top">
+						<button type="button" mat-icon-button color="primary" (click)="addItem()" class="add_btn"
+							[disabled]="fetchedPinDetails.parent_category_id == 3? true: false">
+							<mat-icon>add</mat-icon>
+						</button>
+					</div>
+				</div>
+			</ng-container>
+
+
+		</mat-card-content>
+	</mat-card>
+
+	<div class="total_quoteVal d-flex justify-content-between">
+		<p>Total Quotation Amount {{totalDataToPrepoluate?.quotation_dtls?.status}}</p>
+		<p class="prcVal">$ {{totalPrice | number:'.2-2'}}</p>
+	</div>
+	<p class="text-right text-uppercase disclaimer-text">**If you are required to collect sales taxes please remember to
+		include in your quote</p>
+
+	<mat-card class="pindoCart">
+		<mat-card-header>
+			<mat-card-title>
+				Attachments
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="total_attach clearfix">
+				<div class="upload_attachment mb-2 custom">
+					<button type="button" mat-raised-button class="text-uppercase mat-primary btn-orangeColor">Add
+						Attachment</button>
+					<input type="file" (change)="uploadAttachment($event)">
+				</div>
+				<div class="d-flex fileiconlisting" *ngIf="attachment.length>0">
+					<!-- <h6>Added Attachment:</h6> -->
+					<ng-container *ngFor="let eachFile of attachment; let i=index;">
+						<p class="align-items-center fileicons">
+							<!-- <a href="{{uploadUrl}}/jobs/{{eachFile?.file_name}}" target="_blank"> -->
+							<a href="{{baseCompUrl}}/attachements/{{eachFile?.file_name}}" target="_blank">
+								<span *ngIf="(eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='pdf'); else that">
+									<img src="assets/images/PDF_Symbol.png" alt="">
+								</span>
+								<ng-template #that>
+									<span>
+										<img src="{{baseCompUrl}}/attachements/{{eachFile?.file_name}}" alt="">
+									</span>
+								</ng-template>
+								<!-- <span
+									*ngIf="eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='jpg' || eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='jpeg'">
+									<img src="assets/images/icons/jpg.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='png'">
+									<img src="assets/images/icons/png.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='doc'">
+									<img src="assets/images/icons/doc.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='docx'">
+									<img src="assets/images/icons/docx-file-format.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='pdf'">
+									<img src="assets/images/icons/pdf.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='csv'">
+									<img src="assets/images/icons/csv.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='xlsx'">
+									<img src="assets/images/icons/xlsx.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='xls'">
+									<img src="assets/images/icons/xls.svg" alt="">
+								</span>
+								<span *ngIf="eachFile.file_name.split('.')[eachFile.file_name.split('.').length-1]=='txt'">
+									<img src="assets/images/icons/txt.svg" alt="">
+								</span> -->
+								{{ eachFile.original_name }}
+							</a>
+							<i class="far fa-times-circle removeattachment" (click)="removeAttachment(i);"></i>
+						</p>
+					</ng-container>
+
+					<!-- <span *ngFor="let eachpopulatedattzachment of populatedAttachments;"><a href="{{uploadUrl}}/attachements/{{eachpopulatedattachment.file_name}}" target="_blank" download="{{eachpopulatedattachment.file_name}}">{{eachpopulatedattachment.file_name}}</a></span> -->
+				</div>
+				<!-- <p class="attachment_grp" *ngIf="attachment.length>0">Added Attachment:
+
+                <span *ngFor="let eachattachment of attachment;let i = index;"><a href="{{uploadUrl}}/jobs/{{eachattachment?.file_name}}" target="_blank">{{eachattachment?.original_name}}</a>&nbsp;&nbsp;<ng-container *ngIf="totalDataToPrepoluate?.application_dtls?.status==0 || totalDataToPrepoluate?.application_dtls?.status==1"><i class="far fa-times-circle" (click)="removeAttachment(i);"></i></ng-container></span>
+                </p> -->
+			</div>
+		</mat-card-content>
+	</mat-card>
+
+	<div class="d-flex justify-content-end pt-5">
+
+		<!-- <button type="button"
+			*ngIf="fetchedPinDetails.status==2 && applicationDetails.status==6 && quotationDetails?.status==0"
+			mat-raised-button color="primary" class="text-uppercase mat-primary mr-2 mb-4 btn btn-orangeColor"
+			(click)="requestPayment();">
+			<span>Request Payment</span>
+		</button>
+
+		<button type="button"
+			*ngIf="fetchedPinDetails.status==2 && applicationDetails.status==6 && quotationDetails?.status!=0"
+			mat-raised-button color="primary" [disabled]="true" class="text-uppercase mat-primary mr-2 mb-4 btn btn-orangeColor"
+			(click)="requestPayment();">
+			<span>Payment Request Already Sent</span>
+		</button>
+
+		<button type="submit" *ngIf="quotationDetails==null || quotationDetails?.save_and_preview==1" mat-raised-button
+			color="primary" (click)="saveAndPreviewOrSubmit(1);" class="text-uppercase mat-primary mr-2 mb-4 btn btn-orangeColor">
+			Save & Preview
+		</button>
+
+		<button type="button" *ngIf="quotationDetails?.save_and_preview==0" (click)="previewQuotationOnly(1);"
+			mat-raised-button color="primary" class="text-uppercase mat-primary mr-2 mb-4 btn btn-orangeColor">
+			Preview
+		</button>
+
+		<button type="submit"
+			[disabled]="fetchedPinDetails.status==2 && applicationDetails.status==6 && quotationDetails?.status!=0"
+			mat-raised-button color="primary" (click)="saveAndPreviewOrSubmit(0);"
+			class="text-uppercase mat-primary mr-2 mb-4 btn btn-orangeColor">
+			<span *ngIf="fetchedPinDetails.status==2">Update Job Details</span>
+			<span *ngIf="fetchedPinDetails.status==1">submit Quotation</span>
+		</button> -->
+
+		<button *ngIf="!quotationDetails" type="submit" mat-raised-button color="primary"
+			(click)="saveAndPreviewOrSubmit(0)" class="text-uppercase mat-primary mr-2 mb-4 btn btn-orangeColor" id="save" #saveBtn>
+			Submit
+		</button>
+
+		<button *ngIf="quotationDetails && fetchedPinDetails?.status == 1" type="submit" mat-raised-button color="primary"
+			(click)="saveAndPreviewOrSubmit(0)" class="text-uppercase mat-primary mr-2 mb-4 btn btn-orangeColor" id="save" #saveBtn>
+			Submit
+		</button>
+
+		<button *ngIf="quotationDetails && fetchedPinDetails?.status != 1" type="submit" mat-raised-button color="primary"
+			(click)="saveAndPreviewOrSubmit(1)" class="text-uppercase mat-primary mr-2 mb-4 btn btn-orangeColor"
+			id="save_only" #saveBtn>
+			Submit
+		</button>
+
+		<button type="button" mat-raised-button color="primary" (click)="onCancel()"
+			class="text-uppercase mat-primary mr-2 mb-4 btn btn-gray-border">
+			Cancel
+		</button>
+
+	</div>
+</form>

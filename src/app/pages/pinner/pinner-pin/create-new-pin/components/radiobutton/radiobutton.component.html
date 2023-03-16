@@ -1,0 +1,6 @@
+<div class="total_field mb-3" [formGroup]="group">
+    <h4 class="subcardcontentHeading" [innerHTML]="field.label | keepHtml"></h4>
+    <mat-radio-group [formControlName]="field.name" class="green-color">
+        <mat-radio-button class="mr-2" *ngFor="let item of field.values" [value]="item.value">{{item.label}}</mat-radio-button>
+    </mat-radio-group>
+</div>

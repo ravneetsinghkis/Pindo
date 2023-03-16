@@ -1,0 +1,28 @@
+.headerDialog {
+	text-align: center;
+	h2 {
+		font: 23px/27px 'Montserrat-SemiBold';
+		color: #484f56;
+		margin-bottom: 20px;
+	}
+	h4 {
+		font: 16px/20px 'Montserrat-Regular';
+		color: #8b9aa9;
+	}
+}
+.content_part {
+	margin: 0 -30px;
+	margin-top: 40px;
+	.inner_block {
+		padding: 20px;
+		p {
+			font: 12px/24px 'Montserrat-Medium';
+			color: #8b9aa9;
+		}		
+	}
+	.col-md-6 {		
+		&:first-child {
+			border-right: 1px solid #e0ebf5;
+		}
+	}
+}

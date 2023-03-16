@@ -1,0 +1,52 @@
+<div class="common_topgap">
+    <div class="newtop_section">
+        <div class="container h-100 posn_rel">
+            <div class="d-flex flex-wrap align-content-center h-100 posn_rel">
+                <div class="text_back">
+                    Benefits
+                </div>
+                <div class="inn_div align-self-center">
+                    <h2>What can PinDo do for you?</h2>
+                    <p>(we can do it, yes we can)</p>
+                </div>
+            </div>
+            <div class="question_tabs">
+                <span class="pinner" (click)="changeTab(1)">
+                    PINNER BENEFITS
+                </span>
+                <span class="doer" (click)="changeTab(2)">
+                    DOER BENEFITS
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="benefits-section" *ngIf="afterInit">
+        <div class="container">
+            <div class="desc_text">
+                Whether you're a Pinner looking to get stuff done or a Doer looking to grow your business, your needs are our priority.  At PinDo we strive to give you what you need to reach your goals and simplify your life.
+            </div>
+            <mat-tab-group>
+                <mat-tab label="Pinner">
+                    <div class="pt-5 content-tab">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="howitworksTab" [innerHTML]="benifitsContPinner?.content">                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Doer"> 
+                	<div class="pt-5 content-tab">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="howitworksTab doerBenefit" [innerHTML]="benifitsContDoer?.content">                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

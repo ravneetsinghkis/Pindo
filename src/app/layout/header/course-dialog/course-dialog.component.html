@@ -1,0 +1,52 @@
+<div class="total-dialogCntent text-center pt-3 pb-3" *ngIf="display_data == 'sync'">
+	<div class="img_matDialog mb-4">
+		<img src="assets/images/fb_icon.png" alt="">
+	</div>
+	<h2>Sync With Facebook</h2>
+	<p *ngIf="display_data.content!=''">Your account is not synced with your facebook profile. Sync and connect with your
+		community and get experience new features TODAY!</p>
+	<div class="d-flex justify-content-center pt-2">
+		<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary fb-btn">
+			Sync Now
+		</button>
+	</div>
+</div>
+<div class="total-dialogCntent text-center pb-4 pt-4" *ngIf="display_data != 'sync' && display_data != 'changeAddress'">
+	<div class="mb-4 d-flex justify-content-center">
+		<img alt="logo" src="./assets/images/logo-home.svg">
+	</div>
+	<h2>
+		<ng-container *ngIf="display_data=='session'">You’ve been gone, come back</ng-container>
+		<ng-container *ngIf="display_data=='Blocked'">Account Blocked</ng-container>
+	</h2>
+	<p *ngIf="display_data=='session'">Your session expired and you're being logged out of the system. Please log back in
+		to continue.</p>
+	<p *ngIf="display_data=='Blocked'">Your account has been blocked by Admin.Please get in touch with PINDO.</p>
+	<div class="d-flex justify-content-center pt-2">
+		<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2" (click)="close()">
+			Ok
+		</button>
+	</div>
+</div>
+<div class="total-dialogCntent text-center pb-3" *ngIf="display_data=='changeAddress'">
+	<div class="top-btn-holder text-right custom">
+		<span class="ic-close {{(user_type==2)?'color-themeOrange':'color-themeGreen'}} custom" (click)="submitForm()"></span>
+	</div>
+	<h2>Enter Location</h2>
+	<p>Please choose your default location.</p>
+	<div class="total_form posn_rel">
+		<mat-form-field appearance="outline"
+			[ngClass]="{'ng-invalid mat-form-field-invalid':submitted && chooseLocation==''}">
+			<mat-label>Location</mat-label>
+			<input matInput ngx-google-places-autocomplete (onAddressChange)="handleAddressChange($event)" [options]='options'
+				#placesRef="ngx-places" placeholder="Location" [(ngModel)]="chooseLocation">
+		</mat-form-field>
+		<div class="error" *ngIf="submitted && chooseLocation==''">This field required</div>
+	</div>
+
+	<div class="d-flex justify-content-center pt-2 custom">
+		<button mat-flat-button class="{{(user_type==2)?'btn-orangeColor':'btn-greenColor'}} btn text-uppercase"
+			(click)="submitForm()">Save and Close</button>
+
+	</div>
+</div>

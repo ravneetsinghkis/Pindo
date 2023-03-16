@@ -1,0 +1,257 @@
+<form>
+  <div class="row">
+
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">First Name </h4>
+      <div class="option-holder">
+        <!-- <mat-slide-toggle class="green-toggle mb-2" [checked]="fnamecoomunity"  [formControl]="fnamecoomunity" (change)="onChange(profile_details.id,'pinner','first_name','fnamecoomunity')">
+          community
+        </mat-slide-toggle> -->
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="fnamecoomunity" name="fnamecoomunity"
+          (change)="onChange(profile_details.id,'pinner','first_name','fnamecoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="fnamecontact" name="fnamecontact"
+          (change)="onChange(profile_details.id,'pinner','first_name','fnamecontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="fnamepublicprofile" name="fnamepublicprofile"
+          (change)="onChange(profile_details.id,'pinner','first_name','fnamepublicprofile')">
+          Public profile
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Last Name</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="lnamecoomunity" name="lnamecoomunity"
+          (change)="onChange(profile_details.id,'pinner','last_name','lnamecoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="lnamecontact" name="lnamecontact"
+          (change)="onChange(profile_details.id,'pinner','last_name','lnamecontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="lnamepublicprofile" name="lnamepublicprofile"
+        (change)="onChange(profile_details.id,'pinner','last_name','lnamepublicprofile')">
+        Public profile
+      </mat-slide-toggle>
+        
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">User Name</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="unamecoomunity" name="unamecoomunity"
+          (change)="onChange(profile_details.id,'pinner','user_name','unamecoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="unamecontact" name="unamecontact"
+          (change)="onChange(profile_details.id,'pinner','user_name','unamecontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="unamepublicprofile" name="unamepublicprofile"
+        (change)="onChange(profile_details.id,'pinner','user_name','unamepublicprofile')">
+        Public profile
+      </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Primary Address</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="priaddcoomunity" name="priaddcoomunity"
+          (change)="onChange(profile_details.id,'pinner','primary_address','priaddcoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="priaddcontact" name="priaddcontact"
+          (change)="onChange(profile_details.id,'pinner','primary_address','priaddcontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="priaddpublicprofile" name="priaddpublicprofile"
+        (change)="onChange(profile_details.id,'pinner','primary_address','priaddpublicprofile')">
+        Public profile
+      </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3"> Bio</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="biocoomunity" name="biocoomunity"
+          (change)="onChange(profile_details.id,'pinner','bio','biocoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="biocontact" name="biocontact"
+          (change)="onChange(profile_details.id,'pinner','bio','biocontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2"  [(ngModel)]="biopublicprofile" name="biopublicprofile"
+          (change)="onChange(profile_details.id,'pinner','bio','biopublicprofile')">
+          public profile
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Interest</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="interestcoomunity" name="interestcoomunity"
+          (change)="onChange(profile_details.id,'pinner','interest','interestcoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="interestcontact" name="interestcontact"
+          (change)="onChange(profile_details.id,'pinner','interest','interestcontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="interestpublicprofile" name="interestpublicprofile"
+          (change)="onChange(profile_details.id,'pinner','interest','interestpublicprofile')">
+          Public profile
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Summary Statistics</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="summarystatcoomunity" name="summarystatcoomunity"
+          (change)="onChange(profile_details.id,'pinner','summary_statistics','summarystatcoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="summarystatcontact" name="summarystatcontact"
+          (change)="onChange(profile_details.id,'pinner','summary_statistics','summarystatcontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="summarystatpublicprofile" name="summarystatpublicprofile"
+        (change)="onChange(profile_details.id,'pinner','summary_statistics','summarystatpublicprofile')">
+        public profile
+      </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Past Pin Reviews</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="post_pin_reviewscoomunity"
+          name="post_pin_reviewscoomunity"
+          (change)="onChange(profile_details.id,'pinner','post_pin_reviews','post_pin_reviewscoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="post_pin_reviewscontact" name="post_pin_reviewscontact"
+          (change)="onChange(profile_details.id,'pinner','post_pin_reviews','post_pin_reviewscontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2"  [(ngModel)]="post_pin_reviewspublicprofile" name="post_pin_reviewspublicprofile"
+        (change)="onChange(profile_details.id,'pinner','post_pin_reviews','post_pin_reviewspublicprofile')">
+        public profile
+      </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Profile Photo</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2"  [(ngModel)]="profile_photocoomunity" name="profile_photocoomunity"
+          (change)="onChange(profile_details.id,'pinner','profile_photo','profile_photocoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="profile_photocontact" name="profile_photocontact" 
+          (change)="onChange(profile_details.id,'pinner','profile_photo','profile_photocontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="profile_photopublicprofile" name="profile_photopublicprofile"
+        (change)="onChange(profile_details.id,'pinner','profile_photo','profile_photopublicprofile')">
+        Public profile
+      </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Contact Info</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="contact_infocoomunity" name="contact_infocoomunity"
+          (change)="onChange(profile_details.id,'pinner','contact_info','contact_infocoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="contact_infocontact" name="contact_infocontact"
+          (change)="onChange(profile_details.id,'pinner','contact_info','contact_infocontact')">
+          contact
+        </mat-slide-toggle>
+
+        <mat-slide-toggle class="green-toggle mb-2"  [(ngModel)]="contact_infopublicprofile" name="contact_infopublicprofile"
+          (change)="onChange(profile_details.id,'pinner','contact_info','contact_infopublicprofile')">
+          Public Profile
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Contacts</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="contactscoomunity" name="contactscoomunity"
+          (change)="onChange(profile_details.id,'pinner','contacts','contactscoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="contactscontact" name="contactscontact"
+          (change)="onChange(profile_details.id,'pinner','contacts','contactscontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="contactspublicprofile" name="contactspublicprofile"
+        (change)="onChange(profile_details.id,'pinner','contacts','contactspublicprofile')">
+        Public profile
+      </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Comments</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="commentscoomunity" name="commentscoomunity"
+          (change)="onChange(profile_details.id,'pinner','comments','commentscoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="commentscontact" name="commentscontact"
+          (change)="onChange(profile_details.id,'pinner','comments','commentscontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2"  [(ngModel)]="commentspublicprofile" name="commentspublicprofile"
+        (change)="onChange(profile_details.id,'pinner','comments','commentspublicprofile')">
+        Public Profile
+      </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Posts</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="postscoomunity" name="postscoomunity"
+          (change)="onChange(profile_details.id,'pinner','posts','postscoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="postscontact" name="postscontact"
+          (change)="onChange(profile_details.id,'pinner','posts','postscontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2"  [(ngModel)]="postspublicprofile" name="postspublicprofile"
+          (change)="onChange(profile_details.id,'pinner','posts','postspublicprofile')">
+          Public profile
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Referrals</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="referralscoomunity" name="referralscoomunity"
+          (change)="onChange(profile_details.id,'pinner','referrals','referralscoomunity')">
+          community
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2" [disabled]="review_btn" [(ngModel)]="referralscontact" name="referralscontact"
+          (change)="onChange(profile_details.id,'pinner','referrals','referralscontact')">
+          contact
+        </mat-slide-toggle>
+        <mat-slide-toggle class="green-toggle mb-2"  [(ngModel)]="referralspublicprofile" name="referralspublicprofile"
+          (change)="onChange(profile_details.id,'pinner','referrals','referralspublicprofile')">
+          Public profile
+        </mat-slide-toggle>
+      </div>
+    </div>
+
+    <!--end col-->
+
+
+
+
+
+
+  </div>
+</form>

@@ -1,0 +1,57 @@
+<!-- <div class="headingPage text-center mobiletop60">
+  <h2>Login</h2>
+  <h6>Please enter your credentials below.</h6>
+</div> -->
+<div class="maincontentPartLoginModule scrollElement">
+  
+<div class="container-fluid h-100 d-flex">
+   
+      <div class="loginRegister-form-wrap mt-auto mb-auto">
+        <div class="form-panel">
+          <div class="main-heading-block mb-3">
+              <h4 class="heading-text text-uppercase">Login</h4>
+              <p class="sub-heading-text">Welcome back! Enter your login credentials below.</p>
+          </div>
+          
+          <form #loginfrm="ngForm" id="doerRegForm" (ngSubmit)="loginFunction(loginfrm.value,loginfrm.valid,loginfrm)">
+
+            <div class="">
+              <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput name="email" #emailaddress="ngModel" [(ngModel)]="email" placeholder="Email*" required>     
+               
+                <mat-error *ngIf="emailaddress.errors && (loginfrm.submitted) && emailaddress.errors.required">This field required</mat-error>  
+               <!--  <mat-error *ngIf="emailaddress.errors && (loginfrm.submitted) && (emailaddress.errors.pattern || !emailaddress.errors.required)">Invalid email.pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"</mat-error>  -->
+              </mat-form-field>
+            </div>
+
+            <div class="">
+              <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input matInput type="password" name="password" #userpassword="ngModel" [(ngModel)]="password" placeholder="Password*" [type]="hide ? 'password' : 'text'" required>    
+                  <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>               
+                  <mat-error *ngIf="userpassword.errors && (loginfrm.submitted) && userpassword.errors.required">This field required</mat-error>            
+              </mat-form-field>
+            </div>
+            <div class="rember_forgot d-flex justify-content-between">
+              <mat-checkbox #rememberMe="ngModel" [(ngModel)]="rememberme" name="rememberme" (click)="rememberMyLoginDtls()">Remember me</mat-checkbox>
+              <a routerLink="/forgot-password">Forgot your password?</a>
+            </div>
+
+            <div class="mt-2">
+              <button mat-button class="text-uppercase btn-greenColor w-100 lg-size mb-2">
+                Login
+                <!-- <mat-progress-spinner class="example-margin" [color]="color" [mode]="mode" [value]="value" [diameter]="20"></mat-progress-spinner> --> 
+              </button>
+              <button *ngIf="false" type="button" mat-button class="text-uppercase btn-blueFb w-100 lg-size" (click)="signInWithFB();"><i style="position: relative; top: -2px; margin-right: 5px;" class="fab fa-facebook-f"></i> Login using facebook</button>
+            </div>
+
+              <div class="text-center loginBottom-text mt-2"><span class="infoText mr-2">Not a member yet?</span> <a routerLink="/register" class="linkText">Register</a></div>
+
+
+          </form>
+        </div>
+      </div>
+   
+</div>
+</div>

@@ -1,0 +1,764 @@
+<div class="noScrollElement">
+	<div class="prfl-banner-sec">
+		<div class="map-holder">
+			<div class="h-100" id="map3"></div>
+			<!-- <div class="h-100"> -->
+			<!-- <ngui-map center="{{doer_latitude}},{{doer_longitude}}" styles='{{myGlobals.styles}}' zoom="10"
+							[fullscreenControl]="true" [panControl]="false" [disableDefaultUI]="true" [draggable]="false" [fullscreenControlOptions]="{position: 'TOP_CENTER'}"
+							[scrollwheel]="true"  mapTypeId="roadmap">
+							<marker position="{{doer_longitude}},{{doer_longitude}}" draggable="false"></marker>
+				</ngui-map> -->
+			<!-- 	<ngui-map center="{{doer_latitude}}, {{doer_longitude}}" styles='{{myGlobals.styles}}'  
+					[streetViewControl]="false" [fullscreenControl]="false" zoom="12" [fullscreenControl]="true"
+					[panControl]="false" [disableDefaultUI]="true" [draggable]="false" mapTypeId="roadmap">
+					<marker position="{{doer_latitude}}, {{doer_longitude}}" radius= "16093" fillColor= "#AA0000" draggable="false"></marker>
+				</ngui-map>
+			</div> -->
+		</div>
+	</div>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-xl-4 overBanner">
+
+				<div class="doerPrflInfoCard text-center px-3 py-3 mb-3">
+
+					<div class="action-btn-holder btn-holder">
+						<span class="action-btn ic-user-plus mb-2" *ngIf="checkUserDetails.is_loggedIn_user==0 
+						&& (checkUserDetails.is_connected==undefined || checkUserDetails.is_connected==0)
+						&& (checkUserDetails.is_pending==undefined || checkUserDetails.is_pending==0); else that"
+							(click)="sendRequestToDoer()"></span>
+						<ng-template #that>
+							<span class="action-btn ic-user-plus mb-2 deActive" disabled></span>
+						</ng-template>
+
+
+						<span class="action-btn" (click)="openSocialDialog()"><i class="fas fa-share-alt"></i></span>
+						<!-- <share-button [theme]="'circles-dark'" [button]="'facebook'" [url]="fbShareUrl" [autoSetMeta]="false">
+						</share-button> -->
+						<!-- <share-button [theme]="'modern-dark'" button="facebook" [showText]="true" [url]="fbShareUrl"></share-button> -->
+					</div>
+
+					<div class="prflImg mb-4 mx-auto mt-2">
+						<img
+							[src]="doer_profile_details?.company_logo!=null? companylogo_url+doer_profile_details?.company_logo:'assets/images/default-userImg-orange.svg'"
+							onError="this.src='assets/images/default-userImg-orange.svg';">
+					</div>
+
+					<ng-container *ngIf="doer_profile_details?.profile_type == 2">
+						<h3 class="name mb-2">{{doer_profile_details?.company_name}}</h3>
+					</ng-container>
+					<ng-container *ngIf="doer_profile_details?.profile_type == 1">
+						<h3 class="name mb-2">{{doer_profile_details?.name}}</h3>
+					</ng-container>
+
+					<p class="addsText mb-3">
+						<span class="ic-pointer color-themeOrange mr-2"></span>
+						<a class="colorOrange" [href]="addressLink" target="_blank">
+
+							<!-- <span
+								*ngIf="!doer_profile_details?.user_control?.primary_address || doer_profile_details?.user_control?.primary_address == 7 || doer_profile_details?.user_control?.primary_address == 5 || ((checkUserDetails?.user_control_status == 2 || checkUserDetails?.user_control_status == 3) && doer_profile_details?.user_control?.primary_address == 4)">{{doer_profile_details?.address}}</span><br>
+							<span
+								*ngIf="doer_profile_details?.address2 && (!doer_profile_details?.user_control?.primary_address || doer_profile_details?.user_control?.primary_address == 7 || doer_profile_details?.user_control?.primary_address == 5 || ((checkUserDetails?.user_control_status == 2 || checkUserDetails?.user_control_status == 3) && doer_profile_details?.user_control?.primary_address == 4))">{{doer_profile_details?.address2}}</span><br> -->
+
+							<span *ngIf="addressControlStatus">{{doer_profile_details?.address}}</span><br>
+							<span
+								*ngIf="doer_profile_details?.address2 && addressControlStatus">{{doer_profile_details?.address2}}</span><br>
+							<span *ngIf="doer_profile_details?.city">{{doer_profile_details?.city}}, </span>
+							<span *ngIf="doer_profile_details?.state">{{doer_profile_details?.state}}</span>
+						</a>
+						<!-- <ng-container *ngIf="doer_profile_details?.address!=null || doer_profile_details?.address!=''">
+								<a [href]="addressLink" target="_blank">
+								<span class="">
+								{{doer_profile_details?.location}}
+								 <span class="d-block" *ngIf="doer_profile_details?.address2!=null && doer_profile_details?.address2!=''">
+									{{doer_profile_details?.address2}}
+								 </span>
+								 <span class="d-block">
+										{{doer_profile_details?.city}}, {{doer_profile_details?.state}}  {{doer_profile_details?.zipcode}}
+								 </span>
+								</span>
+							</a>
+						</ng-container>
+						<ng-container *ngIf="doer_profile_details?.address==null || doer_profile_details?.address==''">Not Yet Available</ng-container> -->
+					</p>
+
+					<p class="JobInfoText mb-3 mt-3" *ngIf="crewMemberDetails?.referral_code">Crew Referral Code: <span class="blueBoldText text-uppercase">{{ crewMemberDetails?.referral_code }}</span></p>
+
+					<p class="JobInfoText mb-3 mt-3"><span class="blueBoldText">{{totalCompletedJob}}</span> Completed
+						Jobs</p>
+
+					<button *ngIf="user_type==1" mat-flat-button (click)="invitePinDialog()"
+						class="btn-orangeColor lg-size btn-block text-uppercase">invite
+						to pin</button>
+
+					<div class="py-3" *ngIf="doer_profile_details?.emergency==1">
+						<p class="infoText mb-0">
+							<span class="ic-emergency-service mr-2 color-themeOrange" style="font-size: 20px;"></span>
+							<span class="font-italic">Available for emergency service</span>
+						</p>
+					</div>
+
+					<hr class="m-0">
+
+					<div class="pt-3 pb-3">
+
+						<div class="rating-info mb-1">
+							<span class="boldNumber mr-2">{{doer_profile_details?.rating_avg
+							}}</span> <span class="textInfo text-uppercase">TRUE REVIEW
+								SCORE</span>
+						</div>
+
+
+						<div class="rating-block d-flex justify-content-center align-items-center" *ngIf="doer_profile_details">
+							<div class="rating-star d-flex">
+
+								<!-- <star-rating [(value)]="doer_profile_details.rating_avg" checkedcolor="#E6854A" uncheckedcolor="#D3DAE2"
+									size="24px">
+								</star-rating> -->
+
+								<star-rating [showHalfStars]="true" [starType]="'svg'" [rating]="doer_profile_details.rating_avg"
+									[readOnly]="true" size="small"></star-rating>
+
+							</div>
+							<span class="reviewCount-text color-themeOrange"
+								*ngIf="doerProfileTotalReview>1">({{doerProfileTotalReview}} reviews)</span>
+							<span class="reviewCount-text color-themeOrange"
+								*ngIf="doerProfileTotalReview<=1">({{doerProfileTotalReview}} review)</span>
+						</div>
+
+					</div>
+
+					<hr class="m-0">
+
+
+					<div class="hiredBy-holder pb-3 pt-3">
+						<h3 class="headingText mb-2">Hired By <span>{{numberOfPinnerHired}} Friends</span></h3>
+						<div class="hiredBy-content d-flex justify-content-center">
+							<div class="hiredBy-content-inr">
+								<span class="hiredBox custom" *ngFor="let hiredProfile of doerProfileHired"
+									(click)="hiredByPinnerDialog()">
+									<ng-container *ngIf="hiredProfile?.user_type==1">
+
+										<!-- <ng-container *ngIf="(hiredProfile?.user_control_status==1
+													|| hiredProfile?.user_control_status==2
+													|| hiredProfile?.user_control == null
+													|| (hiredProfile?.user_control_status==3
+													&& (hiredProfile?.user_control?.profile_photo  == 1 
+													|| hiredProfile?.user_control?.profile_photo  == 4 
+													|| hiredProfile?.user_control?.profile_photo == 6 
+													|| hiredProfile?.user_control?.profile_photo == 7))
+													||  (hiredProfile?.user_control_status==0
+												&& (hiredProfile?.user_control?.profile_photo  == 3 
+												|| hiredProfile?.user_control?.profile_photo  == 5 
+												|| hiredProfile?.user_control?.profile_photo == 6 
+												|| hiredProfile?.user_control?.profile_photo == 7)));else defaultHiredImage"> -->
+
+
+										<img [ngClass]="hiredProfile?.profilePictureShow==false?'blurImg':''"
+											[src]="hiredProfile?.profile_photo!=null? image_url+hiredProfile?.profile_photo:'assets/images/default-userImg-green.svg'"
+											onError="this.src='assets/images/default-userImg-green.svg';">
+
+										<!-- </ng-container> -->
+
+										<!-- <ng-template #defaultHiredImage>
+											<img src="assets/images/default-userImg-green.svg">
+										</ng-template> -->
+
+									</ng-container>
+
+									<ng-container *ngIf="hiredProfile?.user_type==2">
+										<img
+											[src]="hiredProfile?.company_logo!=null? companylogo_url+hiredProfile?.company_logo:'assets/images/default-userImg-orange.svg'"
+											onError="this.src='assets/images/default-userImg-orange.svg';">
+									</ng-container>
+
+								</span>
+
+								<span class="hireNumber" *ngIf="numberOfPinnerHired>=7">+{{numberOfPinnerHired-6}}</span>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+				<!--end doerPrflInfoCard-->
+
+				<div class="sideCard-border mb-3">
+					<div class="sideCard-main-header px-3">
+						<div class="main-header-inr pt-3 pb-3 d-flex align-items-center justify-content-between">
+							<h4 class="heading-text mb-0 text-uppercase">HOURS OF OPERATION</h4>
+							<!-- {{ doerProfileHoursOfOperationDetails?.monday }} monday <br>
+							{{ doerProfileHoursOfOperationDetails?.tuesday }} tuesday <br>
+							{{ doerProfileHoursOfOperationDetails?.wednesday }} wednesday <br>
+							{{ doerProfileHoursOfOperationDetails?.thursday }} thursday <br>
+							{{ doerProfileHoursOfOperationDetails?.friday }} friday <br>
+							{{ doerProfileHoursOfOperationDetails?.saturday }} saturday <br>
+							{{ doerProfileHoursOfOperationDetails?.sunday }} sunday <br> -->
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<div class="sideCard-body px-3 py-0">
+
+						<ng-container *ngIf="doerProfileHoursOfOperationDetails?.monday == 0">
+							<div class="time-schedule py-3">
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<span class="dayText">
+										<i class="material-icons color-themeOrange mr-1">
+											schedule
+										</i>
+										<span>Monday</span>
+									</span>
+									<span class="hrText">{{doerProfileHoursOfOperationDetails?.mondayDiffer}}</span>
+								</div>
+
+								<div>
+									<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.monday_start_time }}
+										- {{ doerProfileHoursOfOperationDetails?.monday_end_time }}
+									</span>
+								</div>
+							</div>
+							<hr class="m-0">
+						</ng-container>
+
+						<ng-container *ngIf="doerProfileHoursOfOperationDetails?.tuesday == 0">
+							<div class="time-schedule py-3">
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<span class="dayText">
+										<i class="material-icons color-themeOrange mr-1">
+											schedule
+										</i>
+										<span>Tuesday</span>
+									</span>
+									<span class="hrText">{{doerProfileHoursOfOperationDetails?.tuesdayDiffer}}</span>
+								</div>
+
+								<div>
+									<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.tuesday_start_time }}
+										- {{ doerProfileHoursOfOperationDetails?.tuesday_end_time }}
+									</span>
+								</div>
+							</div>
+							<hr class="m-0">
+						</ng-container>
+
+						<ng-container *ngIf="doerProfileHoursOfOperationDetails?.wednesday == 0">
+							<div class="time-schedule py-3">
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<span class="dayText">
+										<i class="material-icons color-themeOrange mr-1">
+											schedule
+										</i>
+										<span>Wednesday</span>
+									</span>
+									<span class="hrText">{{doerProfileHoursOfOperationDetails?.wednesdayDiffer}}</span>
+								</div>
+
+								<div>
+									<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.wednesday_start_time }}
+										- {{ doerProfileHoursOfOperationDetails?.wednesday_end_time }}
+									</span>
+								</div>
+							</div>
+							<hr class="m-0">
+						</ng-container>
+
+						<ng-container *ngIf="doerProfileHoursOfOperationDetails?.thursday == 0">
+							<div class="time-schedule py-3">
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<span class="dayText">
+										<i class="material-icons color-themeOrange mr-1">
+											schedule
+										</i>
+										<span>Thursday</span>
+									</span>
+									<span class="hrText">{{doerProfileHoursOfOperationDetails?.thursdayDiffer}}</span>
+								</div>
+
+								<div>
+									<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.thursday_start_time }}
+										- {{ doerProfileHoursOfOperationDetails?.thursday_end_time }}
+									</span>
+								</div>
+							</div>
+							<hr class="m-0">
+						</ng-container>
+
+						<ng-container *ngIf="doerProfileHoursOfOperationDetails?.friday == 0">
+							<div class="time-schedule py-3">
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<span class="dayText">
+										<i class="material-icons color-themeOrange mr-1">
+											schedule
+										</i>
+										<span>Friday</span>
+									</span>
+									<span class="hrText">{{doerProfileHoursOfOperationDetails?.fridayDiffer}}</span>
+								</div>
+
+								<div>
+									<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.friday_start_time }}
+										- {{ doerProfileHoursOfOperationDetails?.friday_end_time }}
+									</span>
+								</div>
+							</div>
+							<hr class="m-0">
+						</ng-container>
+
+						<ng-container *ngIf="doerProfileHoursOfOperationDetails?.saturday == 0">
+							<div class="time-schedule py-3">
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<span class="dayText">
+										<i class="material-icons color-themeOrange mr-1">
+											schedule
+										</i>
+										<span>Saturday</span>
+									</span>
+									<span class="hrText">{{doerProfileHoursOfOperationDetails?.saturdayDiffer}}</span>
+								</div>
+
+								<div>
+									<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.saturday_start_time }}
+										- {{ doerProfileHoursOfOperationDetails?.saturday_end_time }}
+									</span>
+								</div>
+							</div>
+						</ng-container>
+
+						<ng-container *ngIf="doerProfileHoursOfOperationDetails?.sunday == 0">
+							<div class="time-schedule py-3">
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<span class="dayText">
+										<i class="material-icons color-themeOrange mr-1">
+											schedule
+										</i>
+										<span>Sunday</span>
+									</span>
+									<span class="hrText">{{ doerProfileHoursOfOperationDetails?.sundayDiffer }}</span>
+								</div>
+
+								<div>
+									<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.sunday_start_time }}
+										- {{ doerProfileHoursOfOperationDetails?.sunday_end_time }}
+									</span>
+								</div>
+							</div>
+							<hr class="m-0">
+						</ng-container>
+					</div>
+				</div>
+				<!--end sideCard-border-->
+
+
+				<div class="sideCard-border mb-3">
+					<div class="sideCard-main-header px-3">
+						<div class="main-header-inr pt-3 pb-3 d-flex align-items-center justify-content-between">
+							<h4 class="heading-text mb-0 text-uppercase">Accepted Payment Methods</h4>
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<div class="sideCard-body px-3 py-0">
+						<ul class="listOf-paymentMethods">
+							<li class="d-flex align-items-center mt-3 mb-3" *ngIf="doer_profile_details?.accept_payment_by_cards==1">
+								<span class="icon-item ic-credit-card mr-2 flex-shrink-0"></span>
+								<p class="methods-nameText">Credit Card</p>
+							</li>
+
+							<li class="d-flex align-items-center mt-3 mb-3" *ngIf="doer_profile_details?.accept_payment_by_cheque==1">
+								<span class="icon-item ic-bank mr-2 flex-shrink-0" style="font-size: 20px;"></span>
+								<p class="methods-nameText">Check</p>
+							</li>
+
+							<li class="d-flex align-items-center mt-3 mb-3" *ngIf="doer_profile_details?.accept_payment_by_cash==1">
+								<span class="icon-item ic-funds mr-2 flex-shrink-0" style="font-size: 18px;"></span>
+								<p class="methods-nameText">Cash</p>
+							</li>
+
+							<li class="d-flex align-items-center mt-3 mb-3" *ngIf="doer_profile_details?.accept_payment_by_bank==1">
+								<span class="icon-item ic-bank mr-2 flex-shrink-0" style="font-size: 18px;"></span>
+								<p class="methods-nameText">Bank</p>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+				<!--end sideCard-border-->
+
+				<div class="sideCard-border mb-3">
+					<div class="sideCard-main-header px-3">
+						<div class="main-header-inr pt-3 pb-3 d-flex align-items-center justify-content-between">
+							<h4 class="heading-text mb-0 text-uppercase">ENDORSEMENTS</h4>
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+
+
+					<div class="sideCard-body scroll-height-2 orange_customScroll px-3 py-0">
+						<div class="endorsement-info py-3" *ngFor="let endorse of doerProfileEndorsementListDetails">
+							<div class="info-content d-flex align-items-center mb-2">
+								<div class="img-box flex-shrink-0 mr-2 cursorPointer" (click)="openUserDetails(endorse.user?.id,2)">
+									<img
+										[src]="endorse.user?.company_logo!=null? companylogo_url+endorse.user?.company_logo:'assets/images/default-userImg-orange.svg'"
+										onError="this.src='assets/images/default-userImg-orange.svg';">
+								</div>
+								<div class="textContent">
+									<p class="nameText mb-0 cursorPointer" (click)="openUserDetails(endorse?.user?.id,2)"
+										*ngIf="endorse?.user?.profile_type == 1">
+										{{endorse.user?.name}}</p>
+									<p class="nameText mb-0 cursorPointer" (click)="openUserDetails(endorse?.user?.id,2)"
+										*ngIf="endorse?.user?.profile_type == 2">
+										{{endorse.user?.company_name}}</p>
+									<span class="dateText">{{endorse.createdAt |date :'d MMM, y'}}</span>
+								</div>
+							</div>
+							<div class="catInfo-content d-flex align-items-center">
+								<span class="catIcon color-themeOrange" [ngClass]="{'ic-home-2': endorse.parent_category?.id === 2 , 
+											'ic-covid-2':endorse.parent_category?.id === 3, 
+											'ic-entertainment-2':endorse.parent_category?.id === 19,
+											'ic-personal-care':endorse.parent_category?.id === 16 ,
+											'ic-book':endorse.parent_category?.id === 17 , 
+											'ic-professional-services-2':endorse.parent_category?.id === 18 , 
+											'ic-petcare':endorse.parent_category?.id === 20}"></span>
+								<div class="catNameText pl-2">
+									<p class="m-0 type1">{{endorse.parent_category?.name}}</p>
+									<p class="m-0 type2 font-italic color-themeOrange">{{endorse.child_category?.name}}
+									</p>
+								</div>
+							</div>
+						</div>
+						<!--end endorsement-info-->
+						<hr class="mb-0 mt-0">
+
+					</div>
+				</div>
+				<!--end sideCard-border-->
+
+
+			</div>
+			<!--end custom-side-col-->
+
+			<div class="col-xl-8 overBanner pt-xl-0 pt-3">
+
+				<!-- <span class="prflSideMenu comnLeftSideMenu ic-equalizer d-block d-xl-none"
+					(click)="comnLeftSideBarTgl($event)"></span>
+				<div class="filterSideBar_overlay" (click)="comnLeftSideBarOverClick($event)"
+					[ngClass]="comnLeftSideBarBoxOpen?'open':''">
+				</div> -->
+
+				<div class="comnCard mb-3">
+
+					<div class="comnCard-main-header px-3 ">
+						<div class="main-header-inr d-flex align-items-center justify-content-between py-3">
+							<h2 class="heading-text mb-0">ABOUT US</h2>
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<div class="comnCard-body px-3 py-3">
+						<div class="dsc-text-content">
+							<p [innerHtml]="doer_profile_details?.description"></p>
+						</div>
+
+					</div>
+
+
+				</div>
+				<!--end comnCard-->
+
+
+				<div class="comnCard mb-3">
+					<div class="comnCard-main-header px-3 ">
+						<div class="main-header-inr d-flex align-items-center justify-content-between py-3">
+							<h2 class="heading-text mb-0">BADGES</h2>
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+					<div class="comnCard-body px-3 py-3">
+						<div class="badges-slider" *ngIf="doerProfileBadgesDetails?.length>0">
+							<!-- Swiper -->
+							<div class="swiper-container">
+								<div class="swiper-wrapper align-items-center">
+									<div class="swiper-slide" *ngFor="let eachBadge of doerProfileBadgesDetails">
+
+										<div class="badgeImg">
+											<div class="badge_cont text-center d-flex justify-content-center w-100 h-100"
+												matTooltip="{{eachBadge.badge_details?.name}}" aria-label="">
+												<img src="{{badge_url}}{{eachBadge.badge_details?.icon}}" alt="">
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+							<!-- Add Arrows -->
+							<div class="swiper-button-next"></div>
+							<div class="swiper-button-prev"></div>
+
+
+							<!--end badges-slider-->
+						</div>
+
+						<ng-container *ngIf="doerProfileBadgesDetails?.length==0">
+							<p>No Badges Earned Yet.</p>
+						</ng-container>
+					</div>
+				</div>
+				<!--end comnCard-->
+
+				<div class="comnCard mb-3">
+
+					<div class="comnCard-main-header px-3 ">
+						<div class="main-header-inr d-flex align-items-center justify-content-between py-3">
+							<h2 class="heading-text mb-0">SERVICES OFFERED</h2>
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<perfect-scrollbar style="max-width: 760px; max-height: 386px;" [autoPropagation]="true">
+						<div class="comnCard-body px-3 ">
+							<div class="src-block-holder" *ngFor="let p_category of doerCategoryDetails">
+								<div class="src-block py-3">
+									<div class="header-block mb-3">
+										<div class="heading orange d-flex align-items-center">
+											<div class="icon-box mr-2">
+												<span [ngClass]="{'ic-home-2': p_category.parent.id === 2 , 
+											'ic-covid-2':p_category.parent.id === 3, 
+											'ic-entertainment-2':p_category.parent.id === 19,
+											'ic-personal-care':p_category.parent.id === 16 ,
+											'ic-book':p_category.parent.id === 17 , 
+											'ic-professional-services-2':p_category.parent.id === 18 , 
+											'ic-petcare':p_category.parent.id === 20}">
+												</span>
+											</div>
+											<h3 class="headingText">{{p_category.parent?.name}}</h3>
+										</div>
+									</div>
+
+									<div class="src-block-body d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1" *ngFor="let c_category of p_category.child">
+											<span class="chips-box">{{c_category.child_category?.name}}</span>
+										</span>
+									</div>
+
+								</div>
+								<!--end src-block-->
+								<hr class="m-0">
+							</div>
+						</div>
+					</perfect-scrollbar>
+				</div>
+				<!--end comnCard-->
+
+
+				<div class="comnCard mb-3">
+
+					<div class="comnCard-main-header px-3 ">
+						<div class="main-header-inr d-flex align-items-center justify-content-between py-3">
+							<h2 class="heading-text mb-0">PINNER REVIEWS</h2>
+
+							<div class="sortBy ml-2">
+								<button class="btn btn-sortBy orange" (menuOpened)="sortByDropdownOpenClose()"
+									(menuClosed)="sortByDropdownOpenClose()" [ngClass]="{active: menuOpen }" type="button"
+									[matMenuTriggerFor]="sortByDropdown">Sort by</button>
+								<mat-menu #sortByDropdown="matMenu" [class]="'sortBy-dropdown'" xPosition="before"
+									[overlapTrigger]="false">
+
+									<ul class="text-right sortBy-dropdown-list px-3">
+										<li>
+											<input type="radio" name="sortBy_name" value="newest" (change)="sortingReviewList('newest')">
+											<label>Newest to Oldest</label>
+										</li>
+										<li>
+											<input type="radio" name="sortBy_name" value="oldest" (change)="sortingReviewList('oldest')">
+											<label>Oldest to Newest</label>
+										</li>
+
+										<li>
+											<input type="radio" name="sortBy_name" value="highest_ratings"
+												(change)="sortingReviewList('highest_ratings')">
+											<label>High to Low Rating</label>
+										</li>
+
+										<li>
+											<input type="radio" name="sortBy_name" value="lowest_ratings"
+												(change)="sortingReviewList('lowest_ratings')">
+											<label>Low to High Rating</label>
+										</li>
+
+										<li>
+											<input type="radio" name="sortBy_name" value="my_contacts"
+												(change)="sortingReviewList('my_contacts')">
+											<label>My Contacts</label>
+										</li>
+									</ul>
+								</mat-menu>
+							</div>
+
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<div class="comnCard-body  py-3">
+
+
+						<div class="review-block-holder orange_customScroll px-3">
+
+							<ng-container *ngFor="let review of doerProfileReviewsDetails">
+								<div class="review-block-wrap">
+
+									<div class="review-block-top d-md-flex justify-content-between mb-3">
+										<div class="prfl-info d-flex align-items-center pr-md-2 mb-3 mb-md-0">
+											<div class="prfl-img mr-2 circle cursorPointer"
+												(click)="openUserDetails(review.pinner_details?.id,1)">
+
+												<img [ngClass]="review?.pinner_details?.profilePictureShow==false?'blurImg':''"
+													[src]="review.pinner_details?.profile_photo!=null? image_url+review.pinner_details?.profile_photo:'assets/images/default-userImg-green.svg'"
+													onError="this.src='assets/images/default-userImg-green.svg';">
+
+												<!-- <ng-template #defaultReviewImage>
+													<img src="assets/images/default-userImg-green.svg">
+												</ng-template> -->
+
+											</div>
+
+											<div class="prfl-text">
+
+												<p class="nameText mb-0 cursorPointer" (click)="openUserDetails(review.pinner_details?.id,1)">
+
+													<ng-container *ngIf="review?.pinner_details?.firstNameShow">
+														{{review.pinner_details?.first_name}}
+													</ng-container>
+
+													<ng-container *ngIf="review?.pinner_details?.lastNameShow">
+														{{review.pinner_details?.last_name}}
+													</ng-container>
+												</p>
+
+												<p class="userName mb-0"
+													*ngIf="(!review?.pinner_details?.firstNameShow && !review?.pinner_details?.lastNameShow && review.pinner_details?.username)">
+													@{{review.pinner_details?.username}} </p>
+
+												<h4 class="addsText mb-0">
+													{{review.pinner_details?.city}}
+													<ng-container *ngIf="review.pinner_details?.city && review.pinner_details?.state">
+														,
+													</ng-container>
+													{{review.pinner_details?.state}}
+												</h4>
+											</div>
+										</div>
+
+
+										<div class="rating-block d-flex align-items-center">
+											<div class="rating-star d-flex">
+												<!-- <star-rating [value]="review?.rating" checkedcolor="#E6854A" uncheckedcolor="#D3DAE2"
+													size="18px" readonly="true">
+												</star-rating> -->
+												<star-rating [showHalfStars]="true" [starType]="'svg'" [rating]="review?.rating"
+													[readOnly]="true" size="small"></star-rating>
+											</div>
+											<span class="rating-star-text">{{review?.rating | number:'1.1-1'}}</span>
+										</div>
+									</div>
+
+									<div class="review-block-dsc">
+										<h3 class="headingText mb-2">{{review?.pin?.title}}</h3>
+										<p [innerHtml]="review?.review"></p>
+									</div>
+
+								</div>
+								<!--end review-block-wrap-->
+								<hr>
+							</ng-container>
+
+						</div>
+
+						<div class="load-btn-holder py-2 text-center" *ngIf="isLoadMoreReview">
+							<button mat-flat-button class="btn-orangeColor text-uppercase" (click)="loadMoreReview()">LOAD MORE
+								<i class="material-icons">expand_more</i>
+							</button>
+						</div>
+
+					</div>
+					<!--end comnCard-body-->
+
+				</div>
+				<!--end comnCard-->
+
+			</div>
+			<!--end col-md-8-->
+		</div>
+		<!--end row-->
+
+		<div class="row">
+			<div class="col-md-12">
+			</div>
+		</div>
+		<!--end row-->
+
+		<div class="comnCard mb-3">
+
+			<div class="comnCard-main-header px-3 ">
+				<div class="main-header-inr d-flex align-items-center justify-content-between py-3">
+					<h2 class="heading-text mb-0">PORTFOLIO</h2>
+				</div>
+				<hr class="mb-0 mt-0">
+			</div>
+
+			<div class="comnCard-body px-3 py-3">
+
+				<div class="portfolio-slider" *ngIf="doerProfilePortfolioDetails?.length>0">
+
+					<!-- Swiper -->
+					<div class="swiper-container">
+						<div class="swiper-wrapper align-items-center">
+
+							<ng-container *ngFor="let indvPortfolio of doerProfilePortfolioDetails">
+								<div class="swiper-slide" *ngIf="indvPortfolio?.total_images_count!=0">
+									<!-- {{portfolio|json}} -->
+									<div class="portfolio-slide-content cursorPointer" (click)="openPortfolioDialog(indvPortfolio.id)">
+										<div class="portfolioImg">
+											<!-- <img
+											src="{{portfolio_url}}{{doer_id}}/{{indvPortfolio?.folder_name}}/{{indvPortfolio?.deafault_image?.name}}"> -->
+											<img src="{{gallery_url}}/{{indvPortfolio?.deafault_image?.name}}">
+										</div>
+										<div class="infoText-content text-center mt-1">
+											<span class="d-flex justify-content-center">
+												<span class="ic-album color-themeOrange mr-1"></span>
+												<span class="textItem">{{indvPortfolio?.folder_name}}</span>
+											</span>
+											<p class="numbOfPhoto mb-0">{{indvPortfolio?.total_images_count}} photos</p>
+										</div>
+									</div>
+								</div>
+							</ng-container>
+
+						</div>
+
+					</div>
+
+					<!-- Add Arrows -->
+					<div class="swiper-button-next"></div>
+					<div class="swiper-button-prev"></div>
+
+				</div>
+
+				<ng-container *ngIf="doerProfilePortfolioDetails?.length==0">
+					<p>No PORTFOLIO Yet.</p>
+				</ng-container>
+				<!--end badges-slider-->
+
+			</div>
+
+
+		</div>
+		<!--end comnCard-->
+
+	</div>
+
+</div>

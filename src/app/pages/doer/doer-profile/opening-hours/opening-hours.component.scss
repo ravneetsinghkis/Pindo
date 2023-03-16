@@ -1,0 +1,40 @@
+.hourListing {
+	p {
+		i {
+			margin-right: 10px;
+		}
+		span {
+			font-family: 'Montserrat-SemiBold';
+		}
+	}
+}
+
+.opngCont {
+	p {
+		font: 13px/50px 'Montserrat-SemiBold';
+		color: #035670;
+		margin-bottom: 0;
+		min-width: 95px;
+	}
+	.form-fields {
+	    margin-top: 20px;
+	}
+	ngx-material-timepicker-toggle {
+	    position: absolute;
+	    right: 0;
+	    top: 4px;
+	}	
+} 
+.mat-custom-error {
+	position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-family: 'Montserrat-Medium';
+}
+.p-25 {
+	padding-top: 25px !important;
+}
+
+

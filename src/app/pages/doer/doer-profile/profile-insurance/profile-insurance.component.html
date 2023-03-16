@@ -1,0 +1,161 @@
+<div class="dummy_content no_minheight" [hidden]="isHidden">
+	<div class="row">
+		<div class="col-md-4 align-self-center">
+			<div class="icon-space text-center">
+  				<img src="assets/images/icon-set/03.svg" alt="">
+  			</div>
+		</div>
+		<div class="col-md-8 align-self-center">
+			<h6 class="maincardsubHeading">No Insurance</h6>
+			<div class="col-md-5 pl-0">
+				<p>Please add your business's insurance policy(ies).</p>
+				<button mat-raised-button color="primary" (click)="togglePopup()" class="text-uppercase mat-primary">
+	                select
+	            </button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="forScroll" *ngIf="isHidden && populateInsuranceListing.length>0">
+	<div class="border-box" *ngFor="let eachInsuranceList of populateInsuranceListing; let i = index;">
+		<h4>{{ eachInsuranceList.name }}</h4>
+		<h6 *ngIf="eachInsuranceList.reference_no!=null || eachInsuranceList.reference_no!=''">Reference ID - {{ eachInsuranceList.reference_no }}</h6>
+		<p *ngIf="eachInsuranceList.description!=null || eachInsuranceList.description!=''">{{ eachInsuranceList.description }}</p>
+		<ng-container *ngIf="eachInsuranceList?.documents?.length>0">
+			<div class="d-flex fileiconlisting flex-wrap">
+			<ng-container *ngFor="let eachFile of eachInsuranceList?.documents">
+				<p class="align-items-center fileicons">
+					<a href="{{baseUrl}}/profile_document/{{eachFile?.name}}" target="_blank">
+						<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='jpg' || eachFile.name.split('.')[eachFile.name.split('.').length-1]=='jpeg'">
+							<img src="assets/images/icons/jpg.svg" alt="">
+						</span>
+						<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='png'">
+							<img src="assets/images/icons/png.svg" alt="">
+						</span>
+						<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='docx'">
+							<img src="assets/images/icons/docx-file-format.svg" alt="">
+						</span>
+						<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='pdf'">
+							<img src="assets/images/icons/pdf.svg" alt="">
+						</span>
+					{{ eachFile.name }}</a>
+				</p>
+			</ng-container>
+			</div>
+		</ng-container>
+	</div>	
+</div>
+<!-- overlayPopup -->
+<div class="overlayPopup" #popUpVar>
+	<div class="popupHeader">
+		<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+		<h3>Add Insurance Documents</h3>
+	</div>
+	<div class="popupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3">
+				<form #insurancefrm="ngForm" novalidate (ngSubmit)="submitFunction(insurancefrm.value,insurancefrm.valid,insurancefrm,'save')" enctype="multipart/form-data">
+					<div class="">
+		              <mat-form-field appearance="outline">
+		                <mat-label>Insurance Name</mat-label>
+		                <input matInput name="name" #insuranceName="ngModel" [(ngModel)]="name" placeholder="Insurance Name*" required>     
+		               
+		                <mat-error *ngIf="insuranceName.errors && (insurancefrm.submitted) && insuranceName.errors.required">This field required</mat-error>  
+		                <mat-error *ngIf="insuranceName.errors && (insurancefrm.submitted) && (!insuranceName.errors.required)">Invalid Name.</mat-error> 
+		              </mat-form-field>
+		            </div>
+		            <div class="">
+		              <mat-form-field appearance="outline">
+		                <mat-label>Reference ID</mat-label>
+		                <input matInput name="reference_no" #referenceID="ngModel" [(ngModel)]="reference_no" placeholder="Reference ID*">     
+		               
+		                <!-- <mat-error *ngIf="referenceID.errors && (insurancefrm.submitted) && referenceID.errors.required">This field required</mat-error>  
+		                <mat-error *ngIf="referenceID.errors && (insurancefrm.submitted) && (!referenceID.errors.required)">Invalid Name.</mat-error>  -->
+		              </mat-form-field>
+		            </div>
+		            <div class="">
+		              <mat-form-field appearance="outline">
+		                <mat-label>Short Description</mat-label>		                
+		                <textarea matInput name="description" #sDesc="ngModel" [(ngModel)]="description" placeholder="Short Description*"></textarea>  
+		               
+		                <!-- <mat-error *ngIf="sDesc.errors && (insurancefrm.submitted) && sDesc.errors.required">This field required</mat-error>  
+		                <mat-error *ngIf="sDesc.errors && (insurancefrm.submitted) && (!sDesc.errors.required)">Invalid Name.</mat-error>  -->
+		              </mat-form-field>
+		            </div>
+		            <div class="">
+		             	<div class="upload-btn-wrapper clearfix">
+		                  <span>Upload Files</span>
+		                  <button type="button" mat-icon-button>
+		                    <mat-icon>cloud_upload</mat-icon>                    
+		                  </button>
+		                  <input type="file" name="pImg" (change)="onChange($event)" inputId="input-file" placeholder="Drop files below!" multiple>
+		                </div>
+		                <div class="fileNames d-flex flex-wrap">
+		                	<ng-container *ngIf="multipleFile.length>0">
+		                  		<ng-container *ngFor="let eachFile of multipleFile; let i=index;"> 
+		                  			<div class="eachFile">{{eachFile.name}} <span (click)="removeFile(i)"><i class="fas fa-times"></i></span></div>
+		                  		</ng-container>
+		                  	</ng-container>
+		                </div>
+		                <mat-error *ngIf="attachedfileerror!=''">{{attachedfileerror}}</mat-error>
+		              <!-- <div class="help-attach">
+							<div class="custom-file">
+									<input type="file" class="custom-file-input" id="attachment_file" (change)="onChange($event)" name="attachment_file">
+									<label class="custom-file-label" for="customFile" *ngIf="upload_file==''">Upload Files</label>
+									<label class="custom-file-label" for="customFile" *ngIf="upload_file!=''">{{upload_file?.name}}</label>
+							</div>	
+						</div> -->
+		            </div>
+		            <div class="d-flex justify-content-center pt-5 flex-wrap align-content-end">
+			            <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+			                Save
+			            </button>
+			            <div class="custombtnboder mr-0 mr-md-2">
+				            <button type="button" mat-button class="text-uppercase" (click)="submitFunction(insurancefrm.value,insurancefrm.valid,insurancefrm,'save and continue')">
+				            	Save &amp; Continue
+				            </button>
+			            </div>
+			            <div class="custombtnboder hideInMob">
+				            <button type="button" mat-button class="text-uppercase" (click)="resetFunction(insurancefrm)">
+				            	Reset
+				            </button>
+			            </div>
+		            </div>
+				</form>
+				<div class="listing_formsubmit pt-5" *ngIf="populateInsuranceListing.length>0">
+					<div class="border-box" *ngFor="let eachInsuranceList of populateInsuranceListing; let i = index;">
+						<div class="border-box-action">
+							<button mat-icon-button class="btn-action float-left" (click)="editThisInsurance(i)"><i class="far fa-edit"></i></button>
+							<button mat-icon-button class="btn-action float-left" (click)="removeThisInsurance(i)"><i class="far fa-trash-alt"></i></button>
+						</div>
+						<h4>{{ eachInsuranceList.name }}</h4>
+						<h6 *ngIf="eachInsuranceList.reference_no!=null">Reference ID - {{ eachInsuranceList.reference_no }}</h6>
+						<p *ngIf="eachInsuranceList.description!=null">{{ eachInsuranceList.description }}</p>
+						<ng-container *ngIf="eachInsuranceList?.documents?.length>0">
+							<div class="d-flex fileiconlisting flex-wrap">
+							<ng-container *ngFor="let eachFile of eachInsuranceList?.documents">
+								<p class="align-items-center fileicons">
+									<a href="{{baseUrl}}/profile_document/{{eachFile?.name}}" target="_blank">
+										<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='jpg' || eachFile.name.split('.')[eachFile.name.split('.').length-1]=='jpeg'">
+											<img src="assets/images/icons/jpg.svg" alt="">
+										</span>
+										<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='png'">
+											<img src="assets/images/icons/png.svg" alt="">
+										</span>
+										<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='docx'">
+											<img src="assets/images/icons/docx-file-format.svg" alt="">
+										</span>
+										<span *ngIf="eachFile.name.split('.')[eachFile.name.split('.').length-1]=='pdf'">
+											<img src="assets/images/icons/pdf.svg" alt="">
+										</span>
+									{{ eachFile.name }}</a>
+								</p>
+							</ng-container>
+							</div>
+						</ng-container>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

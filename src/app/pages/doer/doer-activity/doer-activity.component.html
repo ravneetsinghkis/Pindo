@@ -1,0 +1,1766 @@
+<div class="totalDashboard customtop_padding activityDashboard">
+	<!-- <div class="top-section topCutomisedNewBar">
+		<div class="container">
+			<div class="mainHeading">
+				<h1>MY ACTIVITY</h1>
+			</div>
+		</div>
+	</div> -->
+	<div class="container mt-4">
+		<div class="activity-sec-001 mb-3">
+			<div class="row">
+				<div class="left-sec-col">
+
+					<div class="card-comn">
+
+						<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+							<div class="main-header-inr withIcon-heading  d-flex align-items-center">
+								<h4 class="heading-text mb-0 text-uppercase">TO - DO LISTS</h4>
+							</div>
+						</div>
+						<hr class="mb-0 mt-0">
+
+						<div class="card-comn-body">
+
+
+							<div class="comnTable">
+								<div class="comnTable-row comnTable-row-head d-none d-lg-flex">
+									<div class="comnTable-cell">Date / Time</div>
+									<div class="comnTable-cell flex-3">Pending Activities</div>
+									<div class="comnTable-cell">&nbsp;</div>
+								</div>
+
+								<div class="comnTable-row-holder orange_customScroll">
+
+									<div class="comnTable-row" *ngFor="let eachToDo of toDoList; let i =index;">
+										<div class="d-lg-flex comnTable-data-row cursorPointer">
+											<div class="comnTable-cell">
+												<div class="comnTable-cell-head d-block d-lg-none">Date / Time</div>
+												<p class="dataText">{{eachToDo?.createdAt | date:'dd LLL yyyy h:mm a'}}</p>
+											</div>
+											<div class="comnTable-cell flex-3" (click)="gotoTodoLink(eachToDo)">
+												<div class="comnTable-cell-head d-block d-lg-none">Pending Activities
+												</div>
+												<p class="dataText" [innerHtml]="eachToDo?.todo_title"></p>
+											</div>
+											<div class="comnTable-cell delete-cell">
+												<div class="comnTable-cell-head d-block d-lg-none"></div>
+												<div class="dataText text-right d-lg-block d-flex align-items-center flex-column justify-content-end" *ngIf="eachToDo?.notification_type=='endorsement'">
+													<button mat-mini-fab class="custom_accept mb-1 mb-lg-0 mr-lg-2"
+														(click)="approveRejectEndorsement(i,1,'Are you sure you want to accept the endorsement?')">
+														<mat-icon aria-label="Accept Endorsement"><i class="fas fa-check"></i></mat-icon>
+													</button>
+													<button mat-mini-fab class="custom_accept custom_reject"
+														(click)="approveRejectEndorsement(i,0,'Are you sure you want to decline the endorsement?')">
+														<mat-icon aria-label="Reject Endorsement"><i class="far fa-trash-alt"></i></mat-icon>
+													</button>
+												</div>
+	
+												<div class="dataText text-right d-lg-block d-flex align-items-center flex-column justify-content-end" *ngIf="eachToDo?.notification_type=='confirm_payment_by_doer'">
+													<button mat-mini-fab class="custom_accept mb-1 mb-lg-0 mr-lg-2"
+														(click)="paymentConfirmation(i,eachToDo?.linked_id)">
+														<mat-icon aria-label="Accept Payment"><i class="fas fa-check"></i>
+														</mat-icon>
+													</button>
+													<button mat-mini-fab class="custom_accept custom_reject"
+														(click)="paymentRejection(i,eachToDo?.linked_id)">
+														<mat-icon aria-label="Reject Payment"><i class="far fa-trash-alt"></i></mat-icon>
+													</button>
+												</div>
+	
+												<div class="dataText text-right" *ngIf="eachToDo?.notification_type==null">
+													<button mat-mini-fab class="custom_accept custom_reject"
+														(click)="removeToDoList(i,eachToDo?.todo_link,eachToDo.id)">
+														<mat-icon aria-label="Remove"><i class="far fa-trash-alt"></i></mat-icon>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- <div class="comnTable-row">
+										<div class="d-lg-flex comnTable-data-row cursorPointer">
+											<div class="comnTable-cell">
+												<div class="comnTable-cell-head d-block d-lg-none">Date / Time</div>
+												<p class="dataText">06 Feb 2019 11:00 AM</p>
+											</div>
+											<div class="comnTable-cell flex-3">
+												<div class="comnTable-cell-head d-block d-lg-none">Pending Activities
+												</div>
+												<p class="dataText">Pinner has sent you new message</p>
+											</div>
+											<div class="comnTable-cell">
+												<div class="comnTable-cell-head d-block d-lg-none"></div>
+												<p class="dataText text-right">
+													<span class="ic-check circle-icon-themeOrange"></span>
+												</p>
+											</div>
+										</div>
+									</div> -->
+
+								</div>
+								<!--end comnTable-wrap-->
+
+
+							</div>
+							<!--end comnTable-->
+
+
+							<div class="bottom-arrow-sec">
+								<div class="arrow-holder text-center">
+									<span class="arrow-ic ic-angle-up" [ngClass]="{'color-themeOrange' : pageNumber > 1}" (click)="loadPrevToDos($event.target)"></span>
+									<span class="arrow-ic ic-angle-down" [ngClass]="{'color-themeOrange' : pageNumber < toDoPageTotal}" (click)="loadNextToDos($event.target)"></span>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!--end card-comn-->
+
+				</div>
+
+				<div class="right-sec-col mt-3 mt-md-0">
+					<mat-card class="pindoCart dashboardCart card-comn">
+						<mat-card-content class="p-10">
+							<ngui-map center="{{lat}},{{lng}}" styles='{{gbConst.styles}}' zoom="10"
+								[streetViewControl]="false" [fullscreenControl]="false" [panControl]="false"
+								[disableDefaultUI]="true" [draggable]="false"
+								[fullscreenControlOptions]="{position: 'TOP_CENTER'}" [scrollwheel]="true">
+								<marker position="{{lat}},{{lng}}" draggable="false"
+									[icon]="{url:'assets/images/doers_marker.png'}"></marker>
+								<circle center="{{lat}},{{ lng}}" [strokeColor]="'#bd6d3c'" [fillColor]="'#E6854A'"
+									[strokeOpacity]="0.8" [strokeWeight]="0.8" [editable]="false" radius="6000"
+									draggable="false"></circle>
+							</ngui-map>
+							<div class="content-partdashboardmap">
+								<div class="top_content d-flex justify-content-between w-100">
+									<h6><i class="fas fa-map-marker-alt mr-2 orange-text"></i> {{address}}</h6>									
+								</div>
+								<div class="bottom-content pb-0">
+									<div class="row">
+										<div class="col-6">
+											<p class="d-flex justify-content-between w-100">
+												<span>Pinners:</span><span>
+													<b>{{total_number_activity?.total_pinner_number}}</b>
+												</span>
+											</p>
+											<p class="d-flex justify-content-between w-100">
+												<span>Doers:</span><span>
+													<b>{{total_number_activity?.total_doer_number}}</b>
+												</span>
+											</p>
+										</div>
+										<div class="col-6">
+											<p class="d-flex justify-content-between w-100">
+												<span>Active Pins:</span><span>
+													<b>{{total_number_activity?.total_pins}}</b>
+												</span>
+											</p>
+											<p class="d-flex justify-content-between w-100">
+												<span>Completed Pins:</span><span>
+													<b>{{total_number_activity?.total_posts}}</b>
+												</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</mat-card-content>
+					</mat-card>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+
+			<div class="col-md-12">
+
+
+				<div class="card-comn mb-4">
+
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center">
+							<h4 class="heading-text mb-0 text-uppercase">MY PINS</h4>
+						</div>
+					</div>
+					<hr class="mb-0 mt-0">
+
+					<div class="card-comn-body p-3">
+
+						<div class="comn-accordion-wrap mb-4">
+
+							<div class="comn-accordion orangeColor-accordion mb-3">
+								<div class="comn-panel">
+
+									<div class="comn-panel-header hover" #invited_box_title (click)="toggleBox(invited_box_title, invited_box)">
+										<div class="header-content d-flex align-items-center px-3" style="height:50px;">
+											<div class="panel-header-title">
+												INVITED / QUOTING
+											</div>
+											<span class="counterText ml-3">{{ invitedPinsCount }}</span>
+										</div>
+									</div>
+									<!--end comn-panel-header-->
+
+
+									<div class="comn-panel-body comn-body-expanded d-none" #invited_box>
+
+										<div class="comnTable">
+											<div
+												class="comnTable-row with-rightdropdown comnTable-row-head d-none d-lg-flex">
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Date / Time <span
+															class="filterasc_desc sortAppl hasDesc" 
+															(click)="filterByColumn('created_at',$event, 'Invites')"
+															[ngClass]="{'hasDesc' : invitedSortColumn == 'created_at' && invitedSortBy == 'DESC', 'hasAsc' : invitedSortColumn == 'created_at' && invitedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell ">
+													<div class="heading-block-withFilter">Pin Details <span
+															class="filterasc_desc sortAppl" 
+															(click)="filterByColumn('title',$event, 'Invites')"
+															[ngClass]="{'hasDesc' : invitedSortColumn == 'title' && invitedSortBy == 'DESC', 'hasAsc' : invitedSortColumn == 'title' && invitedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Pin Location <span
+															class="filterasc_desc sortAppl" 
+															(click)="filterByColumn('address',$event, 'Invites')"
+															[ngClass]="{'hasDesc' : invitedSortColumn == 'address' && invitedSortBy == 'DESC', 'hasAsc' : invitedSortColumn == 'address' && invitedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Pinner <span
+															class="filterasc_desc sortAppl" 
+															(click)="filterByColumn('name',$event, 'Invites')"
+															[ngClass]="{'hasDesc' : invitedSortColumn == 'name' && invitedSortBy == 'DESC', 'hasAsc' : invitedSortColumn == 'name' && invitedSortBy == 'ASC'}"></span></div>
+												</div>
+											</div>
+
+											<div class="comnTable-row-holder orange_customScroll">
+
+												<div class="comnTable-row with-rightdropdown cursorPointer" *ngFor="let item of invitedPins; let i = index" routerLink="/doer/quotation-preview/{{item.pin_details.slug}}">
+													<div class="d-lg-flex comnTable-data-row">
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Date /
+																Time</div>
+															<p class="dataText">{{item.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{item.created_at?.split('-').join('/') | date:'h:mm a'}}</p>
+														</div>
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin
+																Details
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText mb-1">
+																	<span [innerHTML]="item.pin_details.title"></span>
+																	<ng-container
+																		*ngIf="item?.quotations!=null && item?.status!=5 && item?.quotations?.save_and_preview==0">
+																		<span class="color-themeOrange font-italic"> Quotation Submitted</span>
+																	</ng-container>
+																	<ng-container *ngIf="item?.status==5">
+																		<span class="color-themeOrange font-italic">Referred</span>
+																	</ng-container>																	
+																</p>
+																<div class="d-flex align-items-center">
+																	<span class="orange-badge"> {{item.pin_details?.parent_child_cat.parent_det?.name}} >
+																		{{item.pin_details?.parent_child_cat?.name}}
+																	</span>
+																	<div *ngIf="item?.referred_by!=null" class="mt-2">
+																		<b>Referred By:&nbsp;&nbsp;</b>
+																		<a class="linkStyle"
+																			(click)="commonservice.openWithNewTab(item?.referred_doer_details?.id)">{{item?.referred_doer_details?.name}}</a>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin
+																Location
+															</div>
+															<div class="dataText-holder">
+																<p *ngIf="item?.pin_details?.address!=null && item?.pin_details?.location_id!='dl'"
+																	class="dataText" [title]="item?.pin_details?.address">
+																	{{item?.pin_details?.address}}<br />
+																	{{item?.pin_details?.city}},
+																	{{item?.pin_details?.state}}
+																	{{item?.pin_details?.zipcode}}</p>
+																<p *ngIf="item?.pin_details?.address!=null && item?.pin_details?.location_id=='dl'"
+																	class="dataText">Doer's Location</p>																	
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pinner
+															</div>
+															<div class="dataText-holder">
+																<div class="prfl-info d-flex align-items-center">
+																	<div class="prfl-img circle mr-2" *ngIf="(item?.pinner_details?.profile_photo
+																	&& item?.pinner_details?.profile_photo!= 'null');else noImageFound">
+																		<img [ngClass]="item?.status == 0 || isInvitedMsgExists[i] == 1? '': 'blurImg'" src="{{baseCompUrl}}/profile_photo/{{item?.pinner_details?.profile_photo}}" onError="this.src='assets/images/default-userImg-green.svg';" alt="">
+																	</div>
+																	<ng-template #noImageFound>
+																		<div class="prfl-img circle mr-2">
+																			<img [ngClass]="item?.status == 0 || isInvitedMsgExists[i] == 1? '': 'blurImg'" src="assets/images/default-userImg-green-square.svg" alt="">
+																		</div>
+																	</ng-template>
+																	<div class="prfl-text">
+																		<p class="nameText m-0" [ngClass]="item?.status == 0 || isInvitedMsgExists[i] == 1? '': 'blurText'" [innerHTML]="item.pinner_details.name.split(' ').join('<br />')"></p>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+													</div>
+													<div
+														class="right-arrow-holder d-flex justify-content-around align-items-center color-themeOrange">
+														<span class="ic-angle-right"></span>
+													</div>
+												</div>
+
+												<div class="comnTable-row" *ngIf="invitedPins.length == 0">
+													<div class="comnTable-cell flex-fill">
+                                                          <p class="dataText text-center"> No Data Found </p>
+													</div>
+												</div>
+
+											</div>
+											<!--end comnTable-wrap-->
+
+
+										</div>
+										<!--end comnTable-->
+
+										<div class="bottom-arrow-sec">
+											<div class="arrow-holder text-center">
+												<span class="arrow-ic ic-angle-up" [ngClass]="{'color-themeOrange' : invitedPageCount > 1}" (click)="loadPrevInvites($event.target)"></span>
+												<span class="arrow-ic ic-angle-down" [ngClass]="{'color-themeOrange' : invitedPageCount < invitedPageTotal}" (click)="loadNextInvites($event.target)"></span>
+											</div>
+										</div>
+
+									</div>
+									<!--end comn-panel-body-->
+
+
+
+								</div>
+								<!--end comn-panel-->
+							</div>
+							<!--end comn-accordion-->
+
+							<div class="comn-accordion orangeColor-accordion mb-3">
+								<div class="comn-panel">
+
+									<div class="comn-panel-header hover" #hired_box_title (click)="toggleBox(hired_box_title, hired_box)">
+										<div class="header-content d-flex align-items-center px-3" style="height:50px;">
+											<div class="panel-header-title">
+												HIRED
+											</div>
+											<span class="counterText ml-3">{{ hiredPinsCount }}</span>
+										</div>
+									</div>
+									<!--end comn-panel-header-->
+
+
+									<div class="comn-panel-body comn-body-expanded d-none" #hired_box>
+
+										<div class="comnTable">
+											<div
+												class="comnTable-row with-rightdropdown comnTable-row-head d-none d-lg-flex">
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Date / Time <span
+															class="filterasc_desc sortAppl" 
+															(click)="filterByColumn('created_at',$event, 'Active')"
+															[ngClass]="{'hasDesc' : hiredSortColumn == 'created_at' && hiredSortBy == 'DESC', 'hasAsc' : hiredSortColumn == 'created_at' && hiredSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell ">
+													<div class="heading-block-withFilter">Pin Details <span
+															class="filterasc_desc sortAppl" 
+															(click)="filterByColumn('title',$event, 'Active')"
+															[ngClass]="{'hasDesc' : hiredSortColumn == 'title' && hiredSortBy == 'DESC', 'hasAsc' : hiredSortColumn == 'title' && hiredSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Pin Location <span
+															class="filterasc_desc sortAppl" 
+															(click)="filterByColumn('address',$event, 'Active')"
+															[ngClass]="{'hasDesc' : hiredSortColumn == 'address' && hiredSortBy == 'DESC', 'hasAsc' : hiredSortColumn == 'address' && hiredSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Pinner <span
+															class="filterasc_desc sortAppl" 
+															(click)="filterByColumn('name',$event, 'Active')"
+															[ngClass]="{'hasDesc' : hiredSortColumn == 'name' && hiredSortBy == 'DESC', 'hasAsc' : hiredSortColumn == 'name' && hiredSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="">Total Amount</div>
+												</div>
+											</div>
+
+											<div class="comnTable-row-holder orange_customScroll">
+
+												<div class="comnTable-row with-rightdropdown cursorPointer" *ngFor="let item of hiredPins" routerLink="/doer/quotation-preview/{{item.slug}}">
+													<div class="d-lg-flex comnTable-data-row">
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Date /
+																Time</div>
+															<p class="dataText">{{item.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{item.created_at?.split('-').join('/') | date:'h:mm a'}}</p>
+														</div>
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin Details</div>
+															<div class="dataText-holder">
+																<p class="dataText mb-1" [innerHTML]="item.title"></p>
+																<div class="d-flex align-items-center">
+																	<span class="orange-badge"> {{item.parent_child_cat?.parent_det?.name}} >
+																		{{item.parent_child_cat?.name}}
+																	</span>
+																</div>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin
+																Location
+															</div>
+															<div class="dataText-holder">
+																<p *ngIf="item?.address!=null"
+																	class="dataText" [title]="item?.pin_details?.address">
+																	{{item?.address}}<br />{{item?.city}}, {{item?.state}} {{item?.zipcode}}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pinner
+															</div>
+															<div class="dataText-holder">
+																<div class="prfl-info d-flex align-items-center">
+																	<div class="prfl-img circle mr-2" *ngIf="(item?.pinner_details?.profile_photo
+																	&& item?.pinner_details?.profile_photo!= 'null');else noImageFound">
+																		<img src="{{baseCompUrl}}/profile_photo/{{item?.pinner_details?.profile_photo}}" onError="this.src='assets/images/default-userImg-green-square.svg';" alt="">
+																	</div>
+																	<ng-template #noImageFound>
+																		<div class="prfl-img circle mr-2">
+																			<img src="assets/images/default-userImg-green-square.svg" alt="">
+																		</div>
+																	</ng-template>
+																	<div class="prfl-text">
+																		<p class="nameText m-0" [innerHTML]="item.pinner_details.name.split(' ').join('<br />')"></p>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Total Amount
+															</div>
+															<div class="dataText-holder">
+																${{item?.ongoing_applications?.quotations?.total_quotation_amount | number:'1.2-2'}}
+															</div>
+														</div>
+
+													</div>
+													<div
+														class="right-arrow-holder d-flex justify-content-around align-items-center color-themeOrange">
+														<span class="ic-angle-right"></span>
+													</div>
+												</div>
+
+												<div class="comnTable-row" *ngIf="hiredPins.length == 0">
+													<div class="comnTable-cell flex-fill">
+                                                          <p class="dataText text-center"> No Data Found </p>
+													</div>
+												</div>
+
+											</div>
+											<!--end comnTable-wrap-->
+
+
+										</div>
+										<!--end comnTable-->
+
+										<div class="bottom-arrow-sec">
+											<div class="arrow-holder text-center">
+												<span class="arrow-ic ic-angle-up" [ngClass]="{'color-themeOrange' : hiredPageCount > 1}" (click)="loadPrevHires($event.target)"></span>
+												<span class="arrow-ic ic-angle-down" [ngClass]="{'color-themeOrange' : hiredPageCount < hiredPageTotal}" (click)="loadNextHires($event.target)"></span>
+											</div>
+										</div>
+
+									</div>
+									<!--end comn-panel-body-->
+
+
+
+								</div>
+								<!--end comn-panel-->
+							</div>
+							<!--end comn-accordion-->
+
+							<div class="comn-accordion orangeColor-accordion">
+								<div class="comn-panel">
+
+									<div class="comn-panel-header hover" #completed_box_title (click)="toggleBox(completed_box_title, completed_box)">
+										<div class="header-content d-flex align-items-center px-3" style="height:50px;">
+											<div class="panel-header-title">
+												COMPLETED
+											</div>
+											<span class="counterText ml-3">{{ completedPinsCount }}</span>
+										</div>
+									</div>
+									<!--end comn-panel-header-->
+
+									<div class="comn-panel-body comn-body-expanded d-none" #completed_box>
+
+										<div class="comnTable">
+											<div
+												class="comnTable-row with-rightdropdown comnTable-row-head d-none d-lg-flex">
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter sortAppl hasDesc">Date / Time <span
+															class="filterasc_desc" 
+															(click)="filterByColumn('created_at',$event,'Completed')"
+															[ngClass]="{'hasDesc' : completedSortColumn == 'created_at' && completedSortBy == 'DESC', 'hasAsc' : completedSortColumn == 'created_at' && completedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell ">
+													<div class="heading-block-withFilter sortAppl">Pin Details <span
+															class="filterasc_desc" 
+															(click)="filterByColumn('title',$event,'Completed')"
+															[ngClass]="{'hasDesc' : completedSortColumn == 'title' && completedSortBy == 'DESC', 'hasAsc' : completedSortColumn == 'title' && completedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter sortAppl">Pin Location <span
+															class="filterasc_desc" 
+															(click)="filterByColumn('address',$event,'Completed')"
+															[ngClass]="{'hasDesc' : completedSortColumn == 'address' && completedSortBy == 'DESC', 'hasAsc' : completedSortColumn == 'address' && completedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter sortAppl">Pinner <span
+															class="filterasc_desc"></span></div>
+												</div>
+												<div class="comnTable-cell price-cell">
+													<div class="">Total Amount</div>
+												</div>
+											</div>
+
+											<div class="comnTable-row-holder orange_customScroll">
+
+												<div class="comnTable-row with-rightdropdown cursorPointer" *ngFor="let item of completedPins" routerLink="/doer/quotation-preview/{{item.slug}}">
+													<div class="d-lg-flex comnTable-data-row">
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Date /
+																Time</div>
+															<p class="dataText">{{item.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{item.created_at?.split('-').join('/') | date:'h:mm a'}}</p>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin
+																Details
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText mb-1">{{item.title}}</p>
+																<div class="d-flex align-items-center">
+																	<span class="orange-badge">{{item.parent_child_cat?.parent_det?.name}} >
+																		{{item.parent_child_cat?.name}}</span>
+																</div>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin
+																Location
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText" *ngIf="item?.address!=null">{{item?.address}}<br />
+																	{{item?.city}}, {{item?.state}} {{item?.zipcode}}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pinner
+															</div>
+															<div class="dataText-holder">
+																<div class="prfl-info d-flex align-items-center">
+																	<div class="prfl-img circle mr-2" *ngIf="(item?.pinner_details?.profile_photo
+																	&& item?.pinner_details?.profile_photo!= 'null');else noImageFound">
+																		<img src="{{baseCompUrl}}/profile_photo/{{item?.pinner_details?.profile_photo}}" onError="this.src='assets/images/default-userImg-green-square.svg';" alt="">
+																	</div>
+																	<ng-template #noImageFound>
+																		<div class="prfl-img circle mr-2">
+																			<img src="assets/images/default-userImg-green-square.svg" alt="">
+																		</div>
+																	</ng-template>
+																	<div class="prfl-text">
+																		<p class="nameText m-0" [innerHTML]="item.pinner_details.name.split(' ').join(' ')"></p>
+																		<p class="dataText" *ngIf="item?.rating_to_doer==null">No Ratings Recieved
+																			Yet</p>
+																		<div class="ratingDoer d-flex align-items-center w-100" *ngIf="item?.rating_to_doer!=null">
+																			<cite>Rated&nbsp;&nbsp;</cite>
+																			<span class="indvrating"
+																				*ngFor="let eachRating of convertToarray(item?.rating_to_doer?.rating,'filled')"><i
+																					class="fas fa-star"></i></span>
+																			<p class="m-0">{{item?.rating_to_doer?.rating}}</p>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="comnTable-cell price-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Total Amount
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText">
+																	<ng-container *ngIf="item?.earnings!=null">$
+																		{{item?.earnings | number:'1.2-2'}}</ng-container>
+																	<ng-container *ngIf="item?.earnings==null">$ 0</ng-container>
+																</p>
+															</div>
+														</div>
+
+													</div>
+													<div
+														class="right-arrow-holder d-flex justify-content-around align-items-center color-themeOrange">
+														<span class="ic-angle-right"></span>
+													</div>
+												</div>
+
+												<div class="comnTable-row" *ngIf="completedPins.length == 0">
+													<div class="comnTable-cell flex-fill">
+                                                          <p class="dataText text-center"> No Data Found </p>
+													</div>
+												</div>
+
+											</div>
+											<!--end comnTable-wrap-->
+
+
+										</div>
+										<!--end comnTable-->
+
+										<div class="bottom-arrow-sec">
+											<div class="arrow-holder text-center">
+												<span class="arrow-ic ic-angle-up" [ngClass]="{'color-themeOrange' : completedPageCount > 1}" (click)="loadPrevCompletes($event.target)"></span>
+												<span class="arrow-ic ic-angle-down" [ngClass]="{'color-themeOrange' : completedPageCount < completedPageTotal}" (click)="loadNextCompletes($event.target)"></span>
+											</div>
+										</div>
+
+									</div>
+									<!--end comn-panel-body-->
+
+								</div>
+								<!--end comn-panel-->
+							</div>
+							<!--end comn-accordion-->
+
+							<div class="comn-accordion orangeColor-accordion">
+								<div class="comn-panel">
+
+									<div class="comn-panel-header hover" #disputed_box_title (click)="toggleBox(disputed_box_title, disputed_box)">
+										<div class="header-content d-flex align-items-center px-3" style="height:50px;">
+											<div class="panel-header-title">
+												DISPUTED
+											</div>
+											<span class="counterText ml-3">{{ disputedPinsCount }}</span>
+										</div>
+									</div>
+									<!--end comn-panel-header-->
+
+
+									<div class="comn-panel-body comn-body-expanded d-none" #disputed_box>
+
+										<div class="comnTable">
+											<div
+												class="comnTable-row with-rightdropdown comnTable-row-head d-none d-lg-flex">
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Date / Time <span
+															class="filterasc_desc sortAppl hasDesc" 
+															(click)="filterByColumn('created_at',$event,'Dispute')"
+															[ngClass]="{'hasDesc' : disputedSortColumn == 'created_at' && disputedSortBy == 'DESC', 'hasAsc' : disputedSortColumn == 'created_at' && disputedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell ">
+													<div class="heading-block-withFilter">Pin Details <span
+															class="filterasc_desc sortAppl" 
+															(click)="filterByColumn('title',$event,'Dispute')"
+															[ngClass]="{'hasDesc' : disputedSortColumn == 'title' && disputedSortBy == 'DESC', 'hasAsc' : disputedSortColumn == 'title' && disputedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Pin Location <span
+															class="filterasc_desc sortAppl" 
+															(click)="filterByColumn('address',$event,'Dispute')"
+															[ngClass]="{'hasDesc' : disputedSortColumn == 'address' && disputedSortBy == 'DESC', 'hasAsc' : disputedSortColumn == 'address' && disputedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Pinner</div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="">Total Amount</div>
+												</div>
+											</div>
+
+											<div class="comnTable-row-holder orange_customScroll">
+
+												<div class="comnTable-row with-rightdropdown cursorPointer" *ngFor="let item of disputedPins" routerLink="/doer/quotation-preview/{{item.slug}}">
+													<div class="d-lg-flex comnTable-data-row">
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Date /
+																Time</div>
+															<p class="dataText">{{item.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{item.created_at?.split('-').join('/') | date:'h:mm a'}}</p>
+														</div>
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin
+																Details
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText mb-1" [innerHTML]="item.title"></p>
+																<div class="d-flex align-items-center">
+																	<span class="orange-badge">{{item.parent_child_cat?.parent_det?.name}} >
+																		{{item.parent_child_cat?.name}}</span>
+																</div>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin
+																Location
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText" *ngIf="item?.address!=null">{{item?.address}}<br />
+																	{{item?.city}}, {{item?.state}} {{item?.zipcode}}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pinner
+															</div>
+															<div class="dataText-holder">
+																<div class="prfl-info d-flex align-items-center">
+																	<div class="prfl-img circle mr-2" *ngIf="(item?.pinner_details?.profile_photo
+																	&& item?.pinner_details?.profile_photo!= 'null');else noImageFound">
+																		<img src="{{baseCompUrl}}/profile_photo/{{item?.pinner_details?.profile_photo}}" onError="this.src='assets/images/default-userImg-green-square.svg';" alt="">
+																	</div>
+																	<ng-template #noImageFound>
+																		<div class="prfl-img circle mr-2">
+																			<img src="assets/images/default-userImg-green-square.svg" alt="">
+																		</div>
+																	</ng-template>
+																	<div class="prfl-text">
+																		<p class="nameText m-0" [innerHTML]="item.pinner_details.name.split(' ').join('<br />')"></p>		
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Total Amount
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText">
+																	<ng-container *ngIf="item?.earnings!=null">$
+																		{{item?.earnings | number:'1.2-2'}}</ng-container>
+																	<ng-container *ngIf="item?.earnings==null">$ 0</ng-container>
+																</p>
+																
+															</div>
+														</div>
+
+													</div>
+													<div
+														class="right-arrow-holder d-flex justify-content-around align-items-center color-themeOrange">
+														<span class="ic-angle-right"></span>
+													</div>
+												</div>
+
+												<div class="comnTable-row" *ngIf="disputedPins.length == 0">
+													<div class="comnTable-cell flex-fill">
+                                                          <p class="dataText text-center"> No Data Found </p>
+													</div>
+												</div>
+
+											</div>
+											<!--end comnTable-wrap-->
+
+
+										</div>
+										<!--end comnTable-->
+
+										<div class="bottom-arrow-sec">
+											<div class="arrow-holder text-center">
+												<span class="arrow-ic ic-angle-up" [ngClass]="{'color-themeOrange' : disputedPageCount > 1}" (click)="loadPrevDisputes($event.target)"></span>
+												<span class="arrow-ic ic-angle-down" [ngClass]="{'color-themeOrange' : disputedPageCount < disputedPageTotal}" (click)="loadNextDisputes($event.target)"></span>
+											</div>
+										</div>
+
+									</div>
+									<!--end comn-panel-body-->
+
+
+
+								</div>
+								<!--end comn-panel-->
+							</div>
+							<!--end comn-accordion-->
+
+							<div class="comn-accordion orangeColor-accordion">
+								<div class="comn-panel">
+
+									<div class="comn-panel-header hover" #archived_box_title (click)="toggleBox(archived_box_title, archived_box)">
+										<div class="header-content d-flex align-items-center px-3" style="height:50px;">
+											<div class="panel-header-title">
+												ARCHIVED
+											</div>
+											<span class="counterText ml-3">{{ archivedPinsCount }}</span>
+										</div>
+									</div>
+									<!--end comn-panel-header-->
+
+
+									<div class="comn-panel-body comn-body-expanded d-none" #archived_box>
+
+										<div class="comnTable">
+											<div
+												class="comnTable-row with-rightdropdown comnTable-row-head d-none d-lg-flex">
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter sortAppl hasDesc">Date / Time <span
+															class="filterasc_desc" 
+															(click)="filterByColumn('created_at',$event,'Archive')"
+															[ngClass]="{'hasDesc' : archivedSortColumn == 'created_at' && archivedSortBy == 'DESC', 'hasAsc' : archivedSortColumn == 'created_at' && archivedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell ">
+													<div class="heading-block-withFilter sortAppl">Pin Details <span
+															class="filterasc_desc" 
+															(click)="filterByColumn('title',$event,'Archive')"
+															[ngClass]="{'hasDesc' : archivedSortColumn == 'title' && archivedSortBy == 'DESC', 'hasAsc' : archivedSortColumn == 'title' && archivedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter sortAppl">Pin Location <span
+															class="filterasc_desc" 
+															(click)="filterByColumn('address',$event,'Archive')"
+															[ngClass]="{'hasDesc' : archivedSortColumn == 'address' && archivedSortBy == 'DESC', 'hasAsc' : archivedSortColumn == 'address' && archivedSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter sortAppl">Pinner</div>
+												</div>
+												<div class="comnTable-cell price-cell">
+													<div class="">Total Amount</div>
+												</div>
+											</div>
+
+											<div class="comnTable-row-holder orange_customScroll">
+
+												<div class="comnTable-row with-rightdropdown" *ngFor="let item of archivedPins; let i = index" [ngClass]="{'cursorPointer' : item?.status!=5}" [routerLink]="item?.status!=5 ? ['/doer/quotation-preview/', item?.pin_details?.slug] : []">
+													<div class="d-lg-flex comnTable-data-row">
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Date /
+																Time</div>
+															<p class="dataText">{{item.pin_details?.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{item.pin_details?.created_at?.split('-').join('/') | date:'h:mm a'}}</p>
+														</div>
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin
+																Details
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText mb-1">
+																	<span [innerHTML]="item?.pin_details?.title"></span> &nbsp;
+																	<span *ngIf="item?.pin_details?.is_blocked=='1'" class="color-themeOrange font-italic">
+																		Blocked
+																	</span>
+																	<span *ngIf="item?.pin_details?.status=='5'" class="color-themeOrange font-italic">
+																		Closed
+																	</span>
+																	<span
+																		*ngIf="item?.pin_details?.is_blocked=='0' && item?.status==3 && item?.referred_by==null"
+																		class="color-themeOrange font-italic">
+																		Rejected By Pinner
+																	</span>
+																	<span
+																		*ngIf="item?.pin_details?.is_blocked=='0' && item?.status=='4' && item?.referred_by==null"
+																		class="color-themeOrange font-italic">
+																		Declined By You
+																	</span>
+																</p>
+																<div class="d-flex align-items-center">
+																	<span class="orange-badge"> {{item?.pin_details?.parent_child_cat?.parent_det?.name}} >
+																		{{item?.pin_details?.parent_child_cat?.name}}
+																	</span>
+																</div>
+																<div *ngIf="item?.pin_details?.is_blocked=='0' && item?.status==5"
+																class="dataText mt-2">
+																	<b>Referred To:&nbsp;&nbsp;</b>
+																	<ng-container>
+																		<a class="linkStyle"
+																			(click)="commonservice.openWithNewTab(item?.referred_doer_details?.user_details?.id)">{{item?.referred_doer_details?.user_details?.name}}
+																		</a>
+																	</ng-container>
+					
+																</div>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin
+																Location
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText" *ngIf="item?.pin_details?.address!=null">{{item?.pin_details?.address}}<br />
+																	{{item?.pin_details?.city}},
+																	{{item?.pin_details?.state}}
+																	{{item?.pin_details?.zipcode}}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pinner
+															</div>
+															<div class="dataText-holder">
+																<div class="prfl-info d-flex align-items-center flex-wrap">
+																	<div class="prfl-img circle mr-2" *ngIf="(item?.pinner_details?.profile_photo
+																	&& item?.pinner_details?.profile_photo!= 'null');else noImageFound">
+																		<img src="{{baseCompUrl}}/profile_photo/{{item?.pinner_details?.profile_photo}}" [ngClass]="item?.status == 0 || isArchivedMsgExists[i] == 1? '': 'blurImg'" onError="this.src='assets/images/default-userImg-green-square.svg';" alt="">
+																	</div>
+																	<ng-template #noImageFound>
+																		<div class="prfl-img circle mr-2">
+																			<img src="assets/images/default-userImg-green-square.svg" alt="" [ngClass]="item?.status == 0 || isArchivedMsgExists[i] == 1? '': 'blurImg'">
+																		</div>
+																	</ng-template>
+																	<div class="prfl-text">
+																		<p class="nameText m-0" [ngClass]="item?.status == 0 || isArchivedMsgExists[i] == 1? '': 'blurText'" [innerHTML]="item.pinner_details.name.split(' ').join('<br />')"></p>		
+																	</div>
+																	<div class="break" *ngIf="item?.pin_details?.rating_to_doer!=null"></div>
+																	<div class="ratingDoer d-flex w-100"
+																	*ngIf="item?.pin_details?.rating_to_doer!=null">
+																		<cite>Rated&nbsp;&nbsp;</cite>
+																		<span class="indvrating"
+																			*ngFor="let eachRating of convertToarray(item?.pin_details?.rating_to_doer?.rating,'filled')"><i
+																				class="fas fa-star"></i></span>
+																		<p style="line-height:14px;">{{item?.pin_details?.rating_to_doer?.rating}}.0</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="comnTable-cell price-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Total Amount
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText">
+																	<ng-container *ngIf="item?.earnings!=null">$
+																		{{item?.earnings | number:'1.2-2'}}</ng-container>
+																	<ng-container *ngIf="item?.earnings==null">$ 0</ng-container>
+																</p>
+															</div>
+														</div>
+
+													</div>
+													<div
+														class="right-arrow-holder d-flex justify-content-around align-items-center color-themeOrange">
+														<span class="ic-angle-right"></span>
+													</div>
+												</div>
+
+												<div class="comnTable-row" *ngIf="archivedPins.length == 0">
+													<div class="comnTable-cell flex-fill">
+                                                          <p class="dataText text-center"> No Data Found </p>
+													</div>
+												</div>
+
+											</div>
+											<!--end comnTable-wrap-->
+
+
+										</div>
+										<!--end comnTable-->
+
+										<div class="bottom-arrow-sec">
+											<div class="arrow-holder text-center">
+												<span class="arrow-ic ic-angle-up" [ngClass]="{'color-themeOrange' : archivedPageCount > 1}" (click)="loadPrevArchives($event.target)"></span>
+												<span class="arrow-ic ic-angle-down" [ngClass]="{'color-themeOrange' : archivedPageCount < archivedPageTotal}" (click)="loadNextArchives($event.target)"></span>
+											</div>
+										</div>
+
+									</div>
+									<!--end comn-panel-body-->
+
+
+
+								</div>
+								<!--end comn-panel-->
+							</div>
+							<!--end comn-accordion-->
+
+
+						</div>
+						<!--end createPin-accordion-wrap-->
+
+					</div>
+				</div>
+				<!--end card-comn-->
+
+
+
+
+			</div>
+
+		</div>
+		<!-- end MY PINS -->
+
+
+		<div class="row" *ngIf="crewMemberDetails">
+
+			<div class="col-md-12">
+
+				<div class="card-comn mb-4">
+
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center">
+							<h4 class="heading-text mb-0 text-uppercase">CREW</h4>
+						</div>
+					</div>
+					<hr class="mb-0 mt-0">
+
+					<div class="card-comn-body p-3">
+
+						<div class="comn-accordion-wrap mb-4">
+
+							<div class="comn-accordion orangeColor-accordion mb-3">
+								<div class="comn-panel">
+
+									<div class="comn-panel-header comn-expanded hover" #crew_invites_box_title (click)="toggleBox(crew_invites_box_title, crew_invites_box)">
+										<div class="header-content d-flex align-items-center px-3" style="height:50px;">
+											<div class="panel-header-title">
+												CREW INVITES
+											</div>
+										</div>
+									</div>
+									<!--end comn-panel-header-->
+
+
+									<div class="comn-panel-body comn-body-expanded" #crew_invites_box>
+
+										<div
+											class="d-md-flex align-items-center justify-content-between exInfo-row py-2 px-3">
+
+											<div class="copy-input-box-holder d-flex align-items-center">
+												<span class="titleText mr-3">Referral Code:</span>
+												<div class="copy-input-box">
+													<input type="text" readonly value="{{ crewMemberDetails.referral_code | uppercase }}" #referral_code_input>
+													<button type="button" class="hover" (click)="copyReferralCode(referral_code_input)"><i class="la la-copy"></i></button>
+												</div>
+											</div>
+
+											<div class="invite-btn-holder mt-2 mt-md-0 d-flex align-items-center">
+												<i _ngcontent-c18="" class="fa fa-paperclip color-themeOrange"></i>
+												<a href="{{ downloadKitUrl }}" class="titleText ml-2" download target="_blank">Download ReCREWtment Starter Kit</a>		
+											</div>
+
+											<div class="invite-btn-holder mt-2 mt-md-0 d-flex align-items-center">
+												<span class="titleText mr-2">Invite to PinDo:</span>
+												<button mat-flat-button
+													class="btn btn-orangeColor btn-sm text-uppercase flex-shrink-0"
+													(click)="openInvitation()">
+													INVITE
+												</button>
+											</div>
+
+										</div>
+
+										<div class="d-md-flex align-items-center  exInfo-row py-3 px-3">
+
+
+											<span class="titleText mr-3">Select Status to View:</span>
+											<div class="d-sm-flex align-items-center btn-group-tab-holder  mt-2 mt-md-0">
+												<button mat-flat-button
+													class="btn btn-group-tab text-uppercase d-flex align-items-center justify-content-between mr-2" [ngClass]="{'active-orange': selectedInvitationTab == 'invited'}" (click)="selectInvitationTab('invited')">
+													<span>INVITED</span> <span class="countText ml-2">{{ sentInvitationsCount }}</span>
+												</button>
+												<button mat-flat-button
+													class="btn btn-group-tab text-uppercase d-flex align-items-center justify-content-between mr-2" [ngClass]="{'active-orange': selectedInvitationTab == 'accepted'}" (click)="selectInvitationTab('accepted')">
+													<span>ACCEPTED</span> <span class="countText ml-2">{{ acceptedInvitationsCount }}</span>
+												</button>
+												<button mat-flat-button
+													class="btn btn-group-tab text-uppercase d-flex align-items-center justify-content-between mr-2" [ngClass]="{'active-orange': selectedInvitationTab == 'archived'}" (click)="selectInvitationTab('archived')">
+													<span>ARCHIVED</span> <span class="countText ml-2">{{ archivedInvitationsCount }}</span>
+												</button>
+											</div>
+										</div>
+
+										<div class="comnTable">
+											<div
+												class="comnTable-row comnTable-row-head d-none d-lg-flex">
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Name <span
+															class="filterasc_desc" (click)="filterByColumnInvitation('first_name',$event)"
+															[ngClass]="{'hasDesc' : invitationSortColumn == 'first_name' && invitationSortBy == 'DESC', 'hasAsc' : invitationSortColumn == 'first_name' && invitationSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell ">
+													<div class="heading-block-withFilter">Co. Name <span
+															class="filterasc_desc" (click)="filterByColumnInvitation('company_name',$event)"
+															[ngClass]="{'hasDesc' : invitationSortColumn == 'company_name' && invitationSortBy == 'DESC', 'hasAsc' : invitationSortColumn == 'company_name' && invitationSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Category<span
+															class="filterasc_desc" (click)="filterByColumnInvitation('category',$event)"
+															[ngClass]="{'hasDesc' : invitationSortColumn == 'category' && invitationSortBy == 'DESC', 'hasAsc' : invitationSortColumn == 'category' && invitationSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Subcategory <span
+															class="filterasc_desc" (click)="filterByColumnInvitation('subcategory',$event)"
+															[ngClass]="{'hasDesc' : invitationSortColumn == 'subcategory' && invitationSortBy == 'DESC', 'hasAsc' : invitationSortColumn == 'subcategory' && invitationSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell wlg_Width" *ngIf="selectedInvitationTab == 'accepted'">
+													<div class="heading-block-withFilter">Town, ST</div>
+												</div>
+
+												<div class="comnTable-cell" *ngIf="selectedInvitationTab == 'accepted'">
+													<div class="heading-block-withFilter">Range of Service</div>
+												</div>
+												<div class="comnTable-cell wlg_Width">
+													<div class="heading-block-withFilter">Email Address</div>
+												</div>
+												<div class="comnTable-cell" *ngIf="selectedInvitationTab != 'accepted'">
+													<div class="heading-block-withFilter">Date Sent<span
+															class="filterasc_desc" (click)="filterByColumnInvitation('created_at',$event)"
+															[ngClass]="{'hasDesc' : invitationSortColumn == 'created_at' && invitationSortBy == 'DESC', 'hasAsc' : invitationSortColumn == 'created_at' && invitationSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell" *ngIf="selectedInvitationTab == 'accepted'">
+													<div class="heading-block-withFilter">Date Accepted <span
+															class="filterasc_desc" (click)="filterByColumnInvitation('accepted_at',$event)"
+															[ngClass]="{'hasDesc' : invitationSortColumn == 'accepted_at' && invitationSortBy == 'DESC', 'hasAsc' : invitationSortColumn == 'accepted_at' && invitationSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell wlg_Width">
+													<div class="heading-block-withFilter">Comments Field</div>
+												</div>
+												<div class="comnTable-cell justify-content-center">
+													<div class="heading-block-withFilter p-0">Resend</div>
+												</div>
+												<div class="comnTable-cell arc_Width justify-lg-content-center" *ngIf="selectedInvitationTab == 'invited'" matTooltip="Move this invitation to Archive">
+													<div class="heading-block-withFilter">Archive</div>
+												</div>
+												<div class="comnTable-cell justify-lg-content-center" *ngIf="selectedInvitationTab == 'archived'">
+													<div class="heading-block-withFilter">Date Archived <span
+															class="filterasc_desc" (click)="filterByColumnInvitation('archived_at',$event)"
+															[ngClass]="{'hasDesc' : invitationSortColumn == 'archived_at' && invitationSortBy == 'DESC', 'hasAsc' : invitationSortColumn == 'archived_at' && invitationSortBy == 'ASC'}"></span></div>
+												</div>
+											</div>
+
+											<div class="comnTable-row-holder orange_customScroll">
+
+												<div class="comnTable-row" *ngFor="let invitation of invitations">
+													<div class="d-lg-flex comnTable-data-row cursorPointer">
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Name</div>
+															<p class="dataText" *ngIf="invitation.first_name; else registeredName">{{ invitation.first_name }}<br/>{{ invitation.last_name }}</p>
+															<ng-template #registeredName>
+																<p class="dataText">{{ invitation.fname }}<br/>{{ invitation.lname }}</p>
+															</ng-template>
+														</div>
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Co. Name
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText mb-1">{{ invitation.company_name }}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Category
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText">{{ invitation.category }}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Subcategory
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText">{{ invitation.subcategory }}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell wlg_Width" *ngIf="selectedInvitationTab == 'accepted'">
+															<div class="comnTable-cell-head d-block d-lg-none">Town, ST
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText">
+																	<ng-container *ngIf="invitation?.city && invitation?.state">
+																		{{ invitation?.city + "," + invitation?.state }}
+																	</ng-container>
+																</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell" *ngIf="selectedInvitationTab == 'accepted'">
+															<div class="comnTable-cell-head d-block d-lg-none">Range of Service
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText">
+																	<ng-container *ngIf="invitation?.range_in_miles">
+																		{{ invitation?.range_in_miles }} Miles
+																	</ng-container>
+																</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell wlg_Width">
+															<div class="comnTable-cell-head d-block d-lg-none">Email Address
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText" [ngStyle]="{'wordBreak': 'break-word'}" [title]="invitation.email_address" *ngIf="invitation.email_address; else registeredEmail">{{ invitation.email_address }}</p>
+																<ng-template #registeredEmail>
+																	<p class="dataText" [title]="invitation.email">{{ invitation.email }}</p>
+																</ng-template>
+															</div>
+														</div>
+
+														<div class="comnTable-cell" *ngIf="selectedInvitationTab != 'accepted'">
+															<div class="comnTable-cell-head d-block d-lg-none">Date Sent
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText">{{ invitation.created_at | date:'d MMMM yyyy' }}</p>
+															</div>
+														</div>
+
+
+														<div class="comnTable-cell" *ngIf="selectedInvitationTab == 'accepted'">
+															<div class="comnTable-cell-head d-block d-lg-none">Date Accepted
+															</div>
+															<div class="dataText-holder">
+																<p class="dataText">{{ invitation.accepted_at | date:'d MMMM yyyy' }}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell wlg_Width" (click)="openComment(commentBox)">
+															<div class="comnTable-cell-head d-block d-lg-none">Comments Field
+															</div>
+															<div class="dataText-holder d-flex align-items-center" [ngStyle]="{'gap': '6px'}">
+																<p class="dataText commentBox" matTooltip="{{ invitation.comments }}" contenteditable="false" #commentBox (blur)="closeComment(commentBox, invitation.invitation_id)">{{ invitation.comments }}</p>															
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Resend</div>
+															<div class="dataText-holder text-center">
+																<a (click)="openInvitationPopup(invitation)" matTooltip="Resend Invitation"><i class="fas fa-envelope color-themeOrange"></i></a>
+															</div>
+														</div>
+
+														
+														<div class="comnTable-cell arc_Width justify-lg-content-center" *ngIf="selectedInvitationTab == 'invited'">
+															<div class="comnTable-cell-head d-block d-lg-none">Archive
+															</div>
+															<div class="dataText-holder text-center">
+																<p class="dataText"><a class="orange-link" (click)="archiveInvitation(invitation.invitation_id)"><span class="ic-file"></span></a></p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell justify-lg-content-center" *ngIf="selectedInvitationTab == 'archived'">
+															<div class="comnTable-cell-head d-block d-lg-none">Date Archived
+															</div>
+															<div class="dataText-holder text-center">
+																<p class="dataText">{{ invitation.archived_at | date:'d MMMM yyyy' }}</p>
+															</div>
+														</div>
+
+													</div>
+												</div>
+
+												<div class="comnTable-row" *ngIf="invitations.length == 0">
+													<div class="comnTable-cell flex-fill">
+                                                          <p class="dataText text-center"> No Data Found </p>
+													</div>
+												</div>
+
+											</div>
+											<!--end comnTable-wrap-->
+
+
+										</div>
+										<!--end comnTable-->
+
+										<div class="bottom-arrow-sec">
+											<div class="arrow-holder text-center">
+												<span class="arrow-ic ic-angle-up" [ngClass]="{'color-themeOrange' : invitationPageCount > 1}" (click)="loadPrevInvitations($event.target)"></span>
+												<span class="arrow-ic ic-angle-down" [ngClass]="{'color-themeOrange' : invitationPageCount < invitationPageTotal}" (click)="loadNextInvitations($event.target)"></span>
+											</div>
+										</div>
+
+									</div>
+									<!--end comn-panel-body-->
+
+
+
+								</div>
+								<!--end comn-panel-->
+							</div>
+							<!--end comn-accordion-->
+
+							<div class="comn-accordion orangeColor-accordion mb-3" *ngIf="true">
+								<div class="comn-panel">
+
+									<div class="comn-panel-header comn-expanded hover" #crew_earnings_box_title (click)="toggleBox(crew_earnings_box_title, crew_earnings_box)">
+										<div class="header-content d-flex align-items-center px-3" style="height:50px;">
+											<div class="panel-header-title">
+												CREW EARNINGS
+											</div>
+										</div>
+									</div>
+									<!--end comn-panel-header-->
+
+
+									<div class="comn-panel-body comn-body-expanded" #crew_earnings_box>
+
+										<div class="comnTable">
+											<div
+												class="comnTable-row with-rightdropdown comnTable-row-head d-none d-lg-flex">
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Date / Time <span
+															class="filterasc_desc" (click)="filterByColumnEarnings('created_at',$event)"
+															[ngClass]="{'hasDesc' : crewEarningSortColumn == 'created_at' && crewEarningSortBy == 'DESC', 'hasAsc' : crewEarningSortColumn == 'created_at' && crewEarningSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell ">
+													<div class="heading-block-withFilter">Pin ID<span
+															class="filterasc_desc" (click)="filterByColumnEarnings('pin_id',$event)"
+															[ngClass]="{'hasDesc' : crewEarningSortColumn == 'pin_id' && crewEarningSortBy == 'DESC', 'hasAsc' : crewEarningSortColumn == 'pin_id' && crewEarningSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Pin Details <span
+															class="filterasc_desc" (click)="filterByColumnEarnings('pin_name',$event)"
+															[ngClass]="{'hasDesc' : crewEarningSortColumn == 'pin_name' && crewEarningSortBy == 'DESC', 'hasAsc' : crewEarningSortColumn == 'pin_name' && crewEarningSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">PinDo Fee <span
+															class="filterasc_desc" (click)="filterByColumnEarnings('pindo_fee',$event)"
+															[ngClass]="{'hasDesc' : crewEarningSortColumn == 'pindo_fee' && crewEarningSortBy == 'DESC', 'hasAsc' : crewEarningSortColumn == 'pindo_fee' && crewEarningSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Crew Fee <span
+															class="filterasc_desc" (click)="filterByColumnEarnings('fee_value',$event)"
+															[ngClass]="{'hasDesc' : crewEarningSortColumn == 'fee_value' && crewEarningSortBy == 'DESC', 'hasAsc' : crewEarningSortColumn == 'fee_value' && crewEarningSortBy == 'ASC'}"></span></div>
+												</div>
+												<div class="comnTable-cell">
+													<div class="heading-block-withFilter">Payment Status <span
+															class="filterasc_desc" (click)="filterByColumnEarnings('status',$event)"
+															[ngClass]="{'hasDesc' : crewEarningSortColumn == 'status' && crewEarningSortBy == 'DESC', 'hasAsc' : crewEarningSortColumn == 'status' && crewEarningSortBy == 'ASC'}"></span></div>
+												</div>
+											</div>
+
+											<div class="comnTable-row-holder orange_customScroll">
+
+												<div class="comnTable-row with-rightdropdown cursorPointer" *ngFor="let item of crewEarningList" (click)="viewPublicPin(item.slug)">
+													<div class="d-lg-flex comnTable-data-row">
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Date / Time</div>
+															<p class="dataText">{{item.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{item.created_at?.split('-').join('/') | date:'h:mm a'}}</p>
+														</div>
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin ID</div>
+															<div class="dataText-holder">
+																<p class="dataText mb-1">{{ item.pin_unique_id }}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Pin Details</div>
+															<div class="dataText-holder">
+																<p class="dataText">{{ item.pin_title }}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">PinDo Fee</div>
+															<div class="dataText-holder">
+																<p class="dataText">{{ item.pindo_fee }}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Crew Fee</div>
+															<div class="dataText-holder">
+																<p class="dataText">{{ item.fee_value }}</p>
+															</div>
+														</div>
+
+														<div class="comnTable-cell">
+															<div class="comnTable-cell-head d-block d-lg-none">Payment Status</div>
+															<div class="dataText-holder">
+																<p class="dataText" [ngClass]="{'color-themeOrange' : item.status}">{{ item.status ? "PAID" : "PENDING" }}</p>
+															</div>
+														</div>
+
+													</div>
+													<div
+														class="right-arrow-holder d-flex justify-content-around align-items-center color-themeOrange">
+														<span class="ic-angle-right"></span>
+													</div>
+												</div>
+
+												<div class="comnTable-row" *ngIf="crewEarningList.length == 0">
+													<div class="comnTable-cell flex-fill">
+                                                          <p class="dataText text-center"> No Data Found </p>
+													</div>
+												</div>
+
+											</div>
+											<!--end comnTable-wrap-->
+
+
+										</div>
+										<!--end comnTable-->
+
+										<div class="bottom-arrow-sec">
+											<div class="arrow-holder text-center">
+												<span class="arrow-ic ic-angle-up" [ngClass]="{'color-themeOrange' : crewEarningPageNumber > 1}" (click)="loadPrevEarnings($event.target)"></span>
+												<span class="arrow-ic ic-angle-down" [ngClass]="{'color-themeOrange' : crewEarningPageNumber < crewEarningPageTotal}" (click)="loadNextEarnings($event.target)"></span>
+											</div>
+										</div>
+
+									</div>
+									<!--end comn-panel-body-->
+
+
+
+								</div>
+								<!--end comn-panel-->
+							</div>
+							<!--end comn-accordion-->
+
+						</div>
+						<!--end createPin-accordion-wrap-->
+
+					</div>
+				</div>
+				<!--end card-comn-->
+
+
+
+
+			</div>
+
+		</div>
+
+		<div class="row mb-3">
+			<div class="col-lg-12">
+				<div class="card-comn">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading d-flex align-items-center">
+							<h4 class="heading-text mb-0 text-uppercase">
+								Earnings
+							</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor btn-sm text-uppercase flex-shrink-0"
+							routerLink="/doer/transactions">
+							SEE ALL
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-comn-body p-3">
+						<div class="comnTable">
+							<div
+								class="comnTable-row with-rightdropdown comnTable-row-head d-none d-lg-flex">
+								<div class="comnTable-cell">
+									<div class="heading-block-withFilter">Date / Time <span
+											class="filterasc_desc" (click)="filterByColumnTransactions('created_at',$event)"
+											[ngClass]="{'hasDesc' : transactionSortColumn == 'created_at' && transactionSortBy == 'DESC', 'hasAsc' : transactionSortColumn == 'created_at' && transactionSortBy == 'ASC'}"></span></div>
+								</div>
+								<div class="comnTable-cell ">
+									<div class="heading-block-withFilter">Pin ID<span
+											class="filterasc_desc" (click)="filterByColumnTransactions('pin_unique_id',$event)"
+											[ngClass]="{'hasDesc' : transactionSortColumn == 'pin_unique_id' && transactionSortBy == 'DESC', 'hasAsc' : transactionSortColumn == 'pin_unique_id' && transactionSortBy == 'ASC'}"></span></div>
+								</div>
+								<div class="comnTable-cell">
+									<div class="heading-block-withFilter">Pin Details <span
+											class="filterasc_desc" (click)="filterByColumnTransactions('title',$event)"
+											[ngClass]="{'hasDesc' : transactionSortColumn == 'title' && transactionSortBy == 'DESC', 'hasAsc' : transactionSortColumn == 'title' && transactionSortBy == 'ASC'}"></span></div>
+								</div>
+								<div class="comnTable-cell">
+									<div class="heading-block-withFilter">Pinner Details <span
+											class="filterasc_desc" (click)="filterByColumnTransactions('name',$event)"
+											[ngClass]="{'hasDesc' : transactionSortColumn == 'name' && transactionSortBy == 'DESC', 'hasAsc' : transactionSortColumn == 'name' && transactionSortBy == 'ASC'}"></span></div>
+								</div>
+								<div class="comnTable-cell">
+									<div class="heading-block-withFilter">Earnings <span
+											class="filterasc_desc" (click)="filterByColumnTransactions('paid_to_doer',$event)"
+											[ngClass]="{'hasDesc' : transactionSortColumn == 'paid_to_doer' && transactionSortBy == 'DESC', 'hasAsc' : transactionSortColumn == 'paid_to_doer' && transactionSortBy == 'ASC'}"></span></div>
+								</div>
+								<div class="comnTable-cell">
+									<div class="heading-block-withFilter">PinDo Fee <span
+											class="filterasc_desc" (click)="filterByColumnTransactions('admin_amount',$event)"
+											[ngClass]="{'hasDesc' : transactionSortColumn == 'admin_amount' && transactionSortBy == 'DESC', 'hasAsc' : transactionSortColumn == 'admin_amount' && transactionSortBy == 'ASC'}"></span></div>
+								</div>
+								<div class="comnTable-cell">
+									<div class="heading-block-withFilter">Net Earnings <span
+											class="filterasc_desc" (click)="filterByColumnTransactions('net_earnings',$event)"
+											[ngClass]="{'hasDesc' : transactionSortColumn == 'net_earnings' && transactionSortBy == 'DESC', 'hasAsc' : transactionSortColumn == 'net_earnings' && transactionSortBy == 'ASC'}"></span></div>
+								</div>
+							</div>
+
+							<div class="comnTable-row-holder orange_customScroll">
+
+								<div class="comnTable-row with-rightdropdown cursorPointer" *ngFor="let item of transactionList" routerLink="/doer/quotation-preview/{{item.slug}}">
+									<div class="d-lg-flex comnTable-data-row">
+										<div class="comnTable-cell">
+											<div class="comnTable-cell-head d-block d-lg-none">Date / Time</div>
+											<p class="dataText">{{item.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{item.created_at?.split('-').join('/') | date:'h:mm a'}}</p>
+										</div>
+										<div class="comnTable-cell">
+											<div class="comnTable-cell-head d-block d-lg-none">Pin ID</div>
+											<div class="dataText-holder">
+												<p class="dataText mb-1">{{ item.pin_unique_id }}</p>
+											</div>
+										</div>
+
+										<div class="comnTable-cell">
+											<div class="comnTable-cell-head d-block d-lg-none">Pin Details</div>
+											<div class="dataText-holder">
+												<p class="dataText"><strong [innerHTML]="item.title"></strong></p>
+											</div>
+										</div>
+
+										<div class="comnTable-cell">
+											<div class="comnTable-cell-head d-block d-lg-none">Pinner Details</div>
+											<div class="dataText-holder">
+												<div class="prfl-info d-flex align-items-center">
+													<div class="prfl-img circle mr-2" *ngIf="(item?.profile_photo
+													&& item?.profile_photo!= '');else noImageFound">
+														<img src="{{baseCompUrl}}/profile_photo/{{item?.profile_photo}}" onError="this.src='assets/images/default-userImg-green-square.svg';" alt="">
+													</div>
+													<ng-template #noImageFound>
+														<div class="prfl-img circle mr-2">
+															<img src="assets/images/default-userImg-green-square.svg" alt="">
+														</div>
+													</ng-template>
+													<div class="prfl-text">
+														<p class="nameText m-0" [innerHTML]="item.name.split(' ').join('<br />')"></p>		
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="comnTable-cell">
+											<div class="comnTable-cell-head d-block d-lg-none">Earnings</div>
+											<div class="dataText-holder">
+												<p class="dataText">$ {{item.paid_to_doer | number:'1.2-2'}}</p>
+											</div>
+										</div>
+
+										<div class="comnTable-cell">
+											<div class="comnTable-cell-head d-block d-lg-none">PinDo Fee</div>
+											<div class="dataText-holder">
+												<p class="dataText">$ {{item?.admin_amount | number:'1.2-2'}}</p>
+											</div>
+										</div>
+
+										<div class="comnTable-cell">
+											<div class="comnTable-cell-head d-block d-lg-none">Net Earnings</div>
+											<div class="dataText-holder">
+												<div class="dataText">
+													<div *ngIf="item.refund_to_pinner">
+														<p class="dataText">$ 0.00</p>
+													</div>
+													<div *ngIf="!item.refund_to_pinner">
+														<p class="dataText"> $ {{item?.net_earnings | number:'1.2-2'}} </p>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div
+										class="right-arrow-holder d-flex justify-content-around align-items-center color-themeOrange">
+										<span class="ic-angle-right"></span>
+									</div>
+								</div>
+
+								<div class="comnTable-row" *ngIf="transactionList.length == 0">
+									<div class="comnTable-cell flex-fill">
+										  <p class="dataText text-center"> No Data Found </p>
+									</div>
+								</div>
+
+							</div>
+							<!--end comnTable-wrap-->
+
+
+						</div>
+						<!--end comnTable-->
+
+						<div class="bottom-arrow-sec">
+							<div class="arrow-holder text-center">
+								<span class="arrow-ic ic-angle-up" [ngClass]="{'color-themeOrange' : transactionPageNumber > 1}" (click)="loadPrevTransactions($event.target)"></span>
+								<span class="arrow-ic ic-angle-down" [ngClass]="{'color-themeOrange' : transactionPageNumber < transactionPageTotal}" (click)="loadNextTransactions($event.target)"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mb-3">
+			<div class="col-lg-12">
+				<div class="card-comn">
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading d-flex align-items-center">
+							<h4 class="heading-text mb-0 text-uppercase">
+								Earning Statistics
+							</h4>
+						</div>
+						<button mat-flat-button class="btn btn-orangeColor btn-sm text-uppercase flex-shrink-0"
+							routerLink="/doer/transactions">
+							view all
+						</button>
+					</div>
+					<hr class="mb-0 mt-0" />
+
+					<div class="card-comn-body p-3">
+						<div class="selectBarOptions">
+							<!-- <mat-form-field appearance="outline">
+								<mat-select placeholder="Select Year" [(value)]="selected"
+									(selectionChange)="onYearSelect()">
+									<mat-option *ngFor="let food of foods" [value]="food.value">
+										{{food.viewValue}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field> -->
+							<div class="yearSelect-box d-flex">
+                              <div class="yearSelect-group d-flex align-items-center">
+								<span class="ic-angle-left" [ngClass]="{'cursorPointer' : selected > 2019}" (click)="getPreviousYearEarning($event.target)"></span>
+								<span class="year-showText">{{ selected }}</span>
+								<span class="ic-angle-right" [ngClass]="{'cursorPointer' : selected < currentYear}" (click)="getNextYearEarning($event.target)"></span>
+							  </div>
+							</div>
+							<span class="total_earnings">Total
+								Earning<cite>$&nbsp;{{totalEarnings | number:'1.2-2'}}</cite></span>
+						</div>
+						<canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [legend]="barChartLegend"
+							[chartType]="barChartType" [colors]="chartColors" [options]="barChartOptions"
+							height="200"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row mb-3 d-none d-xl-flex">
+			<div class="col-lg-6 mb-3 mb-md-0">
+				<div class="card-comn h-100">
+
+					<div class="card-main-header d-flex align-items-center justify-content-between px-3 pt-3 pb-3">
+						<div class="main-header-inr withIcon-heading  d-flex align-items-center">
+							<h4 class="heading-text mb-0 text-uppercase">ENDORSEMENTS</h4>
+						</div>
+					</div>
+					<hr class="mb-0 mt-0">
+
+					<div class="card-comn-body p-3">
+
+						<div class="service-infoBox-content my-2"
+							*ngFor="let eachEndorsement of endorsmentDetails; let outerIndex = index;">
+
+							<ng-container *ngIf="eachEndorsement?.has_endorsed=='1'">
+								<div class="heading-block d-flex align-items-center mb-1">
+									<span class="catIcon color-themeOrange ic-book mr-2"></span>
+									<h4 class="headingText mb-0">{{eachEndorsement?.parent_category_details?.name}}</h4>
+								</div>
+							</ng-container>
+
+							<div class="service-infoBox d-flex align-items-center">
+								<div class="d-flex align-items-center flex-wrap">
+									<ng-container
+										*ngFor="let indvEndorsement of eachEndorsement.child_categories;let innerIndex = index;">
+										<span class="custom-chips-text my-1 mx-1"
+											*ngIf="indvEndorsement.endorsements?.length>0">
+											<span class="chips-box">
+												{{indvEndorsement?.child_category_details?.name}}
+												<span
+													class="color-themeOrange numbText">{{ indvEndorsement?.endorsements?.length }}</span>
+											</span>
+										</span>
+									</ng-container>
+								</div>
+							</div>
+
+						</div>
+
+
+
+						<!-- <div class="total_endorse">
+							<div class="custom-padding">
+								<div class="endorse_box clearfix"
+									*ngFor="let eachEndorsement of endorsmentDetails; let outerIndex = index;">
+									<ng-container *ngIf="eachEndorsement?.has_endorsed=='1'">
+										<h4><span
+												[innerHTML]="eachEndorsement.parent_category_details.icon | keepHtml"></span>{{eachEndorsement?.parent_category_details?.name}}
+										</h4>
+										<ng-container
+											*ngFor="let indvEndorsement of eachEndorsement.child_categories;let innerIndex = index;">
+											<div class="indv_endorse float-left" *ngIf="indvEndorsement.endorsements?.length>0">
+												<div class="hiredBy d-flex justify-content-between">
+													<p>{{indvEndorsement?.child_category_details?.name}}
+														<span>{{ indvEndorsement?.endorsements?.length }}</span></p>
+												</div>
+											</div>
+										</ng-container>
+									</ng-container>
+								</div>
+							</div>
+						</div> -->
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<mat-card class="pindoCart card-comn">
+					<mat-card-header>
+						<mat-card-title>
+							Recent Reviews
+							<div class="recentsliderarrows sidebysidearrows clearfix col-lg-10 offset-lg-1">
+								<div class="swiper-button-prev commonstyle"><i class="fas fa-chevron-left"></i></div>
+								<div class="swiper-button-next commonstyle"><i class="fas fa-chevron-right"></i></div>
+							</div>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="total_reviewslider">
+							<!-- Swiper -->
+							<div class="swiper-container">
+								<div class="swiper-wrapper">
+									<div class="swiper-slide" *ngFor="let eachdoerrating_review of doerrating_review;">
+										<div class="tot_review text-center">
+											<div class="rev_top text-center">
+												<div class="right_revtop d-inline-block">
+													<!-- <h4>{{eachdoerrating_review?.pin_details?.title}}</h4> -->
+													<h4>{{ eachdoerrating_review?.pin_details?.title }}</h4>
+													<div class="rev_rat">
+														Pinner rated&nbsp;
+														<span class="indv_rat"
+															*ngFor="let eachrating of countratingArray(eachdoerrating_review?.rating)">
+															<i class="la la-star"></i>
+														</span>
+														4.0
+													</div>
+												</div>
+											</div>
+											<div class="mid-content pt-2 pb-3">
+												<p
+													*ngIf="eachdoerrating_review?.review!=null && eachdoerrating_review?.review!=''">
+													{{eachdoerrating_review?.review}}</p>
+											</div>
+											<div class="d-flex justify-content-center">
+												<div class="rev_by mt-40">
+													<span class="rev_logo">
+														<img src="{{baseCompUrl}}/profile_photo/{{eachdoerrating_review?.pinner_details?.profile_photo}}"
+															onError="this.src='assets/images/default-userImg-green.svg';" alt="">
+													</span>
+													<h4>{{eachdoerrating_review?.pinner_details?.name}}</h4>
+													<h6 *ngIf="eachdoerrating_review?.pinner_details?.address!=null">
+														{{eachdoerrating_review?.pinner_details?.address}}
+													</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,33 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between">
+      <div class="heading pb-2">
+        <h3 class="heading-text">Services Offered</h3>
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+    <hr class="mt-0 mb-3">
+
+    <div class="block-wrap" *ngFor="let category of parent_category">
+      <div class="block-heading d-flex align-items-center mb-2">
+        <!-- <span class="ic-home color-themeGreen mr-2"></span>  -->
+        <span class="catIcon color-themeOrange"
+          [ngClass]="{'ic-home-2': category?.parent?.id === 2 , 'ic-covid-2':category?.parent?.id === 3, 'ic-entertainment-2':category?.parent?.id === 19 ,'ic-personal-care':category?.parent?.id === 16 , 'ic-book':category?.parent?.id === 17,'ic-professional-services-2':category?.parent?.id === 18 ,'ic-petcare':category?.parent?.id === 20}"></span>
+        <h4 class="headingText mb-0 ml-2">{{category?.parent?.name}}</h4>
+      </div>
+
+      <div class="service-infoBox d-flex align-items-center flex-wrap">
+        <span class="custom-chips-text my-1 mx-1" *ngFor="let subcategory of category.child"><span
+            class="chips-box">{{subcategory?.child_category?.name}}</span></span>
+
+      </div>
+      <hr class="mt-3 mb-3">
+    </div>
+
+    <div class="btn-holder text-center">
+      <button mat-flat-button class="btn-orangeColor text-uppercase btn-wide" (click)="openUserDetails()">VIEW
+        PROFILE</button>
+    </div>
+
+  </div>
+</div>

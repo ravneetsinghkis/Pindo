@@ -1,0 +1,38 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between">
+      <div class="heading pb-2">
+        <h3 class="heading-text">Services Offered</h3>
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+    <hr class="mt-0 mb-3">
+
+    <div class="block-wrap">
+      <div class="service-infoBox-content d-xl-flex align-items-center mb-3" *ngFor="let item of categories">
+
+        <div class="heading-block d-flex align-items-center">
+          <span class="catIcon color-themeOrange mr-2" [ngClass]="{'ic-home-2': item?.parent_category_details?.id == 2 ,
+					'ic-covid-2':item?.parent_category_details?.id == 3,
+					'ic-entertainment-2':item?.parent_category_details?.id == 19,
+					'ic-personal-care':item?.parent_category_details?.id == 16 ,
+					 'ic-book':item?.parent_category_details?.id == 17 ,
+					'ic-professional-services-2':item?.parent_category_details?.id == 18 ,
+          'ic-petcare':item?.parent_category_details?.id == 20}"></span>
+          <h3 class="headingText mb-0">{{ item?.parent_category_details.name }}</h3>
+        </div>
+
+        <div class="service-infoBox d-flex align-items-center pl-2">
+          <div class="d-flex align-items-center flex-wrap">
+            <ng-container *ngFor="let subitem of item?.child_cat_dtls; let j=index">
+              <span class="custom-chips-text my-1 mx-1">
+                <span class="chips-box">{{ subitem?.child_category_details.name }}</span>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

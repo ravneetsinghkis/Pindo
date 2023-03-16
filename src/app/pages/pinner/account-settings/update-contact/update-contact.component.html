@@ -1,0 +1,82 @@
+<!-- <div class="total-contactblock d-flex">
+	<div class="contact-block mr-5">
+		<h4>Email Address</h4>		
+		<p><i class="fas fa-envelope"></i>{{ contactInformation.email }}</p>
+	</div>
+	<div class="contact-block mr-5">
+		<h4>Contact No</h4>		
+		<p><i class="fas fa-phone-volume"></i> <span *ngIf="contactInformation.phone!=null && contactInformation.phone!=''">{{ contactInformation.phone }}</span><button class="btn btn-link" (click)="togglePopup()" *ngIf="contactInformation.phone==null || contactInformation.phone==''">Add a contact no.</button></p>
+	</div>
+	<div class="contact-block">
+		<h4>Mobile No</h4>		
+		<p><i class="fas fa-mobile-alt"></i> <span *ngIf="contactInformation.mobile_no!=null && contactInformation.mobile_no!=''">{{ contactInformation.mobile_no }}</span><button class="btn btn-link" (click)="togglePopup()" *ngIf="contactInformation.mobile_no==null || contactInformation.mobile_no==''">Add your mobile no.</button></p>
+	</div>
+</div> -->
+
+
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left" (click)="closeModal()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">EDit Contact Information</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3">
+				<div class="matComnForm">
+					<form #updateContInfo="ngForm" novalidate (ngSubmit)="submitFunction(updateContInfo)">
+						<div class="row">
+							<div class="col-md-12">
+								<mat-form-field appearance="outline">
+									<mat-label>Email Address</mat-label>
+									<input matInput name="email" #emailAddress="ngModel" [(ngModel)]="contactModel.email"
+										placeholder="Email Address*" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+									<mat-error *ngIf="emailAddress.errors && (updateContInfo.submitted) && emailAddress.errors?.required">
+										This field required</mat-error>
+									<mat-error
+										*ngIf="emailAddress.errors && (updateContInfo.submitted) && (emailAddress.errors.pattern || !emailAddress.errors.required)">
+										Invalid email.</mat-error>
+								</mat-form-field>
+								<mat-form-field appearance="outline">
+									<mat-label>Primary Phone Number</mat-label>
+									<input matInput name="phone" #contactNumber="ngModel" [(ngModel)]="contactModel.phone" prefix="+1"
+										mask="(000) 000-0000" pattern="^\(?(\d{3})\)?[-\. ]?(\d{3})[-\. ]?(\d{4})( x\d{4})?$" required
+										placeholder="Contact No*">
+									<mat-error
+										*ngIf="contactNumber.errors && (updateContInfo.submitted) && contactNumber.errors?.required">This
+										field required</mat-error>
+									<mat-error
+										*ngIf="contactNumber.errors && (updateContInfo.submitted) && (contactNumber.errors.pattern || !contactNumber.errors.required)">
+										Invalid Contact Number.</mat-error>
+								</mat-form-field>
+								<mat-form-field appearance="outline">
+									<mat-label>Secondary Phone Number</mat-label>
+									<input matInput name="mobile_no" #mobileNumber="ngModel" [(ngModel)]="contactModel.mobile_no"
+										prefix="+1" mask="(000) 000-0000" pattern="^\(?(\d{3})\)?[-\. ]?(\d{3})[-\. ]?(\d{4})( x\d{4})?$"
+										placeholder="Mobile No*">
+									<mat-error
+										*ngIf="mobileNumber.errors && (updateContInfo.submitted) && (mobileNumber.errors.pattern) && !mobileNumber.errors?.required">
+										Invalid Mobile Number.</mat-error>
+									<mat-error *ngIf="mobileNumber.errors && (updateContInfo.submitted) && mobileNumber.errors?.required">
+										This field required</mat-error>
+								</mat-form-field>
+
+
+								<div class="btn-holder text-center">
+									<button type="submit" mat-flat-button
+										class="btn btn-greenColor smFont-lg-size text-uppercase mx-2">Update</button>
+									<button type="button" (click)="closeModal()" mat-flat-button
+										class="btn btn-gray-border smFont-lg-size text-uppercase mx-2">CANCEL</button>
+								</div>
+
+
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

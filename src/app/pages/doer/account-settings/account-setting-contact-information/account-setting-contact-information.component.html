@@ -1,0 +1,114 @@
+<div class="card-settings-body px-3 py-3">
+  <div class="d-lg-flex side-gap-3 flex-wrap">
+
+    <div class="contact-info-block d-flex px-3 py-3">
+      <span class="ic-mail icon color-themeOrange mr-2" style="position: relative; top: -2px;"></span>
+      <div class="contact-info-content">
+        <h4 class="title mb-2">E-mail Address</h4>
+        <p class="data-text mb-0"><a href="mailto:{{contactModel?.email}}">{{contactModel?.email}}</a></p>
+      </div>
+    </div>
+
+    <div class="contact-info-block d-flex px-3 py-3">
+      <span class="ic-phone icon color-themeOrange mr-2" style="position: relative; top: -2px;"></span>
+      <div class="contact-info-content">
+        <h4 class="title mb-2">Primary Phone Number</h4>
+        <p class="data-text mb-0"><a href="tel:{{contactModel?.mobile_no}}">{{contactModel?.mobile_no | phonetransform}}</a></p>
+      </div>
+    </div>
+
+    <div class="contact-info-block d-flex px-3 py-3">
+      <span class="ic-globe icon color-themeOrange mr-2" style="position: relative; top: -2px;"></span>
+      <div class="contact-info-content">
+        <h4 class="title mb-2">Official Website</h4>
+        <p class="data-text mb-0"><a target="_blank" href="{{contactModel?.website}}">{{contactModel?.website}}</a></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="overlayFullPopup" #popUpVar>
+  <div class="fullPopupHeader px-3">
+    <button mat-icon-button class="btn-back float-left orangeColor" (click)="closeModal()"><span
+        class="or or-return"></span></button>
+    <h3 class="heading-text mb-0 text-uppercase">Update Contact Information</h3>
+  </div>
+  <hr class="m-0">
+  <div class="fullPopupContent">
+    <div class="container">
+      <div class="col-md-6 offset-md-3">
+        <div class="matComnForm">
+          <form #updateContInfo="ngForm" (ngSubmit)="submitContactDetails(updateContInfo)" novalidate
+            autocomplete="off" #formDirective="ngForm">
+
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Email Address</mat-label>
+                  <input matInput name="email" #emailaddress="ngModel" [(ngModel)]="contactModel.email"
+                    placeholder="Email*" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,5})+$" required>
+
+                  <mat-error *ngIf="emailaddress.errors && (updateContInfo.submitted) && emailaddress.errors.required">
+                    This field required</mat-error>
+                  <mat-error
+                    *ngIf="emailaddress.errors && (updateContInfo.submitted) && (emailaddress.errors.pattern || !emailaddress.errors.required)">
+                    Invalid email.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Primary Phone Number</mat-label>
+                  <input matInput name="mobile_no" #pnumber="ngModel" [(ngModel)]="contactModel.mobile_no" prefix="+1"
+                    mask="(000) 000-0000" pattern="^\(?(\d{3})\)?[-\. ]?(\d{3})[-\. ]?(\d{4})( x\d{4})?$"
+                    placeholder="Phone Number*" required>
+                  <mat-error *ngIf="pnumber.errors && (updateContInfo.submitted) && pnumber.errors.required">This field
+                    required</mat-error>
+                  <mat-error
+                    *ngIf="pnumber.errors && (updateContInfo.submitted) && (pnumber.errors.pattern || !pnumber.errors.required)">
+                    Invalid Phone Number.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Secondary Phone Number</mat-label>
+                  <input matInput name="phone" #snumber="ngModel" [(ngModel)]="contactModel.phone" prefix="+1"
+                    mask="(000) 000-0000" pattern="^\(?(\d{3})\)?[-\. ]?(\d{3})[-\. ]?(\d{4})( x\d{4})?$"
+                    placeholder="Phone Number*">
+
+                  <mat-error *ngIf="snumber.errors && (updateContInfo.submitted) && (snumber.errors.pattern)">
+                    Invalid Phone Number.</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Website</mat-label>
+                  <input matInput name="website" #website="ngModel" [(ngModel)]="contactModel.website"
+                    placeholder="Website" pattern="(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)">
+
+                  <mat-error *ngIf="website.errors && (updateContInfo.submitted) && (website.errors.pattern)">
+                    Invalid url.</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="btn-holder text-center mt-4">
+              <button type="submit" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+                id="submit-button">
+                Save
+              </button>
+
+              <button type="button" class="btn btn-gray-border smFont-lg-size text-uppercase mx-2" mat-flat-button
+                (click)="closeModal()">
+                Cancel
+              </button>
+
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

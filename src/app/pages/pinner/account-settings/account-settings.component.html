@@ -1,0 +1,539 @@
+<div class="scrollElement">
+  <div class="top-banner-section pinner-account-settings-banner">
+    <div class="container d-flex align-items-start h-100">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="main-headingText mb-2 text-uppercase">ACCOUNT SETTINGS</h1>
+          <h4 class="main-heading-subText mb-0 font-italic">View and update Contact Information, payment and privacy
+            settings.
+          </h4>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container overBanner-container">
+    <span class="leftFilterMenu ic-equalizer d-block d-xl-none" (click)="leftFilterTgl($event)"></span>
+    <div class="filterSideBar_overlay" (click)="leftFilterOverClick($event)" [ngClass]="leftFilterBoxOpen?'open':''">
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 left-side-filter-col" [ngClass]="leftFilterBoxOpen? 'open':''">
+
+        <div class="sideCard-shadow mb-3">
+
+          <div class="sideCard-main-header px-3">
+            <div class="main-header-inr withIcon-heading pt-3 pb-3 d-flex align-items-center">
+              <span class="iconItem ic-gear mr-2"></span>
+              <h4 class="heading-text mb-0 text-uppercase">Account Setup</h4>
+            </div>
+            <hr class="mb-0 mt-0">
+          </div>
+
+          <div class="sideCard-body px-3">
+
+            <ul class="settings-status-list pb-3">
+              <li class="mt-3" [ngClass]="{'completed':profilePasswordStatus}">
+                <span class="statusIcon"></span>
+                <span class="stepText hover" (click)="toggleParentPopup('changePasswordInfo')">Password</span>
+              </li>
+              <li class="mt-3" [ngClass]="{'completed':profileBasicInformationStatus}">
+                <span class="statusIcon"></span>
+                <span class="stepText hover" (click)="toggleParentPopup('basicDetails')">Profile Information</span>
+              </li>
+              <li class="mt-3" [ngClass]="{'completed':profileContactInformationStatus}">
+                <span class="statusIcon"></span>
+                <span class="stepText hover" (click)="toggleParentPopup('updateContactInfo')">Contact Information
+                  <sup class="color-themeGreen">*</sup></span>
+              </li>
+              <li class="mt-3" [ngClass]="{'completed':profileLocationStatus}">
+                <span class="statusIcon"></span>
+                <span class="stepText hover" (click)="toggleParentPopup('locationSettingsInfo')">My Locations
+                  <sup class="color-themeGreen">*</sup></span>
+              </li>
+              <li class="mt-3" [ngClass]="{'completed':profilePaymentInformationStatus}">
+                <span class="statusIcon"></span>
+                <span class="stepText hover" (click)="toggleParentPopup('AddCardPaymentMethodComponent')">Payment
+                  Information <sup class="color-themeGreen">**</sup></span>
+              </li>
+              <li class="mt-3" [ngClass]="{'completed':profileEmailStatus}">
+                <span class="statusIcon"></span>
+                <span class="stepText hover" (click)="toggleParentPopup('EmailSettingsComponent')">Email Settings</span>
+              </li>
+              <li class="mt-3" [ngClass]="{'completed':profilePrivacyStatus}">
+
+                <span class="statusIcon"></span>
+                <span class="stepText hover" (click)="toggleParentPopup('PrivacySettingsComponent')">Privacy
+                  Settings</span>
+              </li>
+            </ul>
+
+						<p class="mb-0 pb-3 required-text green"><sup>*</sup> Required to find and hire Doers</p>
+						<p class="mb-0 pb-3 required-text green"><sup>**</sup> Required to pay Doers electronically</p>
+
+          </div>
+
+        </div>
+        <!--end sideCard-shadow-->
+
+
+        <button mat-flat-button class="btn btn-greenColor lg-size btn-block mb-3 text-uppercase"
+          routerLink="/pinner/manage-profile">View Profile</button>
+
+
+      </div>
+      <!--end col-md-3-->
+
+      <div class="col-xl-9">
+
+        <div class="card-settings mb-4">
+
+          <div class="card-main-header  px-3 pt-3 pb-3">
+            <div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profilePasswordStatus }">
+              <span class="statusText mr-2">Status</span>
+              <span class="statusIcon"></span>
+            </div>
+            <div class="main-header-inr withIcon-heading  d-flex align-items-center">
+              <span class="iconItem ic-lock mr-2"></span>
+              <h4 class="heading-text mb-0 text-uppercase">PASSWORD</h4>
+            </div>
+          </div>
+          <hr class="mb-0 mt-0">
+
+          <div class="card-settings-body px-3 py-3">
+            <div class="dsc-text">
+
+              <!-- <p class="mb-0" *ngIf="basicDetails?.change_password_message!=null && basicDetails?.change_password_message!=''">{{basicDetails?.change_password_message}}</p>
+              <p class="mb-0" *ngIf="basicDetails?.change_password_message==null || basicDetails?.change_password_message==''">We recommend you change the password every three months.</p> -->
+
+              <p class="mb-0" *ngIf="basicDetails?.last_password_changed_time">Password last changed on
+                {{basicDetails?.last_password_changed_time | date:'MMMM d, y' }}. We recommend changing your password
+                every 3 months.</p>
+              <p class="mb-0" *ngIf="!basicDetails?.last_password_changed_time">We recommend changing your password
+                every 3 months.</p>
+              <span class="link-text text-uppercase color-themeGreen"
+                (click)="toggleParentPopup('changePasswordInfo')">Change password</span>
+            </div>
+
+          </div>
+
+          <app-change-password #changePasswordInfo
+            (accountSettingDetailsPopulate)="getAccountSettingUpdateDetailsByType($event,'passwordUpdate')">
+          </app-change-password>
+        </div>
+        <!--end card-settings-->
+
+        <div class="card-settings mb-4">
+          <div class="card-main-header  px-3 pt-3 pb-3">
+            <div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileBasicInformationStatus }">
+              <span class="statusText mr-2">Status</span>
+              <span class="statusIcon"></span>
+            </div>
+            <div class="main-header-inr withIcon-heading d-flex align-items-center justify-content-between">
+
+              <div class="d-flex align-items-center">
+                <span class="iconItem ic-profile mr-2"></span>
+                <h4 class="heading-text mb-0 text-uppercase">Profile Information</h4>
+              </div>
+
+              <button mat-flat-button class="btn btn-greenColor text-uppercase flex-shrink-0"
+              (click)="toggleParentPopup('basicDetails')">UPDATE</button>
+
+            </div>
+
+          </div>
+          <hr class="mb-0 mt-0">
+          <div class="prfl-info px-3 py-3 d-flex align-items-center">
+            <div class="prfl-img circel">
+              <img class="default-img"
+                [src]="(basicDetails?.profile_photo!=null && basicDetails.profile_photo!='null')?profile_url +basicDetails?.profile_photo:'assets/images/default-userImg-green.svg'"
+                onError="this.src='assets/images/default-userImg-green.svg'">
+            </div>
+            <div class="prfl-text pl-3">
+              <p class="nameText text-truncate mb-0">{{basicDetails?.first_name}} {{basicDetails?.last_name}}</p>
+              <p class="infoText mb-0"><span class="title"
+                  *ngIf="basicDetails?.username">@{{basicDetails?.username}}</span></p>
+              <p class="title mb-0" *ngIf="crewMemberDetails?.referral_code">Crew Referral Code: <span
+                  class="text-uppercase font-weight-bold">{{ crewMemberDetails?.referral_code }}</span></p>
+            </div>
+          </div>
+          <hr class="mb-0 mt-0">
+          <div class="prfl-dscInfo px-3 pt-3 pb-3">
+            <h4 class="headingText mb-2">Bio</h4>
+            <div class="dsc-text">
+              <p [innerHtml]="basicDetails?.bio"></p>
+            </div>
+          </div>
+          <account-setting-basic-details #accountSettingBasicDetailsInfo [basicDetails]="basicDetails"
+            (profileBasicDetails)="getAccountSettingUpdateDetailsByType($event,'basicInformation')">
+          </account-setting-basic-details>
+        </div>
+        <!--end card-settings-->
+
+
+        <div class="card-settings mb-4">
+
+          <div class="card-main-header px-3 pt-3 pb-3">
+            <div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileContactInformationStatus }">
+              <span class="statusText mr-2">Status</span>
+              <span class="statusIcon"></span>
+            </div>
+            <div class="main-header-inr withIcon-heading  d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center">
+                <span class="iconItem ic-contacts-1 mr-2"></span>
+                <h4 class="heading-text mb-0 text-uppercase">Contact Information</h4>
+              </div>
+              <button mat-flat-button class="btn btn-greenColor text-uppercase flex-shrink-0"
+              (click)="toggleParentPopup('updateContactInfo')">UPDATE</button>
+            </div>
+
+          </div>
+          <hr class="mb-0 mt-0">
+
+          <div class="card-settings-body px-3 py-3">
+            <div class="d-lg-flex side-gap-3">
+
+              <div class="contact-info-block d-flex px-3 py-3">
+                <span class="ic-mail icon color-themeGreen mr-2" style="position: relative; top: -2px;"></span>
+                <div class="contact-info-content">
+                  <h4 class="title mb-2">E-mail Address</h4>
+                  <p class="data-text mb-0"><a
+                      href="mailto:{{updatedBasicContactDetails?.email}}">{{updatedBasicContactDetails?.email}}</a></p>
+                </div>
+              </div>
+
+              <div class="contact-info-block d-flex px-3 py-3">
+                <span class="ic-phone icon color-themeGreen mr-2" style="position: relative; top: -2px;"></span>
+                <div class="contact-info-content">
+                  <h4 class="title mb-2">Primary Phone Number</h4>
+                  <p class="data-text mb-0"><a
+                      href="tel:{{updatedBasicContactDetails.phone}}">{{updatedBasicContactDetails?.phone}}</a></p>
+                </div>
+              </div>
+
+              <div class="contact-info-block d-flex px-3 py-3">
+                <span class="ic-phone icon color-themeGreen mr-2" style="position: relative; top: -2px;"></span>
+                <div class="contact-info-content">
+                  <h4 class="title mb-2">Secondary Phone Number</h4>
+                  <p class="data-text mb-0"><a
+                      href="tel:{{updatedBasicContactDetails.mobile_no}}">{{updatedBasicContactDetails?.mobile_no}}</a>
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <update-contact #updateContactInfo [contactDetails]="originalBasicContactDetails"
+            (accountSettingDetailsPopulate)="getAccountSettingUpdateDetailsByType($event,'contactInformation')">
+          </update-contact>
+
+        </div>
+        <!--end card-settings-->
+
+
+        <div class="card-settings mb-4">
+
+          <div class="card-main-header px-3 pt-3 pb-3">
+            <div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileLocationStatus }">
+              <span class="statusText mr-2">Status</span>
+              <span class="statusIcon"></span>
+            </div>
+            <div class="main-header-inr withIcon-heading d-flex align-items-center">
+              <div class="d-flex align-items-center">
+                <span class="iconItem  ic-map-pin-marked mr-2"></span>
+                <h4 class="heading-text mb-0 text-uppercase">My Locations</h4>
+              </div>
+            </div>
+            <hr class="mb-0 mt-0">
+          </div>
+
+          <div class="card-settings-body">
+
+            <ng-container *ngFor="let location of locationDetailsList;let i=index">
+              <div class="adds-list d-flex justify-content-between px-3 py-3">
+
+                <div class="adds-info d-flex">
+                  <span class="ic-pointer color-themeGreen mr-2 flex-shrink-0"
+                    style="position: relative; top:0;"></span>
+                  <div class="adds-text">
+                    <span>{{location?.address}}</span>
+                    <span *ngIf="location?.city">&nbsp;{{location?.city}},</span>
+                    <span *ngIf="location?.state"> {{location?.state}}</span>
+                    <span *ngIf="location?.zipcode">&nbsp;{{location?.zipcode}}</span>
+                  </div>
+                </div>
+                <div class="action-item-list d-flex align-items-center  flex-shrink-0 ml-3">
+                  <span *ngIf="location?.is_primary==1" class="green-tag text-uppercase">PRIMARY</span>
+                  <span (click)="updateLocation(i)" class="ic-edit-pencil action-item ml-3"></span>
+                  <span *ngIf="location?.is_primary==0" (click)="deleteLocation(i)"
+                    class="ic-delete action-item ml-3"></span>
+                </div>
+
+              </div>
+
+              <hr class="m-0">
+            </ng-container>
+
+            <div class="btn-holder px-3 pt-3 pb-3">
+              <button type="button" (click)="toggleParentPopup('locationSettingsInfo')" mat-flat-button
+                class="btn btn-greenColor text-uppercase"><span class="ic-plus mr-1" style="font-size: 12px;"></span>
+                NEW LOCATION</button>
+            </div>
+          </div>
+
+          <location-settings #locationSettingsInfo
+            (accountSettingDetailsPopulate)="getAccountSettingUpdateDetailsByType($event,'locationInformation')">
+          </location-settings>
+
+        </div>
+        <!--end card-settings-->
+
+
+        <div class="card-settings mb-4" id="payment_div">
+
+          <div class="card-main-header px-3 pt-3 pb-3">
+
+            <div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': creditCardCount }">
+              <span class="statusText mr-2">Status</span>
+              <span class="statusIcon"></span>
+            </div>
+
+            <div class="main-header-inr withIcon-heading d-flex align-items-center">
+              <div class="d-flex align-items-center">
+                <span class="iconItem ic-cards-payment mr-2"></span>
+                <h4 class="heading-text mb-0 text-uppercase">CREDIT CARD INFORMATION</h4>
+              </div>
+            </div>
+            <hr class="mb-0 mt-0">
+          </div>
+
+          <div class="card-settings-body">
+
+            <ng-container *ngFor="let cardInfo of cardOrBankDetailsListing;let i=index">
+              <div class="paymentInfo-list d-flex justify-content-between px-3 py-3" *ngIf="cardInfo.object=='card'">
+
+                <div class="payment-info d-flex align-items-center">
+                  <span class="payment-type-img mr-3">
+                    <img *ngIf="cardInfo.object=='card' && cardInfo.brand!=null"
+                      src=" assets/images/payment-cards-icons/{{cardInfo.brand.toLowerCase()}}.svg" width="36">
+                  </span>
+                  <div class="payment-info-text" *ngIf="cardInfo.object=='card'">
+                    <span class="numbText">
+                      <span class="light-color" *ngIf="cardInfo.brand.toLowerCase()!='americanexpress'">XXXX XXXX
+                        XXXX</span>
+                      <span class="light-color" *ngIf="cardInfo.brand.toLowerCase()=='americanexpress'">XXXXXX
+                        XXXXX</span>
+                      {{cardInfo.last4}}
+                    </span>
+                    <span class="dateText ml-4">
+                      <span
+                        *ngIf="cardInfo.expiry_month<10">0</span>{{cardInfo.expiry_month}}/{{cardInfo.exp_date}}</span>
+                  </div>
+
+                </div>
+
+                <div class="action-item-list d-flex align-items-center  flex-shrink-0 ml-3">
+                  <span *ngIf="cardInfo.is_primary==1" class="green-tag text-uppercase">PRIMARY</span>
+                  <span (click)="editPaymentDetails(i)" class="ic-edit-pencil action-item ml-3"></span>
+                  <!-- <span *ngIf="cardInfo.is_primary!=1" (click)="deletePaymentDetailsById(i)" class="ic-delete action-item ml-3"></span> -->
+                  <span (click)="deletePaymentDetailsById(i)" class="ic-delete action-item ml-3"></span>
+                </div>
+
+              </div>
+              <!--end paymentInfo-list-->
+
+              <hr class="m-0">
+            </ng-container>
+
+            <div class="btn-holder px-3 pt-3 pb-3">
+              <button mat-flat-button class="btn btn-greenColor text-uppercase"
+                (click)="toggleParentPopup('AddCardPaymentMethodComponent')"><span class="ic-plus mr-1"
+                  style="font-size: 12px;"></span> NEW PAYMENT METHOD</button>
+            </div>
+
+            <add-payment-method #addPaymentMethodInfo
+              (accountSettingDetailsPopulate)="getAccountSettingUpdateDetailsByType($event,'paymentInformation')">
+            </add-payment-method>
+
+            <!-- <verify-bank-account  (onVerifyingBankAccount)="getAccountSettingUpdateDetailsByType($event,'paymentInformation')" #verifyBankAccountInfo></verify-bank-account> -->
+
+          </div>
+
+
+        </div>
+        <!--end card-settings-->
+
+
+        <div class="card-settings mb-4">
+
+          <div class="card-main-header px-3 pt-3 pb-3">
+
+            <div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': bankCount }">
+              <span class="statusText mr-2">Status</span>
+              <span class="statusIcon"></span>
+            </div>
+
+            <div class="main-header-inr withIcon-heading d-flex align-items-center">
+              <span class="iconItem ic-bank mr-2"></span>
+              <h4 class="heading-text mb-0 text-uppercase">Bank INFORMATION</h4>
+            </div>
+            <hr class="mb-0 mt-0">
+          </div>
+
+          <div class="card-settings-body">
+
+            <ng-container *ngFor="let cardInfo of cardOrBankDetailsListing;let i=index">
+              <div class="paymentInfo-list d-flex justify-content-between px-3 py-3"
+                *ngIf="cardInfo.object=='bank_account'">
+
+                <div class="payment-info d-flex align-items-center">
+                  <span class="payment-type-img mr-3">
+                    <img src=" assets/images/payment-cards-icons/bank.svg" width="36">
+                  </span>
+
+                  <div class="payment-info-text" *ngIf="cardInfo.object=='bank_account'">
+                    <span class="numbText"><span class="light-color">XXXX XXXX </span> {{cardInfo.last4}}</span>
+                  </div>
+                </div>
+
+                <div class="action-item-list d-flex align-items-center  flex-shrink-0 ml-3">
+                  <span *ngIf="cardInfo.is_primary==1" class="green-tag text-uppercase">PRIMARY</span>
+                  <button type="btn" mat-flat-button class="btn-greenColor btn-sm ml-3"
+                    *ngIf="cardInfo.object=='bank_account' && cardInfo.is_verified==0"
+                    (click)="verifyBank(cardInfo.id)">Verify</button>
+                  <span (click)="editPaymentDetails(i)" class="ic-edit-pencil action-item ml-3"></span>
+                  <!-- <span *ngIf="cardInfo.is_primary!=1" (click)="deletePaymentDetailsById(i)" class="ic-delete action-item ml-3"></span> -->
+                  <span (click)="deletePaymentDetailsById(i)" class="ic-delete action-item ml-3"></span>
+                </div>
+
+              </div>
+              <!--end paymentInfo-list-->
+
+              <hr class="m-0" *ngIf="cardInfo.object=='bank_account'">
+            </ng-container>
+
+            <!-- <ng-container *ngIf="paymentCardListing.length==0">
+
+            </ng-container> -->
+
+            <div class="btn-holder px-3 pt-3 pb-3">
+              <button mat-flat-button class="btn btn-greenColor text-uppercase"
+                (click)="toggleParentPopup('AddBankPaymentMethodComponent')"><span class="ic-plus mr-1"
+                  style="font-size: 12px;"></span> NEW PAYMENT METHOD</button>
+            </div>
+
+            <add-payment-method #addPaymentMethodInfo
+              (accountSettingDetailsPopulate)="getAccountSettingUpdateDetailsByType($event,'paymentInformation')">
+            </add-payment-method>
+
+            <verify-bank-account
+              (onVerifyingBankAccount)="getAccountSettingUpdateDetailsByType($event,'paymentInformation')"
+              #verifyBankAccountInfo></verify-bank-account>
+
+          </div>
+
+
+        </div>
+        <!--end card-settings-->
+
+
+        <div class="card-settings mb-4">
+
+          <div class="card-main-header px-3 pt-3 pb-3">
+
+            <div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profileEmailStatus }">
+              <span class="statusText mr-2">Status</span>
+              <span class="statusIcon"></span>
+            </div>
+
+            <div class="main-header-inr withIcon-heading  d-flex align-items-center justify-content-between">
+              <h4 class="heading-text mb-0 text-uppercase">email settings</h4>
+              <button mat-flat-button class="btn btn-greenColor text-uppercase flex-shrink-0"
+              (click)="toggleParentPopup('EmailSettingsComponent')">UPDATE</button>
+            </div>
+          </div>
+          <hr class="mb-0 mt-0">
+
+          <div class="card-settings-body px-3 py-3">
+            <div class="dsc-text">
+              <p>Choose the notifications of activity on your PinDo account that you’d like to receive via email.</p>
+            </div>
+
+          </div>
+
+          <email-settings #emailSettingsInfo [ID]="basicDetails.id"></email-settings>
+
+        </div>
+        <!--end card-settings-->
+
+        <div class="card-settings mb-4">
+
+          <div class="card-main-header px-3 pt-3 pb-3">
+            <div class="settings-status d-flex align-items-center d-xl-none mb-1" [ngClass]="{'completed': profilePrivacyStatus }">
+              <span class="statusText mr-2">Status</span>
+              <span class="statusIcon"></span>
+            </div>
+            <div class="main-header-inr withIcon-heading  d-flex align-items-center justify-content-between">
+              <h4 class="heading-text mb-0 text-uppercase">PRIVACY settings</h4>
+              <button mat-flat-button class="btn btn-greenColor text-uppercase flex-shrink-0"
+              (click)="toggleParentPopup('PrivacySettingsComponent')">UPDATE</button>
+            </div>
+
+          </div>
+          <hr class="mb-0 mt-0">
+
+          <div class="card-settings-body px-3 py-3">
+            <div class="dsc-text">
+              <p>Choose the contact and personal information on your account that you’d like to share and who you’d like
+                to share it with.</p>
+            </div>
+
+          </div>
+
+          <privacy-settings #privacySettingsInfo></privacy-settings>
+
+        </div>
+        <!--end card-settings-->
+
+        <div class="card-settings mb-4">
+          <div class="card-main-header  px-3 pt-3 pb-3">
+            <div class="settings-status d-flex align-items-center d-xl-none mb-1 " [ngClass]="{'completed': isCrewMember }">
+              <span class="statusText mr-2">Status</span>
+              <span class="statusIcon"></span>
+            </div>
+            <div class="main-header-inr withIcon-heading  d-flex align-items-center justify-content-between">
+              <h4 class="heading-text mb-0 text-uppercase">BECOME A CREW MEMBER</h4>
+
+              <button mat-flat-button class="btn btn-greenColor text-uppercase flex-shrink-0"
+              (click)="toggleParentPopup('CrewApplicationComponent')">
+              LEARN MORE
+            </button>
+
+            </div>
+
+          </div>
+          <hr class="mb-0 mt-0" />
+
+          <div class="card-settings-body px-3 py-3">
+            <div class="dsc-text">
+              <p>Learn more about becoming a PinDo Crew Member and help PinDo grow. You will receive referral payments
+                for the users that you recruit. It's free, no strings attached!</p>
+            </div>
+          </div>
+
+          <app-crew-application #crewApplication></app-crew-application>
+        </div>
+        <!--end card-settings-->
+
+      </div>
+      <!--end col-md-9-->
+
+    </div>
+    <!--end row-->
+  </div>
+  <!--end container-->
+
+</div>

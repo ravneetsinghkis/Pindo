@@ -1,0 +1,69 @@
+<div class="overlayFullPopup" #popUpVar>
+  <div class="fullPopupHeader px-3">
+    <button mat-icon-button class="btn-back float-left orangeColor" (click)="closeModal()"><span
+        class="or or-return"></span></button>
+    <h3 class="heading-text mb-0 text-uppercase">Verify Bank Account</h3>
+  </div>
+  <hr class="m-0">
+  <div class="fullPopupContent">
+    <div class="container">
+      <div class="col-md-6 offset-md-3">
+
+        <div class="popUpcontentHeading">
+          <h6 class="regular-heading-medium text-center mb-3"><strong>PinDo Alert! We cannot verify your bank account
+              until you have received two microdeposits from us. If you have received them and have noted the amounts,
+              please continue.
+              In the boxes below, enter the two deposit amounts (enter $0.71 as 71)</strong>
+          </h6>
+          <p class="smInfoText text-center mb-3">*If verification fails after a couple of attempts, please contact us at
+            <a href="/support" target="_blank">PinDoit.com/Support</a>. Please note: 10 failed attempts or more will
+            lock your bank account out of PinDo so contact us before that happens!</p>
+        </div>
+
+        <div class="matComnForm">
+          <form #basicDetailsForm="ngForm"
+            (ngSubmit)="verifyBankAccount(basicDetailsForm.value,basicDetailsForm.valid,basicDetailsForm,'save')">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>First Deposit</mat-label>
+                  <input matInput name="first_deposite" #firstDeposite="ngModel"
+                    [(ngModel)]="basicDetailsFormModel.first_deposite" placeholder="First Deposit*" pattern="^[0-9]*$"
+                    required>
+                  <mat-error
+                    *ngIf="firstDeposite.errors && (basicDetailsForm.submitted) && firstDeposite.errors.required">This
+                    field required</mat-error>
+                  <mat-error
+                    *ngIf="firstDeposite.errors && (basicDetailsForm.submitted) && (firstDeposite.errors.pattern || !firstDeposite.errors.required)">
+                    Take only numbers.</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Second Deposit</mat-label>
+                  <input matInput name="second_deposite" #secondDeposite="ngModel"
+                    [(ngModel)]="basicDetailsFormModel.second_deposite" placeholder="Second Deposit*" pattern="^[0-9]*$"
+                    required>
+                  <mat-error
+                    *ngIf="secondDeposite.errors && (basicDetailsForm.submitted) && secondDeposite.errors.required">This
+                    field required</mat-error>
+                  <mat-error
+                    *ngIf="secondDeposite.errors && (basicDetailsForm.submitted) && (secondDeposite.errors.pattern || !secondDeposite.errors.required)">
+                    Take only numbers.</mat-error>
+                </mat-form-field>
+
+                <div class="btn-holder text-center">
+                  <button type="submit" mat-flat-button
+                    class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2">Verify</button>
+                  <button type="button" (click)="closeModal()" mat-flat-button
+                    class="btn btn-gray-border smFont-lg-size text-uppercase mx-2">CANCEL</button>
+                </div>
+
+
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

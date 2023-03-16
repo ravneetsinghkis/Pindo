@@ -1,0 +1,81 @@
+<div class="referDoerListing">
+	<div class="doer-listing row" *ngIf="doerListing.length>0">
+	<div class="col-md-4" *ngFor="let eachDoer of doerListing;let i = index;">					
+		<div class="indv-doer">
+			<div class="profDoer d-flex mb-4">
+				<span class="prof_img" style="cursor:pointer;" (click)="commonservice.openWithNewTab(eachDoer?.doer_id)">
+					<img src="{{gbConst.uploadUrl}}/company_logo/{{eachDoer?.company_logo}}" onError="this.src='assets/images/prof_img.jpg';" alt="">
+				</span>
+				<div class="prof_infoDoer">
+					<h4>{{eachDoer?.name}}</h4>
+					<!-- <p class="adress_doer" *ngIf="eachDoer.address == null"><i class="fas fa-map-marker-alt"></i>Not Yet AVailable</p>
+					<p class="adress_doer" *ngIf="eachDoer.address != null"><i class="fas fa-map-marker-alt"></i>{{ eachDoer.address }}</p> -->
+					<!-- <div class="ratingDoer d-flex flex-column">
+						<p>
+							<span class="indvrating"><i class="fas fa-star"></i></span>
+							<span class="indvrating"><i class="fas fa-star"></i></span>
+							<span class="indvrating"><i class="fas fa-star"></i></span>
+							<span class="indvrating"><i class="fas fa-star"></i></span>
+						</p>
+						<p>4.0 (35 True Reviews)</p>
+					</div> -->
+
+					<div class="ratingDoer d-flex" style="cursor:pointer;" (click)="commonservice.openWithNewTab(eachDoer?.id)"  *ngIf="eachDoer?.review_count!=0">
+						<span class="indvrating" *ngFor="let eachRating of convertToarray(eachDoer?.rating_avg,'filled')"><i class="fas fa-star"></i></span>
+						<p>{{eachDoer?.rating_avg}}.0 ({{eachDoer?.review_count}} True Reviews)</p>
+					</div>	
+					<div class="ratingDoer d-flex" *ngIf="eachDoer?.review_count==0">
+						<p>No Reviews</p>
+					</div>
+
+				</div>
+			</div>
+			<div class="doerStats mb-4">
+				<h4>Doer Stats</h4>
+				<!-- <span class="statBox">100 Verified Jobs</span> -->
+				<span class="statBox">{{eachDoer?.ongoing_pins}} Ongoing Jobs</span>
+				<span class="statBox">{{eachDoer?.completed_pins}} Completed Jobs</span>
+			</div>
+			<div class="hiredBy d-flex justify-content-between mb-4">
+				<p>Hired By <span>15 Friends</span></p>
+				<div class="hiredCont">							
+					<span class="hiredBox">
+						<img src="assets/images/hired1.jpg">
+					</span>
+					<span class="hiredBox">
+						<img src="assets/images/hired2.jpg">
+					</span>
+					<span class="hiredBox">
+						<img src="assets/images/hired3.jpg">
+					</span>
+					<span class="hiredBox">
+						<img src="assets/images/hired4.jpg">
+					</span>
+					<span class="hireNumber">+11</span>
+				</div>
+			</div>
+			<div class="doerBadges">
+				<h4>PinDo Badges</h4>
+				<div class="badgCont d-flex justify-content-between" *ngIf="eachDoer?.user_badges?.length>0">
+
+					<div class="doerBadge d-flex">
+						<ng-container *ngFor="let eachBadge of eachDoer?.badges_list | slice:0:3">
+							<span (click)="goToPublicProfile(eachDoer?.id)" class="indvBadg" matTooltip="{{eachBadge.badge_details.name}}" matTooltipClass="green-tooltip"><img src="assets/images/badges-icon/badge-1.png"></span>
+						</ng-container>									
+					</div>
+					<ng-container *ngIf="eachDoer?.badges_list?.length>3">
+						<p (click)="goToPublicProfile(eachDoer?.id)">and {{eachDoer?.badges_list?.length - 3}} more badges....</p>
+					</ng-container>
+				</div>
+				<ng-container *ngIf="eachDoer?.badges_list?.length==0">
+					No Badges Earned Yet
+				</ng-container>
+			</div>
+			<div class="abs-btngrp">
+				<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+					<mat-button-toggle value="View Details" (click)="commonservice.openWithNewTab(eachDoer?.doer_id)">View Details</mat-button-toggle>
+				</mat-button-toggle-group>								
+			</div>
+		</div>		
+	</div>
+</div>

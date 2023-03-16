@@ -1,0 +1,85 @@
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left" (click)="closeModal()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">Update INTERESTS </h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 offset-md-3 ">
+
+					<form>
+						<div class="matComnForm">
+	
+							<div class="d-flex align-items-center flex-wrap mb-3">
+								<span class="blue-chips my-1 mx-1"
+									*ngFor="let interestItem of selectedInterestedItem; let i = index">
+									<span class="chips-box">{{interestItem.category_name}}</span>
+									<span class="delete-btn ic-close" (click)="deleteInterest(interestItem,i)"></span>
+								</span>
+							</div>
+	
+	
+							<div class="block-wrap">
+								<div class="block-heading d-flex align-items-center mb-2">
+									<span class="ic-magnifier color-themeGreen mr-2"></span>
+									<h4 class="headingText mb-0">Search Interests</h4>
+								</div>
+	
+								<div class="comnForm">
+									<input type="text" class="form-control" placeholder="Search Interest" aria-label="Area"
+										(keyup)="searchInterest($event)" [matAutocomplete]="auto">
+									<mat-autocomplete #auto="matAutocomplete" class="sendTo-autocomplete">
+										<mat-option *ngFor="let option of interestHold" [value]="option?.name"
+											(click)='setInterestBySearch(option)'
+											[ngClass]="lang_flag==2?'text-right font-style-new':''">
+	
+											<div class="prfl-text">
+												<p class="nameText mb-0"> {{option?.name}}</p>
+											</div>
+										</mat-option>
+									</mat-autocomplete>
+								</div>
+							</div>
+							<hr class="mt-3 mb-3">
+	
+							<div class="block-wrap" *ngFor="let category of allparent_category,let pIndex=index">
+								<div class="block-heading d-flex align-items-center mb-2">
+									<!-- <span class="ic-petcare color-themeGreen mr-2"></span>  -->
+									<span class="catIcon color-themeGreen"
+										[ngClass]="{'ic-home-2': category?.parent?.id === 2 , 'ic-covid-2':category?.id === 3, 'ic-entertainment-2':category?.id === 19 ,'ic-personal-care':category?.id === 16 , 'ic-book':category?.id === 17,'ic-professional-services-2':category?.id === 18 ,'ic-petcare':category?.id === 20}"></span>
+									<h4 class="headingText mb-0">{{category.name}}</h4>
+								</div>
+	
+								<div class="d-flex align-items-center flex-wrap">
+	
+									<div class="custom-chips-checkbox my-1 mx-1"
+										*ngFor="let chieldcat of category.child_category">
+										<input type="checkbox" [checked]="chieldcat.isSelect" value="{{chieldcat.id}}"
+											(click)="setOrUnSetInterestItem(chieldcat)">
+										<span class="chips-box">{{chieldcat.name}}</span>
+									</div>
+	
+								</div>
+							</div>
+	
+							<hr class="mt-3 mb-3">
+	
+							<div class="btn-holder text-center mt-4 mb-4 mb-md-0">
+								<button mat-flat-button type="button" (click)="submitInterest()"
+									class="btn btn-greenColor smFont-lg-size text-uppercase mx-2">SAVE</button>
+								<button mat-flat-button (click)="closeModal()"
+									class="btn btn-gray-border smFont-lg-size text-uppercase mx-2">CANCEL</button>
+							</div>
+	
+						</div>
+	
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

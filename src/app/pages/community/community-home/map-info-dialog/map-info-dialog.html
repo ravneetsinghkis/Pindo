@@ -1,0 +1,45 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between mb-2">
+      <div class="heading pb-2">
+        <h3 class="heading-text">{{data.communityname}} {{data.zipcode}}</h3>
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+
+
+    <div class="infoBox mb-4">
+      <h4 class="headingText text-uppercase mb-2">RECENT ACTIVITY</h4>
+      <div class="d-flex flex-wrap">
+        <div class="info-dataText mr-3"><span class="titleText mr-2">Pinners:</span> <span
+            class="greenText">{{single_number_community.total_pinners}}</span></div>
+        <div class="info-dataText mr-3"><span class="titleText mr-2">Doers:</span> <span
+            class="greenText">{{single_number_community.total_doers}}</span></div>
+        <div class="info-dataText mr-3"><span class="titleText mr-2">(Last 30 Days) Pins:</span> <span
+            class="greenText">{{single_number_community.total_pins}}</span></div>
+        <div class="info-dataText mr-3"><span class="titleText mr-2">(Last 30 Days) Posts:</span> <span
+            class="greenText">{{single_number_community.total_posts}}</span></div>
+      </div>
+    </div>
+
+    <div class="map-holder">
+      <div class="h-100" id="map2"></div>
+      <!-- <img src="assets/images/googleMap.jpg"> -->
+    </div>
+
+    <div class="btn-holder mt-3 text-center">
+
+      <button mat-flat-button class="btn-greenColor mb-1 text-uppercase" (click)="closeDialog()">Go Back</button>
+      <button mat-button *ngIf="data.community_type == 'findcommunity'"
+        class="btn-greenColor mb-1 text-uppercase btn-withoutBg" (click)="addJoinCommunity(data.communityid)"> JOIN
+        COMMUNITY</button>
+
+      <button mat-button *ngIf="data.community_type == 'mucommunity'"
+        class="btn-greenColor mb-1 text-uppercase btn-withoutBg" (click)="removeJoinCommunity(data.communityid)">Leave
+        COMMUNITY</button>
+
+    </div>
+
+
+  </div>
+</div>

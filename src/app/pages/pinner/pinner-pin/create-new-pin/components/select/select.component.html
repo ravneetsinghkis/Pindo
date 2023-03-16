@@ -1,0 +1,11 @@
+<div class="total_field">
+	<h4 class="subcardcontentHeading" [innerHTML]="field.label | keepHtml"></h4>
+	<mat-form-field appearance="outline" [formGroup]="group">
+		<mat-select [formControlName]="field.name">
+			<mat-option *ngFor="let item of field.values" [value]="item.value">{{item.label}}</mat-option>
+		</mat-select>
+		<ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
+	        <mat-error *ngIf="group.get(field.name).hasError(validation.name)">This is a required Field<!-- <span>{{validation.message}}</span> --></mat-error>
+	    </ng-container>
+	</mat-form-field>
+</div>

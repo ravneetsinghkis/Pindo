@@ -1,0 +1,960 @@
+<!-- heroSection -->
+<section class="heroSection">
+	<div class="container-fluid posn_abs d-flex h-100">
+		<div class="search_outer h-100" (clickOutside)="closeSearch($event)" *ngIf="false">
+			<div class="search_total align-self-center">
+				<div class="svg_img">
+					<!-- <img src="assets/images/hero-icon.svg" alt=""> -->
+				</div>
+				<div class="search_area d-flex justify-content-center" (mouseover)="openSearch($event)">
+					<div class="search_field align-self-center" *ngIf="false">
+						<form class="example-form">
+							<mat-form-field class="example-full-width text-center">
+								<input type="text" (keyup)="searchTerm$.next($event.target.value)"
+									[ngModelOptions]="{standalone: true}" [(ngModel)]="homeSearchField"
+									[placeholder]="placeholderText" (focus)="openstateDetection()"
+									(focusout)="closestateDetection()" aria-label="Number" matInput
+									[matAutocomplete]="auto">
+								<mat-icon matPrefix>search</mat-icon>
+								<mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption
+									[displayWith]="displayFn" (optionSelected)="selectedVal($event['option']['value'])"
+									[classList]="sliderautocomplete">
+									<ng-container *ngFor="let option of filteredOptions;let i = index;">
+										<mat-option [value]="option">
+											<ng-container *ngIf="option?.category==null && option?.subcategory==null">
+												{{ option.text }}</ng-container>
+											<ng-container *ngIf="option?.category!=null && option?.subcategory!=null">
+												<div class="d-flex justify-content-between">
+													<span>{{ option.text }}</span>
+													<span>in <b>{{ option['category']['name'] }}</b></span>
+												</div>
+											</ng-container>
+											<ng-container *ngIf="option?.category!=null && option?.subcategory==null">
+												<div class="d-flex justify-content-between">
+													<span>{{ option.text }}</span>
+													<span>in <b>categories</b></span>
+												</div>
+											</ng-container>
+										</mat-option>
+									</ng-container>
+								</mat-autocomplete>
+							</mat-form-field>
+						</form>
+						<!-- <mat-form-field class="example-full-width">
+						    <input matInput placeholder="Search">
+						    <mat-icon matPrefix>search</mat-icon>
+						</mat-form-field> -->
+					</div>
+					<div class="searchareaback"></div>
+				</div>
+			</div>
+			<div class="arrow bounce text-center" *ngIf="isMob">
+				<i class="fas fa-angle-double-down"></i>
+			</div>
+		</div>
+		<div class="right_content text-center d-flex h-100" *ngIf="false">
+			<div class="align-self-center w-100">
+				<h1>Your one-stop shop to get stuff done.<span>&trade;</span></h1>
+				<p>Post jobs. Connect your social network. Find customers.</p>
+			</div>
+		</div>
+	</div>
+	<div class="heroSlider">
+		<!-- Swiper -->
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<ng-container *ngFor="let eachCat of categories;">
+					<div class="swiper-slide">
+						<img src="{{imagePath}}/{{eachCat?.image}}" alt="">
+					</div>
+				</ng-container>
+				<!-- <div class="swiper-slide">
+		      	<img src="assets/images/banner-img.jpg" alt="">
+		      </div> -->
+			</div>
+			<!-- Add Arrows -->
+			<div class="swiper-button-next"></div>
+			<div class="swiper-button-prev"></div>
+		</div>
+	</div>
+	<!--- selectCategory -->
+	<section class="selectCategory">
+		<div class="container">
+			<!-- <div class="top_sectionheading text-center">
+				<h3>TOP CATEGORIES</h3>				
+			</div> -->
+			<div class="row justify-content-between">
+				<ng-container *ngFor="let eachCat of categories;let i = index;">
+
+					<ng-container *ngIf="eachCat?.id === 3; else otherIcons">
+						<span class="eachCatBox d-flex justify-content-center align-items-center flex-column covid_19-icon-holder" [ngClass]="{'active':selectedslideIndex==i+1}" (click)="gotoSlide(i)">
+						   <!-- <img src="assets/images/covid19/covid_19_new.svg"> -->
+						   <span class="ic-firstaid-plus"></span>
+						   <p class="covid19TitleText">{{eachCat.name}}</p>
+						</span>
+					</ng-container>
+
+					<ng-template #otherIcons>
+						<div class="eachCatBox d-flex align-items-center text-center"
+							[ngClass]="{'active':selectedslideIndex==i+1}" (click)="gotoSlide(i)">
+							<div class="eachCatCont w-100">
+								
+								<span [ngClass]="{'ic-home-2': eachCat?.id === 2 ,'ic-entertainment-2':eachCat?.id === 19, 'ic-personal-care':eachCat?.id === 16 , 'ic-book':eachCat?.id === 17 , 'ic-professional-services-2':eachCat?.id === 18 ,  'ic-petcare':eachCat?.id === 20}">
+								</span>
+							
+								<!-- <span class="selectCatIcon"> <img src="assets/images/{{eachCat?.home_icon}}" alt=""> </span>-->
+								<p>{{eachCat.name}}</p>
+							</div>
+						</div> 
+				   </ng-template>
+				</ng-container>
+			</div>
+		</div>
+	</section>
+</section>
+<!-- heroSection END-->
+
+
+<!-- localDoers -->
+<section class="localDoers commonGap">
+	<div class="container">
+		<div class="sectionHeading text-center">
+			<h2 class="text-uppercase">Local Doers</h2>
+		</div>
+
+		<div class="home-localDoer-slider">
+			<!-- Swiper -->
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+
+					<div class="swiper-slide" *ngFor="let doer of localDoersList">
+						<div class="localDoer-card" [ngClass]="doer?.featured == 1 ? 'hasFeaturedDoer':''">
+							<div class="feature-tag orangeTag text-uppercase" *ngIf="doer?.featured == 1">FEATURED DOER
+							</div>
+							<div class="prfl-info d-flex align-items-center mb-3">
+								<div class="prfl-img">
+									<img src="{{ imageUrl_own + '/company_logo/' + doer?.company_logo }}"
+										onError="src='assets/images/default-userImg-orange.svg'">
+								</div>
+								<!-- <div class="prfl-img" *ngIf="!doer?.company_logo">
+									<img src="assets/images/default-userImg-orange.svg">
+								</div> -->
+								<div class="prfl-info-content pl-2">
+									<div class="rating-block text-right">
+										<div class="d-flex align-items-center">
+											<div class="rating-star d-flex flex-shrink-0">
+												<ng-container>
+													<!-- <star-rating value="{{ doer?.rating_avg }}" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3"
+														size="18px" readonly="true">
+													</star-rating> -->
+													<star-rating [showHalfStars]="true" [starType]="'svg'"
+														[rating]="doer?.rating_avg" [readOnly]="true" size="small">
+													</star-rating>
+												</ng-container>
+
+											</div>
+											<span class="rating-star-text">{{ doer?.rating_avg }}</span> <span
+												class="smInfo ml-2 text-left">({{ doer?.review_count }} True
+												Reviews)</span>
+
+										</div>
+									</div>
+									<div class="prfl-text">
+										<h4 class="nameText mb-0" *ngIf="doer?.profile_type == 1">{{ doer?.name }}</h4>
+										<h4 class="nameText mb-0" *ngIf="doer?.profile_type == 2">
+											{{ doer?.company_name }}</h4>
+									</div>
+								</div>
+							</div>
+							<!--end prfl-info-->
+							<div class="service-infoBox-content d-xl-flex align-items-center"
+								*ngFor="let item of doer?.doer_parent_cat_and_child_cat_dtls">
+
+								<div class="heading-block d-flex align-items-center flex-shrink-0">
+									<!-- <span class="catIcon color-themeOrange ic-home mr-2"></span> -->
+									<span class="catIcon color-themeOrange mr-2"
+										[ngClass]="{'ic-home-2': item?.parent_cat_id == 2 , 'ic-covid-2':item?.parent_cat_id == 3, 'ic-entertainment-2':item?.parent_cat_id == 19,'ic-personal-care':item?.parent_cat_id == 16, 'ic-book':item?.parent_cat_id == 17,'ic-professional-services-2':item?.parent_cat_id == 18 ,'ic-petcare':item?.parent_cat_id == 20}"></span>
+									<h4 class="headingText mb-0">{{ item?.parent_category_details.name }}</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<ng-container *ngFor="let subitem of item?.child_cat_dtls; let j=index">
+											<span class="custom-chips-text my-1 mx-1" *ngIf="j<2">
+												<span
+													class="chips-box">{{ subitem?.child_category_details.name }}</span></span>
+										</ng-container>
+									</div>
+									<span class="custom-chips-text my-1 flex-shrink-0"
+										*ngIf="item?.child_cat_dtls.length - 2 > 0"
+										(click)="openExtraCategories(item?.child_cat_dtls, item?.parent_category_details.name)"><span
+											class="chips-box">+{{ item?.child_cat_dtls.length - 2 }}</span></span>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+
+					<!-- 	<div class="swiper-slide">
+						<div class="localDoer-card">
+							<div class="feature-tag orangeTag text-uppercase">FEATURED DOER</div>
+							<div class="prfl-info d-flex align-items-center mb-3">
+								<div class="prfl-img">
+									<img src="assets/images/hired3.jpg">
+								</div>
+								<div class="prfl-info-content pl-2">
+									<div class="rating-block text-right">
+										<div class="d-flex align-items-center">
+											<div class="rating-star d-flex">
+												<ng-container>
+													<star-rating value="3.5" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3" size="18px"
+														readonly="true">
+													</star-rating>
+												</ng-container>
+
+											</div>
+											<span class="rating-star-text ml-2">3.5</span> <span class="smInfo ml-2">(3
+												True Reviews)</span>
+
+										</div>
+									</div>
+									<div class="prfl-text">
+										<h4 class="nameText mb-0">Hardwood Construction Long Name</h4>
+										<h4 class="nameText mb-0">Construction Long Name</h4>
+									</div>
+								</div>
+							</div>
+						
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-home mr-2"></span>
+									<h4 class="headingText mb-0">Home Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+									<span class="custom-chips-text my-1 flex-shrink-0"><span class="chips-box">+3</span></span>
+								</div>
+
+							</div>
+					
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-home mr-2"></span>
+									<h4 class="headingText mb-0">Home Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+									<span class="custom-chips-text my-1 flex-shrink-0"><span class="chips-box">+3</span></span>
+								</div>
+
+							</div>
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-petcare mr-2"></span>
+									<h4 class="headingText mb-0">Pet Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+								
+								</div>
+
+							</div>
+					
+
+						</div>
+					</div> -->
+
+
+					<!-- <div class="swiper-slide">
+						<div class="localDoer-card">
+							<div class="prfl-info d-flex align-items-center mb-3">
+								<div class="prfl-img">
+									<img src="assets/images/hired3.jpg">
+								</div>
+								<div class="prfl-info-content pl-2">
+									<div class="rating-block text-right">
+										<div class="d-flex align-items-center">
+											<div class="rating-star d-flex">
+												<ng-container>
+													<star-rating value="3.5" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3" size="18px"
+														readonly="true">
+													</star-rating>
+												</ng-container>
+
+											</div>
+											<span class="rating-star-text ml-2">3.5</span> <span class="smInfo ml-2">(3
+												True Reviews)</span>
+
+										</div>
+									</div>
+									<div class="prfl-text">
+										<h4 class="nameText mb-0">Hardwood Construction Long Name</h4>
+										<h4 class="nameText mb-0">Construction Long Name</h4>
+									</div>
+								</div>
+							</div>
+						
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-home mr-2"></span>
+									<h4 class="headingText mb-0">Home Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+									<span class="custom-chips-text my-1 flex-shrink-0"><span class="chips-box">+3</span></span>
+								</div>
+
+							</div>
+						
+
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-petcare mr-2"></span>
+									<h4 class="headingText mb-0">Pet Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+								
+								</div>
+
+							</div>
+						
+
+						</div>
+					</div> -->
+
+
+					<!-- 	<div class="swiper-slide">
+						<div class="localDoer-card">
+							<div class="prfl-info d-flex align-items-center mb-3">
+								<div class="prfl-img">
+									<img src="assets/images/hired3.jpg">
+								</div>
+								<div class="prfl-info-content pl-2">
+									<div class="rating-block text-right">
+										<div class="d-flex align-items-center">
+											<div class="rating-star d-flex">
+												<ng-container>
+													<star-rating value="3.5" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3" size="18px"
+														readonly="true">
+													</star-rating>
+												</ng-container>
+
+											</div>
+											<span class="rating-star-text ml-2">3.5</span> <span class="smInfo ml-2">(3
+												True Reviews)</span>
+
+										</div>
+									</div>
+									<div class="prfl-text">
+										<h4 class="nameText mb-0">Hardwood Construction Long Name</h4>
+										<h4 class="nameText mb-0">Construction Long Name</h4>
+									</div>
+								</div>
+							</div>
+					
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-home mr-2"></span>
+									<h4 class="headingText mb-0">Home Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+									<span class="custom-chips-text my-1 flex-shrink-0"><span class="chips-box">+3</span></span>
+								</div>
+
+							</div>
+						
+
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-petcare mr-2"></span>
+									<h4 class="headingText mb-0">Pet Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+								
+								</div>
+
+							</div>
+					
+						</div>
+					</div> -->
+
+
+					<!-- 	<div class="swiper-slide">
+						<div class="localDoer-card">
+							<div class="prfl-info d-flex align-items-center mb-3">
+								<div class="prfl-img">
+									<img src="assets/images/hired3.jpg">
+								</div>
+								<div class="prfl-info-content pl-2">
+									<div class="rating-block text-right">
+										<div class="d-flex align-items-center">
+											<div class="rating-star d-flex">
+												<ng-container>
+													<star-rating value="3.5" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3" size="18px"
+														readonly="true">
+													</star-rating>
+												</ng-container>
+
+											</div>
+											<span class="rating-star-text ml-2">3.5</span> <span class="smInfo ml-2">(3
+												True Reviews)</span>
+
+										</div>
+									</div>
+									<div class="prfl-text">
+										<h4 class="nameText mb-0">Hardwood Construction Long Name</h4>
+										<h4 class="nameText mb-0">Construction Long Name</h4>
+									</div>
+								</div>
+							</div>
+						
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-home mr-2"></span>
+									<h4 class="headingText mb-0">Home Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+									<span class="custom-chips-text my-1 flex-shrink-0"><span class="chips-box">+3</span></span>
+								</div>
+
+							</div>
+							
+
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-petcare mr-2"></span>
+									<h4 class="headingText mb-0">Pet Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+								
+								</div>
+
+							</div>
+							
+
+						</div>
+					</div> -->
+
+
+
+					<!-- 	<div class="swiper-slide">
+						<div class="localDoer-card">
+							<div class="prfl-info d-flex align-items-center mb-3">
+								<div class="prfl-img">
+									<img src="assets/images/hired3.jpg">
+								</div>
+								<div class="prfl-info-content pl-2">
+									<div class="rating-block text-right">
+										<div class="d-flex align-items-center">
+											<div class="rating-star d-flex">
+												<ng-container>
+													<star-rating value="3.5" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3" size="18px"
+														readonly="true">
+													</star-rating>
+												</ng-container>
+
+											</div>
+											<span class="rating-star-text ml-2">3.5</span> <span class="smInfo ml-2">(3
+												True Reviews)</span>
+
+										</div>
+									</div>
+									<div class="prfl-text">
+										<h4 class="nameText mb-0">Hardwood Construction Long Name</h4>
+										<h4 class="nameText mb-0">Construction Long Name</h4>
+									</div>
+								</div>
+							</div>
+							
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-home mr-2"></span>
+									<h4 class="headingText mb-0">Home Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+									<span class="custom-chips-text my-1 flex-shrink-0"><span class="chips-box">+3</span></span>
+								</div>
+
+							</div>
+							
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-petcare mr-2"></span>
+									<h4 class="headingText mb-0">Pet Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+								
+								</div>
+
+							</div>
+						
+						</div>
+					</div> -->
+
+					<!-- 	<div class="swiper-slide">
+						<div class="localDoer-card">
+							<div class="prfl-info d-flex align-items-center mb-3">
+								<div class="prfl-img">
+									<img src="assets/images/hired3.jpg">
+								</div>
+								<div class="prfl-info-content pl-2">
+									<div class="rating-block text-right">
+										<div class="d-flex align-items-center">
+											<div class="rating-star d-flex">
+												<ng-container>
+													<star-rating value="3.5" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3" size="18px"
+														readonly="true">
+													</star-rating>
+												</ng-container>
+
+											</div>
+											<span class="rating-star-text ml-2">3.5</span> <span class="smInfo ml-2">(3
+												True Reviews)</span>
+
+										</div>
+									</div>
+									<div class="prfl-text">
+										<h4 class="nameText mb-0">Hardwood Construction Long Name</h4>
+										<h4 class="nameText mb-0">Construction Long Name</h4>
+									</div>
+								</div>
+							</div>
+						
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-home mr-2"></span>
+									<h4 class="headingText mb-0">Home Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+									<span class="custom-chips-text my-1 flex-shrink-0"><span class="chips-box">+3</span></span>
+								</div>
+
+							</div>
+						
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-petcare mr-2"></span>
+									<h4 class="headingText mb-0">Pet Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+								
+								</div>
+
+							</div>
+						
+						</div>
+					</div> -->
+
+
+					<!-- <div class="swiper-slide">
+						<div class="localDoer-card">
+							<div class="prfl-info d-flex align-items-center mb-3">
+								<div class="prfl-img">
+									<img src="assets/images/hired3.jpg">
+								</div>
+								<div class="prfl-info-content pl-2">
+									<div class="rating-block text-right">
+										<div class="d-flex align-items-center">
+											<div class="rating-star d-flex">
+												<ng-container>
+													<star-rating value="3.5" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3" size="18px"
+														readonly="true">
+													</star-rating>
+												</ng-container>
+
+											</div>
+											<span class="rating-star-text ml-2">3.5</span> <span class="smInfo ml-2">(3
+												True Reviews)</span>
+
+										</div>
+									</div>
+									<div class="prfl-text">
+										<h4 class="nameText mb-0">Hardwood Construction Long Name</h4>
+										<h4 class="nameText mb-0">Construction Long Name</h4>
+									</div>
+								</div>
+							</div>
+						
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-home mr-2"></span>
+									<h4 class="headingText mb-0">Home Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+									<span class="custom-chips-text my-1 flex-shrink-0"><span class="chips-box">+3</span></span>
+								</div>
+
+							</div>
+						
+
+							<div class="service-infoBox-content d-xl-flex align-items-center">
+
+								<div class="heading-block d-flex align-items-center">
+									<span class="catIcon color-themeOrange ic-petcare mr-2"></span>
+									<h4 class="headingText mb-0">Pet Services</h4>
+								</div>
+
+								<div class="service-infoBox d-flex align-items-center pl-2">
+									<div class="d-flex align-items-center flex-wrap">
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Electrical</span></span>
+										<span class="custom-chips-text my-1 mx-1"><span class="chips-box">Carpentry</span></span>
+									</div>
+							
+								</div>
+
+							</div>
+						
+						</div>
+					</div> -->
+
+				</div>
+			</div>
+			<!-- Add Arrows -->
+			<div class="swiper-button-next"></div>
+			<div class="swiper-button-prev"></div>
+		</div>
+
+	</div>
+</section>
+<!-- onlineServices -->
+<!-- <section class="onlineServices commonGap">
+	<div class="container-fluid">
+		<div class="online-heading">
+			<h4>We are an online services marketplace with a mission:</h4>
+			<p>To help communities thrive by bringing local businesses together with the customers who need them.</p>
+		</div>
+		<div class="row">
+			<div class="col pinner_intro common_intro">
+				<h5>Become a <span>Pinner</span></h5>
+				<p>SIGN UP NOW and your<br> first booking is free</p>
+			</div>
+			<div class="col doer_intro common_intro">
+			<h5>Become a <span>Doer</span></h5>
+				<p>SIGN UP NOW and DOUBLE PinDo<br> Points for special discount</p>
+			</div>
+		</div>
+		<div class="newsletterForm col-lg-6 offset-lg-3">
+			<form>
+				<span class="icon-newsletter"><img src="assets/images/envelope-icon@2x.png" alt=""></span>
+				<input type="email" class="form-control" placeholder="Enter your email address" name="">
+				<button type="submit" class="newsletterSubmit">Submit</button>
+			</form>
+		</div>
+	</div>
+</section> -->
+<!-- doertalentContest -->
+<!-- <section class="doertalentContest">
+	<div class="container posn_rel">
+		<span class="left_curve commonimg_cont">
+			<img src="assets/images/right_curve@2x.png" alt="">
+		</span>
+		<span class="mid_rightimg commonimg_cont">
+			<img src="assets/images/curved_note@2x.png" alt="">
+		</span>
+		<div class="img-container text-center col-md-10 offset-md-1">
+			<span class="right_config commonimg_cont">
+				<img src="assets/images/right_curvedmid@2x.png" alt="">
+			</span>
+			<img src="assets/images/bitmap@2x.png" class="img-fluid" alt="">
+		</div>
+		<div class="row">
+			<div class="col-md-8 posn_rel">
+				
+				<p>
+					<b>Coming soon to Fairfield! Nominate and vote for your favorite service provider</b> and he/she could win
+					<span class="blue-text">$1,000</span>.
+					And guess what? Each vote qualifies you for a chance to win <span class="green-textspan">$1,000</span> too!
+					Join PinDo now for early entry at
+					contest kick-off.
+				</p>
+			</div>
+			<div class="col-4 d-sm-none">
+
+			</div>
+		</div>
+		<div class="clicktoenter text-center">
+			<div class="only_img d-flex justify-content-end">
+				<span class="right_img commonimg_cont">
+					<img src="assets/images/left_note@2x.png" alt="">
+				</span>
+			</div>
+			<span class="left_img commonimg_cont">
+				<img src="assets/images/left_note@2x.png" alt="">
+			</span>
+			<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mt-4">
+				COMING SOON
+			</button>
+		</div>
+	</div>
+</section> -->
+<!-- newHowItWorks -->
+
+<section class="covid19Help-sec py-5">
+
+	<div class="container">
+
+		<div class="covid19Help-heading-block d-flex align-items-center mb-4">
+
+			<div class="icon-holder flex-shrink-0">
+				<img src="assets/images/covid19/header-left-icon.svg">
+			</div>
+			<div class="heading-text-holder">
+				<h3 class="headingText-1 text-uppercase color-wht semiBoldText">HELP US STICK IT TO THE CORONAVIRUS</h3>
+				<h2 class="headingText-2 text-uppercase color-blue boldText">VOLUNTEER</h2>
+				<h4 class="headingText-3 color-wht">SIGN UP to serve your neighbor, the home-bound and
+					immune-compromised.</h4>
+			</div>
+
+		</div>
+
+		<div class="row covid19Help-content align-items-center">
+
+			<div class="col-lg-5 left-block mb-4 mb-lg-0">
+				<p class="color-blue boldText textType-1 mb-3">If your health requires you to shelter in place,
+					post a need. Find Volunteers (Doers) willing
+					to help.</p>
+				<div class="img-holder text-center mb-3">
+					<a (click)="goToRegister('pinner')"><img class="need-btn" src="assets/images/covid19/need-btn.svg"></a>
+				</div>
+
+				<p class="color-blue textType-2">As simple as creating a Pin for a specific need –
+					whether someone to shop and deliver groceries,
+					make a pharmacy run, care for your pets or help
+					with urgent home maintenance. </p>
+			</div>
+			<div class="col-lg-2 middle-block px-0 text-center mb-4 mb-lg-0">
+				<div class="textType-3 boldText color-wht mb-2">
+					Look for this
+					COVID-19 BADGE
+					designating
+					NEEDS & VOLUNTEERS
+				</div>
+				<a routerLink="/covid19help"><img src="assets/images/covid19/covid19-help-badge.svg"></a>
+			</div>
+			<div class="col-lg-5 right-block">
+				<p class="color-blue boldText textType-1 mb-3">If you would like to help those in need, sign up
+					as a Volunteer. Find People in your area that
+					need help.
+					</p>
+				<div class="img-holder text-center mb-3">
+					<a (click)="goToRegister('doer')"><img class="need-btn" src="assets/images/covid19/help-btn.svg"></a>
+				</div>
+
+				<p class="color-blue textType-2">Sign up for tasks in which you can make a
+					difference – food shopping, prescription
+					delivery, dog walking, yard maintenance. It’s all
+					about community. Thank you.</p>
+			</div>
+
+		</div>
+
+	</div>
+
+</section>
+
+
+<section class="newHowItWorks commonGap">
+	<div class="container-fluid">
+		<div class="sectionHeading text-center">
+			<h2>How We Work</h2>
+		</div>
+		<div class="howitworksTab">
+			<div class="howitworksInn">
+				<div class="eachHowTab pinJob">
+					<div class="d-flex h-100 align-items-center">
+						<div class="in-flex">
+							<span class="icon_tab"><img src="assets/images/ic-pin-job@2x.png" alt=""></span>
+							<p>Pin your job</p>
+						</div>
+					</div>
+				</div>
+				<div class="eachHowTab recievQuotes">
+					<div class="d-flex h-100 align-items-center">
+						<div class="in-flex">
+							<span class="icon_tab"><img src="assets/images/ic-quotes@2x.png" alt=""></span>
+							<p>Receive quotes</p>
+						</div>
+					</div>
+				</div>
+				<div class="eachHowTab pickDoer">
+					<div class="d-flex h-100 align-items-center">
+						<div class="in-flex">
+							<span class="icon_tab"><img src="assets/images/ic-pick-doer@2x.png" alt=""></span>
+							<p>Pick your Doer</p>
+						</div>
+					</div>
+				</div>
+				<div class="eachHowTab complteJob">
+					<div class="d-flex h-100 align-items-center">
+						<div class="in-flex">
+							<span class="icon_tab"><img src="assets/images/ic-complete@2x.png" alt=""></span>
+							<p>Complete job</p>
+						</div>
+					</div>
+				</div>
+				<div class="eachHowTab shareRev">
+					<div class="d-flex h-100 align-items-center">
+						<div class="in-flex">
+							<span class="icon_tab"><img src="assets/images/ic-review@2x.png" alt=""></span>
+							<p>Share reviews</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="pindoBenefits">
+				<div class="sectionHeading text-center">
+					<h2 class="text-uppercase">Pindo Benefits</h2>
+				</div>
+				<div class="benifit-section clearfix">
+					<div class="equalCol">
+						<div class="benifit-box" (mouseover)="activeBenefit('local')">
+							<h6>Local. Local. Local.</h6>
+							<!-- <p>Find local service providers. Strenghten your local economy. Give back to your community.</p> -->
+							<p>Find local service providers.<br> Strenghten your local economy.<br>
+								Give back to your community.</p>
+						</div>
+						<div class="benifit-box" (mouseover)="activeBenefit('network')">
+							<h6>Network Socially</h6>
+							<p>Use your social network as your “word of mouth referral” to find the perfect Doer or to
+								find your next job.</p>
+						</div>
+						<div class="benifit-box" (mouseover)="activeBenefit('secure')">
+							<h6>Secure Payments</h6>
+							<p>Pay through PinDo’s secure payment platform. Payments are released after a job has been
+								completed.</p>
+						</div>
+					</div>
+					<div class="equalCol">
+						<div class="benifit-box" (mouseover)="activeBenefit('background')">
+							<h6>Background checks</h6>
+							<!-- <p>Transparency is critical.  All Doers’ credentials are listed in their profiles, including background checks for employees.</p> -->
+							<p>Transparency is critical. Doers' credentials are listed in their profiles, including
+								background checks for employees.</p>
+						</div>
+						<div class="benifit-box" (mouseover)="activeBenefit('you')">
+							<h6>You</h6>
+							<!-- <p>Whether you’re a Pinner looking to get stuff done or a Doer looking to grow your business, your needs are our priority.  At PinDo we strive to give you what you need to reach your goals and simplify your life.</p> -->
+							<p>Your needs are our priority. At PinDo we strive to give you what you need to reach your
+								goals and simplify your life.</p>
+						</div>
+						<div class="benifit-box" (mouseover)="activeBenefit('merit')">
+							<h6>Merit-based ratings</h6>
+							<p>Our “True Review” rating system ensures Pinners and Doers that the ratings and reviews
+								they see are authentic and fair.</p>
+						</div>
+					</div>
+					<div class="benifit_img">
+						<img [src]="benefitImageSrc" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

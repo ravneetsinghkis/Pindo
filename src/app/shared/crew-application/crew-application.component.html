@@ -1,0 +1,60 @@
+<div class="overlayFullPopup" #popUpVar>
+  <div class="fullPopupHeader px-3">
+    <button mat-icon-button class="btn-back float-left" (click)="closeModal()" [ngClass]="userType == 2 ? 'orangeColor' : 'greenColor'">
+      <span class="or or-return"></span>
+    </button>
+    <h3 class="heading-text mb-0 text-uppercase">PinDo Crew Member</h3>
+  </div>
+  <hr class="m-0">
+  <div class="fullPopupContent">
+    <div class="container">
+      <div class="col-md-10 offset-md-1">
+
+        <p>Become a PinDo Crew Member and earn money while helping PinDo grow. It's free to join. No subscription fees. No strings attached!</p>
+
+        <p>As a Crew Member, you will be able to invite other users to join. The more users that join, the better PinDo will be for you and your network. When Doers join with your referral code, you will receive referral payments based on the business they perform on PinDo!</p>
+
+        <p>Our only requirement is to know that you can represent PinDo as we would. Tell us a little about you below. You can even attach a file below if it helps. Then select SUBMIT.</p>
+
+        <p>Once we receive your request, we will be in contact with you to complete the process.</p>
+
+        <p>You can also see our blog on how it works.</p>
+
+        <form [formGroup]="applicationForm" #formDirective="ngForm" (submit)="applyAsCrewMember()">
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Your details</mat-label>
+                <textarea matInput formControlName="personalDetails" rows="6"></textarea>
+                <mat-error *ngIf="isFormSubmitted && formControls.personalDetails.errors?.required">This field is required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12" [ngClass]="userType == 2 ? 'doer_sec' : ''">
+              <div class="attachment_box_support mb-2">
+                <i class="fa fa-paperclip"></i>
+                <input type="file" #file (change)="attachmentUpload(file.files)" accept=".jpeg,.png,.jpg,.pdf,.doc,.docx" multiple>
+                Attach Files<br> (Accepted FIle Formats: image/pdf/doc/docx)
+              </div>
+
+              <div class="attcment_panel d-flex flex-wrap">
+                <p *ngFor="let eachFile of attachedFiles; let i = index;">
+                  {{eachFile.name}} <span (click)="deleteFile(i)"><i class="fas fa-times"></i></span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <button type="submit" mat-button class="text-uppercase lg-size mb-2" [ngClass]="userType == 2 ? 'btn-orangeColor' : 'btn-greenColor'">
+              submit
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

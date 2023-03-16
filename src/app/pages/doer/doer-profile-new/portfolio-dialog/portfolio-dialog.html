@@ -1,0 +1,41 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between">
+      <div class="heading pb-2">
+        <h3 class="heading-text text-center text-uppercase">{{folder_name}}</h3>
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+    <hr class="mt-0 mb-3">
+
+    <div class="portfolio-thumb-slider">
+
+      <!-- Swiper -->
+      <div class="swiper-container gallery-top">
+        <div class="swiper-wrapper">
+          <div *ngFor="let indvPortfolio of doerProfilePortfolioDetails" class="swiper-slide" 
+          [ngStyle]="{'background-image': 'url('+gallery_url+indvPortfolio.name+')'}"></div>
+          
+        </div>
+
+        <!-- Add Arrows -->
+        <!-- <div class="swiper-button-next swiper-button-white"></div>
+     <div class="swiper-button-prev swiper-button-white"></div> -->
+
+      </div>
+      <div class="swiper-container gallery-thumbs">
+        <div class="swiper-wrapper">
+          <div *ngFor="let indvPortfolio of doerProfilePortfolioDetails" class="swiper-slide" 
+          [ngStyle]="{'background-image': 'url('+gallery_url+indvPortfolio.name+')'}"></div>
+        </div>
+      </div>
+
+
+      <!-- Add Arrows -->
+      <div class="swiper-button-next swiper-button-white"></div>
+      <div class="swiper-button-prev swiper-button-white"></div>
+
+    </div>
+
+  </div>
+</div>

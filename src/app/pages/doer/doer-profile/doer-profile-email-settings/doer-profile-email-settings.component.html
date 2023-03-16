@@ -1,0 +1,111 @@
+<form>
+  <div class="row">
+
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Likes </h4>
+      <div class="option-holder">
+       
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="likes_email" name="likes_email"
+          (change)="onChange(profile_details.id,'pinner','likes_email','likes_email')">
+          
+        </mat-slide-toggle>
+        
+      </div>
+    </div>
+    <!-- <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">comments</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="comments" name="comments"
+          (change)="onChange(profile_details.id,'pinner','comments','comments')">
+          
+        </mat-slide-toggle>
+        
+      </div> 
+    </div>-->
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Messages</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="messages_email" name="messages_email"
+          (change)="onChange(profile_details.id,'pinner','messages_email','messages_email')">
+          
+        </mat-slide-toggle>
+        
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Invitation Notification</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="invite_to_connect_email" name="invite_to_connect_email"
+          (change)="onChange(profile_details.id,'pinner','invite_to_connect_email','invite_to_connect_email')">
+          
+        </mat-slide-toggle>
+       
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3"> Accept </h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="accepts_email" name="accepts_email"
+          (change)="onChange(profile_details.id,'pinner','accepts_email','accepts_email')">
+          
+        </mat-slide-toggle>
+        
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3"> New Add Community </h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="new_add_community" name="new_add_community"
+          (change)="onChange(profile_details.id,'pinner','new_add_community','new_add_community')">
+          
+        </mat-slide-toggle>
+        
+      </div>
+    </div>
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Invite To join Pindo</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="invite_to_join_pindo_email" name="invite_to_join_pindo_email"
+          (change)="onChange(profile_details.id,'pinner','invite_to_join_pindo_email','invite_to_join_pindo_email')">
+          
+        </mat-slide-toggle>
+   
+      </div>
+    </div>
+
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Daily feed summary</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="feed_summary_email" name="feed_summary_email"
+          (change)="onChange(profile_details.id,'pinner','feed_summary_email','feed_summary_email')">
+          
+        </mat-slide-toggle>
+   
+      </div>
+    </div>
+
+    <div class="row-block col-md-3 mb-4">
+      <h4 class="headingText mb-3">Comments</h4>
+      <div class="option-holder">
+        <mat-slide-toggle class="green-toggle mb-2" [(ngModel)]="comment_email" name="comment_email"
+          (change)="onChange(profile_details.id,'pinner','comment_email','comment_email')">
+          
+        </mat-slide-toggle>
+   
+      </div>
+    </div>
+
+
+
+    
+  
+
+    <!--end col-->
+
+
+
+
+
+
+  </div>
+</form>

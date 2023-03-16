@@ -1,0 +1,102 @@
+<div class="common_topgap" id="privacy" *ngIf="showView">
+	<div class="newtop_section">
+		<div class="container h-100 posn_rel">
+			<div class="d-flex flex-wrap align-content-center h-100 posn_rel">
+				<div class="text_back">
+					
+				</div>
+				<div class="inn_div align-self-center">
+					<h2>{{privacyData?.title}}</h2>					
+				</div>
+			</div>			
+		</div>
+	</div>
+	<!-- <div class="top-section text-center d-flex justify-content-center">
+		<div class="align-self-center">
+			<h2>{{privacyData.title}}</h2>			
+		</div>	
+	</div> -->
+	<div class="privacy-section">
+		<div class="filterSection clearfix">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12" *ngIf="privacyData?.content">
+						<!-- <div class="howitworksTab">
+							<div class="howitworksInn d-flex">
+								<div class="eachHowTab pinJob">
+									<div class="d-flex h-100 align-items-center">
+										<div class="in-flex">
+											<span class="icon_tab"><img src="assets/images/ic-pin-job@2x.png" alt=""></span>
+										</div>										
+									</div>
+								</div>
+								<div class="content_part align-self-center">
+									<h3>STEP 1</h3>
+									<p>Pin Your Task - Pin your task and provide a few key details for Doers to bid on</p>
+								</div>
+							</div>
+							<div class="howitworksInn d-flex">
+								<div class="eachHowTab recievQuotes">
+									<div class="d-flex h-100 align-items-center">
+										<div class="in-flex">
+											<span class="icon_tab"><img src="assets/images/ic-quotes@2x.png" alt=""></span>
+											<p>Receive quotes</p>
+										</div>
+									</div>
+								</div>
+								<div class="content_part align-self-center">
+									<h3>STEP 1</h3>
+									<p>Pin Your Task - Pin your task and provide a few key details for Doers to bid on</p>
+								</div>
+							</div>
+							<div class="howitworksInn d-flex">
+								<div class="eachHowTab pickDoer">
+									<div class="d-flex h-100 align-items-center">
+										<div class="in-flex">
+											<span class="icon_tab"><img src="assets/images/ic-pick-doer@2x.png" alt=""></span>
+											<p>Pick your Doer</p>
+										</div>
+									</div>
+								</div>
+								<div class="content_part align-self-center">
+									<h3>STEP 1</h3>
+									<p>Pin Your Task - Pin your task and provide a few key details for Doers to bid on</p>
+								</div>
+							</div>
+							<div class="howitworksInn d-flex">
+								<div class="eachHowTab complteJob">
+									<div class="d-flex h-100 align-items-center">
+										<div class="in-flex">
+											<span class="icon_tab"><img src="assets/images/ic-complete@2x.png" alt=""></span>
+											<p>Complete job</p>
+										</div>
+									</div>
+								</div>
+								<div class="content_part align-self-center">
+									<h3>STEP 1</h3>
+									<p>Pin Your Task - Pin your task and provide a few key details for Doers to bid on</p>
+								</div>
+							</div>
+							<div class="howitworksInn d-flex">
+								<div class="eachHowTab shareRev">
+									<div class="d-flex h-100 align-items-center">
+										<div class="in-flex">
+											<span class="icon_tab"><img src="assets/images/ic-review@2x.png" alt=""></span>
+											<p>Share reviews</p>
+										</div>
+									</div>
+								</div>
+								<div class="content_part align-self-center">
+									<h3>STEP 1</h3>
+									<p>Pin Your Task - Pin your task and provide a few key details for Doers to bid on</p>
+								</div>
+							</div>			
+						</div> -->
+						<div class="howitworksTab" [innerHTML]="privacyData?.content | keepHtml"></div>
+    				</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,54 @@
+.address_listing {
+	.border-box {
+		/*padding-right: 90px !important;*/
+		border-radius: 5px;
+		.prm_box {
+			position: absolute;
+		    top: -14px;
+		    font: 12px/26px 'Montserrat-SemiBold';
+		    text-transform: uppercase;
+		    padding: 0 10px;
+		    background: #bad141;
+		    color: #fff;
+		    border-radius: 2px;
+		}
+		padding: 15px 20px;
+		p {
+			margin-bottom: 0;
+		}
+		.border-box-action {
+			top: 5px;
+		}
+	}
+}
+.total_address {
+	position: relative;
+	/*padding-left: 40px;*/
+	mat-checkbox {
+		position: absolute;
+		left: 0;
+		top: 16px;
+		z-index:4;
+	}
+}
+/*.total_address + .total_address {
+	margin-top: 20px;
+}*/
+.address_listing.inmainlisting {
+	padding-left: 0;
+	.total_address {
+		float: left;
+		margin-right: 20px;
+		margin-bottom: 20px;
+		padding-left: 0;
+		.border_box {
+			padding: 10px 20px;
+		}
+		i {
+			color: #b9d040;
+		}
+	}
+	.total_address+.total_address {
+		margin-top: 0;
+	}
+}

@@ -1,0 +1,101 @@
+<div class="overlayFullPopup" #popUpVar>
+  <div class="fullPopupHeader px-3">
+    <button mat-icon-button class="btn-back float-left orangeColor " (click)="togglePopup()"><span
+        class="or or-return"></span></button>
+    <h3 class="heading-text mb-0 text-uppercase">{{ badgeData?.name }}</h3>
+  </div>
+  <hr class="m-0">
+  <div class="fullPopupContent">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 offset-md-0 col-md-10 offset-md-1 col-xl-6 offset-xl-3 insured-content">
+
+          <form>
+            <div class="badgeInfo-content pb-4 text-center">
+
+              <div class="badgeImg mb-2 text-center flex-shrink-0">
+                <img src="{{this.myGlobals.uploadUrl + '/badges/' + badgeData?.icon}}">
+              </div>
+              <div class="badge-title mb-2">This Badge is Earned by</div>
+
+              <div class="badge-dscInfo">
+                <p class="mb-0" [innerHTML]="badgeData?.description"></p>
+              </div>
+
+            </div>
+            <hr class="m-0">
+
+            <div class="content-block py-4">
+              <div class="content-block-header mb-3">
+                <h3 class="headingText mb-0">Confirmation</h3>
+              </div>
+              <div class="content-block-body">
+                <div class="custom-checkbox orange">
+                  <input type="checkbox" id="confirmation" (change)="tickConfirm($event)" [(ngModel)]="isTicked"
+                    name="confirmation">
+                  <label for="confirmation" [innerHTML]="badgeData?.confirmation_text"></label>
+                </div>
+              </div>
+            </div>
+            <!--end content-block-->
+
+            <hr class="m-0 py-0 py-xl-3">
+
+            <div class="content-block pt-4"
+              *ngIf="badgeSlug == 'licensed_doer' || badgeSlug == 'insured_doer' || badgeSlug == 'background_verified' || badgeSlug == 'certified_doer'">
+              <div class="content-block-header mb-3">
+                <h3 class="headingText mb-0">Uploads</h3>
+              </div>
+              <div class="content-block-body">
+                <div class="dscText mb-4">
+                  <p>{{ uploadText }}</p>
+                </div>
+
+                <div class="upload-image-content">
+                  <div class="uploaded-image-container">
+                    <div class="d-flex align-items-center flex-wrap">
+
+                      <div class="uploaded-image-block mr-2 mb-2 mr-lg-3 mb-lg-3"
+                        *ngFor="let eachImgUrl of imgURL; let i = index;">
+                        <span class="ic-close" (click)="deleteImg(i)"></span>
+                        <img [src]="eachImgUrl">
+                      </div>
+
+                      <div class="addMore-image-block mr-2 mb-2 mr-lg-3 mb-lg-3">
+                        <input #fileInput type="file" ngFileSelect [options]="options"
+                          (uploadOutput)="onUploadOutput($event)" multiple>
+                        <div class="h-100 d-flex align-items-center justify-content-center">
+                          <div class="text-content text-center">
+                            <span class="ic-plus"></span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!--end content-block-->
+
+            <mat-form-field *ngIf="badgeSlug == 'chamber_of_commerce_member'">
+              <mat-label>Please provide the website address (URL) of the Chamber of Commerce in which you are a member
+              </mat-label>
+              <input matInput name="verify" type="url" [(ngModel)]="verifyText" (ngModelChange)="checkDisabled()">
+            </mat-form-field>
+
+            <div class="btn-holder text-center mt-3 mt-xl-4">
+              <button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+                (click)="onSubmit()" [disabled]="isAllowed">APPLY
+                NOW</button>
+              <button mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+                (click)="togglePopup()">CANCEL</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>

@@ -1,0 +1,159 @@
+<div class="container-fluid h-100 d-flex">
+
+	<div class="loginRegister-form-wrap mt-auto mb-auto">
+		<div class="form-panel">
+			<div class="main-heading-block mb-3">
+				<h4 class="heading-text text-uppercase">I am a Doer</h4>
+			</div>
+
+			<form #regpiner="ngForm" novalidate id="doerRegForm"
+				(ngSubmit)="registerFunction(regpiner.value,regpiner.valid,regpiner)" *ngIf="formLoadedFlag">
+				<input type="hidden" class="form-control" name="user_type" #utype="ngModel" [(ngModel)]="registerdata.user_type"
+					value="2">
+				<div *ngIf="success_msg!=''" class="{{reg_class}}">
+					{{success_msg}}
+				</div>
+				<div class="mb-2">
+					<mat-radio-group #p_type="ngModel" [(ngModel)]="registerdata.profile_type" name="profile_type">
+						<mat-radio-button value="1" class="mr-3">Individual</mat-radio-button>
+						<mat-radio-button value="2">Company</mat-radio-button>
+					</mat-radio-group>
+					<mat-error *ngIf="(regpiner.submitted) && registerdata.profile_type==''">This field required
+					</mat-error>
+				</div>
+				<div class="rember_forgot mb-4 mt-3">
+					<mat-checkbox name="is_volunteer" [(ngModel)]="registerdata.is_volunteer" (ngModelChange)="volunteerChange()">
+						I
+						want
+						to be a volunteer
+					</mat-checkbox>
+				</div>
+				<div class="">
+					<mat-form-field appearance="outline">
+						<mat-label>First Name</mat-label>
+						<!-- <input matInput name="first_name" #fname="ngModel" [(ngModel)]="registerdata.first_name"
+							placeholder="First Name*" pattern="^[a-zA-Z ]+$" required> -->
+
+						<input matInput name="first_name" #fname="ngModel" [(ngModel)]="registerdata.first_name"
+							placeholder="First Name*" required>
+
+						<mat-error *ngIf="fname.errors && (regpiner.submitted) && fname.errors.required">This field
+							required</mat-error>
+						<mat-error *ngIf="fname.errors && (regpiner.submitted) && (fname.errors.pattern || !fname.errors.required)">
+							Take only character.</mat-error>
+					</mat-form-field>
+				</div>
+				<div class="">
+					<mat-form-field appearance="outline">
+						<mat-label>Last Name</mat-label>
+						<!-- <input matInput name="last_name" #lname="ngModel" [(ngModel)]="registerdata.last_name"
+							placeholder="Last Name*" pattern="^[a-zA-Z ]+$" required> -->
+
+						<input matInput name="last_name" #lname="ngModel" [(ngModel)]="registerdata.last_name"
+							placeholder="Last Name*" required>
+
+						<mat-error *ngIf="lname.errors && (regpiner.submitted) && lname.errors.required">This field
+							required</mat-error>
+						<mat-error *ngIf="lname.errors && (regpiner.submitted) && (lname.errors.pattern || !lname.errors.required)">
+							Take only character.</mat-error>
+					</mat-form-field>
+				</div>
+				<div class="" *ngIf="registerdata.profile_type==2">
+					<mat-form-field appearance="outline">
+						<mat-label>Company Name</mat-label>
+						<input matInput name="company_name" #company_name="ngModel" [(ngModel)]="registerdata.company_name"
+							placeholder="Company Name*" required>
+						<mat-error *ngIf="company_name.errors && (regpiner.submitted) && company_name.errors.required">
+							This field required</mat-error>
+						<mat-error
+							*ngIf="company_name.errors && (regpiner.submitted) && (company_name.errors.pattern || !company_name.errors.required)">
+							Take only character.</mat-error>
+					</mat-form-field>
+				</div>
+				<div class="" *ngIf="registerdata.profile_type=='' || registerdata.profile_type==1">
+					<mat-form-field appearance="outline">
+						<mat-label>Username</mat-label>
+						<input matInput name="username" #username="ngModel" [(ngModel)]="registerdata.username"
+							placeholder="Username*" required>
+						<mat-error *ngIf="username.errors && (regpiner.submitted) && username.errors.required">This
+							field required</mat-error>
+					</mat-form-field>
+				</div>
+				<div class="">
+					<mat-form-field appearance="outline">
+						<mat-label>Email Address</mat-label>
+						<input matInput name="email" #email="ngModel" [(ngModel)]="registerdata.email" placeholder="Email Address*"
+						[pattern]="globalConstant.emailPattern" [readonly]="keepEmailInputReadOnly" required>
+						<mat-error *ngIf="email.errors && (regpiner.submitted) && email.errors.required">This field
+							required</mat-error>
+						<mat-error *ngIf="email.errors && (regpiner.submitted) && (email.errors.pattern || !email.errors.required)">
+							Please provide a valid email</mat-error>
+					</mat-form-field>
+				</div>
+				<div class="" *ngIf="showPasswords">
+					<mat-form-field appearance="outline">
+						<mat-label>Password</mat-label>
+						<input matInput name="password" #password="ngModel" [(ngModel)]="registerdata.password"
+							placeholder="Password*" required validateEqual="conf_password" [type]="hide ? 'password' : 'text'"
+							reverse="true" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" autocomplete="new-password">
+						<mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+						<mat-error *ngIf="password.errors && (regpiner.submitted) && password.errors.required">This
+							field required</mat-error>
+						<mat-error *ngIf="password.errors && (regpiner.submitted) && password.errors.pattern">Password
+							should contain uppercase, lowercase and number</mat-error>
+					</mat-form-field>
+				</div>
+				<div class="" *ngIf="showPasswords">
+					<mat-form-field appearance="outline">
+						<mat-label>Confirm Password</mat-label>
+						<input matInput name="conf_password" #conf_password="ngModel" [(ngModel)]="registerdata.conf_password"
+							placeholder="Confirm Password*" type="password" validateEqual="password" required>
+						<mat-error *ngIf="conf_password.errors && (regpiner.submitted) && conf_password.errors.required">This
+							field required</mat-error>
+						<mat-error
+							*ngIf="conf_password.errors && (regpiner.submitted) && (conf_password.valid || !conf_password.errors.required)">
+							This Password mismatch</mat-error>
+					</mat-form-field>
+				</div>
+				<div class="">
+					<mat-form-field appearance="outline">
+						<mat-label>Referral Code</mat-label>
+						<input matInput name="referral_code" #referral_code="ngModel" [(ngModel)]="registerdata.referral_code"
+							placeholder="Referral Code">
+						<mat-icon matSuffix><i class="fas fa-question-circle"
+								matTooltip="If you were not given a Referral Code by a PinDo Crew Member please leave this blank"
+								[matTooltipPosition]="'left'" matTooltipClass="blue-tooltip"></i></mat-icon>
+					</mat-form-field>
+				</div>
+				<!-- <div class="">
+                            <mat-checkbox name="age" #age="ngModel" [(ngModel)]="registerdata.age">I am over 18.</mat-checkbox>
+                            <mat-error *ngIf="(regpiner.submitted) && registerdata.age==false">This field required</mat-error>
+                        </div> -->
+				<div class="rember_forgot">
+					<mat-checkbox name="terms" #terms="ngModel" [(ngModel)]="registerdata.terms">I have agreed to the <a
+							target="_blank" routerLink="/terms-privacy">Terms &amp; Conditions</a></mat-checkbox>
+					<div class="formLabel-error" *ngIf="(regpiner.submitted) && registerdata.terms==false">This field
+						required</div>
+				</div>
+				<div class="mt-2">
+					<button mat-button class="text-uppercase btn-greenColor w-100 lg-size mb-2">
+						Sign up
+						<!-- <mat-progress-spinner class="example-margin" [color]="color" [mode]="mode" [value]="value" [diameter]="20"></mat-progress-spinner> -->
+					</button>
+
+					<button *ngIf="false" type="button" mat-button class="text-uppercase btn-blueFb w-100 lg-size"
+						(click)="signInWithFB();"><i style="position: relative; top: -2px; margin-right: 5px;"
+							class="fab fa-facebook-f"></i> Sign up using
+						facebook</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="text-center loginBottom-text mt-2">
+			<span class="infoText mr-2">Already have an account?</span> <a class="linkText" routerLink="/login">Login</a>
+		</div>
+
+	</div>
+
+
+</div>

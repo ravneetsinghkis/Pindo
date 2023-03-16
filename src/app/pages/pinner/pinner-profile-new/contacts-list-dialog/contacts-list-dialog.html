@@ -1,0 +1,124 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between">
+      <div class="heading pb-2">
+        <h3 class="heading-text">Contacts List</h3>
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+    <hr class="mt-0 mb-0">
+
+    <div class="tab-nav-holder pt-2 pb-2">
+      <button type="button" mat-flat-button [ngClass]="active_type === 'all'? 'active':''"
+        class="btn tab-nav-btn  text-uppercase" (click)="seeall_community_all('all')">ALL</button>
+      <button *ngIf='user_type != 1' type="button" mat-flat-button [ngClass]="active_type === 'mutual'? 'active':''"
+        class="btn tab-nav-btn text-uppercase" (click)="seeall_community_mutual('mutual')">Mutual</button>
+    </div>
+
+    <hr class="mt-0 mb-0">
+
+    <div class="dialog-list-holder" *ngIf="friendListGroupWiseArrayList?.length>0">
+      <ng-container *ngFor="let friendListGroupWise of friendListGroupWiseArrayList;let mIndex=index">
+        <h3 class="block-headingText mt-3 mb-0" *ngIf='friendListGroupWise?.value?.length > 0'>
+          {{friendListGroupWise.type}} </h3>
+
+        <hr class="mt-0 mb-0">
+        <div class="prflInfo-row d-flex align-items-center justify-content-between pb-3 pt-3"
+          *ngFor="let friendList of friendListGroupWise.value; let  iIndex=index;">
+
+          <div class="prfl-info d-flex align-items-center">
+
+            <div class="prfl-img mb-3 mx-auto mt-2">
+              <ng-container *ngIf='friendList?.user_type == 1;else doerProfileImg'>
+               
+                  <img [ngClass]="friendList?.profilePictureShow==true?'':'blurImg'"
+                    [src]="(friendList?.profile_photo && friendList?.profile_photo!='null')? image_url+friendList?.profile_photo:'assets/images/default-userImg-green.svg'"
+                    onError="this.src='assets/images/default-userImg-green.svg';">
+                <!-- </ng-container> -->
+                <!-- <ng-template #contactDefaultImage>
+                  <img [src]="assets/images/default-userImg-green.svg">
+                </ng-template> -->
+              </ng-container>
+
+              <ng-template #doerProfileImg>
+                <img 
+                  [src]="(friendList?.company_logo && friendList?.company_logo!='null')?companylogo_url+friendList?.company_logo:'assets/images/default-userImg-orange.svg'"
+                  onError="this.src='assets/images/default-userImg-orange.svg';">
+              </ng-template>
+            </div>
+
+            <div class="prfl-text pl-2">
+              <ng-container *ngIf='friendList?.user_type == 1;else doerProfileContactName'>
+                <!-- Fast name Settings Start-->
+                <p class="nameText text-truncate mb-0">
+
+                  <ng-container *ngIf="friendList?.firstNameShow">
+                    {{friendList.first_name}}&nbsp;
+                  </ng-container>
+                  <!-- Fast name Settings End-->
+
+                  <!-- Last Name Settings Start -->
+                  <ng-container *ngIf="friendList?.lastNameShow">
+                    {{friendList.last_name}}
+                  </ng-container>
+                </p>
+                <!-- Last Name Settings End-->
+
+                <!--User name Settings Start-->
+                  <p class="nameText text-truncate mb-0" *ngIf="(!friendList?.firstNameShow && !friendList?.lastNameShow && friendList?.username)">
+                    @{{friendList.username}}
+                  </p>
+              </ng-container>
+
+              <ng-template #doerProfileContactName>
+                <p class="nameText text-truncate mb-0">
+                  <ng-container *ngIf="friendList.profile_type==1">
+                    {{friendList.first_name}}&nbsp;{{friendList.last_name}}
+                  </ng-container>
+
+                  <ng-container *ngIf="friendList.profile_type==2">
+                    {{friendList.company_name}}
+                  </ng-container>
+                </p>
+                <p class="nameText text-truncate mb-0" *ngIf="friendList.profile_type==1 && friendList?.username">
+                  @{{friendList.username}}
+                </p>
+              </ng-template>
+
+              <h4 *ngIf='friendList?.user_type == 1' class="typeText greenText text-uppercase">Pinner</h4>
+              <h4 *ngIf='friendList?.user_type == 2' class="typeText orangeText text-uppercase">DOER</h4>
+            </div>
+          </div>
+
+          <div class="flex-shrink-0 cursorPointer">
+            <button mat-flat-button class="btn btn-greenColor btn-sm-rounded text-uppercase mr-2"
+              (click)="goToUserProfile(friendList?.id,friendList?.user_type)">VIEW PROFILE</button>
+
+            <!-- SEND FRIEND REQUEST -->
+            <!-- <span class="addContact-btn ic-follow"
+              *ngIf="loginUserId!=friendList?.id && (friendList?.is_contacted==undefined || friendList?.is_contacted == 0) && (friendList?.is_request_pending==undefined || friendList?.is_request_pending == 0)"
+              (click)="addContactToUser(friendList?.id,friendList?.user_type,mIndex,iIndex)">
+            </span> -->
+
+            <!-- NOT SHOW -->
+            <span class="addContact-btn ic-mail " *ngIf="loginUserId!=friendList?.id && friendList?.is_contacted == 1"
+              (click)="goToChat(friendList?.id,friendList?.user_type)">
+            </span>
+
+            <!-- ALREADY FRIEND -->
+            <!-- <span class="addContact-btn"
+              *ngIf="loginUserId!=friendList?.id && (friendList?.is_contacted==undefined || friendList?.is_contacted == 0) && (friendList?.is_request_pending==undefined || friendList?.is_request_pending == 1)">
+            </span> -->
+
+          </div>
+
+        </div>
+      </ng-container>
+      <hr class="mt-0 mb-0">
+    </div>
+    <ng-container *ngIf="friendListGroupWiseArrayList?.length==0">
+      No Record found
+    </ng-container>
+
+  </div>
+</div>

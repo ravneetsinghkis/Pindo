@@ -1,0 +1,226 @@
+<ng-container
+	*ngIf="display_data?.option!='choose_payment' && display_data?.option!='no-paymentOption' && display_data?.option!='Pay charge to Admin' && display_data?.option != 'confirm_moving_to_message' && display_data?.option != 'payment_info_required'">
+	<div class="total-dialogCntent text-left">
+		<h4>Select type of milestone you want to add...</h4>
+		<div class="w-100 mt-4">
+			<mat-radio-group class="green-color" [(ngModel)]="chosenSkipOption">
+				<mat-radio-button class="mr-3" *ngFor="let eachskipOptions of skipOptions" [value]="eachskipOptions">
+					{{eachskipOptions}}
+				</mat-radio-button>
+			</mat-radio-group>
+		</div>
+		<div class="d-flex pt-3">
+			<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary"
+				(click)="applyChoose();">
+				DONE
+			</button>
+		</div>
+	</div>
+</ng-container>
+
+<ng-container *ngIf="display_data?.option=='choose_payment'">
+	<form [formGroup]="choosePaymentMethodForm" (ngSubmit)="requestPaymentRelease(choosePaymentMethodTemplate.valid)"
+		#choosePaymentMethodTemplate="ngForm">
+		<div class="total-dialogCntent text-left">
+			<h3>Pin Amount to be requested = ${{ totalPinCost?.totalData?.totalPrice | number : '1.2-2' }}</h3><br />
+			<h4>Select all the ways the Pinner can pay you...</h4>
+			<div class="w-100 mt-4">
+				<mat-checkbox class="mr-3" formControlName="payment_method"
+					*ngFor="let eachpaymentOptions of chosenPaymentOptionList" [(ngModel)]="eachpaymentOptions.isSelected"
+					[value]="eachpaymentOptions?.value">
+					{{eachpaymentOptions?.text}}
+				</mat-checkbox><br /><br />
+
+				<mat-error *ngIf="(paymentSubmit && (selectedPaymentMethod.length==0))">
+					Please select at least one payment option.
+				</mat-error>
+				<p>Bank fee that will be subtracted from your deposit, based on which method Pinner pays you:<br />
+					1) Credit Card: 2.9% of Quote Amount + $.30 =
+					<strong>${{amount_with_ccard_charges | number:'.2-2' }}</strong><br />
+					2) ACH: 0.8% of Quote Amount capped at $5 =
+					<strong>${{amount_with_ach_charges | number:'.2-2'}}</strong><br />
+					3) Cash: No Fees<br />
+					4) Check: No Fees<br />
+
+				</p>
+
+				<mat-form-field appearance="outline">
+					<textarea formControlName="description" matInput placeholder="Add a message"></textarea>
+				</mat-form-field>
+			</div>
+			<div class="d-flex pt-3 justify-content-center">
+				<button type="submit" mat-raised-button color="primary" class="text-uppercase mr-2 btn btn-orangeColor">
+					SUBMIT
+				</button>
+				<div class="custombtnboder">
+					<button type="button" mat-button class="text-uppercase btn btn-gray-border" [mat-dialog-close]="true">
+						CANCEL
+					</button>
+				</div>
+			</div>
+
+		</div>
+
+	</form>
+</ng-container>
+
+<ng-container *ngIf="display_data?.option=='no-paymentOption'">
+	<div class="total-dialogCntent text-center">
+		<div class="img_matDialog mb-4">
+			<img src="assets/images/no-payment.png" alt="">
+		</div>
+		<div class="col-md-12">
+			<h2 class="text-uppercase">Set Payment Method</h2>
+			<p>You have not set up your payment methods yet. Add your payment methods before you submit this quote.</p>
+		</div>
+
+		<div class="d-flex justify-content-center pt-2">
+
+			<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary"
+				routerLink="/doer/account-setting" [mat-dialog-close]="true">
+				Set Payment
+			</button>
+		</div>
+	</div>
+</ng-container>
+
+<!-- <ng-container *ngIf="display_data?.option=='Pay charge to Admin'">
+    <div class="total-dialogCntent">
+        <div class="img_matDialog mb-4">
+            <img src="assets/images/no-payment.png" alt="">
+        </div>
+        <div class="col-md-12">
+            <p>
+                PinDo fee of {{display_data?.admin_commission_percentage}}% Capped at $250 will be deducted when the Pinner accepts your quote and hires you for the job. Bank fee will be charged when you get paid at the completion of this job and is based on the payment method selected by the Pinner: <br />
+                1) Credit Card: 2.9% of Quote Amount + $.30 = ${{display_data?.commission_including_ccard_charges | number:'.2-2'}}<br />
+                2) ACH: 0.8% of Quote Amount capped at $5 = ${{display_data?.commission_including_ach_charges | number:'.2-2'}}<br />
+                3) Cash: No Fees<br />
+                4) Check: No Fees<br />
+                <strong>The minimum PinDo fee is $0.50.</strong><br />
+                To accept, choose Proceed.<p>
+        </div>
+        <div class="d-flex pt-3 justify-content-center">
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mr-2" (click)="proceedToChargePinner();">
+                Proceed
+            </button>
+            <div class="custombtnboder">
+                <button type="button" mat-button class="text-uppercase" (click)="preventQuotation()">
+                   No
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-container> -->
+
+<ng-container *ngIf="display_data?.option=='Pay charge to Admin'">
+	<div class="total-dialogCntent">
+		<h4 class="text-uppercase text-center" *ngIf="totalPinCost?.save_preview == 0; else that">QUOTE TERMS SUMMARY</h4>
+		<ng-template #that>
+			<h4 class="text-uppercase text-center">EDITED PIN TERMS</h4>
+		</ng-template>
+		<br>
+		<div class="col-md-12">
+			<!-- <p>
+				<span *ngIf="totalPinCost?.save_preview == 0">PinDo fee of
+					${{totalPinFrees | number:'.2-2'}}&nbsp;({{display_data?.admin_commission_percentage}}%) will
+					be
+					deducted only if the Pinner
+					accepts your quote and hires you for the job.</span>
+				<span *ngIf="totalPinCost?.save_preview == 1">
+					You previously paid a PinDo fee of ${{ totalPinCost?.previous | number:'.2-2'}}
+					({{ totalPinCost?.admin_commission_percentage }}%) when you were hired
+					for this pin. That fee will be adjusted when the Pinner makes the final payment
+				</span>
+				<br /><br />
+				Here is an estimate of payment processing fees that may be incurred upon payment by Pinner:<br />
+
+				1) Credit Card: 2.9% of Quote Amount + $.30 =
+				${{display_data?.commission_including_ccard_charges | number:'.2-2'}}<br />
+				2) ACH: 0.8% of Quote Amount capped at $5.00 =
+				${{display_data?.commission_including_ach_charges | number:'.2-2'}}<br />
+				3) Cash: No Fees<br />
+				4) Check: No Fees<br /><br />
+				The minimum PinDo fee is $0.50 and the maximum is $250.<br />
+			</p> -->
+
+			<p>
+				<span *ngIf="totalPinCost?.save_preview == 0">PinDo fee of
+					${{totalPinFrees | number:'.2-2'}}&nbsp;({{display_data?.admin_commission_percentage}}%) will
+					be
+					deducted only if the Pinner
+					accepts your quote and hires you for the job.</span>
+				<span *ngIf="totalPinCost?.save_preview == 1">
+					You previously paid a PinDo fee of ${{ totalPinCost?.previous | number:'.2-2'}}
+					({{ totalPinCost?.admin_commission_percentage }}%) when you were hired
+					for this pin. That fee will be adjusted when the Pinner makes the final payment
+				</span>
+				<br /><br />
+				Transaction fees and payment delivery times will vary depending on how the Pinner pays you:<br />
+
+				<span class="hover" matTooltip="2.9% of Quote Amount + $0.30">1) Credit Card: <strong>${{display_data?.commission_including_ccard_charges | number:'.2-2'}}</strong> with payment in 2 business days</span>
+				<br />
+				<span class="hover" matTooltip="0.8% of Quote Amount capped at $5">2) ACH: <strong>${{display_data?.commission_including_ach_charges | number:'.2-2'}}</strong> with payment in 5-7 business days</span>
+				<br />
+				3) Cash: No Fees<br />
+				4) Check: No Fees<br /><br />
+				The minimum PinDo fee is $0.50 and the maximum is $250.<br />
+			</p>
+
+
+		</div>
+		<!-- <div class="d-flex pt-3 justify-content-center">
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mr-2 btn-orangeColor"
+                (click)="proceedToChargePinner()">
+                Submit
+            </button>
+            <div class="custombtnboder">
+                <button type="button" mat-button class="text-uppercase" (click)="preventQuotation()">
+                    Calcel
+                </button>
+            </div>
+        </div> -->
+
+		<div class="btn-holder text-center pt-xl-4 pt-2">
+			<button type="button" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+				(click)="proceedToChargePinner()">
+				Submit
+			</button>
+			<button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+				(click)="preventQuotation()">CANCEL</button>
+		</div>
+
+	</div>
+</ng-container>
+
+
+<ng-container *ngIf="display_data?.option=='confirm_moving_to_message'">
+	<div class="total-dialogCntent text-center">
+		<div class="col-md-12">
+			<p>You are about to leave this screen. Any work you have done on the quote will NOT be saved.</p>
+		</div>
+
+		<div class="btn-holder text-center pt-xl-4 pt-2">
+			<button type="button" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+			(click)="sendConfirmationData(2)">LEAVE</button>
+			<button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+			(click)="sendConfirmationData(3)">STAY HERE</button>
+		</div>
+	</div>
+</ng-container>
+
+<ng-container *ngIf="display_data?.option=='payment_info_required'">
+	<div class="total-dialogCntent text-center">
+		<div class="col-md-12">
+			<h3>Enable Electronic Payment</h3>
+			<p class="text-left">A valid payment method is required in order to provide a quote. A credit card is required to pay the PinDo fee when you are hired.</p>
+			<p class="text-left">If you would also like to enable Pinners to pay you electronically, please add a bank account. Upon completion, you may return to the Pin to quote.</p>
+		</div>
+
+		<div class="btn-holder text-center pt-xl-4 pt-2">
+			<button type="button" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+			(click)="goToAccountPaymentSettings()">ADD PAYMENT METHOD</button>
+			<button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2" mat-dialog-close
+			>NOT READY TO QUOTE</button>
+		</div>
+	</div>
+</ng-container>

@@ -1,0 +1,443 @@
+<div class="scrollElement">
+  <div class="top-banner-section pinner-contact-banner d-none">
+    <div class="container d-flex align-items-center h-100">
+      <div class="row">
+        <div class="col-md-12">
+
+          <h1 class="main-headingText mb-md-5 mb-2">CONTACTS</h1>
+
+          <div class="linkIcon-box-wrap d-flex align-items-center flex-wrap">
+
+            <div class="linkIcon-box-holder text-center mr-2 mr-md-4 d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==1" routerLink="/pinner/create-new-pin">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon  ic-pin"></span>
+              </div>
+              <!--end iconLink-box-->
+              <span class="linkIcon-text">Pin A Job</span>
+            </div>
+
+            <div class="linkIcon-box-holder text-center mr-2 mr-md-4 d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==2" routerLink="/doer/dashboard">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon  ic-check"></span>
+              </div>
+              <!--end iconLink-box-->
+              <span class="linkIcon-text">My Activity</span>
+            </div>
+
+            <div class="linkIcon-box-holder text-center mr-2 mr-md-4 d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==1" routerLink="/pinner/dashboard">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon  ic-check"></span>
+              </div>
+              <!--end iconLink-box-->
+              <span class="linkIcon-text">My Activity</span>
+            </div>
+
+            <div *ngIf="commonservice.islogin==1"
+              class="linkIcon-box-holder text-center  mr-2 mr-md-4 d-md-block d-flex align-items-center my-1"
+              routerLink="/community/community-contacts">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon ic-contacts"></span>
+              </div>
+              <!--end iconLink-box-->
+
+              <span class="linkIcon-text">My Contacts</span>
+            </div>
+
+            <div class="linkIcon-box-holder text-center mr-2 mr-md-4 d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==1" routerLink="/pinner/notifications">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon ic-bell"></span>
+              </div>
+              <!--end iconLink-box-->
+              <span class="linkIcon-text">Notifications</span>
+            </div>
+
+            <div class="linkIcon-box-holder text-center mr-2 mr-md-4 d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==2" routerLink="/doer/notifications">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon ic-bell"></span>
+              </div>
+              <!--end iconLink-box-->
+              <span class="linkIcon-text">Notifications</span>
+            </div>
+
+            <div class="linkIcon-box-holder text-center d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==2" routerLink="/doer/chat">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon ic-mail"></span>
+              </div>
+              <!--end iconLink-box-->
+              <span class="linkIcon-text">Messages</span>
+            </div>
+
+            <div class="linkIcon-box-holder text-center d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==1" routerLink="/pinner/chat">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon ic-mail"></span>
+              </div>
+              <!--end iconLink-box-->
+              <span class="linkIcon-text">Messages</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-custom-left">
+
+        <span class="leftFilterMenu ic-equalizer d-block d-xl-none" (click)="leftFilterTgl($event)"></span>
+        <div class="filterSideBar_overlay" (click)="leftFilterOverClick($event)"
+          [ngClass]="leftFilterBoxOpen?'open':''"></div>
+
+        <span class="rightFilterMenu ic-equalizer d-block d-xl-none" (click)="rightFilterTgl($event)"></span>
+        <div class="filterSideBar_overlay" (click)="rightFilterOverClick($event)"
+          [ngClass]="rightFilterBoxOpen?'open':''"></div>
+
+        <div class="row">
+
+          <div class="col-xl-4 mt-xl-4 mb-xl-4 left-side-filter-col" [ngClass]="leftFilterBoxOpen? 'open':''">
+            <div class="sideCard-border mb-3">
+
+              <div class="sideCard-main-header px-3">
+                <div class="main-header-inr pt-3 pb-3">
+                  <h4 class="heading-text mb-0 text-uppercase">FILTER BY</h4>
+                </div>
+                <hr class="mb-0 mt-0">
+              </div>
+
+              <div class="sideCard-body px-3 py-2">
+                <mat-radio-group class="d-flex flex-column" [(ngModel)]="filter_1_by" name="filter_1_by"
+                  (change)="sortByuserType()">
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="all">All</mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="pinners">Pinners</mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="doers">Doers</mat-radio-button>
+                </mat-radio-group>
+
+              </div>
+            </div>
+            <!--end sideCard-border-->
+          </div>
+          <!--end col-md-3-->
+          <div class="col-xl-8 mt-5 mt-xl-4 mb-4">
+            <div class="lgSearch-box-wrap mb-3">
+              <div class="sideSearch-box">
+                <input matInput placeholder="Search by name" value="" [(ngModel)]="searchword"
+                  (keyup.enter)="searchContactList()">
+                <button class="search-btn" type="button" (click)="searchContactList()"><span
+                    class="ic-magnifier"></span></button>
+              </div>
+            </div>
+
+            <div class="aToz-box p-2 mb-3">
+              <div class="d-flex flex-wrap">
+                <ng-container *ngFor="let letter of letterAry; let i = index;">
+                  <div class="aToz-checkbox green my-1 mx-1">
+                    <input name="filter_letter" class="example" type="checkbox"
+                      (click)="searchByAlphabet($event,letter)">
+                    <span class="letter-text">{{letter}}</span>
+                  </div>
+
+                </ng-container>
+                <!-- <span class="clearText mb-2 pb-1 pt-1" (click)="clearFilter()">Clear</span> -->
+              </div>
+            </div>
+
+            <div class="d-flex mb-0">
+              <div class="nameType-select-box ml-auto">
+                <mat-select class="withOut-border-setect green" placeholder="Select a option" [(ngModel)]="sort_by"
+                  (ngModelChange)="sortByNameChange()">
+                  <mat-option value="first_name">
+                    First Name
+                  </mat-option>
+
+                  <mat-option value="last_name">
+                    Last Name
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <ng-container *ngIf='mapped_array?.length > 0; else nodatafound'>
+              <ng-container *ngFor="let letterofname of mapped_array">
+                <div class="show-filter-text mt-5 mb-2" *ngIf='letterofname?.value?.length > 0'>{{letterofname.type}}
+                </div>
+                <div class="card-002 mb-3" *ngFor="let friendList of letterofname.value; let  i=index;">
+
+                  <div class="card-main-header px-3 ">
+
+                    <div class="action-box d-flex align-items-center justify-content-end pt-2">
+                      <button class="action-item color-themeGreen" (menuOpened)="actionDropdownOpen()"
+                        (menuClosed)="actionByDropdownClose()" [ngClass]="{active: actionMenuOpen }" type="button"
+                        [matMenuTriggerFor]="sortByDropdown">
+                        <i class="material-icons" *ngIf="!actionMenuOpen">expand_more</i>
+                        <i class="material-icons" *ngIf="actionMenuOpen">expand_less</i>
+                      </button>
+                      <mat-menu #sortByDropdown="matMenu" [class]="'action-dropdown green'" xPosition="before"
+                        [overlapTrigger]="false">
+                        <ul class="text-right sortBy-dropdown-list px-3">
+                          <li class="text-center" (click)="removeUserFromContactList(friendList?.id)">
+                            Remove
+                          </li>
+
+                        </ul>
+                      </mat-menu>
+
+
+                    </div>
+
+
+                    <div class="main-header-inr pt-0 pb-2">
+
+                      <div class="prfl-info d-flex align-items-center flex2 cursorPointer mb-2"
+                       (click)="openUserDetails(friendList?.id,friendList?.user_type)">
+
+                        <div class="prfl-img mr-2" [ngClass]="friendList?.user_type == 1 ? 'circle' : ''">
+
+                          <img *ngIf='friendList?.user_type == 1'
+                              [src]="(friendList?.profile_photo && friendList?.profile_photo!='null')? image_url+friendList?.profile_photo:'assets/images/default-userImg-green.svg'"
+                              onError="this.src='assets/images/default-userImg-green.svg';">
+
+                            <img *ngIf='friendList?.user_type == 2'
+                              [src]="(friendList?.company_logo && friendList?.company_logo!='null')? companylogo_url+friendList?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                              onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                        </div>
+
+                        <!--Image settings End -->
+
+                        <div class="prfl-text mr-1">
+
+                          <ng-container *ngIf='friendList?.user_type == 1
+                                || friendList?.profile_type == 1'>
+                            <span class="nameText mb-1">{{friendList?.first_name}}</span>
+                            <span class="nameText mb-1">&nbsp;{{friendList?.last_name}}</span>
+                          </ng-container>
+                          <span *ngIf='friendList?.user_type == 2 && friendList?.profile_type == 2'
+                            class="nameText mb-1">{{friendList?.company_name}}
+                          </span>
+                          <span *ngIf="friendList.username" class="sm-light-color">&nbsp;@{{friendList.username}}
+                          </span>
+
+                          <!-- Type Of User Start-->
+                          <h4 *ngIf='friendList?.user_type == 1' class="typeText text-uppercase greenText">Pinner</h4>
+                          <h4 *ngIf='friendList?.user_type == 2' class="typeText text-uppercase orangeText">Doer</h4>
+                          <!-- Type Of USer End-->
+                        </div>
+
+                      </div>
+                      <!--prfl-info-->
+                      <ng-container *ngIf='friendList?.user_type == 2'>
+                        <div class="tag-holder d-flex align-items-center mt-md-0 mt-2"
+                          *ngIf='friendList?.doer_categories?.length > 0'>
+                          <div class="tag-item"> {{friendList?.doer_categories[0].parent_category.name}} <i
+                              class="material-icons">
+                              keyboard_arrow_right
+                            </i> {{friendList?.doer_categories[0].child_category.name}}</div>
+                          <span class="tag-more-link flex-shrink-0 ml-2"
+                            (click)="openServicesOfferedDialog(friendList?.doer_categories,friendList?.id)"><i
+                              class="fas fa-plus"></i>{{friendList?.doer_categories?.length -1 }}</span>
+                        </div>
+                      </ng-container>
+                    </div>
+                    <div class="adds-info mb-2" *ngIf='friendList?.locations?.length > 0'>
+                      <i class="fas fa-map-marker-alt mr-2 color-themeGreen"></i>
+                      <span class="adds-text" *ngIf='friendList?.locations?.length > 0'>
+                        {{friendList?.locations[0]?.address}}</span>
+                    </div>
+                  </div>
+                  <hr class="mb-0 mt-0">
+
+                  <div class="card-002-footer">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="envelope-link color-themeGreen cursorPointer"
+                        (click)="goToPinnerChat(friendList?.id)">
+                        <i class="fas fa-envelope"></i>
+                      </span>
+                      <!-- <span class="envelope-link color-themeGreen" *ngIf="friendList?.user_type==2"
+                        (click)="goToDoerChat(friendList?.id)"><i class="fas fa-envelope"></i></span> -->
+                      <div class="view-prfl-link green">
+                        <span class="text cursorPointer"
+                          (click)="openUserDetails(friendList?.id,friendList?.user_type)">
+                          VIEW PROFILE
+                        </span> <i class="material-icons">
+                          chevron_right
+                        </i></div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+
+            <ng-template #nodatafound>
+              <ng-container>
+                <div class="no_content d-flex white-bg" *ngIf="!loadingContactList">
+                  <div class="col-md-5">
+                    <img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+                  </div>
+                  <div class="col-md-7 align-self-center">
+                    <ng-container>
+                      <h5>You don’t have anyone listed under Contacts yet. Go to your <a routerLink="/community/community-home">HOME</a> page and search for Pinners and Doers to connect with or invite new friends to join PinDo.</h5>
+
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-custom-right mt-xl-4" [ngClass]="rightFilterBoxOpen? 'open':''">
+
+        <div class="sideCard-border mb-3">
+          <div class="sideCard-body px-3 py-3">
+            <div class="d-flex infoWithTitle justify-content-between align-items-center py-2"><span
+                class="title-text text-uppercase">PINNERS</span> <span
+                class="data-text">{{total_numer_pinner_doer.total_pinners}}</span></div>
+            <div class="d-flex infoWithTitle justify-content-between align-items-center py-2"><span
+                class="title-text text-uppercase">DOERS</span> <span
+                class="data-text">{{total_numer_pinner_doer.total_doers}}</span></div>
+          </div>
+        </div>
+
+        <div class="sideCard-border mb-3">
+
+          <div class="sideCard-main-header px-3">
+            <div class="main-header-inr pt-3 pb-3">
+              <h4 class="heading-text mb-0 text-uppercase">INVITES</h4>
+            </div>
+            <hr class="mb-0 mt-0">
+          </div>
+
+          <div class="sideCard-body px-3">
+
+            <!-- <ng-container *ngFor="let requestlist of friendrequest_list">
+              <div class="prflInfo-row d-flex align-items-center justify-content-between pb-2 pt-2">
+
+                <div class="prfl-info d-flex align-items-center cursorPointer"
+                  (click)="openUserDetails(requestlist?.sender?.id,requestlist?.sender?.user_type)">
+                  <div class="prfl-img circle">
+                    <ng-container *ngIf='requestlist?.sender?.user_type == 1;else friendDoerProfile'>
+
+                        <img [ngClass]="(requestlist?.sender?.user_control?.profile_photo == 3
+                        || requestlist?.sender?.user_control?.profile_photo == 5
+                        || requestlist?.sender?.user_control?.profile_photo == 6
+                        || requestlist?.sender?.user_control?.profile_photo == 7
+                        || requestlist?.sender?.user_control == null)?'blurImg':''"
+                          [src]="(requestlist?.sender?.profile_photo && requestlist?.sender?.profile_photo!='null')? image_url+requestlist?.sender?.profile_photo:'assets/images/default-userImg-green.svg'"
+                          onError="this.src='assets/images/default-userImg-green.svg';">
+                    </ng-container>
+
+                    <ng-template #friendDoerProfile>
+                      <img
+                        [src]="requestlist?.sender?.profile_photo!=null?companylogo_url+requestlist?.sender?.profile_photo:'assets/images/default-userImg-orange-square.svg'"
+                        onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                    </ng-template>
+                  </div>
+
+                  <div class="prfl-text pl-2">
+                      <ng-container *ngIf='requestlist?.sender?.user_type==1
+                      && (requestlist?.sender?.user_control==null
+                        || requestlist?.sender?.user_control?.username == 3
+                        || requestlist?.sender?.user_control?.username == 5
+                        || requestlist?.sender?.user_control?.username == 6
+                        || requestlist?.sender?.user_control?.username == 7)'>
+                        <p class="nameText text-truncate mb-0">
+                          {{requestlist?.sender?.username}}
+                        </p>
+                      </ng-container>
+
+                      <ng-container *ngIf="requestlist?.sender?.user_type==2">
+                                                   <p class="nameText text-truncate mb-0" *ngIf="requestlist?.sender?.username">
+                                  {{requestlist?.sender?.username}}
+                                </p>
+                                <p class="nameText text-truncate mb-0" *ngIf="requestlist?.sender?.company_name">
+                                    {{requestlist?.sender?.company_name}}
+                                  </p>
+                      </ng-container>
+
+                  </div>
+                </div>
+
+                <div class="btn-holder text-right d-flex flex-column">
+                  <button mat-flat-button class="btn-orangeColor btn-sm-rounded mb-1 text-uppercase"
+                    (click)="acceptOrDeclineFriendRequest(requestlist?.id,requestlist?.sender?.id,requestlist?.sender?.user_type,'1')">ACCEPT</button>
+                  <button mat-button class="btn-withoutBg btn-sm-rounded text-uppercase decline-click"
+                    (click)="acceptOrDeclineFriendRequest(requestlist?.id,requestlist?.sender?.id,requestlist?.sender?.user_type,'2')">DECLINE</button>
+                </div>
+              </div>
+              <hr class="mt-0 mb-0">
+            </ng-container> -->
+
+            <ng-container *ngFor="let requestlist of friendrequest_list">
+              <div class="prflInfo-row d-flex align-items-center justify-content-between pb-2 pt-2">
+
+                <div class="prfl-info d-flex align-items-center cursorPointer"
+                  (click)="openUserDetails(requestlist?.sender?.id,requestlist?.sender?.user_type)">
+                  <div class="prfl-img" [ngClass]="requestlist?.sender?.user_type == 1 ? 'circle' : ''">
+                    <ng-container *ngIf='requestlist?.sender?.user_type == 1;else friendDoerProfile'>
+
+                      <img [src]="(requestlist?.sender?.profile_photo && requestlist?.sender?.profile_photo!='null')? image_url+requestlist?.sender?.profile_photo:'assets/images/default-userImg-green.svg'"
+                        onError="this.src='assets/images/default-userImg-green.svg';">
+
+                    </ng-container>
+
+                    <ng-template #friendDoerProfile>
+                      <img
+                        [src]="requestlist?.sender?.profile_photo!=null?companylogo_url+requestlist?.sender?.profile_photo:'assets/images/default-userImg-orange-square.svg'"
+                        onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                    </ng-template>
+                  </div>
+
+                  <div class="prfl-text pl-2">
+                    <p *ngIf="requestlist?.sender?.user_type==1
+                                  || (requestlist?.sender?.user_type==2 && requestlist?.sender?.profile_type==1)"
+                      class="nameText text-truncate mb-0">
+                      {{requestlist?.sender?.username}}
+                    </p>
+
+                    <ng-container *ngIf="requestlist?.sender?.user_type==2">
+                      <p class="nameText text-truncate mb-0" *ngIf="requestlist?.sender?.profile_type==2">
+                        {{requestlist?.sender?.company_name}}
+                      </p>
+                    </ng-container>
+
+                  </div>
+                </div>
+
+                <div class="btn-holder text-right d-flex flex-column">
+                  <button mat-flat-button class="btn-orangeColor btn-sm-rounded mb-1 text-uppercase"
+                    (click)="acceptOrDeclineFriendRequest(requestlist?.id,requestlist?.sender?.id,requestlist?.sender?.user_type,'1')">ACCEPT</button>
+                  <button mat-button class="btn-withoutBg btn-sm-rounded text-uppercase"
+                    (click)="acceptOrDeclineFriendRequest(requestlist?.id,requestlist?.sender?.id,requestlist?.sender?.user_type,'2')">DECLINE</button>
+                </div>
+              </div>
+              <hr class="mt-0 mb-0">
+            </ng-container>
+
+          </div>
+
+          <div class="sideCard-border-footer pt-2 pb-2 text-center" *ngIf="friendrequest_list.length != 0 ">
+            <a class="seeall-text pt-2 pb-2 px-2 d-inline-block" *ngIf="offset != 0"
+              (click)="seePreviousRequest(offset,limit,'back')"> <i class="fas fa-angle-left ml-1"></i> </a>
+            <a class="seeall-text pt-2 pb-2 px-2 d-inline-block" *ngIf="show_see_all"
+              (click)="seeNextPage(offset,limit,'front')"> <i class="fas fa-angle-right ml-1"></i> </a>
+          </div>
+
+        </div>
+        <!--end sideCard-border-->
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<!--end scrollElement-->

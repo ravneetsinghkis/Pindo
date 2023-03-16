@@ -1,0 +1,33 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between mb-2">
+      <div class="heading pb-3">
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+
+    <div class="lg-content text-center px-sm-5 px-0 pb-3">
+
+      <div class="content-heading mb-sm-4 mb-2">
+        <h3 class="content-heading-text">Write your comment</h3>
+      </div>
+
+      <div class="comnForm">
+        <div class="form-group mb-md-4 mb-2">
+          <div class="form-control-wrap">
+            <textarea [(ngModel)]="rplycomments" name="rplycomments" class="form-control comment-textarea"
+              placeholder="Write your comment"></textarea>
+          </div>
+        </div>
+        <div class="btn-holder">
+          <button type="button" (click)="comment_add(this.reply_id,this.threadid,postid)" mat-flat-button
+            class="btn-orangeColor text-uppercase">Save</button>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+</div>

@@ -1,0 +1,74 @@
+.hourListing {
+	p {
+		i {
+			margin-right: 10px;
+		}
+		span {
+			font-family: 'Montserrat-SemiBold';
+		}
+	}
+}
+
+.opngCont {
+	p {
+		font: 13px/50px 'Montserrat-SemiBold';
+		color: #035670;
+		margin-bottom: 0;
+		min-width: 95px;
+	}
+	.form-fields {
+	    margin-top: 20px;
+	}
+	ngx-material-timepicker-toggle {
+	    position: absolute;
+	    right: 0;
+	    top: 4px;
+	}	
+} 
+.mat-custom-error {
+	position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-family: 'Montserrat-Medium';
+}
+.p-25 {
+	padding-top: 25px !important;
+}
+
+
+::ng-deep{
+
+			&.mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+				background-color:#E6854A!important;
+			}
+	
+
+	body .mat-checkbox:not(.mat-checkbox-disabled) {
+		.mat-checkbox-ripple .mat-ripple-element {
+			background: #E6854A !important;
+			opacity: 0.4;
+		}
+	}
+
+	body .mat-checkbox-frame {
+		border-color:  #E6854A;;
+		border-radius: 100%;
+	}
+	
+}
+
+@media only screen and (max-width: 767px) {
+	.opngCont{
+		border-top: 1px solid #dadada;
+		&.borderTopNone{
+			border-top:none;
+		}
+	}
+}
+
+
+
+
+

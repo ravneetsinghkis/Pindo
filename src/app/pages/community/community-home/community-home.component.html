@@ -1,0 +1,2610 @@
+<div class="scrollElement">
+  <!-- <div class="top-banner-section c_home pinner-contact-banner">
+    <div class="container d-flex align-items-center h-100">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="main-headingText mb-xl-5 mb-2">HOME</h1>
+          <div class="linkIcon-box-wrap d-flex align-items-center flex-wrap">
+            <div class="linkIcon-box-holder text-center mr-3 mr-md-4 d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==1" routerLink="/pinner/create-new-pin">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon  ic-pin"></span>
+              </div>
+
+              <span class="linkIcon-text">Pin A Job</span>
+            </div>
+            <div class="linkIcon-box-holder text-center mr-3 mr-md-4 d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==2" routerLink="/doer/dashboard">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon  ic-check"></span>
+              </div>
+
+              <span class="linkIcon-text">My Activity</span>
+            </div>
+            <div class="linkIcon-box-holder text-center mr-3 mr-md-4 d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==1" routerLink="/pinner/dashboard">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon  ic-check"></span>
+              </div>
+
+              <span class="linkIcon-text">My Activity</span>
+            </div>
+            <div class="linkIcon-box-holder text-center  mr-3 mr-md-4 d-md-block d-flex align-items-center my-1"
+              routerLink="/community/community-contacts">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon ic-contacts"></span>
+              </div>
+
+              <span class="linkIcon-text">My Contacts</span>
+            </div>
+            <div class="linkIcon-box-holder text-center mr-3 mr-md-4 d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==1" routerLink="/pinner/notifications">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon ic-bell"></span>
+              </div>
+
+              <span class="linkIcon-text">Notifications</span>
+            </div>
+            <div class="linkIcon-box-holder text-center mr-3 mr-md-4 d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==2" routerLink="/doer/notifications">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon ic-bell"></span>
+              </div>
+
+              <span class="linkIcon-text">Notifications</span>
+            </div>
+            <div class="linkIcon-box-holder text-center d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==2" routerLink="/doer/chat">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon ic-mail"></span>
+              </div>
+
+              <span class="linkIcon-text">Messages</span>
+            </div>
+            <div class="linkIcon-box-holder text-center d-md-block d-flex align-items-center my-1"
+              *ngIf="commonservice.islogin==1 && appService.user_type==1" routerLink="/pinner/chat">
+              <div class="linkIcon-box mr-1 mr-md-0">
+                <span class="linkIcon-icon ic-mail"></span>
+              </div>
+
+              <span class="linkIcon-text">Messages</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-custom-left">
+        <span class="leftFilterMenu ic-equalizer d-block d-xl-none" (click)="leftFilterTgl($event)"></span>
+        <div class="filterSideBar_overlay" (click)="leftFilterOverClick($event)"
+          [ngClass]="leftFilterBoxOpen?'open':''">
+        </div>
+        <span class="rightFilterMenu ic-equalizer d-block d-xl-none" (click)="rightFilterTgl($event)"></span>
+        <div class="filterSideBar_overlay" (click)="rightFilterOverClick($event)"
+          [ngClass]="rightFilterBoxOpen?'open':''"></div>
+        <div class="row">
+          <div class="col-xl-4 mt-xl-4 mb-xl-4 left-side-filter-col" [ngClass]="leftFilterBoxOpen? 'open':''">
+            <div class="sideSearch-box-wrap mb-3">
+              <div class="sideSearch-box">
+                <input matInput placeholder="Search" value="" [(ngModel)]="filter_5_by"
+                  (keyup.enter)="searchByAnyWord()">
+                <button class="search-btn" type="button"><span class="ic-magnifier"></span></button>
+              </div>
+            </div>
+            <div class="sideCard-border mb-3">
+              <div class="sideCard-main-header px-3">
+                <div class="main-header-inr pt-3 pb-3">
+                  <h4 class="heading-text mb-0 text-uppercase">FILTER POSTS BY</h4>
+                </div>
+                <hr class="mb-0 mt-0">
+              </div>
+              <div class="sideCard-body px-3 py-2">
+                <mat-radio-group class="d-flex flex-column" [(ngModel)]="selectedtype" name="selectedtype"
+                  (change)="filterSearchBy()">
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="all">All</mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="my community">My Community
+                  </mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="my contacts">My Contacts
+                  </mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="my_posts">My Posts
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <!--end sideCard-border-->
+            <div class="sideCard-border mb-3">
+              <div class="sideCard-main-header px-3">
+                <div class="main-header-inr pt-3 pb-3">
+                  <h4 class="heading-text mb-0 text-uppercase">FILTER POSTS BY</h4>
+                </div>
+                <hr class="mb-0 mt-0">
+              </div>
+              <div class="sideCard-body px-3 py-2">
+                <mat-radio-group class="d-flex flex-column" [(ngModel)]="selectedall" name="selectedall"
+                  (change)="filterSearchBy()">
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="all">All</mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="blog">Blogs</mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="review">Reviews</mat-radio-button>
+                  <!-- <mat-radio-button class="mt-1 mb-1 green-color-radio" value="joinee">Members</mat-radio-button> -->
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="referral">Referrals</mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="endorsement">Endorsements
+                  </mat-radio-button>
+                  <!-- <mat-radio-button class="mt-1 mb-1 green-color-radio" value="new_community_member">New Community Members</mat-radio-button> -->
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="joinee">New Members</mat-radio-button>
+                  <mat-radio-button *ngIf="false" class="mt-1 mb-1 green-color-radio" value="jobs">Jobs
+                  </mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="searching">Searching For
+                  </mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="recomendation">Recommendations
+                  </mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="conversation">Conversations
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <!--end sideCard-border-->
+
+            <div class="sideCard-border mb-3">
+              <div class="sideCard-main-header px-3">
+                <div class="main-header-inr pt-3 pb-3">
+                  <h4 class="heading-text mb-0 text-uppercase">FILTER POSTS BY</h4>
+                </div>
+                <hr class="mb-0 mt-0">
+              </div>
+              <div class="sideCard-body px-3 py-2">
+                <mat-radio-group class="d-flex flex-column">
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="1" checked
+                    (click)="postShowFilterFnc('allType')">All Activity</mat-radio-button>
+                  <mat-radio-button class="mt-1 mb-1 green-color-radio" value="2"
+                    (click)="postShowFilterFnc('bookmarkType')">Bookmarked</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <!--end sideCard-border-->
+
+            <div class="sideCard-border mb-3">
+              <div class="sideCard-main-header px-3">
+                <div class="main-header-inr pt-2 pb-2">
+                  <mat-select [(ngModel)]="parentcategory" (ngModelChange)="changeParentCategory()"
+                    placeholder="SEARCH BY CATEGORY">
+                    <mat-option *ngFor="let allparentcate of allparent_category" [value]="allparentcate?.id">
+                      {{allparentcate.name}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <hr class="mb-0 mt-0">
+              </div>
+              <div class="sideCard-body px-3 py-2">
+                <span class="clearText mb-2 pb-1 pt-1" (click)="clearfilter()">Clear All</span>
+                <div class="d-flex flex-wrap">
+                  <div class="custom-chips-checkbox my-1 mx-1" *ngFor="let chieldcate of child_cat_list">
+                    <input name="filter_goal" type="checkbox"
+                      (change)="changeChieldCategorySearch($event,chieldcate?.id)">
+                    <span class="chips-box">{{chieldcate?.name}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end sideCard-border-->
+            <!-- <div class="addSlot-slider addSlot-type1 d-flex align-items-center justify-content-center mb-3" *ngFor="let advertisementdata of advertisement_data_array">
+                  <h4 class="noAddText mb-0">Advertisement Slot 1</h4>
+            </div> -->
+            <div class="addSlot-slider addSlot-type1 d-flex align-items-center justify-content-center mb-3">
+              <!-- Swiper -->
+              <div class="swiper-container">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide" *ngFor="let advertisementdata of advertisement_data_array"><img
+                      src="{{advertisement_url}}{{advertisementdata.add_banner_file}}"></div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="addSlot-type1 d-flex align-items-center justify-content-center mb-3">
+                <h4 class="noAddText mb-0">Advertisement Slot 2</h4>
+              </div> -->
+          </div>
+          <!--end col-md-3-->
+          <div class="col-xl-8 mt-5 mt-xl-4 mb-4">
+            <div class="card-001 mb-3">
+              <div class="card-main-header px-3 ">
+                <div class="main-header-inr d-md-flex align-items-center py-3">
+                  <div class="d-flex align-items-center">
+                    <div class="prfl-img cursorPointer mr-2"
+                      (click)="openUserDetails(user_profile_location?.id,user_profile_location?.user_type)"
+                      [ngClass]="user_profile_location?.user_type == 1 ? 'circle' : ''">
+
+                      <!-- PINNER SECTION -->
+                      <img
+                        [src]="user_profile_location?.profile_photo!=null? image_url+user_profile_location?.profile_photo:'assets/images/default-userImg-green.svg'"
+                        onError="this.src='assets/images/default-userImg-green.svg';">
+
+                    </div>
+                    <p class="mb-0 font-italic">{{ user_first_name }}, select an action to get started.</p>
+                  </div>
+                  <div class="side-btn-holder flex-shrink-0 ml-md-3 mt-2 mt-md-0 d-none d-md-flex justify-content-end">
+                    <button mat-flat-button class="btn-greenColor text-uppercase mr-2 col col-md-0"
+                      routerLink="/pinner/create-new-pin"><span class="mr-1" style="position: relative;
+                    top: -2px;"><img width="20" src="assets/images/icons/pin-wht.svg"></span> PIN A JOB</button>
+                    <button mat-flat-button class="btn-greenColor text-uppercase col col-md-0"
+                      (click)="commonPostOpenDialog()"><span class="ic-plus mr-1" style="position: relative;
+                     top: -2px;"></span> CREATE A POST</button>
+                  </div>
+                </div>
+
+                <!-- <hr class="mb-0 mt-0"> -->
+              </div>
+              <!-- <div class="card-001-body px-3 py-3">
+                <div class="d-flex align-items-center flex-wrap justify-content-center justify-content-md-start">
+                  <button type="button" (click)="createPostOpenDialog()" mat-flat-button
+                    class="btn-sm-gray-radius mr-2  mb-2 mb-md-0"><span class="ic-magnifier"></span> Searching
+                    for</button>
+                  <button type="button" (click)="createPostTwoOpenDialog()" mat-flat-button
+                    class="btn-sm-gray-radius mr-2 mb-2 mb-md-0"><span class="ic-thumb-up mr-1"
+                      style="  position: relative; top: -2px;"></span> I’ve got a
+                    recommendation</button>
+                  <button (click)="createPostThreeOpenDialog()" mat-flat-button class="btn-sm-gray-radius"><span
+                      style="position: relative; top: -1px;" class="ic-light-bulb"></span> Start a conversation
+                  </button>
+                </div>
+              </div> -->
+            </div>
+            <!--end card-001-->
+
+            <div class="card-001-bottom-btn-holder flex-shrink-0 ml-md-3 my-3 mt-md-0 d-flex d-md-none justify-content-between">
+              <button mat-flat-button class="btn-greenColor text-uppercase mr-2 col col-md-0"
+                routerLink="/pinner/create-new-pin"><span class="mr-1" style="position: relative;
+              top: -2px;"><img width="20" src="assets/images/icons/pin-wht.svg"></span> PIN A JOB</button>
+              <button mat-flat-button class="btn-greenColor text-uppercase col col-md-0"
+                (click)="commonPostOpenDialog()"><span class="ic-plus mr-1" style="position: relative;
+               top: -2px;"></span> CREATE A POST</button>
+            </div>
+
+            <!-- <div class="btn-holder mb-3">
+              <button mat-flat-button [ngClass]="postShowFilterType === 'bookmarkType'? 'btn-withoutBg':''"
+                class="btn-greenColor mr-3 text-uppercase" (click)="postShowFilterFnc('allType')">ALL ACTIVITY</button>
+              <button mat-button [ngClass]="postShowFilterType === 'allType'?'btn-withoutBg':''"
+                class="btn-greenColor text-uppercase" (click)="postShowFilterFnc('bookmarkType')">BOOKMARKED</button>
+            </div> -->
+            <!-- post section design review start  -->
+
+            <div class="scroll-content-block green_customScroll" infiniteScroll [infiniteScrollDistance]="2"
+              [infiniteScrollThrottle]="150" [scrollWindow]="true" (scrolled)="onscrollCommunityLoad()"
+              *ngIf="communityDetailsList?.length > 0">
+
+              <ng-container *ngFor="let communitylist of communityDetailsList ; let in=index">
+                <!--Endorsed start-->
+                <div
+                  [ngClass]="(communitylist.type === 'blog' ||communitylist.type === 'admin_post')?'card-blog mb-3 card-002 mb-3':'card-002 mb-3'"
+                  *ngIf='communitylist.type === "endorsement"
+                || communitylist.type === "referral"
+                || communitylist.type === "recomendation"
+                || communitylist.type === "review"
+                || communitylist.type === "blog"
+                || communitylist.type === "admin_post"
+                || communitylist.type === "searching"'>
+
+                  <ng-container *ngIf="communitylist.type === 'admin_post';else othersThenAdminPost">
+                    <div class="card-blog-img align-self-stretch" [ngClass]="{'no-blogImg':!communitylist?.image}">
+
+                      <div class="img-holder" *ngIf="communitylist?.image != null">
+                        <img [src]="admin_post_image_url+communitylist?.image"
+                          onError="this.src='assets/images/recent2.jpg';">
+                      </div>
+
+                      <span class="catType-circel green"
+                        *ngIf="communitylist?.category_id != null && communitylist?.category_id != 0">
+                        <i [ngClass]="{'ic-home-2': communitylist?.category_id === 2 ,
+                        'ic-covid-2':communitylist?.category_id === 3,
+                        'ic-entertainment-2':communitylist?.category_id === 19,
+                        'ic-personal-care':communitylist?.category_id === 16 ,
+                         'ic-book':communitylist?.category_id === 17 ,
+                        'ic-professional-services-2':communitylist?.category_id === 18 ,
+                        'ic-petcare':communitylist?.category_id === 20}">
+                        </i>
+                      </span>
+
+                    </div>
+
+                    <div class="blog-dsc-content px-3 pt-3 flex-column d-flex">
+                      <div class="blog-heading mb-2" *ngIf="communitylist?.title">
+                        <h4 class="heading-text">
+                          {{communitylist?.title}}</h4>
+                      </div>
+                      <div class="blog-dsc-text mb-2" *ngIf="communitylist?.message!=undefined
+                  && communitylist?.message!='undefined'">
+                        <p [innerHTML]="communitylist?.message"></p>
+                      </div>
+                      <div class="prfl-info d-flex align-items-center flex2">
+                        <div class="prfl-img circle mr-2 flex-shrink-0">
+                          <img src="{{pindologo}}">
+                        </div>
+
+                        <div class="prfl-text">
+                          <span class="nameText mb-1">PinDo </span>
+                        </div>
+
+                      </div>
+
+                      <hr class="mb-0 mt-3 mx-0">
+
+                      <div class="bottom-smInfo d-flex align-items-center mt-auto py-2 justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <div class="smInfo-box likeInfo d-flex align-items-center">
+                            <span class="iconItem color-themeGreen cursorPointer"
+                              *ngIf="!communitylist.is_liked?.length > 0" (click)="likePost(communitylist.id,1,in)">
+                              <i class="far fa-heart"></i>
+                            </span>
+                            <span class="iconItem color-themeGreen cursorPointer"
+                              *ngIf="communitylist.is_liked?.length > 0" (click)="likePost(communitylist.id,0,in)">
+                              <i class="fas fa-heart"></i>
+                            </span>
+                            <span class="textInfo ml-2"
+                              *ngIf="communitylist.post_likes?.length > 0 && communitylist.post_likes?.length === 1">
+                              {{communitylist?.post_likes?.length}} Like</span>
+                            <span class="textInfo ml-2" *ngIf="communitylist.post_likes?.length > 1">
+                              {{communitylist?.post_likes?.length}} Likes</span>
+
+                          </div>
+                          <div class="smInfo-box comntInfo d-flex align-items-center ml-3 cursorPointer"
+                            (click)="openCommentonPost(in)">
+                            <span class="iconItem color-themeGreen">
+                              <span class="ic-chat-line"></span>
+                            </span>
+                            <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length >1 ">
+                              {{communitylist?.comments?.length}} comments </span>
+                            <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length == 1 ">
+                              {{communitylist?.comments?.length}} comment </span>
+                            <span class="textInfo ml-2" *ngIf="!communitylist?.comments?.length">
+                              comment </span>
+                          </div>
+                        </div>
+                        <span class="postTime-text">{{communitylist.createdAt | amTimeAgo}}</span>
+                      </div>
+
+                      <!--end bottom-smInfo-->
+                    </div>
+                  </ng-container>
+
+
+                  <ng-template #othersThenAdminPost>
+                    <ng-container *ngIf="communitylist.type === 'blog';else othersThenBlog">
+                      <div class="card-blog-img align-self-stretch">
+                        <div class="img-holder cursorPointer" (click)="goToBlogDetails(communitylist?.blog?.id)">
+                          <img
+                            [src]="communitylist?.blog?.image != null?blog_image_url+communitylist?.blog?.image:'assets/images/recent2.jpg'"
+                            onError="this.src='assets/images/recent2.jpg';">
+                        </div>
+
+                        <span class="catType-circel green"
+                          *ngIf="communitylist?.blog?.category_id != null && communitylist?.blog?.category_id != 0">
+                          <i [ngClass]="{'ic-home-2': communitylist?.blog?.category_id === 2 ,
+                          'ic-covid-2':communitylist?.blog?.category_id === 3,
+                          'ic-entertainment-2':communitylist?.blog?.category_id === 19,
+                          'ic-personal-care':communitylist?.blog?.category_id === 16 ,
+                           'ic-book':communitylist?.blog?.category_id === 17 ,
+                          'ic-professional-services-2':communitylist?.blog?.category_id === 18 ,
+                            'ic-petcare':communitylist?.blog?.category_id === 20}"></i>
+                        </span>
+
+                      </div>
+
+                      <div class="blog-dsc-content px-3 pt-3 flex-column d-flex">
+                        <div class="blog-heading mb-2" *ngIf="communitylist?.blog?.name">
+                          <h4 class="heading-text cursorPointer" (click)="goToBlogDetails(communitylist?.blog?.id)">
+                            {{communitylist?.blog?.name}}</h4>
+                        </div>
+                        <div class="blog-dsc-text mb-2" *ngIf="communitylist?.blog?.description!=undefined
+                    && communitylist?.blog?.description!=null
+                    && communitylist?.blog?.description!=''
+                    && communitylist?.blog?.description!='undefined'">
+                          <p [innerHTML]="communitylist?.blog?.description | words : 15"></p>
+                        </div>
+                        <div class="prfl-info d-flex align-items-center flex2">
+                          <ng-container *ngIf='communitylist?.user_id != 0;else isPinDoBlogPost'>
+                            <div class="prfl-img cursorPointer mr-2 flex-shrink-0"
+                              (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)"
+                              [ngClass]="communitylist?.user?.user_type == 1 ? 'circle' : ''">
+
+                              <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+                                <img [ngClass]="communitylist?.user?.profilePictureShow==false?'blurImg':''"
+                                  [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                  onError="this.src='assets/images/default-userImg-green.svg';">
+
+                                <!-- <ng-template #blogPhotoElse>
+                                    <img class="blurImg"
+                                      [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                      onError="this.src='assets/images/default-userImg-green.svg';">
+                                  </ng-template> -->
+                              </ng-container>
+
+                              <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                                <img
+                                  [src]="communitylist?.user?.company_logo!=null?companylogo_url+communitylist?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                  onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                              </ng-container>
+
+                            </div>
+                          </ng-container>
+
+                          <ng-template #isPinDoBlogPost>
+                            <div class="prfl-img circle mr-2 flex-shrink-0">
+                              <img src="{{pindologo}}">
+                            </div>
+                          </ng-template>
+
+                          <div class="prfl-text">
+                            <span *ngIf="communitylist?.user_id != 0" class="cursorPointer"
+                              (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)">
+                              <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+                                <span class="nameText mb-1">
+                                  <ng-container *ngIf="communitylist?.user?.firstNameShow">
+                                    {{communitylist?.user?.first_name}}
+                                  </ng-container>
+                                </span>
+
+                                <span class="nameText mb-1">
+                                  <ng-container *ngIf="communitylist?.user?.lastNameShow">
+                                    {{communitylist?.user?.last_name}}
+                                  </ng-container>
+                                </span>
+                                <ng-container
+                                  *ngIf="!communitylist?.user?.firstNameShow && !communitylist?.user?.lastNameShow">
+                                  <span class="nameText mb-1">
+                                    {{communitylist?.user?.username}}
+                                  </span>
+                                </ng-container>
+                              </ng-container>
+
+                              <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                                <ng-container *ngIf='communitylist?.user?.profile_type == 1'>
+                                  <span class="nameText mb-1">{{communitylist?.user?.first_name}}</span>
+                                  <span class="nameText mb-1">&nbsp;{{communitylist?.user?.last_name}}</span>
+                                </ng-container>
+                                <span *ngIf='communitylist?.user?.profile_type == 2'
+                                  class="nameText mb-1">{{communitylist?.user?.company_name}}</span>
+                              </ng-container>
+                            </span>
+
+                            <ng-container *ngIf="communitylist?.user_id == 0">
+                              <span class="nameText mb-1">PinDo </span>
+                            </ng-container>
+
+                            <h4 *ngIf='communitylist?.user?.user_type == 1'
+                              class="typeText text-uppercase greenText cursorPointer"
+                              (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)">Pinner
+                            </h4>
+                            <h4 *ngIf='communitylist?.user?.user_type == 2'
+                              class="typeText text-uppercase orangeText cursorPointer"
+                              (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)">Doer
+                            </h4>
+                          </div>
+
+                        </div>
+
+                        <hr class="mb-0 mt-3 mx-0">
+
+                        <div class="bottom-smInfo d-flex align-items-center mt-auto py-2 justify-content-between">
+                          <!-- <div *ngIf="true"></div> -->
+                          <div class="d-flex align-items-center">
+                            <div class="smInfo-box likeInfo d-flex align-items-center">
+                              <span class="iconItem color-themeGreen cursorPointer"
+                                *ngIf="!communitylist.is_liked?.length > 0" (click)="likePost(communitylist.id,1,in)">
+                                <i class="far fa-heart"></i>
+                              </span>
+                              <span class="iconItem color-themeGreen cursorPointer"
+                                *ngIf="communitylist.is_liked?.length > 0" (click)="likePost(communitylist.id,0,in)">
+                                <i class="fas fa-heart"></i>
+                              </span>
+                              <span class="textInfo ml-2"
+                                *ngIf="communitylist.post_likes?.length > 0 && communitylist.post_likes?.length === 1">
+                                {{communitylist?.post_likes?.length}} Like</span>
+                              <span class="textInfo ml-2" *ngIf="communitylist.post_likes?.length > 1">
+                                {{communitylist?.post_likes?.length}} Likes</span>
+
+                            </div>
+                            <div class="smInfo-box comntInfo d-flex align-items-center ml-3 cursorPointer"
+                              (click)="openCommentonPost(in)">
+                              <span class="iconItem color-themeGreen">
+                                <span class="ic-chat-line"></span>
+                              </span>
+                              <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length >1 ">
+                                {{communitylist?.comments?.length}} comments </span>
+                              <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length == 1 ">
+                                {{communitylist?.comments?.length}} comment </span>
+                              <span class="textInfo ml-2" *ngIf="!communitylist?.comments?.length">
+                                comment </span>
+                            </div>
+                          </div>
+                          <span class="postTime-text">{{communitylist.createdAt | amTimeAgo}}</span>
+                        </div>
+                        <!--end bottom-smInfo-->
+                      </div>
+                    </ng-container>
+
+                    <ng-template #othersThenBlog>
+                      <div class="card-main-header px-3 ">
+
+                        <div class="info-action-row d-flex align-items-center justify-content-between pt-2 pb-2">
+
+
+                          <div class="postLabelText text-uppercase" [ngSwitch]="communitylist.type">
+                            <ng-container *ngSwitchCase="'endorsement'">ENDORSEMENT</ng-container>
+                            <ng-container *ngSwitchCase="'referral'">REFERRAL</ng-container>
+                            <ng-container *ngSwitchCase="'recomendation'">RECOMMENDATION</ng-container>
+                            <ng-container *ngSwitchCase="'review'">REVIEW</ng-container>
+                            <ng-container *ngSwitchCase="'searching'">SEARCHING FOR</ng-container>
+                          </div>
+
+                          <div class="action-box d-flex align-items-center justify-content-end ">
+                            <span class="action-item green px-2" *ngIf="!communitylist.bookmark?.id"
+                              style="position: relative;top: 2px;" (click)="addBookMark(communitylist?.id,in)">
+                              <i class="far fa-bookmark"></i>
+                            </span>
+                            <span class="action-item green px-2" *ngIf="communitylist.bookmark?.id"
+                              style="position: relative;top: 2px;">
+                              <i class="fas fa-bookmark" (click)="removeBookmark(communitylist?.bookmark?.id,in)"></i>
+                            </span>
+                            <button class="action-item green" (menuOpened)="actionDropdownOpen(communitylist?.id)"
+                              (menuClosed)="actionByDropdownClose(communitylist?.id)"
+                              [ngClass]="{active: actionMenuOpen }" type="button" [matMenuTriggerFor]="sortByDropdown">
+                              <i class="material-icons" *ngIf="(actionMenuOpenid != communitylist?.id) ">expand_more</i>
+                              <i class="material-icons" *ngIf="(actionMenuOpenid == communitylist?.id)">expand_less</i>
+                            </button>
+                            <mat-menu #sortByDropdown="matMenu" [class]="'action-dropdown green'" xPosition="before"
+                              [overlapTrigger]="false">
+                              <ul class="text-right sortBy-dropdown-list px-3">
+                                <li class="text-center" (click)="createReportOpenDialog(communitylist)">
+                                  Report
+                                </li>
+                              </ul>
+                            </mat-menu>
+                          </div>
+
+                        </div> <!--- end info-action-row -->
+
+
+
+                        <div class="main-header-inr d-flex align-items-center pt-0 pb-3">
+
+                          <ng-container *ngIf="communitylist.type === 'endorsement';else otherPartThenEndorsement">
+
+                            
+                            <div class="prfl-info d-flex align-items-center flexGrow1 cursorPointer"
+                              (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)"
+                              [ngClass]="communitylist?.user?.user_type == 1 ? 'circle' : ''">
+                              <div class="prfl-img mr-2"
+                                [ngClass]="communitylist?.user?.user_type == 1 ? 'circle' : ''">
+                                <!-- PINNER SECTION -->
+                                <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+
+
+                                  <img [ngClass]="communitylist?.user?.profilePictureShow==false?'blurImg':''"
+                                    [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                    onError="this.src='assets/images/default-userImg-green.svg';">
+
+
+                                  <!-- <ng-template #othersThenBlogPinnerBlurPhoto>
+                                      <img class="blurImg"
+                                        [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                        onError="this.src='assets/images/default-userImg-green.svg';">
+                                    </ng-template> -->
+                                </ng-container>
+                                <!-- For DOER SECTION -->
+                                <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                                  <img
+                                    [src]="communitylist?.user?.company_logo!=null?companylogo_url+communitylist?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                    onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                                </ng-container>
+                              </div>
+
+
+                              <div class="prfl-text">
+                                <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+                                  <span class="nameText mb-1">
+
+
+                                    <ng-container *ngIf="communitylist?.user?.firstNameShow">
+                                      {{communitylist?.user?.first_name}}
+                                    </ng-container>
+                                  </span>
+
+                                  <span class="nameText mb-1">
+
+                                    <ng-container *ngIf="communitylist?.user?.lastNameShow">
+                                      {{communitylist?.user?.last_name}}
+                                    </ng-container>
+                                  </span>
+
+                                  <span class="nameText mb-1"
+                                    *ngIf="(!communitylist?.user?.firstNameShow && !communitylist?.user?.lastNameShow)">
+                                    {{communitylist?.user?.username}}
+                                  </span>
+
+                                </ng-container>
+
+                                <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                                  <ng-container *ngIf='communitylist?.user?.profile_type == 1'>
+                                    <span class="nameText mb-1">{{communitylist?.user?.first_name}}</span>
+                                    <span class="nameText mb-1">&nbsp;{{communitylist?.user?.last_name}}</span>
+                                  </ng-container>
+                                  <span *ngIf='communitylist?.user?.profile_type == 2'
+                                    class="nameText mb-1">{{communitylist?.user?.company_name}}</span>
+                                </ng-container>
+
+                                <h4 *ngIf='communitylist?.user?.user_type == 1'
+                                  class="typeText text-uppercase greenText">
+                                  Pinner
+                                </h4>
+                                <h4 *ngIf='communitylist?.user?.user_type == 2'
+                                  class="typeText text-uppercase orangeText">
+                                  Doer
+                                </h4>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-template #otherPartThenEndorsement>
+                            <div class="prfl-info d-flex align-items-center flexGrow1 cursorPointer"
+                              (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)">
+                              <div class="prfl-img mr-2"
+                                [ngClass]="communitylist?.user?.user_type == 1 ? 'circle' : ''">
+                                <!-- PINNER SECTION -->
+                                <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+
+                                  <img [ngClass]="communitylist?.user?.profilePictureShow==false?'blurImg':''"
+                                    [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                    onError="this.src='assets/images/default-userImg-green.svg';">
+
+                                  <!-- <ng-template #otherPartThenEndorsementBlurPhoto>
+                                      <img class="blurImg"
+                                        [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                        onError="this.src='assets/images/default-userImg-green.svg';">
+                                    </ng-template> -->
+                                </ng-container>
+
+                                <!-- For DOER SECTION -->
+                                <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                                  <img
+                                    [src]="communitylist?.user?.company_logo!=null?companylogo_url+communitylist?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                    onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                                </ng-container>
+                              </div>
+
+
+                              <div class="prfl-text">
+                                <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+                                  <span class="nameText mb-1">
+
+                                    <ng-container *ngIf="communitylist?.user?.firstNameShow">
+                                      {{communitylist?.user?.first_name}}
+                                    </ng-container>
+                                  </span>
+
+                                  <span class="nameText mb-1">
+                                    <ng-container *ngIf="communitylist?.user?.lastNameShow">
+                                      {{communitylist?.user?.last_name}}
+                                    </ng-container>
+                                  </span>
+                                  <span class="nameText mb-1"
+                                    *ngIf="(!communitylist?.user?.firstNameShow && !communitylist?.user?.lastNameShow)">
+                                    {{communitylist?.user?.username}}
+                                  </span>
+                                </ng-container>
+
+                                <!-- For DOER SECTION -->
+                                <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                                  <ng-container *ngIf='communitylist?.user?.profile_type == 1'>
+                                    <span class="nameText mb-1">{{communitylist?.user?.first_name}}</span>
+                                    <span class="nameText mb-1">&nbsp;{{communitylist?.user?.last_name}}</span>
+                                  </ng-container>
+                                  <span *ngIf='communitylist?.user?.profile_type == 2' class="nameText mb-1">
+                                    {{communitylist?.user?.company_name}}</span>
+                                </ng-container>
+
+                                <h4 *ngIf='communitylist?.user?.user_type == 1'
+                                  class="typeText text-uppercase greenText">
+                                  Pinner
+                                </h4>
+                                <h4 *ngIf='communitylist?.user?.user_type == 2'
+                                  class="typeText text-uppercase orangeText">
+                                  Doer
+                                </h4>
+                              </div>
+                            </div>
+                          </ng-template>
+
+                          <div *ngIf="communitylist.type === 'endorsement'" class="middle-italic-text flexGrow1">
+                            Has endorsed                            
+                          </div>
+                          <div *ngIf="communitylist.type === 'referral'" class="middle-italic-text flexGrow1">Referral
+                          </div>
+                          <div *ngIf="communitylist.type === 'recomendation'" class="middle-italic-text flexGrow1">
+                            Recommends</div>
+                          <div *ngIf="communitylist.type === 'review'" class="middle-italic-text flexGrow1">Review for
+                          </div>
+                          <div *ngIf="communitylist.type === 'searching'" class="middle-italic-text flexGrow1">Is
+                            Searching
+                            For </div>
+                        </div>
+
+                        <ng-container *ngIf="communitylist.type === 'searching';else othersThenSearch">
+                          <div class="wrap-forGap">
+                            <div class="main-header-inr d-flex align-items-center pt-0 pb-0">
+
+                              <div class="catInfo d-flex align-items-center flexGrow1">
+
+                                <span class="catIcon color-themeGreen" [ngClass]="{'ic-home-2': communitylist?.parent_category?.id === 2 , 'ic-covid-2':communitylist?.parent_category?.id === 3, 'ic-entertainment-2':communitylist?.parent_category?.id === 19,'ic-personal-care':communitylist?.parent_category?.id === 16 , 'ic-book':communitylist?.parent_category?.id === 17 ,
+                                        'ic-professional-services-2':communitylist?.parent_category?.id === 18 ,
+                                          'ic-petcare':communitylist?.parent_category?.id === 20}"></span>
+
+                                <div class="catNameText pl-2">
+                                  <p class="m-0 type1">{{communitylist?.parent_category?.name}}</p>
+                                  <p class="m-0 type2 color-themeGreen">{{communitylist?.child_category?.name}}</p>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </ng-container>
+
+                        <ng-template #othersThenSearch>
+
+                          <div class="wrap-forGap sideDownArrow reverse-arrow cl-2"
+                            >
+                            <div class="main-header-inr d-md-flex align-items-center pt-0 pb-0">
+
+                              <div class="prfl-info d-flex align-items-center flexGrow1 cursorPointer"
+                                [ngClass]="communitylist?.recomended_user?.user_type == 1 ? 'circle' : ''">
+
+                                <ng-container
+                                  *ngIf="communitylist.type === 'recomendation';else othersThenRecomendation">
+                                  <div class="prfl-img mr-2"
+                                    (click)="openUserDetails(communitylist?.recomended_user?.id,communitylist?.recomended_user?.user_type)"
+                                    [ngClass]="communitylist?.recomended_user?.user_type == 1 ? 'circle' : ''">
+
+                                    <!-- PINNER SECTION -->
+                                    <ng-container *ngIf='communitylist?.recomended_user?.user_type == 1'>
+
+                                      <img
+                                        [ngClass]="communitylist?.recomended_user?.profilePictureShow==false?'blurImg':''"
+                                        [src]="(communitylist?.recomended_user?.profile_photo && communitylist?.recomended_user?.profile_photo!='null')? image_url+communitylist?.recomended_user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                        onError="this.src='assets/images/default-userImg-green.svg';">
+
+                                      <!-- <ng-template #recomendationPinnerBlurPhoto>
+                                          <img class="blurImg"
+                                            [src]="(communitylist?.recomended_user?.profile_photo && communitylist?.recomended_user?.profile_photo!='null')? image_url+communitylist?.recomended_user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                            onError="this.src='assets/images/default-userImg-green.svg';">
+                                        </ng-template> -->
+
+                                    </ng-container>
+
+                                    <!-- For DOER SECTION -->
+                                    <ng-container *ngIf='communitylist?.recomended_user?.user_type == 2'>
+                                      <img
+                                        [src]="communitylist?.recomended_user?.company_logo!=null?companylogo_url+communitylist?.recomended_user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                        onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                                    </ng-container>
+                                  </div>
+
+                                  <div class="prfl-text"
+                                    (click)="openUserDetails(communitylist?.recomended_user?.id,communitylist?.recomended_user?.user_type)">
+                                    <ng-container *ngIf='communitylist?.recomended_user?.user_type == 1'>
+                                      <span class="nameText mb-1">
+
+                                        <ng-container *ngIf="communitylist?.recomended_user?.firstNameShow">
+                                          {{communitylist?.recomended_user?.first_name}}
+                                        </ng-container>
+                                      </span>
+
+                                      <span class="nameText mb-1">
+
+                                        <ng-container *ngIf="communitylist?.recomended_user?.lastNameShow">
+                                          {{communitylist?.recomended_user?.last_name}}
+                                        </ng-container>
+                                      </span>
+                                      <span class="nameText mb-1"
+                                        *ngIf="!communitylist?.recomended_user?.firstNameShow && !communitylist?.recomended_user?.lastNameShow">
+                                        {{communitylist?.recomended_user?.username}}
+                                      </span>
+                                    </ng-container>
+
+                                    <!-- For DOER SECTION -->
+                                    <ng-container *ngIf='communitylist?.recomended_user?.user_type == 2'>
+                                      <ng-container *ngIf='communitylist?.recomended_user?.profile_type == 1'>
+                                        <span
+                                          class="nameText mb-1">{{communitylist?.recomended_user?.first_name}}</span>
+                                        <span
+                                          class="nameText mb-1">&nbsp;{{communitylist?.recomended_user?.last_name}}</span>
+                                      </ng-container>
+                                      <span *ngIf='communitylist?.recomended_user?.profile_type == 2'
+                                        class="nameText mb-1">
+                                        {{communitylist?.recomended_user?.company_name}}</span>
+                                    </ng-container>
+
+                                    <h4 *ngIf='communitylist?.recomended_user?.user_type == 1'
+                                      class="typeText text-uppercase greenText">
+                                      Pinner
+                                    </h4>
+                                    <h4 *ngIf='communitylist?.recomended_user?.user_type == 2'
+                                      class="typeText text-uppercase orangeText">Doer
+                                    </h4>
+                                  </div>
+                                </ng-container>
+
+                                <ng-template #othersThenRecomendation>
+                                  <ng-container
+                                    *ngIf="communitylist.type === 'endorsement';else otherPartThenEndorsementBy">
+                                    <div class="prfl-info d-flex align-items-center flexGrow1 cursorPointer"
+                                      (click)="openUserDetails(communitylist?.receiver?.id,communitylist?.receiver?.user_type)">
+
+                                      <div class="prfl-img mr-2"
+                                        [ngClass]="communitylist?.receiver?.user_type == 1 ? 'circle' : ''">
+                                        <!-- PINNER SECTION -->
+                                        <ng-container *ngIf='communitylist?.receiver?.user_type == 1'>
+                                          <img [ngClass]="communitylist?.receiver?.profilePictureShow==false?'blurImg':''"
+                                            [src]="(communitylist?.receiver?.profile_photo && communitylist?.receiver?.profile_photo!='null')? image_url+communitylist?.receiver?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                            onError="this.src='assets/images/default-userImg-green.svg';">
+
+                                          <!-- <ng-template #endorsementProfileImageElse>
+                                              <img class="blurImg"
+                                                [src]="(communitylist?.receiver?.profile_photo && communitylist?.receiver?.profile_photo!='null')? image_url+communitylist?.receiver?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                                onError="this.src='assets/images/default-userImg-green.svg';">
+                                            </ng-template> -->
+                                        </ng-container>
+                                        <!-- For DOER SECTION -->
+                                        <ng-container *ngIf='communitylist?.receiver?.user_type == 2'>
+                                          <img
+                                            [src]="communitylist?.receiver?.company_logo!=null?companylogo_url+communitylist?.receiver?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                            onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                                        </ng-container>
+                                      </div>
+
+                                      <div class="prfl-text">
+                                        <ng-container *ngIf='communitylist?.receiver?.user_type == 1'>
+                                          <span class="nameText mb-1">
+                                            <ng-container *ngIf="communitylist?.receiver?.firstNameShow">
+                                              {{communitylist?.receiver?.first_name}}
+                                            </ng-container>
+
+                                          </span>
+
+                                          <span class="nameText mb-1">
+                                            <ng-container *ngIf="communitylist?.receiver?.lastNameShow">
+                                              {{communitylist?.receiver?.last_name}}
+                                            </ng-container>
+
+                                          </span>
+
+                                          <span class="nameText mb-1"
+                                            *ngIf="(!communitylist?.receiver?.firstNameShow && !communitylist?.receiver?.lastNameShow)">
+                                            {{communitylist?.receiver?.username}}
+                                          </span>
+
+
+                                        </ng-container>
+                                        <!-- For DOER SECTION -->
+                                        <ng-container *ngIf='communitylist?.receiver?.user_type == 2'>
+                                          <ng-container *ngIf='communitylist?.receiver?.profile_type == 1'>
+                                            <span class="nameText mb-1">{{communitylist?.receiver?.first_name}}</span>
+                                            <span class="nameText mb-1">&nbsp;{{communitylist?.receiver?.last_name}}</span>
+                                          </ng-container>
+                                          <span *ngIf='communitylist?.receiver?.profile_type == 2'
+                                            class="nameText mb-1">{{communitylist?.receiver?.company_name}}</span>
+                                        </ng-container>
+
+                                        <h4 *ngIf='communitylist?.receiver?.user_type == 1'
+                                          class="typeText text-uppercase greenText">
+                                          Pinner
+                                        </h4>
+                                        <h4 *ngIf='communitylist?.receiver?.user_type == 2'
+                                          class="typeText text-uppercase orangeText">Doer
+                                        </h4>
+                                      </div>
+
+                                    </div>
+                                  </ng-container>
+
+                                  <ng-template #otherPartThenEndorsementBy>
+                                    <div class="prfl-img mr-2"
+                                      (click)="openUserDetails(communitylist?.receiver?.id,communitylist?.receiver?.user_type)"
+                                      [ngClass]="communitylist?.receiver?.user_type == 1 ? 'circle' : ''">
+
+                                      <!-- PINNER SECTION -->
+                                      <ng-container *ngIf='communitylist?.receiver?.user_type == 1'>
+
+                                        <img [ngClass]="communitylist?.receiver?.profilePictureShow==false?'blurImg':''"
+                                          [src]="(communitylist?.receiver?.profile_photo && communitylist?.receiver?.profile_photo!='null')? image_url+communitylist?.receiver?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                          onError="this.src='assets/images/default-userImg-green.svg';">
+
+                                        <!-- <ng-template #othersThenSearchPinnerBlurPhoto>
+                                            <img class="blurImg"
+                                              [src]="(communitylist?.receiver?.profile_photo && communitylist?.receiver?.profile_photo!='null')? image_url+communitylist?.receiver?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                              onError="this.src='assets/images/default-userImg-green.svg';">
+                                          </ng-template> -->
+                                      </ng-container>
+                                      <!-- For DOER SECTION -->
+                                      <ng-container *ngIf='communitylist?.receiver?.user_type == 2'>
+                                        <img
+                                          [src]="communitylist?.receiver?.company_logo!=null?companylogo_url+communitylist?.receiver?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                          onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                                      </ng-container>
+                                    </div>
+
+                                    <div class="prfl-text"
+                                      (click)="openUserDetails(communitylist?.receiver?.id,communitylist?.receiver?.user_type)">
+                                      <ng-container *ngIf='communitylist?.receiver?.user_type == 1'>
+                                        <span class="nameText mb-1">
+
+                                          <ng-container *ngIf="communitylist?.receiver?.firstNameShow">
+                                            {{communitylist?.receiver?.first_name}}
+                                          </ng-container>
+                                        </span>
+
+                                        <span class="nameText mb-1">
+
+                                          <ng-container *ngIf="communitylist?.receiver?.lastNameShow">
+                                            {{communitylist?.receiver?.last_name}}
+                                          </ng-container>
+                                        </span>
+                                        <span class="nameText mb-1"
+                                          *ngIf="(!communitylist?.receiver?.firstNameShow && !communitylist?.receiver?.lastNameShow)">
+                                          {{communitylist?.receiver?.username}}
+                                        </span>
+
+                                      </ng-container>
+
+
+                                      <ng-container *ngIf='communitylist?.receiver?.user_type == 2'>
+                                        <ng-container *ngIf='communitylist?.receiver?.profile_type == 1'>
+                                          <span class="nameText mb-1">{{communitylist?.receiver?.first_name}}</span>
+                                          <span
+                                            class="nameText mb-1">&nbsp;{{communitylist?.receiver?.last_name}}</span>
+                                        </ng-container>
+                                        <span *ngIf='communitylist?.receiver?.profile_type == 2'
+                                          class="nameText mb-1">{{communitylist?.receiver?.company_name}}</span>
+                                      </ng-container>
+
+                                      <h4 *ngIf='communitylist?.receiver?.user_type == 1'
+                                        class="typeText text-uppercase greenText">
+                                        Pinner
+                                      </h4>
+                                      <h4 *ngIf='communitylist?.receiver?.user_type == 2'
+                                        class="typeText text-uppercase orangeText">Doer
+                                      </h4>
+                                    </div>
+                                  </ng-template>
+
+                                </ng-template>
+
+                              </div>
+
+                              <div class="catInfo d-flex align-items-center flexGrow1 mt-2 mt-md-0">
+                                <span class="catIcon color-themeGreen" [ngClass]="{'ic-home-2': communitylist?.parent_category?.id === 2,
+                            'ic-covid-2':communitylist?.parent_category?.id === 3,
+                            'ic-entertainment-2':communitylist?.parent_category?.id === 19,
+                            'ic-personal-care':communitylist?.parent_category?.id === 16 ,
+                            'ic-book':communitylist?.parent_category?.id === 17 ,
+                            'ic-professional-services-2':communitylist?.parent_category?.id === 18 ,
+                            'ic-petcare':communitylist?.parent_category?.id === 20}">
+                                </span>
+                                <div class="catNameText pl-2">
+                                  <p class="m-0 type1">{{communitylist?.parent_category?.name}}</p>
+                                  <p class="m-0 type2 color-themeGreen">{{communitylist?.child_category?.name}}</p>
+                                </div>
+                              </div>
+
+                              <div *ngIf="communitylist.type === 'review'"
+                                class="rating-block d-flex justify-content-md-center flex-shrink-0 align-items-center mt-2 mt-md-0">
+                                <ng-container *ngIf="communitylist?.rating_review == null">
+                                  <span class="rating-star-text">0.0</span>
+                                  <div class="rating-star d-flex">
+                                    <!-- <star-rating value="0" checkedcolor="#F3B13F" uncheckedcolor="#999999" size="20px"
+                                      readonly="true"></star-rating> -->
+                                    <star-rating [showHalfStars]="true" [starType]="'svg'" [rating]="0"
+                                      [readOnly]="true" size="small"></star-rating>
+                                  </div>
+                                </ng-container>
+                                <ng-container *ngIf="communitylist?.rating_review != null">
+                                  <span class="rating-star-text">{{communitylist?.rating_review?.rating}}</span>
+                                  <div class="rating-star d-flex">
+                                    <!-- <star-rating value="{{communitylist?.rating_review?.rating}}" checkedcolor="#F3B13F"
+                                      uncheckedcolor="#999999" size="20px" readonly="true"></star-rating> -->
+                                    <star-rating [showHalfStars]="true" [starType]="'svg'"
+                                      [rating]="communitylist?.rating_review?.rating" [readOnly]="true" size="small">
+                                    </star-rating>
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </div>
+
+                        </ng-template>
+                      </div>
+
+                      <div class="card-002-body px-3 pt-3">
+                        <div class="wrap-forGap">
+                          <div class="dsc-text-content mb-3">
+                            <!-- <p [innerHTML]="communitylist?.message | words : 15"></p> -->
+                            <p [innerHTML]="communitylist?.message"></p>
+                          </div>
+                          <ng-container
+                            *ngIf="communitylist.image && (communitylist.type == 'searching' || communitylist.type == 'recomendation')">
+                            <div class="dsc-text-content mb-3">
+                              <img [src]="communityPostImageUrl + communitylist.image"
+                                *ngIf="commonservice.isImageFile(communitylist.image); else pdfDoc">
+
+                              <ng-template #pdfDoc>
+                                <a [href]="communityPostImageUrl + communitylist.image" target="_blank"
+                                  rel="noopener noreferrer" title="Open file in new tab">
+                                  <img src="assets/images/PDF_Symbol.png" class="pdfDoc">
+                                </a>
+                              </ng-template>
+                            </div>
+                          </ng-container>
+
+                        </div>
+                        <!--end wrap-forGap-->
+                        <!-- *ngIf="communitylist.bookmarks?.length > 0" -->
+                        <hr class="m-0">
+                        <div class="bottom-smInfo d-flex align-items-center mt-auto py-2 justify-content-between">
+                          <!-- <div *ngIf="true"></div> -->
+                          <div class="d-flex align-items-center">
+                            <div class="smInfo-box likeInfo d-flex align-items-center">
+                              <span class="iconItem color-themeGreen cursorPointer"
+                                *ngIf="!communitylist.is_liked?.length > 0" (click)="likePost(communitylist?.id,1,in)">
+                                <i class="far fa-heart"></i>
+                              </span>
+                              <span class="iconItem color-themeGreen cursorPointer"
+                                *ngIf="communitylist.is_liked?.length > 0" (click)="likePost(communitylist?.id,0,in)">
+                                <i class="fas fa-heart"></i>
+                              </span>
+                              <span class="textInfo ml-2"
+                                *ngIf="communitylist.post_likes?.length > 0 && communitylist.post_likes?.length === 1">
+                                {{communitylist?.post_likes?.length}} Like</span>
+                              <span class="textInfo ml-2" *ngIf="communitylist.post_likes?.length > 1">
+                                {{communitylist?.post_likes?.length}} Likes</span>
+                            </div>
+                            <div class="smInfo-box comntInfo d-flex align-items-center ml-3 cursorPointer"
+                              (click)="openCommentonPost(in)">
+                              <span class="iconItem color-themeGreen">
+                                <span class="ic-chat-line"></span>
+                              </span>
+                              <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length >1 ">
+                                {{communitylist?.comments?.length}} comments </span>
+                              <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length == 1 ">
+                                {{communitylist?.comments?.length}} comment </span>
+                              <span class="textInfo ml-2" *ngIf="!communitylist?.comments?.length">
+                                comment </span>
+                            </div>
+                          </div>
+                          <span class="postTime-text">{{communitylist.createdAt | amTimeAgo}}</span>
+                        </div>
+                        <!--end bottom-smInfo-->
+                      </div>
+                    </ng-template>
+
+                  </ng-template>
+
+
+                  <div class="comment-box-sec" *ngIf="communitylist.comment_box_open">
+
+                    <div class="comment-view-box px-3 pt-1" *ngIf='communitylist?.comments?.length > 0'>
+
+                      <div class="comment-content mt-3 mb-3"
+                        *ngFor="let indvReview of communitylist.comments; let i=index;">
+
+                        <div class="prfl-info d-flex align-items-center flex2">
+                          <div class="prfl-img cursorPointer mr-2"
+                            (click)="openUserDetails(indvReview.user.id,indvReview?.user?.user_type)"
+                            [ngClass]="indvReview?.user?.user_type == 1 ? 'circle' : ''">
+
+                            <!-- PINNER SECTION -->
+                            <ng-container *ngIf='indvReview?.user?.user_type == 1'>
+                              <!-- <ng-container *ngIf="indvReview?.user?.profilePictureShow;else commentImageSection1"> -->
+                              <img [ngClass]="indvReview?.user?.profilePictureShow==false?'blurImg':''"
+                                [src]="(indvReview?.user?.profile_photo && indvReview?.user?.profile_photo!='null')? image_url+indvReview?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                onError="this.src='assets/images/default-userImg-green.svg';">
+                              <!-- </ng-container> -->
+                              <!-- <ng-template #commentImageSection1>
+                                <img src="assets/images/default-userImg-green.svg">
+                              </ng-template> -->
+                            </ng-container>
+
+                            <!-- For DOER SECTION -->
+                            <ng-container *ngIf='indvReview?.user?.user_type == 2'>
+                              <img
+                                [src]="(indvReview?.user?.company_logo && indvReview?.user?.company_logo!='null')?companylogo_url+indvReview?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                            </ng-container>
+                          </div>
+
+                          <div class="prfl-text">
+                            <span class="nameText mb-1" *ngIf="indvReview.user?.user_type==1">
+                              <ng-container *ngIf="indvReview?.user?.firstNameShow">
+                                {{indvReview?.user?.first_name}}
+                              </ng-container>
+
+                              <ng-container *ngIf="indvReview?.user?.lastNameShow">
+                                {{indvReview?.user?.last_name}}
+                              </ng-container>
+                              <ng-container
+                                *ngIf="(!indvReview?.user?.firstNameShow && !indvReview?.user?.lastNameShow)">
+                                {{indvReview?.user?.username}}
+
+                              </ng-container>
+                            </span>
+
+                            <span class="nameText mb-1" *ngIf='indvReview?.user?.user_type == 2'>
+                              <ng-container *ngIf="indvReview?.user?.profile_type==1"> {{indvReview?.user?.username}}
+                              </ng-container>
+                              <ng-container *ngIf="indvReview?.user?.profile_type==2">
+                                {{indvReview?.user?.company_name}}</ng-container>
+                            </span>
+                            <h4 class="typeText text-uppercase greenText" *ngIf='indvReview?.user?.user_type == 1'>
+                              Pinner </h4>
+                            <h4 class="typeText text-uppercase orangeText" *ngIf='indvReview?.user?.user_type == 2'>
+                              Doer </h4>
+                          </div>
+
+                        </div>
+
+                        <div class="dsc-content mt-2">
+                          <p> {{indvReview?.comment}}</p>
+                        </div>
+                        <div class="bottom-content">
+                          <span class="reply-link cursorPointer green"
+                            (click)="replyOpenDialog(indvReview.id,indvReview.thread_id,indvReview.post_id,in)">Reply
+                          </span>
+                        </div>
+
+                        <!--start child-comment-content-->
+                        <div class="comment-content mt-3 mb-3 child-comment-content"
+                          *ngFor="let replycommentlist of indvReview.repalies; let  i=index;">
+
+                          <div class="prfl-info d-flex align-items-center flex2 cursorPointer"
+                            (click)="openUserDetails(replycommentlist?.user?.id,replycommentlist?.user?.user_type)">
+                            <div class="prfl-img cursorPointer mr-2"
+                              [ngClass]="replycommentlist?.user?.user_type == 1 ? 'circle' : ''">
+
+                              <ng-container *ngIf='replycommentlist?.user?.user_type == 1'>
+                                <!-- <ng-container
+                                  *ngIf='replycommentlist?.user?.profilePictureShow;else commentReplyImageSection1'> -->
+                                <img [ngClass]="replycommentlist?.user?.profilePictureShow==false?'blurImg':''"
+                                  [src]="replycommentlist?.user?.profile_photo!=null? image_url+replycommentlist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                  onError="this.src='assets/images/default-userImg-green.svg';">
+                                <!-- </ng-container> -->
+                                <!-- <ng-template #commentReplyImageSection1>
+                                  <img src="assets/images/default-userImg-green.svg">
+                                </ng-template> -->
+                              </ng-container>
+                              <!-- For DOER SECTION -->
+                              <ng-container *ngIf='replycommentlist?.user?.user_type == 2'>
+                                <img
+                                  [src]="(replycommentlist?.user?.company_logo && replycommentlist?.user?.company_logo!='null')?companylogo_url+replycommentlist?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                  onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                              </ng-container>
+                            </div>
+
+                            <div class="prfl-text">
+                              <span class="nameText mb-1" *ngIf="replycommentlist.user?.user_type==1">
+                                <ng-container *ngIf="replycommentlist?.user?.firstNameShow">
+                                  {{replycommentlist?.user?.first_name}}
+                                </ng-container>
+
+                                <ng-container *ngIf="replycommentlist?.user?.lastNameShow">
+                                  {{replycommentlist?.user?.last_name}}
+                                </ng-container>
+                                <ng-container
+                                  *ngIf="(!replycommentlist?.user?.firstNameShow && !replycommentlist?.user?.lastNameShow)">
+                                  {{replycommentlist?.user?.username}}
+                                </ng-container>
+                              </span>
+
+                              <span class="nameText mb-1" *ngIf='replycommentlist?.user?.user_type == 2'>
+                                <ng-container *ngIf="replycommentlist?.user?.profile_type==1">
+                                  {{replycommentlist?.user?.username}}</ng-container>
+                                <ng-container *ngIf="replycommentlist?.user?.profile_type==2">
+                                  {{replycommentlist?.user?.company_name}}</ng-container>
+                              </span>
+
+                              <h4 class="typeText text-uppercase greenText"
+                                *ngIf='rplycommentlist?.user?.user_type == 1'> Pinner </h4>
+                              <h4 class="typeText text-uppercase orangeText"
+                                *ngIf='rplycommentlist?.user?.user_type == 2'> Doer </h4>
+                            </div>
+                          </div>
+
+                          <div class="dsc-content mt-2">
+                            <p> {{replycommentlist?.comment}} </p>
+                          </div>
+                          <div class="bottom-content">
+                            <span class="reply-link cursorPointer green"
+                              (click)="replyOpenDialog(replycommentlist.id,replycommentlist.thread_id,replycommentlist.post_id,in)">Reply</span>
+                          </div>
+                        </div>
+                        <!--end child-comment-content-->
+                      </div>
+                      <!--end main comment-content-->
+                    </div>
+                    <!--end comment-view-box-->
+                    <hr class="mb-0 mt-0" *ngIf='communitylist?.comments?.length > 0'>
+                    <div class="comment-write-sec pt-2 pb-2 pl-3">
+                      <textarea placeholder="Write your comment" [(ngModel)]="communityDetailsList[in].comment_msg"
+                        name="comment_submit_desc{{in}}">
+                      </textarea>
+
+                      <button class="send-btn color-themeGreen" (click)="
+                          commentAddPost(communitylist?.id,0,communityDetailsList[in].comment_msg,in)" type="button">
+                        <span class="ic-send"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <!--end comment-box-sec-->
+                </div>
+                <!--Endorsed End-->
+
+                <div class="card-002 mb-3" *ngIf='communitylist.type === "jobs" || communitylist.type === "joinee"'>
+                  <div class="card-main-header px-3 ">
+                    <div class="info-action-row d-flex align-items-center justify-content-between pt-2 pb-2">
+                      <div class="postLabelText text-uppercase">
+                        NEW MEMBER
+                      </div>
+                      <div class="action-box d-flex align-items-center justify-content-end pt-2">
+                        <span class="action-item green px-2" *ngIf="!communitylist.bookmark?.id"
+                          style="  position: relative;top: 2px;" (click)="addBookMark(communitylist?.id,in)">
+                          <i class="far fa-bookmark"></i>
+                        </span>
+                        <span class="action-item green px-2" *ngIf="communitylist.bookmark?.id"
+                          style="  position: relative;top: 2px;">
+                          <i class="fas fa-bookmark" (click)="removeBookmark(communitylist?.bookmark?.id,in)"></i>
+                        </span>
+                        <button class="action-item green" (menuOpened)="actionDropdownOpen(communitylist.id)"
+                          (menuClosed)="actionByDropdownClose(communitylist.id)" [ngClass]="{active: actionMenuOpen }"
+                          type="button" [matMenuTriggerFor]="sortByDropdown">
+                          <i class="material-icons" *ngIf="(actionMenuOpenid != communitylist.id) ">expand_more</i>
+                          <i class="material-icons" *ngIf="(actionMenuOpenid == communitylist.id)">expand_less</i>
+                        </button>
+                        <mat-menu #sortByDropdown="matMenu" [class]="'action-dropdown green'" xPosition="before"
+                          [overlapTrigger]="false">
+                          <ul class="text-right sortBy-dropdown-list px-3">
+                            <li class="text-center" (click)="createReportOpenDialog(communitylist)">
+                              Report
+                            </li>
+                          </ul>
+                        </mat-menu>
+
+                      </div>
+                    </div>
+
+
+                    <div class="main-header-inr d-flex align-items-center justify-content-between pt-0 pb-3">
+                      <div class="prfl-info d-flex align-items-center flexGrow1">
+                        <ng-container *ngIf="communitylist?.user_id != 0 || communitylist.type === 'joinee'">
+                          <div class="prfl-img mr-2 cursorPointer"
+                            (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)"
+                            [ngClass]="communitylist?.user?.user_type == 1 ? 'circle' : ''">
+
+                            <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+                              <img [ngClass]="communitylist?.user?.profilePictureShow==false?'blurImg':''"
+                                [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                onError="this.src='assets/images/default-userImg-green.svg';">
+
+                              <!-- <ng-template #jobJoineePinnerBlurPhoto>
+                                  <img class="blurImg"
+                                    [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                    onError="this.src='assets/images/default-userImg-green.svg';">
+                                </ng-template> -->
+                            </ng-container>
+
+                            <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                              <img
+                                [src]="communitylist?.user?.company_logo!=null? companylogo_url+communitylist?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                            </ng-container>
+                          </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="communitylist?.user_id == 0 && communitylist.type === 'jobs'">
+                          <div class="prfl-img circle mr-2">
+                            <img src="{{pindologo}}">
+                          </div>
+                        </ng-container>
+
+                        <div class="prfl-text">
+                          <span *ngIf="communitylist?.user_id != 0 || communitylist.type === 'joinee'"
+                            class="cursorPointer"
+                            (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)">
+
+                            <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+                              <span class="nameText mb-1">
+
+                                <ng-container *ngIf="communitylist?.user?.firstNameShow">
+                                  {{communitylist?.user?.first_name}}
+                                </ng-container>
+                              </span>
+
+                              <span class="nameText mb-1">
+
+                                <ng-container *ngIf="communitylist?.user?.lastNameShow">
+                                  {{communitylist?.user?.last_name}}
+                                </ng-container>
+                              </span>
+
+                              <span class="nameText mb-1"
+                                *ngIf="(!communitylist?.user?.firstNameShow && !communitylist?.user?.lastNameShow)">
+                                {{communitylist?.user?.username}}
+                              </span>
+                            </ng-container>
+
+                            <!-- For DOER SECTION -->
+                            <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                              <ng-container *ngIf='communitylist?.user?.profile_type == 1'>
+                                <span class="nameText mb-1">{{communitylist?.user?.first_name}}</span>
+                                <span class="nameText mb-1">&nbsp;{{communitylist?.user?.last_name}}</span>
+                              </ng-container>
+                              <span *ngIf='communitylist?.user?.profile_type == 2'
+                                class="nameText mb-1">{{communitylist?.user?.company_name}}</span>
+                            </ng-container>
+                          </span>
+
+                          <ng-container *ngIf="communitylist?.user_id == 0 && communitylist.type === 'jobs'">
+                            <span class="nameText mb-1">PinDo </span>
+                          </ng-container>
+
+                          <h4 *ngIf='communitylist?.user?.user_type == 1'
+                            class="typeText text-uppercase greenText cursorPointer"
+                            (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)">Pinner
+                          </h4>
+                          <h4 *ngIf='communitylist?.user?.user_type == 2'
+                            class="typeText text-uppercase orangeText cursorPointer"
+                            (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)">Doer
+                          </h4>
+                        </div>
+                      </div>
+
+                      <div *ngIf='communitylist.type === "jobs"' class="middle-italic-text">Jobs</div>
+                      <div *ngIf='communitylist.type === "joinee"' class="middle-italic-text">Joined PinDo</div>
+                    </div>
+
+                    <div class="wrap-forGap mb-3">
+                      <div class="main-header-inr d-flex align-items-center pt-0 pb-0">
+                        <div class="catInfo d-flex align-items-center flexGrow1">
+
+                          <!-- <span class="catIcon color-themeGreen" [ngClass]="{'ic-home': communitylist?.parent_category?.id === 2 , 'ic-calender-today':communitylist?.parent_category?.id === 3,'ic-entertainment':communitylist?.parent_category?.id === 19, 'ic-personal-care':communitylist?.parent_category?.id === 16 , 'ic-book':communitylist?.parent_category?.id === 17 ,
+                                  'ic-health':communitylist?.parent_category?.id === 18 ,
+                                    'ic-petcare':communitylist?.parent_category?.id === 20}"></span> -->
+
+                          <!-- <div class="catNameText pl-2">
+                              <p class="m-0 type1">{{communitylist?.parent_category?.name}}</p>
+                              <p class="m-0 type2 color-themeGreen">{{communitylist?.child_category?.name}}</p>
+                            </div> -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="adds-info d-flex align-items-center mb-3">
+                      <span *ngIf="communitylist?.user?.user_type == 1"
+                        class="flex-shrink-0 ic-pointer color-themeGreen"></span>
+                      <span *ngIf="communitylist?.user?.user_type == 2"
+                        class="flex-shrink-0 ic-pointer color-themeOrange"></span>
+                      <!-- <span class="pl-2 adds-text">{{communitylist?.user?.address}} {{communitylist?.user?.city}},
+                          {{communitylist?.user?.state}} {{communitylist?.user?.zipcode}}</span> -->
+                      <span class="pl-2 adds-text">
+                        <ng-container *ngIf="communitylist.type != 'joinee';else newMember">
+                          <ng-container *ngIf="communitylist?.user?.addressShow;else showDefaultAddress">
+                            <span
+                              *ngIf="communitylist?.user?.user_control?.primary_address == 5 || communitylist?.user?.user_control?.primary_address == 7 || !communitylist?.user?.user_control?.primary_address">{{communitylist?.user?.address}}
+                            </span>{{communitylist?.user?.city}}<ng-container *ngIf="communitylist.user.state">,
+                              {{communitylist?.user?.state}}
+                            </ng-container>
+                            {{communitylist?.user?.zipcode}}
+                          </ng-container>
+                          <ng-template #showDefaultAddress>
+                            {{communitylist?.user?.city}}<ng-container *ngIf="communitylist?.user?.state">,
+                              {{communitylist?.user?.state}}
+                            </ng-container>
+                          </ng-template>
+                        </ng-container>
+
+                        <ng-template #newMember>
+                          {{communitylist?.user?.city}}<ng-container *ngIf="communitylist?.user?.state">,
+                            {{communitylist?.user?.state}}</ng-container>
+                        </ng-template>
+                      </span>
+                    </div>
+
+                    <hr class="m-0">
+
+                    <div class="bottom-smInfo d-flex align-items-center mt-auto py-2 justify-content-between">
+                      <!-- <div *ngIf="true"></div> -->
+                      <div class="d-flex align-items-center">
+                        <div class="smInfo-box likeInfo d-flex align-items-center">
+                          <span class="iconItem color-themeGreen cursorPointer"
+                            *ngIf="!communitylist.is_liked?.length > 0" (click)="likePost(communitylist.id,1,in)">
+                            <i class="far fa-heart"></i>
+                          </span>
+                          <span class="iconItem color-themeGreen cursorPointer"
+                            *ngIf="communitylist.is_liked?.length > 0" (click)="likePost(communitylist.id,0,in)">
+                            <i class="fas fa-heart"></i>
+                          </span>
+                          <span class="textInfo ml-2"
+                            *ngIf="communitylist.post_likes?.length > 0 && communitylist.post_likes?.length === 1">
+                            {{communitylist?.post_likes?.length}} Like</span>
+                          <span class="textInfo ml-2" *ngIf="communitylist.post_likes?.length > 1">
+                            {{communitylist?.post_likes?.length}} Likes</span>
+
+                        </div>
+                        <div class="smInfo-box comntInfo d-flex align-items-center ml-3 cursorPointer"
+                          (click)="openCommentonPost(in)">
+                          <span class="iconItem color-themeGreen">
+                            <span class="ic-chat-line"></span>
+                          </span>
+                          <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length >1 ">
+                            {{communitylist?.comments?.length}} comments </span>
+                          <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length == 1 ">
+                            {{communitylist?.comments?.length}} comment </span>
+                          <span class="textInfo ml-2" *ngIf="!communitylist?.comments?.length">
+                            comment </span>
+                        </div>
+                      </div>
+                      <span class="postTime-text">{{communitylist.createdAt | amTimeAgo}}</span>
+                    </div>
+                    <!--end bottom-smInfo-->
+                  </div>
+                  <!--end card-main-header-->
+                  <div class="comment-box-sec" *ngIf="communitylist.comment_box_open">
+
+                    <div class="comment-view-box px-3 pt-1" *ngIf='communitylist?.comments?.length > 0'>
+
+                      <div class="comment-content mt-3 mb-3"
+                        *ngFor="let indvReview of communitylist.comments; let i=index;">
+
+                        <div class="prfl-info d-flex align-items-center flex2">
+                          <div class="prfl-img cursorPointer mr-2"
+                            (click)="openUserDetails(indvReview.user.id,indvReview?.user?.user_type)"
+                            [ngClass]="indvReview?.user?.user_type == 1 ? 'circle' : ''">
+
+                            <!-- PINNER SECTION -->
+                            <ng-container *ngIf='indvReview?.user?.user_type == 1'>
+                              <!-- <ng-container *ngIf='indvReview?.user?.profilePictureShow;else commentImageSection2'> -->
+                              <img [ngClass]="indvReview?.user?.profilePictureShow==false?'blurImg':''"
+                                [src]="(indvReview?.user?.profile_photo && indvReview?.user?.profile_photo!='null')? image_url+indvReview?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                onError="this.src='assets/images/default-userImg-green.svg';">
+                              <!-- </ng-container> -->
+                              <!-- <ng-template #commentImageSection2>
+                                <img src="assets/images/default-userImg-green.svg">
+                              </ng-template> -->
+                            </ng-container>
+
+                            <!-- For DOER SECTION -->
+                            <ng-container *ngIf='indvReview?.user?.user_type == 2'>
+                              <img
+                                [src]="(indvReview?.user?.company_logo && indvReview?.user?.company_logo!='null')?companylogo_url+indvReview?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                            </ng-container>
+                          </div>
+
+                          <div class="prfl-text">
+                            <span class="nameText mb-1" *ngIf="indvReview.user?.user_type==1">
+                              <ng-container *ngIf="indvReview?.user?.firstNameShow">
+                                {{indvReview?.user?.first_name}}
+                              </ng-container>
+
+                              <ng-container *ngIf="indvReview?.user?.lastNameShow">
+                                {{indvReview?.user?.last_name}}
+                              </ng-container>
+                              <ng-container
+                                *ngIf="(!indvReview?.user?.firstNameShow && !indvReview?.user?.lastNameShow)">
+                                {{indvReview?.user?.username}}
+                              </ng-container>
+                            </span>
+
+                            <span class="nameText mb-1" *ngIf='indvReview?.user?.user_type == 2'>
+                              <ng-container *ngIf="indvReview?.user?.profile_type==1"> {{indvReview?.user?.username}}
+                              </ng-container>
+                              <ng-container *ngIf="indvReview?.user?.profile_type==2">
+                                {{indvReview?.user?.company_name}}</ng-container>
+                            </span>
+                            <h4 class="typeText text-uppercase greenText" *ngIf='indvReview?.user?.user_type == 1'>
+                              Pinner </h4>
+                            <h4 class="typeText text-uppercase orangeText" *ngIf='indvReview?.user?.user_type == 2'>
+                              Doer </h4>
+                          </div>
+
+                        </div>
+
+                        <div class="dsc-content mt-2">
+                          <p> {{indvReview?.comment}}</p>
+                        </div>
+                        <div class="bottom-content">
+                          <span class="reply-link cursorPointer green"
+                            (click)="replyOpenDialog(indvReview.id,indvReview.thread_id,indvReview.post_id,in)">Reply
+                          </span>
+                        </div>
+
+                        <!--start child-comment-content-->
+                        <div class="comment-content mt-3 mb-3 child-comment-content"
+                          *ngFor="let replycommentlist of indvReview.repalies; let  i=index;">
+
+                          <div class="prfl-info d-flex align-items-center flex2 cursorPointer"
+                            (click)="openUserDetails(replycommentlist?.user?.id,replycommentlist?.user?.user_type)">
+                            <div class="prfl-img cursorPointer mr-2"
+                              [ngClass]="replycommentlist?.user?.user_type == 1 ? 'circle' : ''">
+
+                              <ng-container *ngIf='replycommentlist?.user?.user_type == 1'>
+                                <!-- <ng-container
+                                  *ngIf='replycommentlist?.user?.profilePictureShow;else commentReplyImageSection2'> -->
+                                <img [ngClass]="replycommentlist?.user?.profilePictureShow==false?'blurImg':''"
+                                  [src]="replycommentlist?.user?.profile_photo!=null? image_url+replycommentlist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                  onError="this.src='assets/images/default-userImg-green.svg';">
+                                <!-- </ng-container> -->
+                                <!-- <ng-template #commentReplyImageSection2>
+                                  <img src="assets/images/default-userImg-green.svg">
+                                </ng-template> -->
+                              </ng-container>
+                              <!-- For DOER SECTION -->
+                              <ng-container *ngIf='replycommentlist?.user?.user_type == 2'>
+                                <img
+                                  [src]="(replycommentlist?.user?.company_logo && replycommentlist?.user?.company_logo!='null')?companylogo_url+replycommentlist?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                  onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                              </ng-container>
+                            </div>
+
+                            <div class="prfl-text">
+                              <span class="nameText mb-1" *ngIf="replycommentlist.user?.user_type==1">
+                                <ng-container *ngIf="replycommentlist?.user?.firstNameShow">
+                                  {{replycommentlist?.user?.first_name}}
+                                </ng-container>
+
+                                <ng-container *ngIf="replycommentlist?.user?.lastNameShow">
+                                  {{replycommentlist?.user?.last_name}}
+                                </ng-container>
+
+                                <ng-container
+                                  *ngIf="(!replycommentlist?.user?.firstNameShow && !replycommentlist?.user?.lastNameShow)">
+                                  {{replycommentlist?.user?.username}}
+                                </ng-container>
+                              </span>
+
+                              <span class="nameText mb-1" *ngIf='replycommentlist?.user?.user_type == 2'>
+                                <ng-container *ngIf="replycommentlist?.user?.profile_type==1">
+                                  {{replycommentlist?.user?.username}}</ng-container>
+                                <ng-container *ngIf="replycommentlist?.user?.profile_type==2">
+                                  {{replycommentlist?.user?.company_name}}</ng-container>
+                              </span>
+
+                              <h4 class="typeText text-uppercase greenText"
+                                *ngIf='rplycommentlist?.user?.user_type == 1'> Pinner </h4>
+                              <h4 class="typeText text-uppercase orangeText"
+                                *ngIf='rplycommentlist?.user?.user_type == 2'> Doer </h4>
+                            </div>
+                          </div>
+
+                          <div class="dsc-content mt-2">
+                            <p> {{replycommentlist?.comment}} </p>
+                          </div>
+                          <div class="bottom-content">
+                            <span class="reply-link cursorPointer green"
+                              (click)="replyOpenDialog(replycommentlist.id,replycommentlist.thread_id,replycommentlist.post_id,in)">Reply</span>
+                          </div>
+                        </div>
+                        <!--end child-comment-content-->
+                      </div>
+                      <!--end main comment-content-->
+                    </div>
+
+                    <!--end comment-view-box-->
+                    <hr class="mb-0 mt-0" *ngIf='communitylist?.comments?.length > 0'>
+                    <div class="comment-write-sec pt-2 pb-2 pl-3">
+                      <textarea placeholder="Write your comment" [(ngModel)]="communityDetailsList[in].comment_msg"
+                        name="comment_submit_desc{{in}}">
+                      </textarea>
+                      <button class="send-btn color-themeGreen"
+                        (click)="commentAddPost(communitylist?.id,0,communityDetailsList[in].comment_msg,in)"
+                        type="button">
+                        <span class="ic-send"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <!--end comment-box-sec-->
+                </div>
+
+                <!--new community member start-->
+                <div class="card-002 mb-3" *ngIf='communitylist.type === "new_community_member"'>
+                  <div class="card-main-header px-3 ">
+                    <div class="top-heading d-flex justify-content-between align-items-start">
+
+                      <div class="heading-text-block py-3">
+                        <h4 class="heading-text text-uppercase mb-2">New Community Member</h4>
+                        <span class="d-flex community-name"><span class="iconItem ic-pointer flex-shrink-0 mr-1"
+                            [ngClass]="{'color-themeGreen': communitylist?.user?.user_type == 1 ,
+                             'color-themeOrange':communitylist?.user?.user_type == 2}"></span>
+                          <span class="nameText mb-1"> {{communitylist.community?.name}} </span>
+                        </span>
+                      </div>
+
+                      <div class="action-box d-flex align-items-center justify-content-end pt-2 flex-shrink-0">
+                        <span class="action-item green px-2" *ngIf="!communitylist.bookmark?.id"
+                          style="  position: relative;top: 2px;" (click)="addBookMark(communitylist?.id,in)">
+                          <i class="far fa-bookmark"></i>
+                        </span>
+                        <span class="action-item green px-2" *ngIf="communitylist.bookmark?.id"
+                          style="  position: relative;top: 2px;">
+                          <i class="fas fa-bookmark" (click)="removeBookmark(communitylist?.bookmark?.id,in)"></i>
+                        </span>
+                        <button class="action-item green" (menuOpened)="actionDropdownOpen(communitylist?.id)"
+                          (menuClosed)="actionByDropdownClose(communitylist?.id)" [ngClass]="{active: actionMenuOpen }"
+                          type="button" [matMenuTriggerFor]="sortByDropdown">
+                          <i class="material-icons" *ngIf="(actionMenuOpenid != communitylist?.id) ">expand_more</i>
+                          <i class="material-icons" *ngIf="(actionMenuOpenid == communitylist?.id)">expand_less</i>
+                        </button>
+                        <mat-menu #sortByDropdown="matMenu" [class]="'action-dropdown'" xPosition="before"
+                          [overlapTrigger]="false">
+                          <ul class="text-right sortBy-dropdown-list px-3">
+                            <li class="text-center" (click)="createReportOpenDialog(communitylist)">
+                              Report
+                            </li>
+                          </ul>
+                        </mat-menu>
+                      </div>
+                    </div>
+                    <!--end top-heading-->
+
+                    <div class="main-header-inr d-flex align-items-center pt-0 pb-3">
+                      <div class="prfl-info d-flex align-items-center flexGrow1 cursorPointer"
+                        (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)">
+                        <div class="prfl-img mr-2" [ngClass]="communitylist?.user?.user_type == 1 ? 'circle' : ''">
+
+                          <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+
+                            <img [ngClass]="communitylist?.user?.profilePictureShow==false?'blurImg':''"
+                              [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                              onError="this.src='assets/images/default-userImg-green.svg';">
+
+                            <!-- <ng-template #NewCommunityMemberPinnerBlurPhoto>
+                                <img class="blurImg"
+                                  [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                  onError="this.src='assets/images/default-userImg-green.svg';">
+                              </ng-template> -->
+                          </ng-container>
+
+                          <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                            <img
+                              [src]="communitylist?.user?.company_logo!=null?companylogo_url+communitylist?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                              onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                          </ng-container>
+                        </div>
+
+                        <div class="prfl-text">
+                          <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+                            <span class="nameText mb-1">
+
+                              <ng-container *ngIf="communitylist?.user?.firstNameShow">
+                                {{communitylist?.user?.first_name}}
+                              </ng-container>
+                            </span>
+
+                            <span class="nameText mb-1">
+
+                              <ng-container *ngIf="communitylist?.user?.lastNameShow">
+                                {{communitylist?.user?.last_name}}
+                              </ng-container>
+                            </span>
+                            <span class="nameText mb-1"
+                              *ngIf="(!communitylist?.user?.firstNameShow && !communitylist?.user?.lastNameShow)">
+                              {{communitylist?.user?.username}}
+                            </span>
+                          </ng-container>
+
+                          <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                            <ng-container *ngIf='communitylist?.user?.profile_type == 1'>
+                              <span class="nameText mb-1">{{communitylist?.user?.first_name}}</span>
+                              <span class="nameText mb-1">&nbsp;{{communitylist?.user?.last_name}}</span>
+                            </ng-container>
+                            <span *ngIf='communitylist?.user?.profile_type == 2'
+                              class="nameText mb-1">{{communitylist?.user?.company_name}}</span>
+                          </ng-container>
+
+                          <h4 *ngIf='communitylist?.user?.user_type == 1' class="typeText text-uppercase greenText">
+                            Pinner
+                          </h4>
+                          <h4 *ngIf='communitylist?.user?.user_type == 2' class="typeText text-uppercase orangeText">
+                            Doer
+                          </h4>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="card-002-body px-3 pt-3">
+
+                    <!-- *ngIf="communitylist.bookmarks?.length > 0" -->
+                    <hr class="m-0">
+                    <div class="bottom-smInfo d-flex align-items-center mt-auto py-2 justify-content-between">
+                      <!-- <div *ngIf="true"></div> -->
+                      <div class="d-flex align-items-center">
+                        <div class="smInfo-box likeInfo d-flex align-items-center">
+                          <span class="iconItem color-themeGreen cursorPointer"
+                            *ngIf="!communitylist.is_liked?.length > 0" (click)="likePost(communitylist?.id,1,in)">
+                            <i class="far fa-heart"></i>
+                          </span>
+                          <span class="iconItem color-themeGreen cursorPointer"
+                            *ngIf="communitylist.is_liked?.length > 0" (click)="likePost(communitylist?.id,0,in)">
+                            <i class="fas fa-heart"></i>
+                          </span>
+                          <span class="textInfo ml-2"
+                            *ngIf="communitylist.post_likes?.length > 0 && communitylist.post_likes?.length === 1">
+                            {{communitylist?.post_likes?.length}} Like</span>
+                          <span class="textInfo ml-2" *ngIf="communitylist.post_likes?.length > 1">
+                            {{communitylist?.post_likes?.length}} Likes</span>
+                        </div>
+                        <div class="smInfo-box comntInfo d-flex align-items-center ml-3 cursorPointer"
+                          (click)="openCommentonPost(in)">
+                          <span class="iconItem color-themeGreen">
+                            <span class="ic-chat-line"></span>
+                          </span>
+                          <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length >1 ">
+                            {{communitylist?.comments?.length}} comments </span>
+                          <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length == 1 ">
+                            {{communitylist?.comments?.length}} comment </span>
+                          <span class="textInfo ml-2" *ngIf="!communitylist?.comments?.length">
+                            comment </span>
+                        </div>
+                      </div>
+                      <span class="postTime-text">{{communitylist.createdAt | amTimeAgo}}</span>
+                    </div>
+                    <!--end bottom-smInfo-->
+                  </div>
+                  <div class="comment-box-sec" *ngIf="communitylist.comment_box_open">
+
+                    <div class="comment-view-box px-3 pt-1" *ngIf='communitylist?.comments?.length > 0'>
+
+                      <div class="comment-content mt-3 mb-3"
+                        *ngFor="let indvReview of communitylist.comments; let i=index;">
+
+                        <div class="prfl-info d-flex align-items-center flex2">
+                          <div class="prfl-img cursorPointer mr-2"
+                            (click)="openUserDetails(indvReview.user.id,indvReview?.user?.user_type)"
+                            [ngClass]="indvReview?.user?.user_type == 1 ? 'circle' : ''">
+
+                            <!-- PINNER SECTION -->
+                            <ng-container *ngIf='indvReview?.user?.user_type == 1'>
+                              <!-- <ng-container *ngIf='indvReview?.user?.profilePictureShow;else commentImageSection3'> -->
+                              <img [ngClass]="indvReview?.user?.profilePictureShow==false?'blurImg':''"
+                                [src]="(indvReview?.user?.profile_photo && indvReview?.user?.profile_photo!='null')? image_url+indvReview?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                onError="this.src='assets/images/default-userImg-green.svg';">
+                              <!-- </ng-container>
+                              <ng-template #commentImageSection3>
+                                <img src="assets/images/default-userImg-green.svg">
+                              </ng-template> -->
+                            </ng-container>
+
+                            <!-- For DOER SECTION -->
+                            <ng-container *ngIf='indvReview?.user?.user_type == 2'>
+                              <img
+                                [src]="(indvReview?.user?.company_logo && indvReview?.user?.company_logo!='null')?companylogo_url+indvReview?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                            </ng-container>
+                          </div>
+
+                          <div class="prfl-text">
+                            <span class="nameText mb-1" *ngIf="indvReview.user?.user_type==1">
+                              <ng-container *ngIf="indvReview?.user?.firstNameShow">
+                                {{indvReview?.user?.first_name}}
+                              </ng-container>
+
+                              <ng-container *ngIf="indvReview?.user?.lastNameShow">
+                                {{indvReview?.user?.last_name}}
+                              </ng-container>
+                              <ng-container
+                                *ngIf="(!indvReview?.user?.firstNameShow && !indvReview?.user?.lastNameShow)">
+                                {{indvReview?.user?.username}}
+
+                              </ng-container>
+                            </span>
+
+                            <span class="nameText mb-1" *ngIf='indvReview?.user?.user_type == 2'>
+                              <ng-container *ngIf="indvReview?.user?.profile_type==1"> {{indvReview?.user?.username}}
+                              </ng-container>
+                              <ng-container *ngIf="indvReview?.user?.profile_type==2">
+                                {{indvReview?.user?.company_name}}</ng-container>
+                            </span>
+                            <h4 class="typeText text-uppercase greenText" *ngIf='indvReview?.user?.user_type == 1'>
+                              Pinner </h4>
+                            <h4 class="typeText text-uppercase orangeText" *ngIf='indvReview?.user?.user_type == 2'>
+                              Doer </h4>
+                          </div>
+
+                        </div>
+
+                        <div class="dsc-content mt-2">
+                          <p> {{indvReview?.comment}}</p>
+                        </div>
+                        <div class="bottom-content">
+                          <span class="reply-link cursorPointer green"
+                            (click)="replyOpenDialog(indvReview.id,indvReview.thread_id,indvReview.post_id,in)">Reply
+                          </span>
+                        </div>
+
+                        <!--start child-comment-content-->
+                        <div class="comment-content mt-3 mb-3 child-comment-content"
+                          *ngFor="let replycommentlist of indvReview.repalies; let  i=index;">
+
+                          <div class="prfl-info d-flex align-items-center flex2 cursorPointer"
+                            (click)="openUserDetails(replycommentlist?.user?.id,replycommentlist?.user?.user_type)">
+                            <div class="prfl-img cursorPointer mr-2"
+                              [ngClass]="replycommentlist?.user?.user_type == 1 ? 'circle' : ''">
+
+                              <ng-container *ngIf='replycommentlist?.user?.user_type == 1'>
+                                <!-- <ng-container
+                                  *ngIf='replycommentlist?.user?.profilePictureShow;else commentReplyImageSection3'> -->
+                                <img [ngClass]="replycommentlist?.user?.profilePictureShow==false?'blurImg':''"
+                                  [src]="replycommentlist?.user?.profile_photo!=null? image_url+replycommentlist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                  onError="this.src='assets/images/default-userImg-green.svg';">
+                                <!-- </ng-container> -->
+                                <!-- <ng-template #commentReplyImageSection3>
+                                  <img src="assets/images/default-userImg-green.svg">
+                                </ng-template> -->
+                              </ng-container>
+                              <!-- For DOER SECTION -->
+                              <ng-container *ngIf='replycommentlist?.user?.user_type == 2'>
+                                <img
+                                  [src]="(replycommentlist?.user?.company_logo && replycommentlist?.user?.company_logo!='null')?companylogo_url+replycommentlist?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                  onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                              </ng-container>
+                            </div>
+
+                            <div class="prfl-text">
+                              <span class="nameText mb-1" *ngIf="replycommentlist.user?.user_type==1">
+                                <ng-container *ngIf="replycommentlist?.user?.firstNameShow">
+                                  {{replycommentlist?.user?.first_name}}
+                                </ng-container>
+
+                                <ng-container *ngIf="replycommentlist?.user?.lastNameShow">
+                                  {{replycommentlist?.user?.last_name}}
+                                </ng-container>
+                                <ng-container
+                                  *ngIf="(!replycommentlist?.user?.firstNameShow && !replycommentlist?.user?.lastNameShow)">
+                                  {{replycommentlist?.user?.username}}
+                                </ng-container>
+                              </span>
+
+                              <span class="nameText mb-1" *ngIf='replycommentlist?.user?.user_type == 2'>
+                                <ng-container *ngIf="replycommentlist?.user?.profile_type==1">
+                                  {{replycommentlist?.user?.username}}</ng-container>
+                                <ng-container *ngIf="replycommentlist?.user?.profile_type==2">
+                                  {{replycommentlist?.user?.company_name}}</ng-container>
+                              </span>
+
+                              <h4 class="typeText text-uppercase greenText"
+                                *ngIf='rplycommentlist?.user?.user_type == 1'> Pinner </h4>
+                              <h4 class="typeText text-uppercase orangeText"
+                                *ngIf='rplycommentlist?.user?.user_type == 2'> Doer </h4>
+                            </div>
+                          </div>
+
+                          <div class="dsc-content mt-2">
+                            <p> {{replycommentlist?.comment}} </p>
+                          </div>
+                          <div class="bottom-content">
+                            <span class="reply-link cursorPointer green"
+                              (click)="replyOpenDialog(replycommentlist.id,replycommentlist.thread_id,replycommentlist.post_id,in)">Reply</span>
+                          </div>
+                        </div>
+                        <!--end child-comment-content-->
+                      </div>
+                      <!--end main comment-content-->
+                    </div>
+
+                    <!--end comment-view-box-->
+                    <hr class="mb-0 mt-0" *ngIf='communitylist?.comments?.length > 0'>
+                    <div class="comment-write-sec pt-2 pb-2 pl-3">
+                      <textarea placeholder="Write your comment" [(ngModel)]="communityDetailsList[in].comment_msg"
+                        name="comment_submit_desc{{in}}">
+                            </textarea>
+
+                      <button class="send-btn color-themeGreen"
+                        (click)="commentAddPost(communitylist?.id,0,communityDetailsList[in].comment_msg,in)"
+                        type="button">
+                        <span class="ic-send"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <!--end comment-box-sec-->
+                </div>
+                <!--new community member End-->
+
+                <!-- thought / Conversations start -->
+                <div class="card-002 mb-3" *ngIf='communitylist.type === "conversation"'>
+                  <div class="card-main-header px-3 ">
+                    <div class="info-action-row d-flex align-items-center justify-content-between pt-2 pb-2">
+                      <div class="postLabelText text-uppercase">
+                        CONVERSATION
+                      </div>
+                      <div class="action-box d-flex align-items-center justify-content-end pt-2">
+                        <span class="action-item px-2 green" *ngIf="!communitylist.bookmark?.id"
+                          style="  position: relative;top: 2px;" (click)="addBookMark(communitylist?.id,in)">
+                          <i class="far fa-bookmark"></i>
+                        </span>
+                        <span class="action-item px-2 green" *ngIf="communitylist.bookmark?.id"
+                          style="  position: relative;top: 2px;">
+                          <i class="fas fa-bookmark" (click)="removeBookmark(communitylist?.bookmark?.id,in)"></i>
+                        </span>
+                        <button class="action-item green" (menuOpened)="actionDropdownOpen()"
+                          (menuClosed)="actionByDropdownClose()" [ngClass]="{active: actionMenuOpen }" type="button"
+                          [matMenuTriggerFor]="sortByDropdown">
+                          <i class="material-icons" *ngIf="!actionMenuOpen">expand_more</i>
+                          <i class="material-icons" *ngIf="actionMenuOpen">expand_less</i>
+                        </button>
+                        <mat-menu #sortByDropdown="matMenu" [class]="'action-dropdown green'" xPosition="before"
+                          [overlapTrigger]="false">
+                          <ul class="text-right sortBy-dropdown-list px-3">
+                            <li class="text-center" (click)="createReportOpenDialog(communitylist)">
+                              Report
+                            </li>
+                          </ul>
+                        </mat-menu>
+                      </div>
+                    </div>
+
+                    <div class="main-header-inr d-flex align-items-center pt-0 pb-3">
+                      <div class="prfl-info d-flex align-items-center flexGrow1 cursorPointer"
+                        (click)="openUserDetails(communitylist?.user?.id,communitylist?.user?.user_type)">
+                        <div class="prfl-img mr-2" [ngClass]="communitylist?.user?.user_type == 1 ? 'circle' : ''">
+
+                          <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+                            <img [ngClass]="communitylist?.user?.profilePictureShow==false?'blurImg':''"
+                              [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                              onError="this.src='assets/images/default-userImg-green.svg';">
+
+                            <!-- <ng-template #conversationPinnerPhotoElse>
+                                <img class="blurImg"
+                                  [src]="(communitylist?.user?.profile_photo && communitylist?.user?.profile_photo!='null')? image_url+communitylist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                  onError="this.src='assets/images/default-userImg-green.svg';">
+                              </ng-template> -->
+                          </ng-container>
+
+                          <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                            <img
+                              [src]="communitylist?.user?.company_logo!=null?companylogo_url+communitylist?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                              onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                          </ng-container>
+                        </div>
+
+                        <div class="prfl-text text-left">
+
+                          <ng-container *ngIf='communitylist?.user?.user_type == 1'>
+                            <span class="nameText mb-1">
+
+                              <ng-container *ngIf="communitylist?.user?.firstNameShow">
+                                {{communitylist?.user?.first_name}}
+                              </ng-container>
+                            </span>
+
+                            <span class="nameText mb-1">
+
+                              <ng-container *ngIf="communitylist?.user?.lastNameShow">
+                                {{communitylist?.user?.last_name}}
+                              </ng-container>
+                            </span>
+                            <span class="nameText mb-1"
+                              *ngIf="(!communitylist?.user?.firstNameShow && !communitylist?.user?.lastNameShow)">
+                              {{communitylist?.user?.username}}
+                            </span>
+
+                          </ng-container>
+
+                          <ng-container *ngIf='communitylist?.user?.user_type == 2'>
+                            <ng-container *ngIf='communitylist?.user?.profile_type == 1'>
+                              <span class="nameText mb-1">{{communitylist?.user?.first_name}}</span>
+                              <span class="nameText mb-1">&nbsp;{{communitylist?.user?.last_name}}</span>
+                            </ng-container>
+                            <span *ngIf='communitylist?.user?.profile_type == 2'
+                              class="nameText mb-1">{{communitylist?.user?.company_name}}</span>
+                          </ng-container>
+
+                          <h4 *ngIf='communitylist?.user?.user_type == 1' class="typeText text-uppercase greenText">
+                            Pinner
+                          </h4>
+                          <h4 *ngIf='communitylist?.user?.user_type == 2' class="typeText text-uppercase orangeText">
+                            Doer
+                          </h4>
+                        </div>
+
+                      </div>
+                      <div class="middle-italic-text flexGrow1">
+                      </div>
+                    </div>
+
+                    <div class="wrap-forGap">
+                      <div class="main-header-inr d-flex align-items-center pt-0 pb-0">
+
+                        <div class="catInfo d-flex align-items-center flexGrow1">
+                          <span class="catIcon color-themeGreen" [ngClass]="{'ic-home-2': communitylist?.parent_category?.id === 2 , 'ic-covid-2':communitylist?.parent_category?.id === 3,'ic-entertainment-2':communitylist?.parent_category?.id === 19, 'ic-personal-care':communitylist?.parent_category?.id === 16 , 'ic-book':communitylist?.parent_category?.id === 17 ,
+                                'ic-professional-services-2':communitylist?.parent_category?.id === 18 ,
+                                  'ic-petcare':communitylist?.parent_category?.id === 20}"></span>
+                          <div class="catNameText pl-2">
+                            <p class="m-0 type1">{{communitylist?.parent_category?.name}}</p>
+                            <p class="m-0 type2 color-themeGreen">{{communitylist?.child_category?.name}}</p>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card-002-body px-3 pt-3">
+                    <div class="wrap-forGap">
+                      <div class="dsc-text-content mb-3">
+                        <p [innerHTML]="communitylist?.message"></p>
+                      </div>
+
+                      <ng-container *ngIf="communitylist.image && communitylist.type == 'conversation'">
+                        <div class="dsc-text-content mb-3">
+                          <img [src]="communityPostImageUrl + communitylist.image"
+                            *ngIf="commonservice.isImageFile(communitylist.image); else pdfDoc">
+
+                          <ng-template #pdfDoc>
+                            <a [href]="communityPostImageUrl + communitylist.image" target="_blank"
+                              rel="noopener noreferrer" title="Open file in new tab">
+                              <img src="assets/images/PDF_Symbol.png" class="pdfDoc">
+                            </a>
+                          </ng-template>
+                        </div>
+                      </ng-container>
+
+                    </div>
+                    <hr class="m-0">
+
+                    <div class="bottom-smInfo d-flex align-items-center mt-auto py-2 px-3 justify-content-between">
+                      <!-- <div *ngIf="true"></div> -->
+                      <div class="d-flex align-items-center">
+                        <div class="smInfo-box likeInfo d-flex align-items-center">
+                          <span class="iconItem color-themeGreen cursorPointer"
+                            *ngIf="!communitylist.is_liked?.length > 0" (click)="likePost(communitylist.id,1,in)">
+                            <i class="far fa-heart"></i>
+                          </span>
+                          <span class="iconItem color-themeGreen cursorPointer"
+                            *ngIf="communitylist.is_liked?.length > 0" (click)="likePost(communitylist.id,0,in)">
+                            <i class="fas fa-heart"></i>
+                          </span>
+                          <span class="textInfo ml-2"
+                            *ngIf="communitylist.post_likes?.length > 0 && communitylist.post_likes?.length === 1">
+                            {{communitylist?.post_likes?.length}} Like</span>
+                          <span class="textInfo ml-2" *ngIf="communitylist.post_likes?.length > 1">
+                            {{communitylist?.post_likes?.length}} Likes</span>
+
+                        </div>
+                        <div class="smInfo-box comntInfo d-flex align-items-center ml-3 cursorPointer"
+                          (click)="openCommentonPost(in)">
+                          <span class="iconItem color-themeGreen">
+                            <span class="ic-chat-line"></span>
+                          </span>
+                          <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length >1 ">
+                            {{communitylist?.comments?.length}} comments </span>
+                          <span class="textInfo ml-2" *ngIf="communitylist?.comments?.length == 1 ">
+                            {{communitylist?.comments?.length}} comment </span>
+                          <span class="textInfo ml-2" *ngIf="!communitylist?.comments?.length">
+                            comment </span>
+                        </div>
+                      </div>
+                      <span class="postTime-text">{{communitylist.createdAt | amTimeAgo}}</span>
+                    </div>
+                    <!--end bottom-smInfo-->
+                  </div>
+                  <!--end card-002-body-->
+                  <div class="comment-box-sec" *ngIf="communitylist.comment_box_open">
+
+                    <div class="comment-view-box px-3 pt-1" *ngIf='communitylist?.comments?.length > 0'>
+
+                      <div class="comment-content mt-3 mb-3"
+                        *ngFor="let indvReview of communitylist.comments; let i=index;">
+
+                        <div class="prfl-info d-flex align-items-center flex2">
+                          <div class="prfl-img cursorPointer mr-2"
+                            (click)="openUserDetails(indvReview.user.id,indvReview?.user?.user_type)"
+                            [ngClass]="indvReview?.user?.user_type == 1 ? 'circle' : ''">
+
+                            <!-- PINNER SECTION -->
+                            <ng-container *ngIf='indvReview?.user?.user_type == 1'>
+                              <!-- <ng-container *ngIf='indvReview?.user?.profilePictureShow;else commentImageSection4'> -->
+                              <img [ngClass]="indvReview?.user?.profilePictureShow==false?'blurImg':''"
+                                [src]="(indvReview?.user?.profile_photo && indvReview?.user?.profile_photo!='null')? image_url+indvReview?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                onError="this.src='assets/images/default-userImg-green.svg';">
+                              <!-- </ng-container>
+                              <ng-template #commentImageSection4>
+                                <img src="assets/images/default-userImg-green.svg">
+                              </ng-template> -->
+                            </ng-container>
+
+                            <!-- For DOER SECTION -->
+                            <ng-container *ngIf='indvReview?.user?.user_type == 2'>
+                              <img
+                                [src]="(indvReview?.user?.company_logo && indvReview?.user?.company_logo!='null')?companylogo_url+indvReview?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                            </ng-container>
+                          </div>
+
+                          <div class="prfl-text">
+                            <span class="nameText mb-1" *ngIf="indvReview.user?.user_type==1">
+                              <ng-container *ngIf="indvReview?.user?.firstNameShow">
+                                {{indvReview?.user?.first_name}}
+                              </ng-container>
+
+                              <ng-container *ngIf="indvReview?.user?.lastNameShow">
+                                {{indvReview?.user?.last_name}}
+                              </ng-container>
+                              <ng-container
+                                *ngIf="(!indvReview?.user?.firstNameShow && !indvReview?.user?.lastNameShow)">
+                                {{indvReview?.user?.username}}
+
+                              </ng-container>
+                            </span>
+
+                            <span class="nameText mb-1" *ngIf='indvReview?.user?.user_type == 2'>
+                              <ng-container *ngIf="indvReview?.user?.profile_type==1"> {{indvReview?.user?.username}}
+                              </ng-container>
+                              <ng-container *ngIf="indvReview?.user?.profile_type==2">
+                                {{indvReview?.user?.company_name}}</ng-container>
+                            </span>
+                            <h4 class="typeText text-uppercase greenText" *ngIf='indvReview?.user?.user_type == 1'>
+                              Pinner </h4>
+                            <h4 class="typeText text-uppercase orangeText" *ngIf='indvReview?.user?.user_type == 2'>
+                              Doer </h4>
+                          </div>
+
+                        </div>
+
+                        <div class="dsc-content mt-2">
+                          <p> {{indvReview?.comment}}</p>
+                        </div>
+                        <div class="bottom-content">
+                          <span class="reply-link cursorPointer green"
+                            (click)="replyOpenDialog(indvReview.id,indvReview.thread_id,indvReview.post_id,in)">Reply
+                          </span>
+                        </div>
+
+                        <!--start child-comment-content-->
+                        <div class="comment-content mt-3 mb-3 child-comment-content"
+                          *ngFor="let replycommentlist of indvReview.repalies; let  i=index;">
+
+                          <div class="prfl-info d-flex align-items-center flex2 cursorPointer"
+                            (click)="openUserDetails(replycommentlist?.user?.id,replycommentlist?.user?.user_type)">
+                            <div class="prfl-img cursorPointer mr-2"
+                              [ngClass]="replycommentlist?.user?.user_type == 1 ? 'circle' : ''">
+
+                              <ng-container *ngIf='replycommentlist?.user?.user_type == 1'>
+                                <!-- <ng-container
+                                  *ngIf='replycommentlist?.user?.profilePictureShow;else commentReplyImageSection4'> -->
+                                <img [ngClass]="replycommentlist?.user?.profilePictureShow==false?'blurImg':''"
+                                  [src]="replycommentlist?.user?.profile_photo!=null? image_url+replycommentlist?.user?.profile_photo:'assets/images/default-userImg-green.svg'"
+                                  onError="this.src='assets/images/default-userImg-green.svg';">
+                                <!-- </ng-container>
+                                <ng-template #commentReplyImageSection4>
+                                  <img src="assets/images/default-userImg-green.svg">
+                                </ng-template> -->
+                              </ng-container>
+                              <!-- For DOER SECTION -->
+                              <ng-container *ngIf='replycommentlist?.user?.user_type == 2'>
+                                <img
+                                  [src]="(replycommentlist?.user?.company_logo && replycommentlist?.user?.company_logo!='null')?companylogo_url+replycommentlist?.user?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                                  onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                              </ng-container>
+                            </div>
+
+                            <div class="prfl-text">
+                              <span class="nameText mb-1" *ngIf="replycommentlist.user?.user_type==1">
+                                <ng-container *ngIf="replycommentlist?.user?.firstNameShow">
+                                  {{replycommentlist?.user?.first_name}}
+                                </ng-container>
+
+                                <ng-container *ngIf="replycommentlist?.user?.lastNameShow">
+                                  {{replycommentlist?.user?.last_name}}
+                                </ng-container>
+                                <ng-container
+                                  *ngIf="(!replycommentlist?.user?.firstNameShow && !replycommentlist?.user?.lastNameShow)">
+                                  {{replycommentlist?.user?.username}}
+                                </ng-container>
+                              </span>
+
+                              <span class="nameText mb-1" *ngIf='replycommentlist?.user?.user_type == 2'>
+                                <ng-container *ngIf="replycommentlist?.user?.profile_type==1">
+                                  {{replycommentlist?.user?.username}}</ng-container>
+                                <ng-container *ngIf="replycommentlist?.user?.profile_type==2">
+                                  {{replycommentlist?.user?.company_name}}</ng-container>
+                              </span>
+
+                              <h4 class="typeText text-uppercase greenText"
+                                *ngIf='rplycommentlist?.user?.user_type == 1'> Pinner </h4>
+                              <h4 class="typeText text-uppercase orangeText"
+                                *ngIf='rplycommentlist?.user?.user_type == 2'> Doer </h4>
+                            </div>
+                          </div>
+
+                          <div class="dsc-content mt-2">
+                            <p> {{replycommentlist?.comment}} </p>
+                          </div>
+                          <div class="bottom-content">
+                            <span class="reply-link cursorPointer green"
+                              (click)="replyOpenDialog(replycommentlist.id,replycommentlist.thread_id,replycommentlist.post_id,in)">Reply</span>
+                          </div>
+                        </div>
+                        <!--end child-comment-content-->
+                      </div>
+                      <!--end main comment-content-->
+                    </div>
+
+                    <!--end comment-view-box-->
+                    <hr class="mb-0 mt-0" *ngIf='communitylist?.comments?.length > 0'>
+                    <div class="comment-write-sec pt-2 pb-2 pl-3">
+                      <textarea placeholder="Write your comment" [(ngModel)]="communityDetailsList[in].comment_msg"
+                        name="comment_submit_desc{{in}}">
+                        </textarea>
+                      <button class="send-btn color-themeGreen"
+                        (click)="commentAddPost(communitylist?.id,0,communityDetailsList[in].comment_msg,in)"
+                        type="button">
+                        <span class="ic-send"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <!--end comment-box-sec-->
+                </div>
+                <!-- thought / Conversations end -->
+              </ng-container>
+
+            </div>
+            <!-- post section design review end -->
+            <ng-container *ngIf="communityDetailsList?.length == 0 && !loadingCommunityList">
+              <div class="no_content d-flex white-bg">
+                <div class="col-md-5">
+                  <img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+                </div>
+                <div class="col-md-7 align-self-center">
+                  <ng-container>
+                    <h5>Sorry. No posts matched your search criteria. Please choose a different search and try again.
+                    </h5>
+                    <!-- <p>No Pins found with selected filters.</p> -->
+                  </ng-container>
+                </div>
+              </div>
+            </ng-container>
+
+          </div>
+          <!--end col-md-8-->
+        </div>
+        <!--end row-->
+      </div>
+      <!--end col-custom-left-->
+      <div class="col-custom-right mt-xl-4" [ngClass]="rightFilterBoxOpen? 'open':''">
+        <mat-card class="sideCard mb-3">
+          <mat-card-content class="p-10">
+            <!-- <div id="map"></div> -->
+            <ngui-map center="{{user_lati}},{{user_lang}}" zoom="10" styles='{{myGlobals.styles}}'
+              [streetViewControl]="false" [fullscreenControl]="false" [panControl]="false" [disableDefaultUI]="true"
+              [draggable]="false" [fullscreenControlOptions]="{position: 'TOP_CENTER'}" [scrollwheel]="true">
+              <marker position="{{user_lati}},{{ user_lang}}" draggable="false"
+                [icon]="{url:'assets/images/pinner_marker.png'}"></marker>
+              <circle center="{{user_lati}},{{ user_lang}}" [strokeColor]="'#BAD141'" [fillColor]="'#BAD141'"
+                [strokeOpacity]="0.8" [strokeWeight]="0.8" [editable]="false" radius="5000" draggable="false"></circle>
+            </ngui-map>
+            <div class="content-partdashboardmap pb-0">
+              <div class="top_content d-flex justify-content-between w-100">
+                <h6><i class="fas fa-map-marker-alt mr-2"></i>{{user_location}}</h6>
+                <h6>{{user_zipcode}}</h6>
+              </div>
+
+              <div class="scroll-content-block green_customScroll" infiniteScroll [infiniteScrollDistance]="2"
+                [infiniteScrollThrottle]="50" [scrollWindow]="false" (scrolled)="onScroll()" *ngIf="show">
+                <!-- my Community Start-->
+                <div class="content-block pt-2 pb-2">
+                  <ng-container>
+                    <div class="heading-sec pt-2">
+                      <h3 class="heading-text text-uppercase mb-2">My Community</h3>
+                    </div>
+                    <div class="findCommunity-slideToggle-holder">
+                      <ng-container *ngFor="let mycommunitydatalist of owncommunitydata; let i = index">
+                        <div class="slideToggle-row mb-1 mt-1 d-flex justify-content-between">
+                          <span class="d-flex">
+                            <span class="ic-pointer color-themeGreen flex-shrink-0 mr-1"></span> <span _ngcontent-c7=""
+                              class="nameText mb-1 ng-star-inserted"> {{mycommunitydatalist.community.name}}
+                              ({{mycommunitydatalist?.community?.zipcode}}) </span>
+                          </span>
+                          <span class="ic-eye ml-2 color-themeGreen flex-shrink-0 cursorPointer"
+                            style="font-size: 12px;"
+                            (click)="mapInfoOpenDialog(mycommunitydatalist.community.name,mycommunitydatalist.community.zipcode,mycommunitydatalist.community.latitude,mycommunitydatalist.community.longitude,mycommunitydatalist.community_id,'mucommunity',mycommunitydatalist?.id)"></span>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </ng-container>
+
+                </div>
+                <!-- my Community end -->
+                <!-- Join community start -->
+                <div class="content-block pt-2 pb-2">
+                  <ng-container>
+                    <div class="heading-sec pt-2">
+                      <h3 class="heading-text text-uppercase mb-2">Join COMMUNITIES</h3>
+                    </div>
+                    <div class="findCommunity-slideToggle-holder">
+                      <ng-container *ngFor="let communitydatalist of mapdata; let i = index">
+                        <div class="slideToggle-row mb-1 mt-1 d-flex justify-content-between">
+                          <span class="d-flex">
+                            <span class="ic-pointer color-themeGreen flex-shrink-0 mr-1"></span>
+                            <span _ngcontent-c7="" class="nameText mb-1 ng-star-inserted">{{communitydatalist?.name}}
+                              ({{communitydatalist?.zipcode}}) </span>
+                          </span>
+                          <span class="flex-shrink-0">
+                            <span class="color-themeGreen join-link cursorPointer"
+                              (click)="addJoinCommunity(communitydatalist?.id)">Join</span>
+                            <!--  ({{communitydatalist.distance | number: '1.2-2'}} miles) -->
+                            <!-- <span class="fa fa-eye ml-2" [popover]="fcPopover_1" [popoverOnHover]="true"
+                                  (click)="mapInfoOpenDialog(communitydatalist.name,communitydatalist.zipcode,communitydatalist.latitude,communitydatalist.longitude,communitydatalist.id)"></span> -->
+                            <span class="ic-eye ml-2 color-themeGreen cursorPointer" style="font-size: 12px;"
+                              (click)="mapInfoOpenDialog(communitydatalist.name,communitydatalist.zipcode,communitydatalist.latitude,communitydatalist.longitude,communitydatalist?.id,'findcommunity','community_user_id')"></span>
+                            <popover-content #fcPopover_1 title="" placement="top" [animation]="true"
+                              [closeOnClickOutside]="false">
+                              <div class="form-row">
+                                <div class="col-6">
+                                  <p class="d-flex justify-content-between w-100"><span>Pinners:</span> &nbsp;
+                                    <span><b>{{single_number_community.total_pinners}}</b></span></p>
+                                  <p class="d-flex justify-content-between w-100"><span>Doers:</span> &nbsp;
+                                    <span><b>{{single_number_community.total_doers}}</b></span></p>
+                                </div>
+                                <div class="col-6">
+                                  <p class="d-flex justify-content-between w-100"><span>Pins:</span> &nbsp;
+                                    <span><b>{{single_number_community.total_doers}}</b></span></p>
+                                  <p class="d-flex justify-content-between w-100"><span>Posts:</span> &nbsp;
+                                    <span><b>{{single_number_community.total_posts}}</b></span></p>
+                                </div>
+                              </div>
+                            </popover-content>
+                          </span>
+                        </div>
+                      </ng-container>
+                      <!--end slideToggle-row-->
+
+                      <!--end slideToggle-row-->
+                    </div>
+                  </ng-container>
+
+                </div>
+                <!-- Join Community end -->
+              </div>
+              <!--end data-content-block-->
+
+              <div class="text-center mt-2">
+                <p class="smText toggle-btn-top-text m-0">Nearby Communities</p>
+                <span class="toggle-btn" (click)="findCommunityToggle()" *ngIf="!show"><i class="material-icons">
+                    expand_more</i></span>
+                <span class="toggle-btn" (click)="findCommunityToggle()" *ngIf="show"><i class="material-icons">
+                    expand_less
+                  </i></span>
+              </div>
+
+              <hr class="mb-3 mt-0">
+              <div class="text-center mb-2">
+                <p class="smText toggle-btn-top-text m-0">Request a Community <span class="toggle-btn" (click)="requestCommunity()"><span class="material-icons font-30">chevron_right</span></span></p>
+              </div>
+
+              <hr class="mb-0 mt-0">
+              <div class="content-block pt-3 pb-3">
+                <div class="heading-sec mb-1 ">
+                  <h3 class="heading-text text-uppercase mb-0">COMMUNITY ACTIVITY</h3>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <p class="d-flex justify-content-between w-100">
+                      <span>Pinners&nbsp;&nbsp;:</span><span><b>{{total_number_activity?.total_pinner_number}}</b></span>
+                    </p>
+                    <p class="d-flex justify-content-between w-100">
+                      <span>Doers&nbsp;&nbsp;:</span><span><b>{{total_number_activity?.total_doer_number}}</b></span>
+                    </p>
+                  </div>
+                  <div class="col-6">
+                    <p class="d-flex justify-content-between w-100"><span>
+                        Pins&nbsp;&nbsp;:</span><span><b>{{total_number_activity?.total_pins}}</b></span></p>
+                    <p class="d-flex justify-content-between w-100"><span>
+                        Post&nbsp;&nbsp;:</span><span><b>{{total_number_activity?.total_posts}}</b></span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <!--end mat-card-->
+        <button mat-flat-button class="btn-greenColor lg-size btn-block mb-3 text-uppercase"
+          (click)="invitePindoOpenDialog()">INVITE TO JOIN PINDO</button>
+        <div class="sideCard-border mb-3">
+          <div class="sideCard-main-header px-3">
+            <div class="main-header-inr pt-3 pb-3">
+              <!-- <h4 class="heading-text mb-0 text-uppercase">INVITES</h4> -->
+              <h4 class="heading-text mb-1 text-uppercase">CONNECTION REQUESTS</h4>
+              <p class="sub-heading-text mb-0">view and accept/reject invitations to connect.</p>
+            </div>
+            <hr class="mb-0 mt-0">
+          </div>
+          <div class="sideCard-body px-3 scroll-height green_customScroll">
+
+            <ng-container *ngFor="let requestlist of friendrequest_list">
+              <ng-container *ngIf="requestlist.sender">
+                <div class="prflInfo-row d-flex align-items-center justify-content-between pb-2 pt-2">
+
+                  <div class="prfl-info d-flex align-items-center cursorPointer"
+                    (click)="openUserDetails(requestlist?.sender?.id,requestlist?.sender?.user_type)">
+                    <div class="prfl-img" [ngClass]="requestlist?.sender?.user_type == 1 ? 'circle' : ''">
+                      <ng-container *ngIf='requestlist?.sender?.user_type == 1;else friendDoerProfile'>
+
+                        <!-- <img [ngClass]="(requestlist?.user_control_status==1
+                                  || requestlist?.user_control_status==2
+                                  || requestlist?.sender?.user_control == null
+                                  || (requestlist?.user_control_status==3
+                                  && (requestlist?.sender?.user_control?.profile_photo  == 1
+                                  || requestlist?.sender?.user_control?.profile_photo  == 4
+                                  || requestlist?.sender?.user_control?.profile_photo == 6
+                                  || requestlist?.sender?.user_control?.profile_photo == 7))
+                                  ||  (requestlist?.user_control_status==0
+                              && (requestlist?.sender?.user_control?.profile_photo  == 3
+                              || requestlist?.sender?.user_control?.profile_photo  == 5
+                              || requestlist?.sender?.user_control?.profile_photo == 6
+                              || requestlist?.sender?.user_control?.profile_photo == 7)))?'':'blurImg'"
+                        [src]="(requestlist?.sender?.profile_photo && requestlist?.sender?.profile_photo!='null')? image_url+requestlist?.sender?.profile_photo:'assets/images/default-userImg-green.svg'"
+                        onError="this.src='assets/images/default-userImg-green.svg';"> -->
+                        <img
+                          [src]="(requestlist?.sender?.profile_photo && requestlist?.sender?.profile_photo!='null')? image_url+requestlist?.sender?.profile_photo:'assets/images/default-userImg-green.svg'"
+                          onError="this.src='assets/images/default-userImg-green.svg';">
+
+                      </ng-container>
+
+                      <ng-template #friendDoerProfile>
+                          <img
+                          [src]="requestlist?.sender?.company_logo!=null?companylogo_url+requestlist?.sender?.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                          onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                      </ng-template>
+                    </div>
+
+                    <div class="prfl-text pl-2">
+                      <p *ngIf="requestlist?.sender?.user_type==1
+                                  || (requestlist?.sender?.user_type==2 && requestlist?.sender?.profile_type==1)"
+                        class="nameText mb-0" style="word-break: break-word; white-space: pre-line;">
+                        {{ (requestlist?.sender?.first_name + " " + requestlist?.sender?.last_name).trim() || requestlist?.sender?.username}}
+                      </p>
+
+                      <ng-container *ngIf="requestlist?.sender?.user_type==2">
+                        <p class="nameText mb-0" *ngIf="requestlist?.sender?.profile_type==2" style="word-break: break-word; white-space: pre-line;">
+                          {{requestlist?.sender?.company_name}}
+                        </p>
+                      </ng-container>
+
+                    </div>
+                  </div>
+
+                  <div class="btn-holder text-right d-flex flex-column">
+                    <button mat-flat-button class="btn-greenColor btn-sm-rounded mb-1 text-uppercase"
+                      (click)="acceptOrDeclineFriendRequest(requestlist?.id,requestlist?.sender?.id,requestlist?.sender?.user_type,'1')">ACCEPT</button>
+                    <button mat-button class="btn-withoutBg btn-sm-rounded text-uppercase"
+                      (click)="acceptOrDeclineFriendRequest(requestlist?.id,requestlist?.sender?.id,requestlist?.sender?.user_type,'2')">DECLINE</button>
+                  </div>
+                </div>
+                <hr class="mt-0 mb-0">
+              </ng-container>
+            </ng-container>
+
+
+          </div>
+
+
+          <div class="sideCard-border-footer pt-2 pb-2 text-center" *ngIf="friendrequest_list.length != 0 ">
+            <a class="seeall-text pt-2 pb-2 px-2 d-inline-block" *ngIf="offset != 0"
+              (click)="seePreviousRequest(offset,limit,'back')"> <i class="fas fa-angle-left ml-1"></i> </a>
+            <a class="seeall-text pt-2 pb-2 px-2 d-inline-block" *ngIf="show_see_all"
+              (click)="seeNextPage(offset,limit,'front')"> <i class="fas fa-angle-right ml-1"></i> </a>
+          </div>
+        </div>
+        <!--end sideCard-border-->
+        <div class="sideCard-border">
+          <div class="sideCard-main-header px-3 mb-2">
+            <div class="main-header-inr pt-3 pb-3">
+              <h4 class="heading-text mb-0 text-uppercase">FIND PINNERS AND DOERS</h4>
+            </div>
+            <hr class="mb-0 mt-0">
+          </div>
+          <div class="sideCard-body px-3">
+            <div class="search-input-box">
+              <input matInput placeholder="Search" value="" [(ngModel)]="search_contact_name"
+                (keyup)="getDoerOrPinnerListByName()">
+              <button class="search-btn" (click)="getDoerOrPinnerListByName()" type="button"><span
+                  class="ic-magnifier"></span></button>
+            </div>
+            <div class="search-content green_customScroll">
+
+              <ng-container *ngFor="let friendSuggestion of pinnerDoerDetailList;let i=index">
+                <div class="prflInfo-row d-flex align-items-center justify-content-between pb-2 pt-2">
+                  <div class="prfl-info d-flex align-items-center cursorPointer"
+                    (click)="openUserDetails(friendSuggestion.id,friendSuggestion.user_type)">
+                    <div class="prfl-img" [ngClass]="friendSuggestion?.user_type == 1 ? 'circle' : ''">
+                      <ng-container *ngIf="friendSuggestion.user_type == 1">
+                        <img [ngClass]="friendSuggestion?.profilePictureShow==false?'blurImg':''"
+                          [src]="friendSuggestion.profile_photo!=null? image_url+friendSuggestion.profile_photo:'assets/images/default-userImg-green.svg'"
+                          onError="this.src='assets/images/default-userImg-green.svg';">
+
+                        <!-- <ng-template #showPinnerAvater>
+                          <img class="blurImg"
+                            [src]="friendSuggestion.profile_photo!=null? image_url+friendSuggestion.profile_photo:'assets/images/default-userImg-green.svg'"
+                            onError="this.src='assets/images/default-userImg-green.svg';">
+                        </ng-template> -->
+                      </ng-container>
+
+                      <img *ngIf="friendSuggestion.user_type == 2"
+                        [src]="friendSuggestion.company_logo!=null?companylogo_url+friendSuggestion.company_logo:'assets/images/default-userImg-orange-square.svg'"
+                        onError="this.src='assets/images/default-userImg-orange-square.svg';">
+                    </div>
+
+                    <div class="prfl-text pl-2">
+                      <ng-container *ngIf="friendSuggestion.user_type == 1">
+                        <span class="nameText mb-1">
+                          <ng-container *ngIf="friendSuggestion?.firstNameShow">
+                            {{friendSuggestion?.first_name}}
+                          </ng-container>
+                        </span>
+
+                        <span class="nameText mb-1">
+                          <ng-container *ngIf="friendSuggestion?.lastNameShow">
+                            {{friendSuggestion?.last_name}}
+                          </ng-container>
+                        </span>
+
+                        <p class="nameText mb-1">
+                          <ng-container *ngIf="(!friendSuggestion?.firstNameShow && !friendSuggestion?.lastNameShow)">
+                            {{friendSuggestion?.username}}
+                          </ng-container>
+                        </p>
+                      </ng-container>
+
+                      <ng-container *ngIf='friendSuggestion.user_type == 2'>
+                        <ng-container *ngIf='friendSuggestion.profile_type == 1'>
+                          <span class="nameText mb-1">
+                            {{friendSuggestion?.name}}
+                          </span>
+                          <p class="nameText mb-1">{{friendSuggestion?.username}}</p>
+                        </ng-container>
+
+                        <ng-container *ngIf='friendSuggestion.profile_type == 2'>
+                          <span class="nameText mb-1">
+                            {{friendSuggestion?.company_name}}
+                          </span>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                  </div>
+
+                  <div class="action-holder text-right">
+                    <span *ngIf="friendSuggestion?.no_of_mutual_friends
+                     && friendSuggestion?.no_of_mutual_friends!=0"
+                      class="smInfoGrayText mr-2">+{{friendSuggestion?.no_of_mutual_friends}}</span>
+                    <span class="green-circle ic-user-plus text-center" *ngIf="friendSuggestion?.is_connected==undefined
+                    || (friendSuggestion?.is_connected==0
+                    && (friendSuggestion?.is_pending==undefined
+                    || friendSuggestion?.is_pending==0)); else that"
+                      (click)="connectToContact(friendSuggestion,i)"></span>
+                    <ng-template #that>
+                      <span class="action-btn ic-user-plus mb-2 deActive" disabled></span>
+                    </ng-template>
+                  </div>
+                </div>
+                <hr class="mt-0 mb-0">
+              </ng-container>
+
+
+            </div>
+            <!--end search-content-->
+          </div>
+        </div>
+        <!--end sideCard-border-->
+      </div>
+    </div>
+  </div>
+</div>

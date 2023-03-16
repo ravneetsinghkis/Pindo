@@ -1,0 +1,14 @@
+<div class="block-wrap">
+	<div class="block-heading mb-2">
+	   <h3 class="headingText-type2" [innerHTML]="field.label | keepHtml"></h3>
+	</div>
+	<mat-form-field appearance="outline" color="primary" [formGroup]="group">
+		<mat-label>{{field.label}}</mat-label>
+	    <input matInput [matDatepicker]="picker" [formControlName]="field.name" readonly (focus)="picker.open()">
+	    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+	    <mat-datepicker #picker></mat-datepicker>
+	    <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
+	        <mat-error *ngIf="group?.get(field.name)?.hasError(validation.name)">This is a required Field</mat-error>
+	    </ng-container>
+	</mat-form-field>
+</div>

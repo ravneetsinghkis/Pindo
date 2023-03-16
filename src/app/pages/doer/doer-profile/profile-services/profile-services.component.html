@@ -1,0 +1,196 @@
+<div class="dummy_content no_minheight" [hidden]="isHiddenService">
+	<div class="row">
+		<div class="col-md-4 align-self-center">
+			<div class="icon-space text-center">
+				<img src="assets/images/icon-set/06.svg" alt="">
+			</div>
+		</div>
+		<div class="col-md-8 align-self-center">
+			<h6 class="maincardsubHeading" (click)="togglePopup()">Add Services</h6>
+			<div class="col-md-5 pl-0">
+				<p>Please add the services that you are offering and get hired.</p>
+				<button mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="togglePopup()">
+					Add Services
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div *ngIf="isHiddenService">
+	<div class="border-box pt-30" *ngFor="let eachService of serviceOffered | sortPipe : 'name';let i=index;">
+		<div class="category-name">{{eachService.name}}</div>
+		<div class="inner-borderbox"
+			*ngFor="let eachSubcatService of eachService.children | sortPipe : 'name';let child_index=index;">
+			<div class="border-box-action">
+				<button mat-icon-button class="btn-action float-left" (click)="editService(i,child_index)"><i
+						class="far fa-edit"></i></button>
+				<button mat-icon-button class="btn-action float-left" (click)="deleteService(i,child_index)"><i
+						class="far fa-trash-alt"></i></button>
+			</div>
+			<h4 *ngIf="eachSubcatService?.doer_categories?.hourly_rate!=null">{{eachSubcatService?.name}} -
+				<span>
+					<ng-container *ngIf="eachSubcatService?.doer_categories?.hourly_rate!=null">$
+						{{eachSubcatService?.doer_categories?.hourly_rate}} per </ng-container>
+
+					<ng-container *ngIf="eachSubcatService?.doer_categories?.unit_name!=null">
+						{{eachSubcatService?.doer_categories?.unit_name}}</ng-container>
+
+				</span>
+			</h4>
+
+			<h4 *ngIf="eachSubcatService?.doer_categories?.hourly_rate==null">{{eachSubcatService?.name}}</h4>
+
+			<div class="servicePopulated-tags">
+				<span
+					*ngFor="let eachTask of eachSubcatService.doer_categories.doer_tasks">{{eachTask?.doer_task_details?.name}}</span>
+				<!-- <span>Software installation</span> -->
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- overlayPopup -->
+<div class="overlayPopup popupavl" #popUpAddServices>
+	<div class="popupHeader">
+		<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span
+				class="or or-return"></span></button>
+		<h3>
+			<ng-container *ngIf="!inEditMode">Add Services Offered</ng-container>
+			<ng-container *ngIf="inEditMode">Edit Service Offered</ng-container>
+		</h3>
+	</div>
+	<div class="popupContent">
+		<div class="filterSection">
+			<div class="popUpcontentHeading text-center">
+				<!-- <p>Select the services you offer and set the rates for each of them.</p> -->
+			</div>
+
+			<div class="serviceSection">
+				<!-- <div class="serv"> -->
+				<div class="container clearfix">
+					<form #doerService="ngForm" (ngSubmit)="doerServiceSubmit(doerService)">
+						<mat-form-field appearance="outline" class="p-0 no_background" *ngIf="inMobView">
+							<mat-select placeholder="Select Category" #selectCategory disableOptionCentering panelClass="myPanelClass"
+								[(value)]="selectedCatValue" (valueChange)="selectCat(selectCategory.value)">
+								<mat-option *ngFor="let eachService of parentServices;let i=index;" [value]="eachService.id">
+									<span><img src="assets/images/event-icons/{{eachService.icon}}" alt=""></span>{{eachService.name}}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+						<div class="chooseCategory d-flex justify-content-between eachFilterBlock" *ngIf="!inMobView">
+							<div class="chooseCategoryCheckbox" *ngFor="let eachService of parentServices;let i=index;">
+								<input type="radio" id="checkCat-{{eachService.id}}" name="serviceradio"
+									(change)="selectCat(eachService.id)">
+								<label for="checkCat-{{eachService.id}}"><span
+										[innerHTML]="eachService?.icon | keepHtml"></span>{{eachService.name}}</label>
+							</div>
+						</div>
+						<div class="prevSelectedCategory eachFilterBlock" *ngIf="previouslySelectedSubCat.length>0">
+
+							<h4>Select the services you offer and set the rates for each of them <span>(If you want to <a
+										(click)="togglePopup()">Edit</a> any one of these please close the popup and edit from service
+									listings individually.)</span></h4>
+
+							<div class="d-flex prevselectedItems">
+								<ng-container *ngFor="let eachPrev of previouslySelectedSubCat">
+									<span>{{eachPrev?.name}}</span>
+								</ng-container>
+							</div>
+						</div>
+						<div class="chooseSubCategory eachFilterBlock">
+							<h4>SELECT SUBCATEGORY</h4>
+							<ng-container *ngIf="ServiceSubCat.length>0">
+								<mat-form-field appearance="outline" class="p-0 no_background" *ngIf="inMobView">
+									<mat-select placeholder="Select Sub Category" #selectSubCategory disableOptionCentering
+										panelClass="myPanelClass" [(value)]="selectedSubCatValue"
+										(selectionChange)="selectedSubCats(selectSubCategory.value)">
+										<mat-option>None</mat-option>
+										<mat-option *ngFor="let eachSub of ServiceSubCat;" [value]="eachSub.id">
+											{{eachSub.name}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+								<ng-container *ngIf="!inMobView">
+									<ng-container *ngFor="let eachSub of ServiceSubCat;">
+										<div class="greyCheck hideInMob">
+											<input type="radio" id="subCat-{{eachSub.id}}" name="subcatradio"
+												(change)="selectedSubCats(eachSub.id)">
+											<label for="subCat-{{eachSub.id}}">{{eachSub.name}}</label>
+										</div>
+									</ng-container>
+								</ng-container>
+							</ng-container>
+							<ng-container *ngIf="ServiceSubCat.length==0">
+								<p>No Subcategories Found</p>
+							</ng-container>
+						</div>
+				
+						<div class="chooseSubCategory eachFilterBlock" *ngIf="selectedsubCatId!=''">
+					
+							<button type="button" class="add_btn btn-greenColor btn-sm-rounded"
+								(click)="addPriceTemplate(); doerService.control.markAsTouched()">Add Rate</button>
+							<div class="formArray-row-wrap mb-3" *ngFor="let each_pricing of service_pricing; let i=index;">
+								<div class="row">
+									<div class="col-md-6">
+										<h4>Service Rate ($)</h4>
+										<input type="text" class="form-control" name="serviceRate_{{i}}" #serviceRate="ngModel"
+											ngModel="{{each_pricing?.serviceRate}}" pattern="^[0-9]+([.][0-9]+)?$">
+										<!-- <mat-error class="pl-3 pt-2" *ngIf="serviceRateValRef.errors && doerService.submitted && serviceRateValRef?.errors?.required">Please provide the Service Rate</mat-error> -->
+										<mat-error class="pl-3 pt-2"
+											*ngIf="serviceRate.errors && doerService.submitted && (serviceRate.errors.pattern || !serviceRate.errors.required)">
+											Please provide a valid amount. Please note that you can only use numbers and not symbols or
+											letters.</mat-error>
+									</div>
+									<div class="col-md-6">
+										<h4>PER</h4>
+										<input type="text" class="form-control" name="unitName_{{i}}" #unitName="ngModel"
+											ngModel="{{each_pricing?.unitName}}">
+									</div>
+								</div>
+
+								<button type="button" (click)="removePriceTemplate(i); doerService.control.markAsTouched()"
+									class="delete_btn">
+									<i class="material-icons">
+										delete
+									</i>
+								</button>
+							</div>
+						</div>
+						<!-- <div class="filterBottomPanel d-flex justify-content-between" *ngIf="selectedTasks.length>0"> -->
+						<div class="filterBottomPanel d-flex justify-content-between" *ngIf="selectedsubCatId!=''">
+							<div class="selectedFilters clearfix">
+								<div class="selectedFilterBox" *ngFor="let eachSeletedTask of selectedTasks | slice:0:3;let i = index">
+									<cite title="{{eachSeletedTask?.task?.name}}">{{eachSeletedTask?.task?.name}}</cite>&nbsp;&nbsp;<span
+										class="remove_filter" id="filter-{{eachSeletedTask.id}}" (click)="deselectFilter(i)"><i
+											class="fas fa-times"></i></span>
+								</div>
+								<ng-container *ngIf="selectedTasks.length>3">
+									<button type="button" mat-button [matMenuTriggerFor]="menudrop">
+										<i class="fas fa-ellipsis-h"></i>
+									</button>
+									<mat-menu #menudrop="matMenu" [overlapTrigger]="false">
+										<button type="button" mat-menu-item class="cutom_itemstyle withfilter"
+											*ngFor="let eachSeletedTask of selectedTasks | slice:3:selectedTasks.length;let i = index"
+											(click)="deselectFilter(i+3)">
+											<cite title="{{eachSeletedTask?.task?.name}}">{{eachSeletedTask?.task?.name}}</cite> <span
+												class="remove_filter" id="filter-{{eachSeletedTask.id}}"><i class="fas fa-times"></i></span>
+										</button>
+									</mat-menu>
+								</ng-container>
+							</div>
+							<div class="right_filter align-self-center">
+								<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary ml-3">
+									Save
+								</button>
+								<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary ml-3"
+									(click)="doerServiceSubmit(doerService,true)"> Save &amp; Return</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,30 @@
+<div class="total-dialogCntent text-left">
+    
+    <h4>Select any one option...</h4>
+    <div class="w-100 mt-4">        
+        <mat-radio-group class="green-color" [(ngModel)]="chosenSkipOption">
+          <mat-radio-button class="mr-3" *ngFor="let eachskipOptions of skipOptions" [value]="eachskipOptions">
+            {{eachskipOptions}}
+          </mat-radio-button>
+        </mat-radio-group>
+    </div>    
+    <div class="d-flex pt-3">
+        <button *ngIf="display_data.pin_type!='private_pin'" type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="applyChoose();">
+            DONE
+        </button>
+
+        <ng-container *ngIf="display_data.pin_type=='private_pin'">
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2 mb-2" (click)="inviteDoer(display_data.pin_id);" [mat-dialog-close]="true">
+                Invite Doer
+            </button>
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2 mb-2" (click)="markAsPublicPin(display_data.pin_id);" [mat-dialog-close]="true">
+                Mark as public pin
+            </button>
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="addToPinnerToDoToInviteDoer(display_data.pin_id);" [mat-dialog-close]="true">
+                Leave anyway
+            </button>
+        </ng-container>
+    </div>
+</div>
+
+

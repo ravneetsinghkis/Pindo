@@ -1,0 +1,352 @@
+<!-- <div class="common_topgap">
+  <div class="newtop_section">
+    <div class="container h-100 posn_rel">
+      <div class="d-flex flex-wrap align-content-center h-100 posn_rel">
+        <div class="inn_div align-self-center">
+          <h2>{{ pageTitle }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<div class="faq-Section">
+		<div class="filterSection clearfix pt-4">
+			<div class="container">
+        <div class="row">
+          <div class="col-md-12" *ngIf="pageContent">
+            <div [innerHTML]="pageContent"></div>
+  
+     
+  
+            <div class="mb-5">
+              <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="openApplication()" [ngClass]="userType == 2 ? 'btn-orangeColor' : 'btn-greenColor'">
+                Apply
+              </button>
+            </div>
+          </div>
+        </div>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+
+<div class="crew-sec-wrap">
+
+  <div class="crew-banner-sec">
+
+    <div class="crew-banner-graphic">
+      <img src="assets/images/crew-images/banner-img.png">
+
+      <div class="crew-hero-img">
+      </div>
+
+    </div>
+
+    <div class="crew-banner-bottom d-flex align-items-center">
+      <div class="container">
+        <div class="crew-banner-bottom-content mx-auto text-center">
+          <div class="topText-box d-flex justify-content-center">
+            <div class="topText1">25</div>
+            <div class="topText-middle">FOR</div>
+            <div class="topText1">5</div>
+          </div>
+          <p class="subText mb-0">Earn 25% of PinDo revenue from your referrals for 5 years.*</p>
+        </div>
+      </div> <!-- end container-->
+    </div>
+
+  </div> <!-- end crew-banner-sec-->
+
+  <div class="crew-caption-sec">
+    <div class="container text-center">
+      <p>*for every new Doer that you sign up, earn 25 percent of our transaction fee on all jobs booked on Pindo for a
+        period of 5 years.</p>
+    </div>
+  </div>
+  <!--- end crew-caption-sec -->
+
+  <div class="crew-explained-sec">
+
+    <div class="main-heading-sec">
+      <div class="container">
+        <h3 class="headingText text-center text-uppercase">PinDo CREW Explained</h3>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-md-6">
+
+          <div class="dsc-content-block">
+            <p>PinDo CREW members are advocates of the PinDo online services marketplace. CREW members are tasked to
+              help strengthen their local economies by spreading awareness of the PinDo platform and commerce
+              opportunities. The formula is simple: cultivate, initiate, accumulate.</p>
+
+            <div class="btn-holder mt-4">
+              <!-- <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="openApplication()" >
+                  Apply
+                </button> -->
+
+              <button type="submit" mat-flat-button
+                [ngClass]="userType == 2 ? 'btn-orangeColor lg-size  mb-3 text-uppercase' : 'btn-greenColor lg-size mb-3 text-uppercase'"
+                (click)="openApplication()">Apply</button>
+
+            </div>
+
+          </div>
+
+        </div>
+        <!--- end col-md-6 -->
+
+        <div class="col-md-6">
+
+          <div class="explainedStep-list-holder">
+            <ul class="explainedStep-list">
+
+              <li class="non-focus">
+                <div class="explainedStep-content d-flex">
+                  <div class="circle">1</div>
+                  <div class="infoText">
+                    <h4 class="headingText">Cultivate</h4>
+                    <p>
+                      Spread the word, make people aware of PinDo, educate service providers (Doers) and consumers
+                      (Pinners) about the opportunity to make connections and find service providers and customers in
+                      their local community.
+                    </p>
+                  </div>
+                </div>
+              </li>
+
+
+              <li class="non-focus">
+                <div class="explainedStep-content d-flex">
+                  <div class="circle">2</div>
+                  <div class="infoText">
+                    <h4 class="headingText">Initiate</h4>
+                    <p>
+                      Sign up Doers to the platform and help them reach new customers.
+                    </p>
+                  </div>
+                </div>
+              </li>
+
+              <li class="non-focus">
+                <div class="explainedStep-content d-flex">
+                  <div class="circle">3</div>
+                  <div class="infoText">
+                    <h4 class="headingText">Accumulate</h4>
+                    <p>
+                      Make money. Create a new revenue stream that once set up, pays you for 5 years!
+                    </p>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+
+        </div>
+        <!--- end col-md-6 -->
+
+      </div><!-- end row -->
+
+    </div><!-- end container -->
+
+  </div>
+
+
+  <div class="program-work-sec">
+
+    <div class="container">
+
+      <div class="main-heading-sec">
+        <div class="container">
+          <h3 class="headingText text-center text-uppercase">How Does the Program Work</h3>
+        </div>
+      </div>
+
+      <div class="program-work-list-holder">
+
+        <ul class="program-work-list">
+          <li>
+            <div class="program-work-list-content d-md-flex align-items-center">
+              <div class="icon-block d-flex align-items-center justify-content-center flex-shrink-0">
+                <div class="icon-block-inr text-center">
+                  <span class="icon-box">
+                    <img src="assets/images/crew-images/list.svg">
+                  </span>
+                  <p class="iconText">1. Apply</p>
+                </div>
+
+              </div>
+              <div class="dsc-content-block">
+                <p>Fill  out the form by selecting "APPLY" below. The process is simple but we need an application to help us help you succeed.</p>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="program-work-list-content d-md-flex align-items-center">
+              <div class="icon-block d-flex align-items-center justify-content-center flex-shrink-0">
+                <div class="icon-block-inr text-center">
+                  <span class="icon-box">
+                    <img src="assets/images/crew-images/check.svg">
+                  </span>
+                  <p class="iconText">2. Accept</p>
+                </div>
+              </div>
+              <div class="dsc-content-block">
+                <p>Your application will be reviewed at PinDo. We review your submitted information and check the CREW
+                  opportunity available in your local community. If we are actively expanding in your area, we will
+                  return
+                  an invite to become a CREW member.</p>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="program-work-list-content d-md-flex align-items-center">
+              <div class="icon-block d-flex align-items-center justify-content-center flex-shrink-0">
+                <div class="icon-block-inr text-center">
+                  <span class="icon-box">
+                    <img src="assets/images/crew-images/pick.svg">
+                  </span>
+                  <p class="iconText">3. Sign up Doers</p>
+                </div>
+
+              </div>
+              <div class="dsc-content-block">
+                <p>This is your opportunity to earn your 25%. Educate prospective users and get them familiar with the
+                  platform. </p>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="program-work-list-content d-md-flex align-items-center">
+              <div class="icon-block d-flex align-items-center justify-content-center flex-shrink-0">
+                <div class="icon-block-inr text-center">
+                  <span class="icon-box">
+                    <img src="assets/images/crew-images/dollar.svg">
+                  </span>
+                  <p class="iconText">4. Get Paid</p>
+                </div>
+              </div>
+              <div class="dsc-content-block">
+                <p>Once they use PinDo, the benefits will become clear and you will have created a new revenue stream
+                  for yourself.</p>
+              </div>
+            </div>
+
+          </li>
+
+
+        </ul>
+
+      </div><!-- end program-work-list-holder -->
+
+      <hr>
+
+    </div>
+
+  </div> <!-- end program-work-sec-->
+
+
+
+  <div class="member-benefit-sec">
+
+
+      <div class="main-heading-sec">
+        <div class="container">
+          <h3 class="headingText text-center text-uppercase">CREW MEMBER BENEFITS</h3>
+        </div>
+      </div>
+
+
+      <div class="member-benefit-content">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-lg-4 order-md-1">
+              <div class="member-benefit-block-holder left-block-holder pl-xl-2">
+
+                <div class="member-benefit-block">
+                  <h4 class="headingText">Create your own annuity</h4>
+                  <div class="dscText">
+                    <p>Work once, get paid for five years – every time the Doer that you signed up 	books a job on PinDo, you get paid. Sign up more Doers and your opportunity for 
+                      income increases.</p>
+                  </div>
+                  <p class="bold-greenText">Job Value x PinDo Fee x 25% = Your $</p>
+                </div> <!-- end member-benefit-block -->
+                <hr>
+                <div class="member-benefit-block">
+                  <h4 class="headingText">Expand your influence</h4>
+                  <div class="dscText">
+                    <p>As a CREW member, you have the power to introduce people to a platform that can make it easier to secure new customers, manage projects, and find quality service providers. If you have your own business this is an opportunity to make connections that can lead to referrals and  augment your reputation.</p>
+                  </div>
+                </div> <!-- end member-benefit-block -->
+
+              </div>
+            </div> <!-- end col-lg-4 -->
+ 
+            <div class="col-lg-4 order-md-3">
+              <div class="member-benefit-block-holder pr-xl-2">
+
+                <div class="member-benefit-block ">
+                  <h4 class="headingText">Get paid to market</h4>
+                  <div class="dscText">
+                    <p>Marketing takes time. Most small businesses find securing the next job and new customers the least favorable part of entrepreneurship. As a CREW member, you will make new connections and find new leads that indirectly benefit your own line of work/life.  AND, you get paid.</p>
+                  </div>
+                </div> <!-- end member-benefit-block -->
+                <hr>
+                <div class="member-benefit-block ">
+                  <h4 class="headingText">Strengthen your community</h4>
+                  <div class="dscText">
+                    <p>PinDo’s mission is to strengthen local communities through connecting small businesses with customers that need them. Participating in PinDo’s CREW program means that you will help us achieve our mission and enhance the social connections and quality of life of your community. PinDo works with local municipalities to develop programs that enrich the local tax base and thereby create more business opportunities.</p>
+                  </div>
+                </div> <!-- end member-benefit-block -->
+
+              </div>
+            </div>
+
+            <div class="col-lg-4 order-md-2">
+              <div class="member-benefit-img">
+                <img src="assets/images/crew-images/crew-icon.svg" class="" alt="">
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="btn-holder mt-3 text-center">
+
+
+            <button type="submit" mat-flat-button
+              [ngClass]="userType == 2 ? 'btn-orangeColor lg-size text-uppercase' : 'btn-greenColor lg-size text-uppercase'"
+              (click)="openApplication()">Apply</button>
+
+              <div class="bottom-link-holder text-center mt-2">
+                <a routerLink="/terms-privacy" class="bottom-link">Terms & Conditions</a>
+              </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+
+  </div> <!-- end benefits-sec-->
+
+
+
+</div>
+
+
+
+
+
+<app-crew-application #crewApplication></app-crew-application>

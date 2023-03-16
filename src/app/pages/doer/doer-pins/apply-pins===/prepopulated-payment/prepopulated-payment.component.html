@@ -1,0 +1,126 @@
+
+  	<div class="spacing_box">
+	    <h5 class="maincardsubHeading">Quotation Summary</h5>
+	    <div class="row indvQuotaion mr-0 ml-0">
+		    <div class="flex-fill">
+		    	<div class="indvQuotaionBox">
+			    	<h5>
+			    		<ng-container *ngIf="totalPaymentData?.quotation_dtls?.payment_mode==1">Fixed</ng-container>
+			    		<ng-container *ngIf="totalPaymentData?.quotation_dtls?.payment_mode==2">Hourly</ng-container>
+			    		<ng-container *ngIf="totalPaymentData?.quotation_dtls?.payment_mode==3">Recurring</ng-container>
+			    	</h5>
+			    	<p>Payment Type</p>
+		    	</div>
+		    </div>
+		    <div class="flex-fill">
+		    	<div class="indvQuotaionBox">
+		    		<h5>$ {{totalPaymentData?.quotation_dtls?.released_amount | number:'.2-2'}}</h5>
+		    		<p>Amount Released</p>
+		    	</div>
+		    </div>
+		    <div class="flex-fill" *ngIf="totalPaymentData?.quotation_dtls?.payment_mode==3">
+		    	<div class="indvQuotaionBox">
+			    	<h5>{{ totalPaymentData?.quotation_dtls?.normal_milestones["0"]?.price }}</h5>
+			    	<p>Hourly Rate</p>
+		    	</div>
+		    </div>
+		    <div class="flex-fill">
+		    	<div class="indvQuotaionBox">
+			    	<h5>$ {{totalPaymentData?.quotation_dtls?.total_quotation_amount | number:'.2-2'}}</h5>
+			    	<p>Total Amount</p>
+		    	</div>
+		    </div>
+		    <div class="flex-fill" *ngIf="totalPaymentData?.quotation_dtls?.payment_mode==2">
+		    	<div class="indvQuotaionBox">
+			    	<h5><!-- <ng-container *ngIf="totalActiveQuotationDetails?.quotations?.total_hours!=null"> -->{{ gettotalHrs() }}Hrs<!-- </ng-container> -->
+			    	<!-- <ng-container *ngIf="totalActiveQuotationDetails?.quotations?.total_hours==null">N/A</ng-container> --></h5>
+			    	<p>Total Working Time</p>
+		    	</div>
+		    </div>
+	    </div>
+    </div>
+    <div class="spacing_box">
+    	<h5 class="maincardsubHeading">Job Milestones</h5>
+    	<div class="forScroll">
+			<div class="border-box hasideBar d-flex align-items-center" *ngFor="let eachNormalMilestone of totalPaymentData?.quotation_dtls?.normal_milestones;">
+				<div class="d-flex flex-column">
+					<h4>{{eachNormalMilestone?.name}}</h4>
+					<div class="together">						
+						<p class="custom-style" *ngIf="totalPaymentData?.quotation_dtls?.payment_mode!=1"><span class="subInfo"><i class="far fa-money-bill-alt"></i>$ {{eachNormalMilestone.price | number:'.2-2'}}/hr</span><span class="subInfo"><i class="far fa-clock"></i>{{eachNormalMilestone.hours}} hrs</span></p>
+						<ng-container *ngIf="eachNormalMilestone.remove_request==0 && eachNormalMilestone?.status==0  && eachNormalMilestone.response_pending_for_newely_added_milestone_by_pinner!=1 && totalPaymentData?.pin_details?.status==2">
+							<!-- <button class="btn-link customeditLink mr-2" (click)="editMilestoneReqst(eachNormalMilestone.id)" *ngIf="eachNormalMilestone.edit_request==0"><i class="far fa-edit"></i>&nbsp;&nbsp;Send Edit Request</button> -->
+							<button class="btn-link customeditLink mr-2" *ngIf="eachNormalMilestone.edit_request==0" (click)="toggleEdit(eachNormalMilestone.id,'normal_milestones')"><i class="far fa-edit"></i>&nbsp;&nbsp;Edit Milestone</button>
+							<button class="btn-link customeditLink grey-color mr-2" disabled *ngIf="eachNormalMilestone.edit_request==2"><i class="far fa-edit"></i>&nbsp;&nbsp;Pending Edited Milstone Accept/Reject from Pinner Side</button>
+							<!-- <button class="btn-link customeditLink mr-2" *ngIf="eachNormalMilestone.edit_request==2" (click)="toggleEdit(eachNormalMilestone.id,'normal_milestones')"><i class="far fa-edit"></i>&nbsp;&nbsp;Edit Milestone</button> -->
+							<button class="btn-link customeditLink grey-color mr-2" disabled *ngIf="eachNormalMilestone.edit_request==3"><i class="far fa-edit"></i>&nbsp;&nbsp;Pending Edited Milstone Accept/Reject from Pinner Side</button>
+						</ng-container>
+						<ng-container *ngIf="eachNormalMilestone.edit_request==0 && eachNormalMilestone.response_pending_for_newely_added_milestone_by_pinner==1 && totalPaymentData?.pin_details?.status==2 && eachNormalMilestone?.status==0">
+							<button class="btn-link customeditLink grey-color mr-2" disabled><i class="far fa-edit"></i>&nbsp;&nbsp;New Milestone Pending Accept/Delete from Pinner side</button>
+						</ng-container>
+						<ng-container *ngIf="eachNormalMilestone.edit_request==0 && eachNormalMilestone?.status==0 && eachNormalMilestone.response_pending_for_newely_added_milestone_by_pinner!=1 && totalPaymentData?.pin_details?.status==2">
+							<button class="btn-link customeditLink red_btn mr-2" *ngIf="eachNormalMilestone.remove_request==0 && totalPaymentData?.quotation_dtls?.payment_mode!=3" (click)="sendRemoveReqst(eachNormalMilestone.id)" style="cursor:pointer;"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Send Request to Remove Milestone</button>
+							<button class="btn-link customeditLink grey-color mr-2" *ngIf="eachNormalMilestone.remove_request==1 && totalPaymentData?.quotation_dtls?.payment_mode!=3" style="cursor:pointer;" disabled><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Remove Request has been sent</button>
+						</ng-container>
+						<ng-container *ngIf="eachNormalMilestone.response_pending_for_newely_added_milestone_by_pinner==1 && totalPaymentData?.pin_details?.status==2">
+							<button class="btn-link customeditLink grey-color mr-2" disabled *ngIf="eachNormalMilestone.edit_request==1" style="cursor:pointer;"><i class="far fa-edit"></i>&nbsp;&nbsp;Pending Accept/Delete from Pinner side</button>
+						</ng-container>
+					</div>
+				</div>
+				<div class="side-info">
+					<p>
+						<ng-container *ngIf="totalPaymentData?.quotation_dtls?.payment_mode!=1">
+							<span>$ {{ getTotalPrice(eachNormalMilestone.price,eachNormalMilestone.hours) | number:'.2-2'}}</span>
+						</ng-container>
+						<span *ngIf="totalPaymentData?.quotation_dtls?.payment_mode==1">$ {{ eachNormalMilestone.price | number:'.2-2' }}</span>
+						<ng-container *ngIf="eachNormalMilestone.remove_request==0 && eachNormalMilestone.edit_request==0 && totalPaymentData?.pin_details?.status=='2' ">
+							<button mat-raised-button class="dashboardprimary text-uppercase green-color small_btn" (click)="requestPaymentRelease(eachNormalMilestone.id,totalPaymentData['pin_details']['id'])" *ngIf="eachNormalMilestone?.status==0 && eachNormalMilestone?.response_pending_for_newely_added_milestone_by_pinner!=1">Send Payment Request</button>
+							<button mat-raised-button class="dashboardprimary text-uppercase grey-color small_btn" disabled *ngIf="eachNormalMilestone?.status==1">Payment Requested</button>
+							<button mat-raised-button class="dashboardprimary text-uppercase grey-color small_btn" disabled *ngIf="eachNormalMilestone?.status==2">Payment Received</button>
+							<button mat-raised-button class="dashboardprimary text-uppercase red-color small_btn" (click)="requestPaymentRelease(eachNormalMilestone.id,totalPaymentData['pin_details']['id'])" *ngIf="eachNormalMilestone?.status==3">Send Request Again</button>
+						</ng-container>
+					</p>					
+				</div>
+			</div>									
+		</div>
+    </div>
+    <div class="spacing_box" *ngIf="totalPaymentData?.quotation_dtls?.additional_milestones.length>0">
+    	<h5 class="maincardsubHeading">Additional Milestones</h5>
+    	<div class="forScroll">
+			<div class="border-box hasideBar d-flex align-items-center" *ngFor="let eachAddntlMilestone of totalPaymentData?.quotation_dtls?.additional_milestones;">
+				<div class="d-flex flex-column">
+					<h4>{{eachAddntlMilestone.name}}</h4>
+					<div class="together">	
+						<p class="custom-style" *ngIf="totalPaymentData?.quotation_dtls?.payment_mode!=1"><span class="subInfo"><i class="far fa-money-bill-alt"></i>{{eachAddntlMilestone.price}}</span><span class="subInfo" *ngIf="eachAddntlMilestone.hours!=null"><i class="far fa-clock"></i>{{eachAddntlMilestone.hours}} hrs</span></p>	
+						<ng-container *ngIf="eachAddntlMilestone.remove_request==0 && eachAddntlMilestone.response_pending_for_newely_added_milestone_by_pinner!=1 && totalPaymentData?.pin_details?.status==2 && eachAddntlMilestone?.status==0">
+							<!-- <button class="btn-link customeditLink mr-2" (click)="editMilestoneReqst(eachAddntlMilestone.id)" *ngIf="eachAddntlMilestone.edit_request==0"><i class="far fa-edit"></i>&nbsp;&nbsp;Send Edit Request</button>
+							 -->
+							<!-- <button class="btn-link customeditLink grey-color mr-2" disabled *ngIf="eachAddntlMilestone.edit_request==1"><i class="far fa-edit"></i>&nbsp;&nbsp;edit Request Send</button> -->
+							<button class="btn-link customeditLink mr-2" *ngIf="eachAddntlMilestone.edit_request==0" (click)="toggleEdit(eachAddntlMilestone.id,'additional_milestones')" style="cursor:pointer;"><i class="far fa-edit"></i>&nbsp;&nbsp;Edit Milestone</button>	
+							<button class="btn-link customeditLink grey-color mr-2" disabled *ngIf="eachAddntlMilestone.edit_request==1" style="cursor:pointer;"><i class="far fa-edit"></i>&nbsp;&nbsp;Pending Edited Milstone Accept/Reject from Pinner Side</button>		
+						</ng-container>
+						<ng-container *ngIf="eachAddntlMilestone.edit_request==0 && eachAddntlMilestone.response_pending_for_newely_added_milestone_by_pinner==1 && totalPaymentData?.pin_details?.status==2 && eachAddntlMilestone?.status==0">
+							<button class="btn-link customeditLink grey-color mr-2" style="cursor:pointer;" disabled><i class="far fa-edit"></i>&nbsp;&nbsp;New Milestone Pending Accept/Delete from Pinner side</button>
+						</ng-container>	
+						<ng-container *ngIf="eachAddntlMilestone.edit_request==0 && eachAddntlMilestone.response_pending_for_newely_added_milestone_by_pinner!=1 && totalPaymentData?.pin_details?.status==2 && eachAddntlMilestone?.status==0">
+							<button class="btn-link customeditLink red_btn mr-2" *ngIf="eachAddntlMilestone.remove_request==0" (click)="sendRemoveReqst(eachAddntlMilestone.id)" style="cursor:pointer;"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Send Request to Remove Milestone</button>
+							<button class="btn-link customeditLink grey-color mr-2" *ngIf="eachAddntlMilestone.remove_request==1" style="cursor:pointer;" disabled><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Remove Request has been sent</button>
+						</ng-container>	
+						<ng-container *ngIf="eachAddntlMilestone.response_pending_for_newely_added_milestone_by_pinner==1 && totalPaymentData?.pin_details?.status==2 && eachAddntlMilestone?.status==0">
+							<button class="btn-link customeditLink grey-color mr-2" disabled *ngIf="eachAddntlMilestone.edit_request==1" style="cursor:pointer;"><i class="far fa-edit"></i>&nbsp;&nbsp;Pending Accept/Delete from Pinner side</button>
+						</ng-container>
+					</div>
+				</div>
+				<div class="side-info">
+					<p>
+						<span>$ {{eachAddntlMilestone.price | number:'.2-2'}}</span><!-- Total Amount -->
+						<ng-container *ngIf="eachAddntlMilestone.remove_request==0 && eachAddntlMilestone.edit_request==0 && totalPaymentData?.pin_details?.status==2">
+							<button mat-raised-button class="dashboardprimary text-uppercase green-color small_btn" (click)="requestPaymentRelease(eachAddntlMilestone.id,totalPaymentData['pin_details']['id'])" *ngIf="eachAddntlMilestone?.status==0 && eachAddntlMilestone.response_pending_for_newely_added_milestone_by_pinner!=1" style="cursor:pointer;">Send Payment Request</button>
+							<button mat-raised-button class="dashboardprimary text-uppercase grey-color small_btn" disabled *ngIf="eachAddntlMilestone?.status==1" style="cursor:pointer;">Payment Requested</button>
+							<button mat-raised-button class="dashboardprimary text-uppercase grey-color small_btn" disabled *ngIf="eachAddntlMilestone?.status==2" style="cursor:pointer;">Payment Received</button>
+							<button mat-raised-button class="dashboardprimary text-uppercase red-color small_btn" (click)="requestPaymentRelease(eachAddntlMilestone.id,totalPaymentData['pin_details']['id'])" *ngIf="eachAddntlMilestone?.status==3" style="cursor:pointer;">Send Request Again</button>
+						</ng-container>
+					</p>
+				</div>
+			</div>									
+		</div>
+    </div>

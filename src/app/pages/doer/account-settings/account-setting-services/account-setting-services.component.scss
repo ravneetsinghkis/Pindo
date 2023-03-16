@@ -1,0 +1,29 @@
+.service-categorySelect-wrap {
+    .swiper-button-next, .swiper-button-prev{ color: #E6854A; width: 20px;}
+}
+
+.requestSubCat-box{
+    .titleText{
+        color: #37383A;
+        font-family: 'Montserrat-Medium';
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .inputField{
+        border: none;
+        border-bottom: 1px solid #ccc;
+        font-size: 14px;
+        width: 180px;
+        height: 34px;
+        padding: 0;
+        color: #37383A;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .requestSubCat-box{
+        .titleText{
+            font-size: 13px;
+        }
+    }
+}

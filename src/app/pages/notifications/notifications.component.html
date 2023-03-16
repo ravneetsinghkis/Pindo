@@ -1,0 +1,121 @@
+<div class="totalDashboard">
+	<div class="container">
+		<div class="mainHeading">
+			<h3>Notifications</h3>
+			<p>What’s going on? Check your notifications to see if there’s anything that needs your attention.</p>
+		</div>
+		<div class="row">
+			<div class="col-md-6 offset-md-3" *ngIf="allNotifications.length==0">
+				<mat-card class="pindoCart">
+					<mat-card-content class="pt-0 pb-2">
+						<div class="no_content row w-100">
+							<div class="col-md-12 text-center">
+								<i class="or-bell" style="font-size: 60px;color: #ecf0f4;"></i>
+							</div>
+							<div class="col-md-12 text-center">
+								<ng-container>
+									<h5>No Notifications to show</h5>
+								</ng-container>
+							</div>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</div>
+
+			<div class="col-md-12" *ngIf="allNotifications.length>0">
+				<div class="text-right formobdispOnlycheck">
+					<mat-checkbox [(ngModel)]="checkedAll" (change)="selectAllImages()">Select All</mat-checkbox>
+				</div>
+
+				<mat-card class="pindoCart">
+					<mat-card-content class="pt-0 pb-2">
+						<div class="total-table">
+							<div class="table-header d-flex">
+								<div class="coltab">
+									<mat-checkbox [(ngModel)]="checkedAll" (change)="selectAllImages()">&nbsp;
+									</mat-checkbox>
+								</div>
+								<div class="coltab">
+									Date / Time
+								</div>
+								<div class="coltab flex-4">
+									Details
+								</div>
+								<div class="coltab">
+									<button mat-raised-button class="dashboardprimary text-uppercase small_btn red_btn"
+										*ngIf="toremoveImg.length>0" (click)="removeNotification()"><i
+											class="far fa-trash-alt mr-2"
+											style="position: relative; top: -2px;"></i>Remove Selected</button>
+								</div>
+							</div>
+
+							<!-- <div class="table-body white-bg" infiniteScroll [infiniteScrollDistance]="2"
+								[infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+								[fromRoot]="true" [infiniteScrollContainer]="'.totalDashboard'"> -->
+
+							<div class="table-body white-bg" infiniteScroll [infiniteScrollDistance]="2"
+								[infiniteScrollThrottle]="150" [scrollWindow]="true" (scrolled)="onScroll()">
+
+
+								<div class="table-row d-flex"
+									*ngFor="let eachNotification of allNotifications; let i = index;">
+
+									<ng-container *ngIf="eachNotification?.title">
+
+										<div class="coltab" data-heading="Select">
+											<mat-checkbox [(ngModel)]="eachNotification['checkboxStatus']"
+												(change)="checkuncheckToRemove(i)">&nbsp;</mat-checkbox>
+										</div>
+
+										<div class="coltab" data-heading="Date / Time">
+											<p>{{eachNotification?.createdAt | date:'dd LLL yyyy'}}&nbsp;{{eachNotification?.createdAt | date:'h:mm a'}}
+											</p>
+										</div>
+
+										<div class="coltab flex-4" data-heading="Details">
+											<a (click)="gotoTodoLink(eachNotification)">
+												<h3>{{eachNotification?.title}}</h3>
+											</a>
+										</div>
+
+										<!-- <div class="coltab flex-4" data-heading="Details"
+										*ngIf="(eachNotification.title.includes(', you')) || (eachNotification.title.includes('your'))">
+										<a (click)="gotoTodoLink(eachNotification)">
+											<h3>{{eachNotification?.title}}</h3>
+										</a>
+									</div> -->
+
+										<!-- <div class="coltab flex-4" data-heading="Details"
+										*ngIf="(!eachNotification.title.includes(', you')) && (!eachNotification.title.includes('your'))">
+										<a (click)="gotoTodoLink(eachNotification)">
+											<h3>{{eachNotification?.title}}</h3>
+										</a>
+									</div> -->
+
+										<div class="coltab justify-content-end" data-heading="Actions">
+											<button mat-raised-button
+												class="dashboardprimary text-uppercase small_btn red_btn"
+												(click)="removeNotification(eachNotification.id)">Remove</button>
+										</div>
+									</ng-container>
+								</div>
+								<!--  <div class="table-row d-flex">								
+						    	<div class="coltab" data-heading="Date / Time">
+									<p>10 Aug 2018   05:00PM</p>
+						    	</div>
+						    	<div class="coltab flex-4" data-heading="Details">
+						    		<h3>Break through self doubt and fear</h3>
+						    		<p>You can get a wireless headset that is completely without wires or one that requires a belt pack</p>
+						    	</div>
+						    	<div class="coltab justify-content-end">
+						    		<button mat-raised-button class="dashboardprimary text-uppercase small_btn red_btn">Remove</button>
+						    	</div>
+						    </div> -->
+							</div>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+</div>

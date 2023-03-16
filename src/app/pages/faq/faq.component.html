@@ -1,0 +1,93 @@
+<div class="common_topgap">
+	<!-- <div class="newtop_section">
+		<div class="container h-100 posn_rel">
+			<div class="d-flex flex-wrap align-content-center h-100 posn_rel">
+				<div class="text_back">
+					FAQ
+				</div>
+				<div class="inn_div align-self-center">
+					<h2>Frequently Asked Questions</h2>
+					<p>(and our answers too)</p>
+				</div>
+			</div>
+			<div class="question_tabs">
+				<span class="pinner" (click)="changeTab(1)">
+					PINNER QUESTIONS
+				</span>
+				<span  class="doer" (click)="changeTab(2)">
+					Doer QUESTIONS
+				</span>
+			</div>
+		</div>
+	</div> -->
+	<!-- <div class="top-section text-center d-flex justify-content-center">
+		<div class="align-self-center">
+			<h2>Frequently Asked Questions</h2>
+			<p>You can get all the answers related to our system</p>
+		</div>
+		<div class="searchPindo">
+			<div class="total_search">
+				<mat-spinner [diameter]="30" id="mat-spinner"></mat-spinner>
+				<input type="text" class="form-control" id="searchField" #searchField (keyup)="searchPin($event);" [(ngModel)]="searchVal" placeholder="Search by job type, doer or location">						
+				<button type="button" class="searchIcon" disabled><img src="assets/images/top_search.png" alt=""></button>
+				<button type="button" class="clearSearchText" (click)="clearSearchText()" *ngIf="searchField.value.trim()==searchVal.trim() && searchField.value.trim()!=''"></button>
+			</div>
+		</div>		
+	</div> -->
+	<div class="faq-Section">
+		<div class="filterSection clearfix pt-4">
+			<div class="container">
+				<div class="col-md-8 offset-md-2">
+					<div class="total_search mb-5">
+						<mat-spinner [diameter]="30" id="mat-spinner"></mat-spinner>
+						<input type="text" class="form-control" id="searchField" #searchField (keyup)="searchPin($event);" [(ngModel)]="searchVal" placeholder="Question">	
+						<button type="submit" mat-raised-button color="primary" class="searchIcon text-uppercase mat-primary searchIcon_faq">	
+							Search
+						</button>				
+						<!-- <button type="button" class="searchIcon" disabled>Search</button> -->
+						<!-- <button type="button" class="clearSearchText" (click)="clearSearchText()" *ngIf="searchField.value.trim()==searchVal.trim() && searchField.value.trim()!=''"></button> -->
+					</div>
+				</div>
+				<mat-tab-group [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange();">
+				  <mat-tab label="Pinner"> 
+				  		<div class="col-12">
+				  		<mat-accordion>
+				  		  <ng-container *ngFor="let eachFaqList of FaqLists; let count = index;">	
+						  <mat-expansion-panel>
+						    <mat-expansion-panel-header>
+						      <mat-panel-title>
+						        <h3>{{eachFaqList.question}}</h3>
+						      </mat-panel-title>						      
+						    </mat-expansion-panel-header>
+						    <div [innerHTML]="eachFaqList.answer" class="description_panel"></div>
+						  </mat-expansion-panel>
+						  </ng-container>
+						</mat-accordion>  
+						</div>
+						<!-- <div class="indvFaq">
+							<div class="panelHeader"><h3>{{eachFaqList.question}}</h3></div>
+							<div [innerHTML]="eachFaqList.answer" class="description_panel"></div>
+						</div> -->					
+					
+				  </mat-tab>
+				  <mat-tab label="Doer"> 
+				  		<div class="col-12">
+					  		<mat-accordion class="doeraccord">
+					  		  <ng-container *ngFor="let eachFaqListDoer of FaqListsDoer; let count = index">	
+							  <mat-expansion-panel>
+							    <mat-expansion-panel-header>
+							      <mat-panel-title>
+							        <h3>{{eachFaqListDoer.question}}</h3>
+							      </mat-panel-title>						      
+							    </mat-expansion-panel-header>
+							    <div [innerHTML]="eachFaqListDoer.answer" class="description_panel"></div>
+							  </mat-expansion-panel>
+							  </ng-container>
+							</mat-accordion>  
+						</div>
+				  </mat-tab>
+				</mat-tab-group>							
+			</div>
+		</div>
+	</div>
+</div>

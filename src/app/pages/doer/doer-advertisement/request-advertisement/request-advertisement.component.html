@@ -1,0 +1,141 @@
+<div class="overlayPopup popupavl" #popuprefadd>
+		<div class="popupHeader">
+			<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+			<h3>Request Advertisement </h3>
+		</div>
+		<div class="popupContent">
+			<div class="container">
+				<div class="col-md-12" >
+					<div class="no_content row">
+						<div class="col-md-12" *ngIf="!isAccepted">
+			                <mat-card class="example-card">
+							  <mat-card-header>
+							    <div mat-card-avatar class="example-header-image"></div>
+							    <mat-card-title> <h3> {{add_request_page_title}} </h3> </mat-card-title>
+							  </mat-card-header>
+							  <mat-card-content >
+							    <div [innerHTML]="add_request_page_content "></div>
+							    <span></span>
+							  </mat-card-content>
+							  <mat-card-actions>
+							    <button mat-button (click)="isAccepted= true"> Accept and Proceed </button>
+							  </mat-card-actions>
+							</mat-card>
+						</div>
+						<div class="col-md-12" *ngIf="isAccepted" >
+			                <mat-card class="example-card">
+							  <mat-card-header>
+							    <div mat-card-avatar class="example-header-image"></div>
+							    <mat-card-title> <h3> Fill The Details  </h3> </mat-card-title>
+							  </mat-card-header>
+							<form #requestAddForm="ngForm" (ngSubmit)="postAddRequest(requestAddForm)" novalidate [formGroup]="request_add_form">
+							<mat-card-content>
+                        		<div class="row">
+		                            <div class="col-lg-2 col-md-6 col-sm-12">
+		                                <mat-form-field appearance="outline">
+		                                    <mat-label>No. of Months *</mat-label>
+		                                    <input matInput placeholder="" type="number" class="example-right-align" id="number_of_month" formControlName="number_of_month" required (change)="onChangeMonth()" >
+		                                    <mat-error *ngIf="requestAddForm?.submitted && f.number_of_month.errors && !f.number_of_month.errors?.required">Invalid No. of Months</mat-error> 
+											<mat-error *ngIf="requestAddForm?.submitted && f.number_of_month.errors?.required">This field required</mat-error>
+		                                </mat-form-field>
+		                            </div>
+		                            <div class="col-lg-2 col-md-6 col-sm-12">
+		                                <mat-form-field appearance="outline">
+		                                    <mat-label>Start Date *</mat-label>
+		                                    <input name="add_start_date" (click)="pickerFrom.open()" matInput [matDatepicker]="pickerFrom" placeholder="Start Date" readonly [required]="true" id="add_start_date" formControlName="add_start_date" [min]="minDate">
+		                                    <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+											<mat-datepicker #pickerFrom></mat-datepicker>
+											<mat-error *ngIf="requestAddForm?.submitted && f.add_start_date.errors && !f.add_start_date.errors?.required">Start Date </mat-error> 
+											<mat-error *ngIf="requestAddForm?.submitted && f.add_start_date.errors?.required">This field required</mat-error>
+		                                </mat-form-field>
+		                            </div>
+		                            <div class="col-lg-2 col-md-6 col-sm-12">
+		                                <mat-form-field appearance="outline">
+		                                    <mat-select placeholder="Select Category *" aria-required="true" id="category" formControlName="category" required (selectionChange)="onChangeCategory($event)">
+							                    <mat-option *ngFor="let each_cat of advertisement_category" [value]="each_cat.value">
+							                      {{each_cat.viewValue}}
+							                    </mat-option>
+							                  </mat-select>
+		                                   
+		                                    <mat-error *ngIf="requestAddForm?.submitted && f.category.errors && !f.category.errors?.required">Start Date </mat-error> 
+											<mat-error *ngIf="requestAddForm?.submitted && f.category.errors?.required">This field required</mat-error>
+		                                </mat-form-field>
+		                            </div>
+		                            <div class="col-lg-2 col-md-6 col-sm-12">
+		                                <mat-form-field appearance="outline">
+		                                    <mat-select placeholder="Select Sub - Category *" aria-required="true" id="sub_category" formControlName="sub_category" required>
+		                                        <mat-option *ngFor="let each_subcat of advertisement_subcategory" [value]="each_subcat.value">
+							                      {{each_subcat.viewValue}}
+							                    </mat-option>
+		                                    </mat-select>
+		                                     <mat-error *ngIf="requestAddForm?.submitted && f.sub_category.errors && !f.sub_category.errors?.required">Start Date </mat-error> 
+											<mat-error *ngIf="requestAddForm?.submitted && f.sub_category.errors?.required">This field required</mat-error>
+		                                </mat-form-field>
+		                            </div>
+		                            <div class="col-lg-2 col-md-6 col-sm-12">
+		                                <mat-form-field appearance="outline">
+		                                    <mat-select placeholder="Select Community *" aria-required="true" id="community" formControlName="community" required>
+		                                        <mat-option *ngFor="let each_community of communities" [value]="each_community.value">
+							                      {{each_community.viewValue}}
+							                    </mat-option>
+		                                    </mat-select>
+		                                     <mat-error *ngIf="requestAddForm?.submitted && f.community.errors && !f.community.errors?.required">Start Date </mat-error> 
+											<mat-error *ngIf="requestAddForm?.submitted && f.community.errors?.required">This field required</mat-error>
+		                                </mat-form-field>
+		                            </div>
+		                            <div class="col-sm-12 adverties-radio mb-4">
+		                                <mat-card-title>
+		                                    Payment Mode			    	
+		                                </mat-card-title>
+		                                <mat-radio-group class="row green-color" id="payment_mode" formControlName="payment_mode">
+	                                        <div class="col-sm-3">
+	                                            <mat-label class="payment-txt">Select a mode of payment *</mat-label>
+	                                        </div>    
+	                                        <div class="col-sm-4 pindo-doller-hint">
+	                                            <div class="payment-main">
+	                                                <mat-radio-button value="1" checked (click)="checkPaymentMode(1)">
+	                                                    <span>PinDo Dollars ($ {{totalPindoDollar}})</span>
+	                                                </mat-radio-button>
+	                                            </div>
+	                                            <mat-hint *ngIf="insufficientPindoDollar"><font color="red"> (Insufficient balance, please select cash option) </font> </mat-hint>
+	                                        </div>
+	                                        <div class="col-sm-5">
+	                                            <div class="payment-main">
+	                                                <mat-radio-button value="2" (click)="checkPaymentMode(0)">
+	                                                    <span>By Cash ($ {{totalDollar}}) </span>
+	                                                </mat-radio-button>
+	                                            </div>
+	                                        </div>
+		                                </mat-radio-group>
+		                            </div>
+		                            <div class="col-lg-9 col-md-9 col-sm-12">
+		                                <mat-form-field appearance="outline">
+		                                    <mat-label>Write A Remark</mat-label>
+		                                    <input matInput placeholder="" id="remarks" formControlName="remarks">
+		                                </mat-form-field>
+		                            </div>
+		                            <div class="col-lg-3 col-md-3 col-sm-12">
+		                                <div class="help-attach">
+		                                    <div class="custom-file">
+		                                        <input type="file" class="custom-file-input" id="attachment_file" (change)="onChange($event)" name="attachment_file">
+		                                        <label class="custom-file-label" for="customFile">Upload Attachment</label>
+		                                    </div>	
+		                                </div>
+		                            </div>
+                        		</div>
+				 			</mat-card-content>
+							<mat-card-actions>
+								<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2" [disabled]=" isSubmitted || !requestAddForm.valid">
+			                        Submit
+			                    </button>
+							    
+							</mat-card-actions>
+		                        </form>
+							</mat-card>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>

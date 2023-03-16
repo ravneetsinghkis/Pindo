@@ -1,0 +1,35 @@
+.total-dialogCntent h4 {
+	color: #484f56;
+	font-size: 18px;
+	line-height: 22px;
+	font-family: 'Montserrat-SemiBold';
+}
+.chooseProceedOptn {
+    font-size: 13px;
+    font-family: 'Montserrat-Medium';
+    text-align: left;
+    .mat-radio-button {
+    	font-family: 'Montserrat-Regular';
+    }
+}
+
+::ng-deep{
+
+    .mat-checkbox-checked.mat-accent .mat-checkbox-background, 
+    .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #E6854A !important;
+    border-radius: 100%;
+    }
+    
+    .mat-checkbox-frame {
+    border-color: #E6854A !important;
+    }
+    
+    
+    body .mat-checkbox:not(.mat-checkbox-disabled) {
+        .mat-checkbox-ripple .mat-ripple-element {
+            background: rgba(230, 133, 74, 0.16) !important;
+        }
+    }
+    
+    }

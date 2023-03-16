@@ -1,0 +1,91 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+
+    <form autocomplete="off" [formGroup]="create_post" name="create_post"
+      (ngSubmit)="onSubmitCreatePost(create_post.value)">
+
+      <div class="header-content mb-0 d-flex justify-content-between">
+        <div class="heading pb-2">
+          <span class="heading-text">
+            <span style="position: relative; top: 1px;" class="ic-magnifier mr-2"></span>
+            <span>Searching for</span>
+          </span>
+        </div>
+        <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+      </div>
+      <hr class="mt-0 mb-3">
+
+      <div class="comnForm">
+
+        <div class="form-group">
+          <div class="form-control-wrap">
+            <mat-select placeholder="Send to" class="form-control" formControlName="send_to"
+              [(ngModel)]="searchfor_send_to">
+              <mat-option value="contact">
+                Contacts
+              </mat-option>
+              <mat-option value="community">
+                Community
+              </mat-option>
+              <mat-option value="both">
+                Both
+              </mat-option>
+            </mat-select>
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('send_to').hasError('required') && submitted">This Field
+            is Requerd</label>
+        </div>
+
+
+        <div class="form-group">
+          <div class="form-control-wrap">
+            <mat-select placeholder="Select Category" class="form-control" formControlName="category" name="category"
+              [(ngModel)]="parentcategory" (selectionChange)="changeParentCategorySearch()">
+              <mat-option *ngFor="let allparentcate of allparent_category" [value]="allparentcate.id">
+                {{allparentcate.name}}
+              </mat-option>
+            </mat-select>
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('category').hasError('required') && submitted">This
+            Field is Required</label>
+        </div>
+
+
+        <div class="form-group" *ngIf='child_cat_list.length > 0'>
+          <div class="form-control-wrap d-flex flex-wrap">
+
+            <div class="custom-chips-radio orange my-1 mx-1" *ngFor="let chieldcate of child_cat_list">
+              <input name="sub_category" [(ngModel)]="subcategory" type="radio" [value]="chieldcate.id"
+                formControlName="sub_category">
+              <span class="chips-box"> {{chieldcate.name}}</span>
+            </div>
+
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('sub_category').hasError('required') && submitted">This
+            Field is Required</label>
+        </div>
+
+        <div class="form-group">
+          <div class="form-control-wrap withCounter">
+            <textarea class="form-control" placeholder="Message" maxlength="500" formControlName="message"
+              name="message" (keydown)="wordCountFunc($event)"></textarea>
+            <span class="counterNumb">{{msgCountNumb}}</span>
+          </div>
+          <label class="formLabel-error" *ngIf="create_post.get('message').hasError('required') && submitted">This Field
+            is Required</label>
+          <label class="formLabel-error" *ngIf="create_post.get('message').hasError('maxlength') && submitted">Word
+            Limit max 500.</label>
+        </div>
+
+        <div class="btn-holder">
+          <button mat-flat-button class="btn-orangeColor mr-3 text-uppercase" type="submit">Post</button>
+          <button mat-button type="button" (click)="closeDialog()" class="btn-withoutBg text-uppercase">Cancel</button>
+        </div>
+
+
+      </div>
+
+    </form>
+
+  </div>
+</div>

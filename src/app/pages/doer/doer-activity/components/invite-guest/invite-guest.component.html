@@ -1,0 +1,119 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+
+    <div class="header-content mb-0 d-flex justify-content-end">
+      <button mat-icon-button mat-dialog-close><span class="ic-close text-muted"></span></button>
+    </div>
+
+    <div class="lg-content">
+      <div class="content-heading text-center mb-sm-4 mb-2"><h3 class="content-heading-text">Invite to PinDo</h3></div>
+    </div>
+   
+
+    <form [formGroup]="invitationForm" (submit)="submitInvitation()" autocomplete="off">
+
+      <div class="comnForm">
+        
+          <div class="form-control-wrap">
+            <mat-form-field appearance="outline">
+              <mat-label>First Name*</mat-label>
+              <input matInput formControlName="firstName">
+              <mat-error *ngIf="invitationFormSubmitted && invitationFormControls.firstName.invalid">
+                <mat-error *ngIf="invitationFormControls.firstName.errors.required">This field is required</mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>    
+      
+          <div class="form-control-wrap">
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name*</mat-label>
+            <input matInput formControlName="lastName">
+            <mat-error *ngIf="invitationFormSubmitted && invitationFormControls.lastName.invalid">
+              <mat-error *ngIf="invitationFormControls.lastName.errors.required">This field is required</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+     
+        <div class="form-control-wrap">
+          <mat-radio-group formControlName="userType">
+            <mat-radio-button class="mat-radio-orangeColor" value="1" (change)="changeUserType(1)">Pinner</mat-radio-button>
+            <mat-radio-button class="mat-radio-orangeColor" value="2" (change)="changeUserType(2)">Doer</mat-radio-button>
+          </mat-radio-group>
+        </div>
+     
+        <div class="form-control-wrap" *ngIf="isDoerSelected">
+          <mat-form-field appearance="outline">
+            <mat-label>Company Name</mat-label>
+            <input matInput formControlName="companyName">
+          </mat-form-field>
+        </div>
+    
+        <div class="form-control-wrap">
+          <mat-form-field appearance="outline">
+            <mat-label>E-mail address*</mat-label>
+            <input matInput formControlName="email">
+            <mat-error *ngIf="invitationFormSubmitted && invitationFormControls.email.invalid">
+              <mat-error *ngIf="invitationFormControls.email.errors.required">This field is required</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+     
+        <div class="form-control-wrap" *ngIf="isDoerSelected">
+          <mat-form-field appearance="outline">
+            <mat-select placeholder="Select a category*"  formControlName="category"
+              [(ngModel)]="parentcategory" (ngModelChange)="categoryValueChange($event)">
+              <mat-option *ngFor="let allparentcate of allparent_category" [attr.data-id]="allparentcate.id" [value]="allparentcate.name">
+                {{allparentcate.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="invitationFormSubmitted && invitationFormControls.category.invalid">
+              <mat-error *ngIf="invitationFormControls.category.errors.required">This field is required</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+   
+        <div class="form-control-wrap" *ngIf="isDoerSelected">
+          <mat-form-field appearance="outline">
+            <mat-select placeholder="Select a subcategory*"  formControlName="subcategory">
+              <mat-option *ngFor="let childcat of child_cat_list" [value]="childcat.name">
+                {{childcat.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="invitationFormSubmitted && invitationFormControls.subcategory.invalid">
+              <mat-error *ngIf="invitationFormControls.subcategory.errors.required">This field is required</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+     
+        <div class="form-control-wrap">
+          <mat-form-field appearance="outline">
+            <mat-label>Message</mat-label>
+            <textarea formControlName="message" matInput rows="6"></textarea>
+            <mat-error *ngIf="invitationFormSubmitted && invitationFormControls.message.invalid">
+              <mat-error *ngIf="invitationFormControls.message.errors.required">This field is required</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>      
+
+        <div class="btn-holder d-sm-flex mb-2">
+          <button mat-flat-button class="btn-orangeColor col text-uppercase mb-2 mr-sm-2 mb-sm-0" type="submit">SEND FROM PINDO</button>
+          <button mat-button type="button" class="btn-orangeColor col text-uppercase " (click)="copyInvitationToClipboard()">COPY TO CLIPBOARD*</button>          
+        </div>
+
+        <div>
+          <small class="text-muted">*To send from Personal Email</small>
+        </div>
+
+      </div>
+      
+    </form>
+
+    <div style="opacity:0;height:0px;">
+      <textarea style="height: 0px;" #clipboardElem></textarea>
+    </div>
+
+  </div>
+
+
+</div>
+

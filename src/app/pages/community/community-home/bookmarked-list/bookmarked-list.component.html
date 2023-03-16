@@ -1,0 +1,1040 @@
+<ng-container *ngFor="let allbookmarklist of bookmarkdata">
+    <!--Endorsed-->
+    <div class="card-002 mb-3" *ngIf='allbookmarklist.type === "endorsement"'>
+
+      <div class="card-main-header px-3 ">
+
+        <div class="action-box d-flex align-items-center justify-content-end pt-2">
+          <span class="action-item px-2" *ngIf="!allbookmarklist.bookmarks?.length > 0"
+            (click)="addbookmark(allbookmarklist.id)" style="  position: relative;top: 2px;">
+            <i class="far fa-bookmark"></i>
+            <!-- <i class="fas fa-bookmark"></i> -->
+          </span>
+
+          <span class="action-item px-2" *ngIf="allbookmarklist.bookmarks?.length > 0"
+            style="  position: relative;top: 2px;">
+
+            <i class="fas fa-bookmark"></i>
+          </span>
+
+          <button class="action-item" (menuOpened)="actionDropdownOpen()"
+            (menuClosed)="actionByDropdownClose()" [ngClass]="{active: actionMenuOpen }" type="button"
+            [matMenuTriggerFor]="sortByDropdown">
+            <i class="material-icons" *ngIf="!actionMenuOpen">expand_more</i>
+            <i class="material-icons" *ngIf="actionMenuOpen">expand_less</i>
+          </button>
+          <mat-menu #sortByDropdown="matMenu" [class]="'action-dropdown'" xPosition="before"
+            [overlapTrigger]="false">
+            <ul class="text-right sortBy-dropdown-list px-3" *ngIf="allbookmarklist.bookmarks?.length > 0">
+              <li class="text-center" (click)="removebookmark(allbookmarklist.bookmarks[0].id)">
+                Remove
+              </li>
+
+            </ul>
+          </mat-menu>
+
+          <!-- <span matTooltip="Info about the action" matTooltipClass="whtBg-tooltip" class="action-item"><i
+             class="material-icons">
+             expand_more</i></span> -->
+        </div>
+
+        <div class="main-header-inr d-flex align-items-center justify-content-between pt-0 pb-3">
+
+          <div class="prfl-info d-flex align-items-center flex2">
+              <ng-container *ngIf='allbookmarklist?.receiver?.user_type == 1'>
+                  <div class="prfl-img mr-2" *ngIf="allbookmarklist?.receiver?.profile_photo != null "><img src="{{image_url}}{{allbookmarklist?.receiver?.profile_photo}}"></div>
+                  <div class="prfl-img mr-2" *ngIf="allbookmarklist?.receiver?.profile_photo == null "><img src="assets/images/rana.jpg"></div>
+              </ng-container>
+              <ng-container *ngIf='allbookmarklist?.receiver?.user_type == 2'>
+                  <div class="prfl-img mr-2"><img src="{{companylogo_url}}"></div>
+              </ng-container>
+            <div class="prfl-text">
+              <span class="nameText mb-1">{{allbookmarklist.receiver.name}}</span>
+              <ng-container *ngIf='allbookmarklist?.receiver?.user_type == 1; else elsetype'>
+                  <h4 class="typeText text-uppercase greenText" >Pinner</h4>
+              </ng-container>
+              <ng-template #elsetype>
+                <ng-container>
+                    <h4 class="typeText text-uppercase orangeText" >Doers</h4>
+                </ng-container>
+              </ng-template>
+            </div>
+          </div>
+          <div class="middle-italic-text flex1">Endorsed By</div>
+          <!-- <div class="middle-italic-text flex1" *ngIf="allbookmarklist.type == endorsement">Endorsed By</div>
+         <div class="middle-italic-text flex1" *ngIf="allbookmarklist.type == blog">Blog</div>
+         <div class="middle-italic-text flex1" *ngIf="allbookmarklist.type == review">Reviewed</div>
+         <div class="middle-italic-text flex1" *ngIf="allbookmarklist.type == joinee">Joined Pindo</div>
+         <div class="middle-italic-text flex1" *ngIf="allbookmarklist.type == post">New Joinee </div> -->
+
+          <div class="prfl-info d-flex align-items-center flex2">
+              <ng-container *ngIf='allbookmarklist?.user?.user_type == 1'>
+                  <ng-container
+                  *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.profile_photo == 3; else elseiffi1'>
+                  <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                </ng-container>
+                <ng-template #elseiffi1>
+                  <ng-container
+                    *ngIf='selectedtype == "my community" && allbookmarklist?.user?.user_controls[0]?.profile_photo  == 1 || allbookmarklist?.user?.user_controls[0]?.profile_photo  == 3; else elseiffi2'>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                  </ng-container>
+
+                </ng-template>
+                <ng-template #elseiffi2>
+                  <ng-container
+                    *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.profile_photo == 2 || allbookmarklist?.user?.user_controls[0]?.profile_photo == 3); else elsefi1'>
+                    <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                  </ng-container>
+                </ng-template>
+                <ng-template #elsefi1>
+                  <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.profile_photo == 0">
+                   
+                  </ng-container>
+                </ng-template>
+              </ng-container>
+            <ng-container *ngIf='allbookmarklist?.user?.user_type == 2'>
+                <div class="prfl-img circle mr-2">
+                 
+                    <img src="{{companylogo_url}}"></div>
+
+            </ng-container>
+            <div class="prfl-text">
+
+
+              <ng-container
+                *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.first_name == 3; else elseif1'>
+                <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+
+              </ng-container>
+              <ng-template #elseif1>
+                <ng-container
+                  *ngIf='selectedtype == "my community" && 
+                     (allbookmarklist?.user?.user_controls[0]?.first_name == 1 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else elseif2'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+                </ng-container>
+              </ng-template>
+
+              <ng-template #elseif2>
+                <ng-container
+                  *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.first_name == 2 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else else1'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+                </ng-container>
+              </ng-template>
+              <ng-template #else1>
+                <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                  <span class="nameText mb-1">No Fast Name Available </span>
+                </ng-container>
+              </ng-template>
+
+
+
+              <ng-container
+                *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.last_name == 3; else elseiff1'>
+                <span class="nameText mb-1">{{allbookmarklist?.user?.last_name}} </span>
+              </ng-container>
+              <ng-template #elseiff1>
+                <ng-container
+                  *ngIf='selectedtype == "my community" && (allbookmarklist?.user?.user_controls[0]?.last_name == 1 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elseiff2'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.last_name}} </span>
+                </ng-container>
+
+              </ng-template>
+              <ng-template #elseiff2>
+                <ng-container
+                  *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.last_name == 2 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elsef1'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.last_name}} </span>
+                </ng-container>
+              </ng-template>
+              <ng-template #elsef1>
+                <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                  <span class="nameText mb-1">No Last Name Available </span>
+                </ng-container>
+              </ng-template>
+              <ng-container *ngIf='allbookmarklist?.user?.user_type == 1; else elsetype'>
+                  <h4 class="typeText text-uppercase greenText" >Pinner</h4>
+              </ng-container>
+              <ng-template #elsetype>
+                <ng-container>
+                    <h4 class="typeText text-uppercase orangeText" >Doers</h4>
+                </ng-container>
+              </ng-template>
+            </div>
+          </div>
+
+
+        </div>
+        <hr class="mb-0 mt-0">
+      </div>
+
+      <div class="card-002-body px-3 py-3">
+
+        <div class="dsc-text-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore
+            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+            ut
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+    <!--Reviewed-->
+    <div class="card-002 mb-3" *ngIf='allbookmarklist.type === "review"'>
+
+      <div class="card-main-header px-3 ">
+
+        <div class="action-box d-flex align-items-center justify-content-end pt-2">
+          <span class="action-item px-2" *ngIf="!allbookmarklist.bookmarks?.length > 0"
+            style="  position: relative;top: 2px;" (click)="addbookmark(allbookmarklist.id)">
+            <i class="far fa-bookmark"></i>
+
+          </span>
+
+          <span class="action-item px-2" *ngIf="allbookmarklist.bookmarks?.length > 0"
+            style="  position: relative;top: 2px;">
+
+            <i class="fas fa-bookmark"></i>
+          </span>
+
+          <button class="action-item" (menuOpened)="actionDropdownOpen()"
+            (menuClosed)="actionByDropdownClose()" [ngClass]="{active: actionMenuOpen }" type="button"
+            [matMenuTriggerFor]="sortByDropdown">
+            <i class="material-icons" *ngIf="!actionMenuOpen">expand_more</i>
+            <i class="material-icons" *ngIf="actionMenuOpen">expand_less</i>
+          </button>
+          <mat-menu #sortByDropdown="matMenu" [class]="'action-dropdown'" xPosition="before"
+            [overlapTrigger]="false">
+            <ul class="text-right sortBy-dropdown-list px-3" *ngIf="allbookmarklist.bookmarks?.length > 0">
+              <li class="text-center" (click)="removebookmark(allbookmarklist.bookmarks[0].id)">
+                Remove
+              </li>
+
+            </ul>
+          </mat-menu>
+
+          <!-- <span matTooltip="Info about the action" matTooltipClass="whtBg-tooltip" class="action-item"><i
+             class="material-icons">
+             expand_more</i></span> -->
+        </div>
+
+        <div class="main-header-inr d-flex align-items-center justify-content-between pt-0 pb-3">
+
+          <div class="prfl-info d-flex align-items-center flex2">
+              <ng-container *ngIf='allbookmarklist?.receiver?.user_type == 1'>
+                  <div class="prfl-img mr-2" *ngIf="allbookmarklist?.receiver?.profile_photo != null "><img src="{{image_url}}{{allbookmarklist?.receiver?.profile_photo}}"></div>
+                  <div class="prfl-img mr-2" *ngIf="allbookmarklist?.receiver?.profile_photo == null "><img src="assets/images/rana.jpg"></div>
+              </ng-container>
+              <ng-container *ngIf='allbookmarklist?.receiver?.user_type == 2'>
+                  <div class="prfl-img mr-2"><img src="{{companylogo_url}}"></div>
+              </ng-container>
+            <div class="prfl-text">
+              <span class="nameText mb-1">{{allbookmarklist.receiver.name}}</span>
+              <ng-container *ngIf='allbookmarklist?.receiver?.user_type == 1; else elsetype'>
+                  <h4 class="typeText text-uppercase greenText" >Pinner</h4>
+              </ng-container>
+              <ng-template #elsetype>
+                <ng-container>
+                    <h4 class="typeText text-uppercase orangeText" >Doers</h4>
+                </ng-container>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="middle-italic-text flex1">Reviewed</div>
+
+          <div class="prfl-info d-flex align-items-center flex2">
+              <ng-container *ngIf='allbookmarklist?.user?.user_type == 1'>
+                  <ng-container
+                  *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.profile_photo == 3; else elseiffi1'>
+                  <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                </ng-container>
+                <ng-template #elseiffi1>
+                  <ng-container
+                    *ngIf='selectedtype == "my community" && allbookmarklist?.user?.user_controls[0]?.profile_photo  == 1 || allbookmarklist?.user?.user_controls[0]?.profile_photo  == 3; else elseiffi2'>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                  </ng-container>
+
+                </ng-template>
+                <ng-template #elseiffi2>
+                  <ng-container
+                    *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.profile_photo == 2 || allbookmarklist?.user?.user_controls[0]?.profile_photo == 3); else elsefi1'>
+                    <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                  </ng-container>
+                </ng-template>
+                <ng-template #elsefi1>
+                  <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.profile_photo == 0">
+                   
+                  </ng-container>
+                </ng-template>
+              </ng-container>
+            <ng-container *ngIf='allbookmarklist?.user?.user_type == 2'>
+                <div class="prfl-img circle mr-2">
+                 
+                    <img src="{{companylogo_url}}"></div>
+
+            </ng-container>
+            <div class="prfl-text">
+              <ng-container
+                *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.first_name == 3; else elseif1'>
+                <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+              </ng-container>
+              <ng-template #elseif1>
+                <ng-container
+                  *ngIf='selectedtype == "my community" && 
+                     (allbookmarklist?.user?.user_controls[0]?.first_name == 1 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else elseif2'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+                </ng-container>
+
+              </ng-template>
+              <ng-template #elseif2>
+                <ng-container
+                  *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.first_name == 2 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else else1'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+                </ng-container>
+              </ng-template>
+              <ng-template #else1>
+                <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                  <span class="nameText mb-1">No Fast Name Available </span>
+                </ng-container>
+              </ng-template>
+
+
+
+              <ng-container
+                *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.last_name == 3; else elseiff1'>
+                <span class="nameText mb-1">{{allbookmarklist?.user?.last_name}} </span>
+              </ng-container>
+              <ng-template #elseiff1>
+                <ng-container
+                  *ngIf='selectedtype == "my community" && (allbookmarklist?.user?.user_controls[0]?.last_name == 1 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elseiff2'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.last_name}} </span>
+                </ng-container>
+
+              </ng-template>
+              <ng-template #elseiff2>
+                <ng-container
+                  *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.last_name == 2 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elsef1'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.last_name}} </span>
+                </ng-container>
+              </ng-template>
+              <ng-template #elsef1>
+                <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                  <span class="nameText mb-1">No Last Name Available </span>
+                </ng-container>
+              </ng-template>
+              <ng-container *ngIf='allbookmarklist?.user?.user_type == 1; else elsetype'>
+                  <h4 class="typeText text-uppercase greenText" >Pinner</h4>
+              </ng-container>
+              <ng-template #elsetype>
+                <ng-container>
+                    <h4 class="typeText text-uppercase orangeText" >Doers</h4>
+                </ng-container>
+              </ng-template>
+            </div>
+          </div>
+
+
+        </div>
+        <hr class="mb-0 mt-0">
+      </div>
+
+      <div class="card-002-body px-3 py-3">
+
+        <div class="dsc-text-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore
+            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+            ut
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+    
+     <!--Refferel-->
+     <div class="card-002 mb-3" *ngIf='allbookmarklist.type === "referral"'>
+
+      <div class="card-main-header px-3 ">
+
+        <div class="action-box d-flex align-items-center justify-content-end pt-2">
+          <span class="action-item px-2" *ngIf="!allbookmarklist.bookmarks?.length > 0"
+            style="  position: relative;top: 2px;" (click)="addbookmark(allbookmarklist.id)">
+            <i class="far fa-bookmark"></i>
+
+          </span>
+
+          <span class="action-item px-2" *ngIf="allbookmarklist.bookmarks?.length > 0"
+            style="  position: relative;top: 2px;">
+
+            <i class="fas fa-bookmark"></i>
+          </span>
+
+          <button class="action-item" (menuOpened)="actionDropdownOpen()"
+            (menuClosed)="actionByDropdownClose()" [ngClass]="{active: actionMenuOpen }" type="button"
+            [matMenuTriggerFor]="sortByDropdown">
+            <i class="material-icons" *ngIf="!actionMenuOpen">expand_more</i>
+            <i class="material-icons" *ngIf="actionMenuOpen">expand_less</i>
+          </button>
+          <mat-menu #sortByDropdown="matMenu" [class]="'action-dropdown'" xPosition="before"
+            [overlapTrigger]="false">
+            <ul class="text-right sortBy-dropdown-list px-3" *ngIf="allbookmarklist.bookmarks?.length > 0">
+              <li class="text-center" (click)="removebookmark(allbookmarklist.bookmarks[0].id)">
+                Remove
+              </li>
+
+            </ul>
+          </mat-menu>
+
+          <!-- <span matTooltip="Info about the action" matTooltipClass="whtBg-tooltip" class="action-item"><i
+               class="material-icons">
+               expand_more</i></span> -->
+        </div>
+
+        <div class="main-header-inr d-flex align-items-center justify-content-between pt-0 pb-3">
+
+          <div class="prfl-info d-flex align-items-center flex2">
+              <ng-container *ngIf='allbookmarklist?.receiver?.user_type == 1'>
+                  <div class="prfl-img mr-2" *ngIf="allbookmarklist?.receiver?.profile_photo != null "><img src="{{image_url}}{{allbookmarklist?.receiver?.profile_photo}}"></div>
+                  <div class="prfl-img mr-2" *ngIf="allbookmarklist?.receiver?.profile_photo == null "><img src="assets/images/rana.jpg"></div>
+              </ng-container>
+              <ng-container *ngIf='allbookmarklist?.receiver?.user_type == 2'>
+                  <div class="prfl-img mr-2"><img src="{{companylogo_url}}"></div>
+              </ng-container>
+            <div class="prfl-text">
+              <span class="nameText mb-1">{{allbookmarklist.receiver.name}}</span>
+              <ng-container *ngIf='allbookmarklist?.receiver?.user_type == 1; else elsetype'>
+                  <h4 class="typeText text-uppercase greenText" >Pinner</h4>
+              </ng-container>
+              <ng-template #elsetype>
+                <ng-container>
+                    <h4 class="typeText text-uppercase orangeText" >Doers</h4>
+                </ng-container>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="middle-italic-text flex1">Refferel {{allbookmarklist.user.user_controls[0].first_name}}
+          </div>
+
+          <div class="prfl-info d-flex align-items-center flex2">
+              <ng-container *ngIf='allbookmarklist?.user?.user_type == 1'>
+                  <ng-container
+                  *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.profile_photo == 3; else elseiffi1'>
+                  <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                </ng-container>
+                <ng-template #elseiffi1>
+                  <ng-container
+                    *ngIf='selectedtype == "my community" && allbookmarklist?.user?.user_controls[0]?.profile_photo  == 1 || allbookmarklist?.user?.user_controls[0]?.profile_photo  == 3; else elseiffi2'>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                  </ng-container>
+
+                </ng-template>
+                <ng-template #elseiffi2>
+                  <ng-container
+                    *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.profile_photo == 2 || allbookmarklist?.user?.user_controls[0]?.profile_photo == 3); else elsefi1'>
+                    <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                  </ng-container>
+                </ng-template>
+                <ng-template #elsefi1>
+                  <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.profile_photo == 0">
+                   
+                  </ng-container>
+                </ng-template>
+              </ng-container>
+            <ng-container *ngIf='allbookmarklist?.user?.user_type == 2'>
+                <div class="prfl-img circle mr-2">
+                 
+                    <img src="{{companylogo_url}}"></div>
+
+            </ng-container>
+            <div class="prfl-text">
+              <ng-container
+                *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.first_name == 3; else elseif1'>
+                <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+              </ng-container>
+              <ng-template #elseif1>
+                <ng-container
+                  *ngIf='selectedtype == "my community" && 
+                       (allbookmarklist?.user?.user_controls[0]?.first_name == 1 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else elseif2'>
+                  <span class="nameText mb-1">{{communitylist?.user?.first_name}} </span>
+                </ng-container>
+
+              </ng-template>
+              <ng-template #elseif2>
+                <ng-container
+                  *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.first_name == 2 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else else1'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+                </ng-container>
+              </ng-template>
+              <ng-template #else1>
+                <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                  <span class="nameText mb-1">No Fast Name Available </span>
+                </ng-container>
+              </ng-template>
+
+
+
+              <ng-container
+                *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.last_name == 3; else elseiff1'>
+                <span class="nameText mb-1">{{allbookmarklist?.user?.last_name}} </span>
+              </ng-container>
+              <ng-template #elseiff1>
+                <ng-container
+                  *ngIf='selectedtype == "my community" && (allbookmarklist?.user?.user_controls[0]?.last_name == 1 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elseiff2'>
+                  <span class="nameText mb-1">{{communitylist?.user?.last_name}} </span>
+                </ng-container>
+
+              </ng-template>
+              <ng-template #elseiff2>
+                <ng-container
+                  *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.last_name == 2 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elsef1'>
+                  <span class="nameText mb-1">{{communitylist?.user?.last_name}} </span>
+                </ng-container>
+              </ng-template>
+              <ng-template #elsef1>
+                <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                  <span class="nameText mb-1">No Last Name Available </span>
+                </ng-container>
+              </ng-template>
+              <ng-container *ngIf='allbookmarklist?.user?.user_type == 1; else elsetype'>
+                  <h4 class="typeText text-uppercase greenText" >Pinner</h4>
+              </ng-container>
+              <ng-template #elsetype>
+                <ng-container>
+                    <h4 class="typeText text-uppercase orangeText" >Doers</h4>
+                </ng-container>
+              </ng-template>
+            </div>
+          </div>
+
+
+        </div>
+        <hr class="mb-0 mt-0">
+      </div>
+
+      <div class="card-002-body px-3 py-3">
+
+        <div class="dsc-text-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore
+            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+            ut
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!--Join Pindo-->
+    <div class="card-002 mb-3" *ngIf='allbookmarklist.type === "joinee"'>
+
+      <div class="card-main-header px-3 ">
+
+        <div class="main-header-inr d-flex align-items-center justify-content-between pt-3 pb-3">
+
+          <div class="prfl-info d-flex align-items-center">
+              <ng-container *ngIf='allbookmarklist?.user?.user_type == 1'>
+                  <ng-container
+                  *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.profile_photo == 3; else elseiffi1'>
+                  <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                </ng-container>
+                <ng-template #elseiffi1>
+                  <ng-container
+                    *ngIf='selectedtype == "my community" && allbookmarklist?.user?.user_controls[0]?.profile_photo  == 1 || allbookmarklist?.user?.user_controls[0]?.profile_photo  == 3; else elseiffi2'>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                  </ng-container>
+
+                </ng-template>
+                <ng-template #elseiffi2>
+                  <ng-container
+                    *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.profile_photo == 2 || allbookmarklist?.user?.user_controls[0]?.profile_photo == 3); else elsefi1'>
+                    <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                  <img
+    src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                  </div>
+                   <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                 
+                  <img src="assets/images/rana.jpg"></div>
+                  </ng-container>
+                </ng-template>
+                <ng-template #elsefi1>
+                  <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.profile_photo == 0">
+                   
+                  </ng-container>
+                </ng-template>
+              </ng-container>
+            <ng-container *ngIf='allbookmarklist?.user?.user_type == 2'>
+                <div class="prfl-img circle mr-2">
+                 
+                    <img src="{{companylogo_url}}"></div>
+
+            </ng-container>
+            <div class="prfl-text">
+              <ng-container
+                *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.first_name == 3; else elseif1'>
+                <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+              </ng-container>
+              <ng-template #elseif1>
+                <ng-container
+                  *ngIf='selectedtype == "my community" && 
+                     (allbookmarklist?.user?.user_controls[0]?.first_name == 1 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else elseif2'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+                </ng-container>
+
+              </ng-template>
+              <ng-template #elseif2>
+                <ng-container
+                  *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.first_name == 2 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else else1'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.first_name}} </span>
+                </ng-container>
+              </ng-template>
+              <ng-template #else1>
+                <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                  <span class="nameText mb-1">No Fast Name Available </span>
+                </ng-container>
+              </ng-template>
+
+
+
+              <ng-container
+                *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.last_name == 3; else elseiff1'>
+                <span class="nameText mb-1">{{allbookmarklist?.user?.last_name}} </span>
+              </ng-container>
+              <ng-template #elseiff1>
+                <ng-container
+                  *ngIf='selectedtype == "my community" && (allbookmarklist?.user?.user_controls[0]?.last_name == 1 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elseiff2'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.last_name}} </span>
+                </ng-container>
+
+              </ng-template>
+              <ng-template #elseiff2>
+                <ng-container
+                  *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.last_name == 2 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elsef1'>
+                  <span class="nameText mb-1">{{allbookmarklist?.user?.last_name}} </span>
+                </ng-container>
+              </ng-template>
+              <ng-template #elsef1>
+                <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                  <span class="nameText mb-1">No Last Name Available </span>
+                </ng-container>
+              </ng-template>
+              <ng-container *ngIf='allbookmarklist?.user?.user_type == 1; else elsetype'>
+                  <h4 class="typeText text-uppercase greenText" >Pinner</h4>
+              </ng-container>
+              <ng-template #elsetype>
+                <ng-container>
+                    <h4 class="typeText text-uppercase orangeText" >Doers</h4>
+                </ng-container>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="middle-italic-text text-right">Joined Pindo</div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!--Blog Post-->
+
+    <div class="card-slider mb-3" *ngIf='allbookmarklist.type === "blog"'>
+
+      <div class="card-main-header px-3 ">
+
+        <div class="main-header-inr d-flex align-items-center justify-content-between pt-3 pb-3">
+
+          <h4 class="heading-text mb-0 text-uppercase">BLOG POSTS</h4>
+
+        </div>
+      </div>
+
+      <div class="blog-post-slider">
+        <div
+          class="slider-action blog-post-slider-action d-flex align-items-center justify-content-end pt-2">
+
+
+          <!-- <div class="swiper-button-next"><i class="material-icons">
+              keyboard_arrow_right
+            </i></div>
+          <div class="swiper-button-prev"><i class="material-icons">
+              keyboard_arrow_left
+            </i></div> -->
+
+        </div>
+
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="post-block">
+                <div class="img-holder" *ngIf="allbookmarklist?.blog?.image != null ">
+                  <img src="{{blog_image_url}}{{allbookmarklist?.blog?.image}}">
+                
+                </div>
+                <div class="img-holder" *ngIf="allbookmarklist?.blog?.image == null ">
+                    
+                  <img src="assets/images/recent2.jpg" alt="">
+                  </div>
+                <div class="px-2 post-content">
+                  <div class="head-content py-3">
+                    <h4 class="nameText">{{allbookmarklist?.blog?.name}}</h4>
+                  </div>
+                  <hr class="mb-0 mt-0">
+                  <div class="dsc-content py-3">
+                    <p [innerHTML]="allbookmarklist?.blog?.description"></p>
+                  </div>
+                  <div class="prfl-info d-flex align-items-center flex2 pb-3">
+                      <ng-container *ngIf='allbookmarklist?.user?.user_type == 1'>
+                          <ng-container
+                          *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.profile_photo == 3; else elseiffi1'>
+                          <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                          <img
+            src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                          </div>
+                           <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                         
+                          <img src="assets/images/rana.jpg"></div>
+                        </ng-container>
+                        <ng-template #elseiffi1>
+                          <ng-container
+                            *ngIf='selectedtype == "my community" && allbookmarklist?.user?.user_controls[0]?.profile_photo  == 1 || allbookmarklist?.user?.user_controls[0]?.profile_photo  == 3; else elseiffi2'>
+                           <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                          <img
+            src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                          </div>
+                           <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                         
+                          <img src="assets/images/rana.jpg"></div>
+                          </ng-container>
+
+                        </ng-template>
+                        <ng-template #elseiffi2>
+                          <ng-container
+                            *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.profile_photo == 2 || allbookmarklist?.user?.user_controls[0]?.profile_photo == 3); else elsefi1'>
+                            <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                          <img
+            src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                          </div>
+                           <div class="prfl-img circle mr-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                         
+                          <img src="assets/images/rana.jpg"></div>
+                          </ng-container>
+                        </ng-template>
+                        <ng-template #elsefi1>
+                          <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.profile_photo == 0">
+                           
+                          </ng-container>
+                        </ng-template>
+                      </ng-container>
+                    <ng-container *ngIf='allbookmarklist?.user?.user_type == 2'>
+                        <div class="prfl-img circle mr-2">
+                         
+                            <img src="{{companylogo_url}}"></div>
+
+                    </ng-container>
+                    <div class="prfl-text">
+                      <ng-container
+                        *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.first_name == 3; else elseif1'>
+                        <span class="nameText mb-1">{{allbookmarklist?.user.first_name}} </span>
+                      </ng-container>
+                      <ng-template #elseif1>
+                        <ng-container
+                          *ngIf='selectedtype == "my community" && 
+                             (allbookmarklist?.user?.user_controls[0]?.first_name == 1 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else elseif2'>
+                          <span class="nameText mb-1">{{allbookmarklist.user.first_name}} </span>
+                        </ng-container>
+
+                      </ng-template>
+                      <ng-template #elseif2>
+                        <ng-container
+                          *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.first_name == 2 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else else1'>
+                          <span class="nameText mb-1">{{allbookmarklist.user.first_name}} </span>
+                        </ng-container>
+                      </ng-template>
+                      <ng-template #else1>
+                        <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                          <span class="nameText mb-1">No Fast Name Available </span>
+                        </ng-container>
+                      </ng-template>
+
+
+
+                      <ng-container
+                        *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.last_name == 3; else elseiff1'>
+                        <span class="nameText mb-1">{{allbookmarklist.user.last_name}} </span>
+                      </ng-container>
+                      <ng-template #elseiff1>
+                        <ng-container
+                          *ngIf='selectedtype == "my community" && (allbookmarklist?.user?.user_controls[0]?.last_name == 1 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elseiff2'>
+                          <span class="nameText mb-1">{{allbookmarklist.user.last_name}} </span>
+                        </ng-container>
+
+                      </ng-template>
+                      <ng-template #elseiff2>
+                        <ng-container
+                          *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.last_name == 2 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elsef1'>
+                          <span class="nameText mb-1">{{allbookmarklist.user.last_name}} </span>
+                        </ng-container>
+                      </ng-template>
+                      <ng-template #elsef1>
+                        <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                          <span class="nameText mb-1">No Last Name Available </span>
+                        </ng-container>
+                      </ng-template>
+
+                      <ng-container *ngIf='allbookmarklist?.user?.user_type == 1; else elsetype'>
+                          <h4 class="typeText text-uppercase greenText" >Pinner</h4>
+                      </ng-container>
+                      <ng-template #elsetype>
+                        <ng-container>
+                            <h4 class="typeText text-uppercase orangeText" >Doers</h4>
+                        </ng-container>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--end post-block-->
+            </div>
+            <!--end swiper-slide-->
+          
+            <!--end swiper-slide-->
+           
+            <!--end swiper-slide-->
+            
+            <!--end swiper-slide-->
+
+          </div>
+        </div>
+        <!--end swiper-container-->
+
+      </div>
+      <!--end blog-post-slider-->
+
+    </div>
+
+    <!--New Joinee-->
+    <div class="card-slider mb-3" *ngIf='allbookmarklist.type === "post"'>
+
+      <div class="card-main-header px-3 ">
+
+        <div class="main-header-inr d-flex align-items-center justify-content-between pt-3 pb-3">
+
+          <h4 class="heading-text mb-0 text-uppercase">NEW JOINEE</h4>
+
+        </div>
+        <hr class="mb-0 mt-0">
+      </div>
+
+
+      <div class="new-joinee-slider">
+
+        <div class="slider-action d-flex align-items-center justify-content-end pt-2">
+
+          <!-- Add Arrows -->
+          <!-- <div class="swiper-button-next"><i class="material-icons">
+              keyboard_arrow_right
+            </i></div>
+          <div class="swiper-button-prev"><i class="material-icons">
+              keyboard_arrow_left
+            </i></div> -->
+
+        </div>
+
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="new-joinee-block text-center p-3">
+                  <ng-container *ngIf='allbookmarklist?.user?.user_type == 1'>
+                      <ng-container
+                      *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.profile_photo == 3; else elseiffi1'>
+                      <div class="prfl-img circle mx-auto mb-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                      <img
+        src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                      </div>
+                       <div class="prfl-img circle mx-auto mb-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                     
+                      <img src="assets/images/rana.jpg"></div>
+                    </ng-container>
+                    <ng-template #elseiffi1>
+                      <ng-container
+                        *ngIf='selectedtype == "my community" && allbookmarklist?.user?.user_controls[0]?.profile_photo  == 1 || allbookmarklist?.user?.user_controls[0]?.profile_photo  == 3; else elseiffi2'>
+                       <div class="prfl-img circle mx-auto mb-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                      <img
+        src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                      </div>
+                       <div class="prfl-img circle mx-auto mb-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                     
+                      <img src="assets/images/rana.jpg"></div>
+                      </ng-container>
+
+                    </ng-template>
+                    <ng-template #elseiffi2>
+                      <ng-container
+                        *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.profile_photo == 2 || allbookmarklist?.user?.user_controls[0]?.profile_photo == 3); else elsefi1'>
+                        <div class="prfl-img circle mx-auto mb-2" *ngIf="allbookmarklist?.user?.profile_photo != null ">
+                      <img
+        src="{{image_url}}{{allbookmarklist?.user?.profile_photo}}">
+                      </div>
+                       <div class="prfl-img circle mx-auto mb-2" *ngIf="allbookmarklist?.user?.profile_photo == null ">
+                     
+                      <img src="assets/images/rana.jpg"></div>
+                      </ng-container>
+                    </ng-template>
+                    <ng-template #elsefi1>
+                      <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.profile_photo == 0">
+                       
+                      </ng-container>
+                    </ng-template>
+                  </ng-container>
+                <ng-container *ngIf='allbookmarklist?.user?.user_type == 2'>
+                    <div class="prfl-img circle mx-auto mb-2">
+                     
+                        <img src="{{companylogo_url}}"></div>
+
+                </ng-container>
+                <ng-container
+                  *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.first_name == 3; else elseif1'>
+                  <span class="nameText mb-1">{{allbookmarklist.user.first_name}} </span>
+                </ng-container>
+                <ng-template #elseif1>
+                  <ng-container
+                    *ngIf='selectedtype == "my community" && 
+                     (allbookmarklist?.user?.user_controls[0]?.first_name == 1 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else elseif2'>
+                    <span class="nameText mb-1">{{allbookmarklist.user.first_name}} </span>
+                  </ng-container>
+
+                </ng-template>
+                <ng-template #elseif2>
+                  <ng-container
+                    *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.first_name == 2 || allbookmarklist?.user?.user_controls[0]?.first_name == 3); else else1'>
+                    <span class="nameText mb-1">{{allbookmarklist.user.first_name}} </span>
+                  </ng-container>
+                </ng-template>
+                <ng-template #else1>
+                  <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                    <span class="nameText mb-1">No Fast Name Available </span>
+                  </ng-container>
+                </ng-template>
+
+
+
+                <ng-container
+                  *ngIf='selectedtype == "all" && allbookmarklist?.user?.user_controls[0]?.last_name == 3; else elseiff1'>
+                  <span class="nameText mb-1">{{allbookmarklist.user.last_name}} </span>
+                </ng-container>
+                <ng-template #elseiff1>
+                  <ng-container
+                    *ngIf='selectedtype == "my community" && (allbookmarklist?.user?.user_controls[0]?.last_name == 1 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elseiff2'>
+                    <span class="nameText mb-1">{{allbookmarklist.user.last_name}} </span>
+                  </ng-container>
+
+                </ng-template>
+                <ng-template #elseiff2>
+                  <ng-container
+                    *ngIf='selectedtype == "my contact" && (allbookmarklist?.user?.user_controls[0]?.last_name == 2 || allbookmarklist?.user?.user_controls[0]?.last_name == 3); else elsef1'>
+                    <span class="nameText mb-1">{{allbookmarklist.user.last_name}} </span>
+                  </ng-container>
+                </ng-template>
+                <ng-template #elsef1>
+                  <ng-container *ngIf="allbookmarklist?.user?.user_controls[0]?.first_name == 0">
+                    <span class="nameText mb-1">No Last Name Available </span>
+                  </ng-container>
+                </ng-template>
+                <!-- <h4 class="nameText  mb-2">{{allbookmarklist.user.first_name}} {{allbookmarklist.user.last_name}}</h4> -->
+                <p class="smInfo mb-2">390 Robel Underpass</p>
+                <button mat-stroked-button>VIEW PROFILE</button>
+              </div>
+            </div>
+            <!--end swiper-slide-->
+
+           
+            <!--end swiper-slide-->
+
+           
+            <!--end swiper-slide-->
+
+           
+            <!--end swiper-slide-->
+
+          </div>
+        </div>
+        <!--end swiper-container-->
+
+      </div>
+      <!--end blog-post-slider-->
+
+
+    </div>
+
+  </ng-container>

@@ -1,0 +1,22 @@
+.special_header {
+	font: 14px/40px 'Montserrat-SemiBold';
+	color: #484f56;
+	position: relative;
+	margin-bottom: 20px;
+	&::before {
+		content: '';
+		width: 40px;
+		height: 1px;
+		background: #bad141;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+	}
+}
+body .mat-dialog-container {
+    padding: 20px 45px 35px;
+}
+.special_header::before {
+    left: 50%;
+    margin-left: -20px;
+}

@@ -1,0 +1,83 @@
+<div class="help_topgap">
+		<div class="headingPage text-center">  
+				<h2>Help Center</h2>
+				<h6>Submit a request and we’ll get back to you ASAP!</h6>
+		</div>
+	<div class="help-section">
+		<div class="filterSection clearfix">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6 align-self-center">
+						<img src="./assets/images/help-center.png" alt="">
+					</div>
+					<div class="col-sm-6 align-self-center">
+						<div class="help-text">
+							<p>
+								If you have any query, please mail us at <span>info@pindo.com</span> or you can call us to our 24x7 support number <span> +1 4657 - 123 - 203</span>.
+							</p>
+							<p>You can also describe the issue by filling the below form and we will be in touch with you sooner. </p>
+						</div>
+ 					<form #formSupport="ngForm" novalidate (ngSubmit)="submitSupport(formSupport.value, formSupport.valid)" enctype="multipart/form-data"> 
+						 <mat-form-field appearance="outline">
+							<mat-select placeholder="Issue Type" #issuetype="ngModel" name="issueType" [(ngModel)]="formSupport1.issueType"  required>
+							  <mat-option value="Issue 1">Issue 1</mat-option>
+							  <mat-option value="Issue 2">Issue 2</mat-option>
+							  <mat-option value="Issue 3">Issue 3</mat-option>
+							  <mat-option value="Issue 4">Issue 4</mat-option>
+							</mat-select>
+							<mat-error *ngIf="issuetype.errors && (formSupport.submitted) && issuetype.errors.required">This field required</mat-error>
+						  </mat-form-field>
+
+						  <mat-form-field appearance="outline">
+							<mat-select placeholder="Pin Title" #pinid="ngModel" name="pinId" [(ngModel)]="formSupport1.pinId" required>
+								<mat-option *ngFor="let eachPin of pinData" [value]="eachPin.id">
+								      {{eachPin.title}}
+								</mat-option>
+ 							</mat-select>
+							<mat-error *ngIf="pinid.errors && (formSupport.submitted) && pinid.errors.required">This field required</mat-error>
+						  </mat-form-field>
+								
+							<mat-form-field appearance="outline">
+								<mat-label>Subject</mat-label>
+								<input matInput name="subject" #Subject="ngModel" placeholder="Subject" pattern="" [(ngModel)]="formSupport1.subject" required>
+								<mat-error *ngIf="Subject.errors && (formSupport.submitted) && Subject.errors.required">This field required</mat-error>		
+							</mat-form-field>
+		
+							<mat-form-field appearance="outline">
+								<mat-label>Message</mat-label>
+								<textarea class="resize" matInput rows="4" name="message" placeholder="Message" [(ngModel)]="formSupport1.message" #Message="ngModel" required></textarea>
+								<mat-error *ngIf="Message.errors && (formSupport.submitted) && Message.errors.required">This field required</mat-error>	
+							</mat-form-field>
+
+							<div class="help-attach">
+									<div class="custom-file">
+											<input type="file" class="custom-file-input" id="attachment_file" (change)="onChange($event)" name="attachment_file">
+											<label class="custom-file-label" for="customFile" *ngIf="chatImage==''">Upload Files</label>
+											<label class="custom-file-label" for="customFile" *ngIf="chatImage!=''">{{chatImage?.name}}</label>
+									</div>	
+							</div>
+
+							<div class="d-flex justify-content-start pt-5 w-100 help-btn-wrap">
+									<button mat-button class="text-uppercase mat-primary mr-2 mat-raised-button" color="primary" type="submit">
+										Submit
+									</button>
+							<div class="custombtnboder">
+									<button class="text-uppercase mat-button" mat-button="" type="reset">
+										Cancel 
+									</button>
+									<button type="reset" id="supprotresetFrm" style="display: none;">
+									    Reset
+									 </button>
+
+							</div>
+							</div>
+					</form>
+					</div>
+				</div>
+
+	
+			</div>
+		</div>
+
+	</div>
+</div>

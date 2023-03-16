@@ -1,0 +1,145 @@
+<div class="page=loader"></div>
+ 
+<section class="whiteOverlay-section contactForm-section">
+    <div class="container">
+        <div class="contactForm-holder">
+            <div class="heading">
+                <h2 class="mainHeading">Register</h2>
+            </div>
+
+            <div *ngIf="success_msg" class="{{reg_class}}">
+                                        {{success_msg}}
+                    </div>
+
+              <form #addmore="ngForm" (ngSubmit)="registerFunction(addmore.value,addmore.valid)" *ngIf="formLoadedFlag">
+
+                <input type="hidden" class="form-control" name="user_type" #utype="ngModel" [(ngModel)]="registerdata.user_type" value="1">
+
+                <input type="hidden" class="form-control" name="lat" [(ngModel)]="registerdata.lat" value="" id="lat">
+                <input type="hidden" class="form-control" name="lng" [(ngModel)]="registerdata.lng" value="" id="lng">
+
+                <div class="form-group error-msg-position">
+                    <input type="text" class="form-control" name="first_name" #fname="ngModel" [(ngModel)]="registerdata.first_name" placeholder="First Name*" pattern="^[a-zA-Z ]+$" required>
+                    <div *ngIf="fname.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!fname.errors.required">
+                          This field required
+                        </div>
+                        <div [hidden]="(!fname.errors.pattern || fname.errors.required)">
+                        Take only character.
+                      </div>
+                    </div>
+                </div>
+
+                <div class="form-group error-msg-position">
+                    <input type="text" class="form-control" name="last_name" #lname="ngModel" [(ngModel)]="registerdata.last_name" placeholder="Last Name*" pattern="^[a-zA-Z ]+$" required>
+                    <div *ngIf="lname.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!lname.errors.required">
+                          This field required
+                        </div>
+                        <div [hidden]="(!lname.errors.pattern || lname.errors.required)">
+                        Take only character.
+                      </div>
+                    </div>
+                </div>
+
+                <div class="form-group error-msg-position">
+                    <input type="text" class="form-control" name="screen_name" #sname="ngModel" [(ngModel)]="registerdata.screen_name" placeholder="Screen Name*" required>
+                    <div *ngIf="sname.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!sname.errors.required">
+                          This field required
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group error-msg-position">
+                    <input type="text" class="form-control" name="email" #emailaddress="ngModel" [(ngModel)]="registerdata.email" placeholder="Email*" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                    <div *ngIf="emailaddress.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!emailaddress.errors.required">
+                          This field required
+                        </div>
+                        <div [hidden]="(!emailaddress.errors.pattern || emailaddress.errors.required)">
+                        Invalid email format.
+                      </div>
+                    </div>
+                </div>
+
+                <div class="form-group error-msg-position">
+                    <!-- <input type="text" class="form-control" name="address" #s_address="ngModel" [(ngModel)]="address" placeholder="Address*" required> -->
+                    <input class="form-control" ngx-google-places-autocomplete name="address" #s_address="ngModel" [(ngModel)]="registerdata.address" [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" id="street_number" required/>
+
+                    <div *ngIf="s_address.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!s_address.errors.required">
+                          This field required
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group error-msg-position">
+                    <input type="text" class="form-control" name="city" #a_city="ngModel" [(ngModel)]="registerdata.city" placeholder="City*" required>
+                    <div *ngIf="a_city.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!a_city.errors.required">
+                          This field required
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group error-msg-position">
+                    <input type="text" class="form-control" name="state" #a_state="ngModel" [(ngModel)]="registerdata.state" placeholder="State*" required>
+                    <div *ngIf="a_state.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!a_state.errors.required">
+                          This field required
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group error-msg-position">
+                    <input type="text" class="form-control" name="country" #a_country="ngModel" [(ngModel)]="registerdata.country" placeholder="Country*" required>
+                    <div *ngIf="a_country.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!a_country.errors.required">
+                          This field required
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group error-msg-position">
+                    <input type="text" class="form-control" name="zipcode" #a_zip="ngModel" [(ngModel)]="registerdata.zipcode" placeholder="Zip Code *" required>
+                    <div *ngIf="a_zip.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!a_zip.errors.required">
+                          This field required
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group error-msg-position">
+                    <input type="password" class="form-control" name="password" #userpassword="ngModel" [(ngModel)]="registerdata.password" placeholder="Password*" required validateEqual="con_password" reverse="true">
+                    <div *ngIf="userpassword.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!userpassword.errors.required">
+                          This field required
+                        </div>
+                        <div [hidden]="(userpassword.valid || userpassword.errors.required)">
+                          Password mismatch
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group error-msg-position">
+                    <input type="password" class="form-control" name="con_password" #con_userpassword="ngModel" [(ngModel)]="registerdata.con_password" placeholder="Confirm Password*" required validateEqual="password">
+                    <div *ngIf="con_userpassword.errors && (addmore.submitted)" class="error-msg">
+                        <div [hidden]="!con_userpassword.errors.required">
+                          Confirm Password required
+                        </div>
+                        <div [hidden]="(con_userpassword.valid || con_userpassword.errors.required)">
+                          Password mismatch
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-holder">
+                    <button type="submit" class="btn btn-wht-border">Save</button>
+                    <img src="../../../assets/images/loading.gif" *ngIf="pageLoder">
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>

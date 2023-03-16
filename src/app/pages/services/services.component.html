@@ -1,0 +1,616 @@
+<div class="common_topgap">
+	<div class="top-section service-top-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5">
+					<div class="mainHeading">
+						<h1>FIND A DOER</h1>
+						<p>Select a Category.</p>
+					</div>
+				</div>
+				<div class="col-md-7">
+				</div>
+			</div>
+			<div class="chooseCategory d-flex justify-content-between eachFilterBlock">
+				<div class="chooseCategoryCheckbox" *ngFor="let eachCategory of categoryList;let i = index">
+					<input type="radio" id="checkCat-{{i}}" (change)="selectedCategory(i,$event)" name="selectCat">
+					<label for="checkCat-{{i}}">
+						<!-- <span
+							[innerHTML]="eachCategory?.icon | keepHtml">
+						</span>{{eachCategory?.name}} -->
+						<span
+							[ngClass]="{'ic-home-2': eachCategory?.id === 2 , 'ic-covid-2':eachCategory?.id === 3,'ic-entertainment-2':eachCategory?.id === 19, 'ic-personal-care':eachCategory?.id === 16 , 'ic-book':eachCategory?.id === 17 , 'ic-professional-services-2':eachCategory?.id === 18 ,  'ic-petcare':eachCategory?.id === 20}"></span>
+						{{eachCategory?.name}}
+					</label>
+				</div>
+			</div>
+
+			<div class="w-100 d-flex justify-content-center py-3">
+				<div class="searchPindo">
+					<div class="total_search">
+						<form class="example-form" #searchDoer="ngForm">
+							<mat-spinner [diameter]="30" id="mat-spinner"></mat-spinner>
+							<input type="text" class="form-control" (ngModelChange)="onkeyupSearch($event)"
+								#searchDoersField="ngModel" [ngModelOptions]="{standalone: true}" [(ngModel)]="searchfieldVal"
+								[matAutocomplete]="auto" placeholder="Search by Subcategory or Doer">
+							<button type="button" class="getCurrentLocation" (click)="getCurrentAddress()"><img
+									src="assets/images/target.svg" alt=""></button>
+							<mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayFn"
+								(optionSelected)="selectedValSearch($event['option']['value'])">
+								<ng-container *ngFor="let option of filteredOptions;let i = index;">
+									<mat-option [value]="option">
+										<ng-container *ngIf="option?.category==null && option?.subcategory==null">
+											<div class="d-flex justify-content-between">
+												<span>{{ option.text }}</span>
+												<span>in <b>{{ option['type'] }}</b></span>
+											</div>
+										</ng-container>
+										<ng-container *ngIf="option?.category!=null && option?.subcategory!=null">
+											<div class="d-flex justify-content-between">
+												<span>{{ option.text }}</span>
+												<span>in <b>{{ option['category']['name'] }}</b></span>
+											</div>
+										</ng-container>
+										<ng-container *ngIf="option?.category!=null && option?.subcategory==null">
+											<div class="d-flex justify-content-between">
+												<span>{{ option.text }}</span>
+												<span>in <b>categories</b></span>
+											</div>
+										</ng-container>
+									</mat-option>
+								</ng-container>
+							</mat-autocomplete>
+							<button type="button" [disabled]="!searchEnabled" class="searchIcon" *ngIf="searchfieldVal==''"><img
+									src="{{commonservice.myGlobals.imagepath}}top_search.png" alt=""></button>
+							<button type="button" class="clearSearchText" (click)="clearSearchText(searchField)"
+								*ngIf="searchfieldVal!=''">
+								<i class="fas fa-times"></i>
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div *ngIf="false" class="findDoer-block-sec pt-5 pb-5">
+
+		<div class="container">
+			<div class="findDoer-block-header text-center mb-4">
+				<h2 class="headingText">PinDo is new in your community. Doers are joining every day!<br>
+					If you don’t see a Doer that you are looking for, you have several options:</h2>
+			</div>
+
+			<div class="findDoer-block-wrap p-4">
+
+				<div class="findDoer-block-holder d-flex align-items-center">
+
+					<div class="findDoer-block px-3 py-5 text-center">
+
+						<span class="icon-item ic-group_people color-themeGreen mb-4">
+						</span>
+
+						<div class="dsc-holder mb-4">
+							<h3 class="headingText">Make Pin Public</h3>
+							<p>Doers can find your Pin while you remain anonymous</p>
+						</div>
+
+						<div class="btn-holder">
+							<button type="button" (click)="PublicPinnOpenDialog()"
+								class="btn-greenColor text-uppercase smFont-lg-size" mat-flat-button>MAKE PIN
+								PUBLIC</button>
+						</div>
+
+					</div>
+
+
+					<div class="findDoer-block px-3 py-5 text-center">
+
+						<span class="icon-item ic-chat-line color-themeGreen mb-4">
+						</span>
+
+						<div class="dsc-holder mb-4">
+							<h3 class="headingText">Post to PinDo Feed</h3>
+							<p>Get word of mouth recommendations</p>
+						</div>
+
+						<div class="btn-holder">
+							<button type="button" class="btn-greenColor text-uppercase smFont-lg-size" mat-flat-button>POST</button>
+						</div>
+
+					</div>
+
+					<div class="findDoer-block px-3 py-5 text-center">
+
+						<span class="icon-item ic-add-user color-themeGreen mb-4">
+						</span>
+
+						<div class="dsc-holder mb-4">
+							<h3 class="headingText">Invite a Doer</h3>
+							<p>Send email to Doer not on PinDo</p>
+						</div>
+
+						<div class="btn-holder">
+							<button type="button" (click)="inviteOpenDialog()" class="btn-greenColor text-uppercase smFont-lg-size"
+								mat-flat-button>INVITE TO
+								JOIN</button>
+						</div>
+
+					</div>
+
+					<div class="findDoer-block px-3 py-5 text-center">
+
+						<span class="icon-item ic-share color-themeGreen mb-4">
+						</span>
+
+						<div class="dsc-holder mb-4">
+							<h3 class="headingText">Post to Social</h3>
+							<p>Copy link to send a summary of your Pin</p>
+						</div>
+
+						<div class="btn-holder">
+							<button type="button" (click)="postSocialOpenDialog()"
+								class="btn-greenColor text-uppercase smFont-lg-size" mat-flat-button>POST TO
+								SOCIAL</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="serviceSection">
+		<div class="filterSection clearfix">
+
+			<div class="container">
+
+				<div class="chooseSubCategory eachFilterBlock" *ngIf="subCategoryList.length>0">
+					<h4>Subcategories</h4>
+					<div class="subCategoryList-holder">
+						<ng-container *ngFor="let eachSubCat of subCategoryList;let outIndex = index;">
+							<p *ngIf="eachSubCat.length==0">No Sub Categories Found in this category</p>
+						
+							<div class="normalcheck green-color" *ngFor="let eachSub of eachSubCat;let i = index;">
+								<input type="checkbox" id="subCat-{{eachSub?.id}}" (change)="selectedSubCats(outIndex,i,$event)"
+									name="selectSubCat">
+								<label for="subCat-{{eachSub?.id}}">{{eachSub?.name}}</label>
+
+								<!-- <mat-checkbox class="mr-2" id="subCat-{{eachSub?.id}}" (change)="selectedSubCats(outIndex,i,$event)" name="selectSubCat">{{eachSub?.name}}</mat-checkbox> -->
+
+							</div>
+
+						</ng-container>
+					</div>
+				</div>
+				<div class="advance_filter">
+					<div class="eachFilterBlock mt-4">
+						<div class="row">
+							<div class="col-md-7">
+								<h4>Rating</h4>
+								<div class="greyCheck ratingCheckbox" *ngFor="let eachRatingOptn of availableRatings;">
+									<input type="radio" id="ratingSelect-{{eachRatingOptn}}" [(ngModel)]="rateOptnSelectVal"
+										value="{{eachRatingOptn}}" name="rateOptn" (change)="selectOrDeselectRating(eachRatingOptn)">
+									<label for="ratingSelect-{{eachRatingOptn}}">
+										<span class="indvrating" *ngFor="let eachstar of getstarCountArray(eachRatingOptn)"><i
+												class="fas fa-star"></i></span>
+										{{eachRatingOptn}}.0 +
+									</label>
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="filterinnerCont emergency_filter">
+									<h4>Emergency/24-HR Service</h4>
+									<div class="custom_radioGreen" *ngFor="let eachemergencyVals of emergencyVals;let i = index;">
+										<input type="radio" name="emergencySelect" [(ngModel)]="emergencySelectVal"
+											value="{{eachemergencyVals}}" id="emergency-{{i}}"
+											(click)="selectEmergengyFilter(eachemergencyVals,i)">
+										<label for="emergency-{{i}}">{{eachemergencyVals}}</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="eachFilterBlock">
+						<div class="filterinnerCont minpinscompleted">
+							<h4>Minimum Pins Completed</h4>
+							<div class="greyCheck" *ngFor="let eachminPinsCompleted of minPinsCompleted;let i = index;">
+								<input type="radio" name="minpinscompletedselect" id="minpins-{{i}}"
+									[(ngModel)]="minPinscompletedselection" value="{{eachminPinsCompleted}}"
+									(change)="selectOrDeselectMinPinsCompleted(eachminPinsCompleted)">
+								<label for="minpins-{{i}}" *ngIf="eachminPinsCompleted=='0'">None</label>
+								<label for="minpins-{{i}}" *ngIf="eachminPinsCompleted!='0'">{{eachminPinsCompleted}}+
+									Pins</label>
+							</div>
+						</div>
+					</div>
+					<div class="eachFilterBlock">
+						<h4>Badges Earned</h4>
+						<div class="greyCheck" *ngFor="let eachBadge of badgesList;let i = index;">
+							<input type="checkbox" name="minpinscompletedselect" id="badgesearned-{{i}}"
+								(change)="selectedBadges(i,$event)">
+							<label for="badgesearned-{{i}}">{{eachBadge?.name}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="text-center toggleAdvanceFilter">
+					<span class="" *ngIf="!showingAdvanceFilter" (click)="toggleAdvanceFilterView()">Show Advanced
+						Filter <i class="fas fa-angle-down"></i></span>
+					<span class="" *ngIf="showingAdvanceFilter" (click)="toggleAdvanceFilterView()">Hide Advanced Filter
+						<i class="fas fa-angle-up"></i></span>
+				</div>
+			</div>
+			<div class="filterBottomPanel d-xl-flex justify-content-between" #doerWrapper>
+				<div class="selectedFilters clearfix">
+					<div class="selectedFilterBox"
+						*ngFor="let eachSeletedFilter of selectedFiltersTogether | slice:0:3;let i = index">
+						<cite title="{{eachSeletedFilter?.name}}">{{eachSeletedFilter?.name}}</cite>&nbsp;&nbsp;<span
+							class="remove_filter" id="filter-{{eachSeletedFilter.id}}" (click)="deselectFilter(i)"><i
+								class="fas fa-times"></i></span>
+					</div>
+					<ng-container *ngIf="selectedFiltersTogether.length>3">
+						<button mat-button [matMenuTriggerFor]="menudrop">
+							<i class="fas fa-ellipsis-h"></i>
+						</button>
+						<mat-menu #menudrop="matMenu" [overlapTrigger]="false">
+							<button mat-menu-item class="cutom_itemstyle withfilter"
+								*ngFor="let eachSeletedFilter of selectedFiltersTogether | slice:3:selectedFiltersTogether?.length;let i = index"
+								(click)="deselectFilter(i+3)">
+								<cite title="{{eachSeletedFilter?.name}}">{{eachSeletedFilter?.name}}</cite> <span class="remove_filter"
+									id="filter-{{eachSeletedFilter.id}}"><i class="fas fa-times"></i></span>
+							</button>
+						</mat-menu>
+					</ng-container>
+				</div>
+				<div class="right_filter">
+					<ul>
+						<li>
+							<!-- *ngIf="selectedFiltersTogether.length>0 || selectedCategoryIds.length>0 || currentAddress || showFavDoerData || searchfieldVal!=''" -->
+							<button class="btn-link" (click)="clearAllSelectedFilters()"
+								*ngIf="currentAddress || showFavDoerData || searchfieldVal!='' || rateOptnSelectVal || emergencySelectVal || minPinscompletedselection != '0' || selectedBadgeList.length > 0">Clear
+								Filters</button>
+						</li>
+						<li>
+							<button class=" btn-link" (click)="showFavDoer()" *ngIf="ifloggedIn">Show Favorite
+								Doer</button>
+						</li>
+						<li class="forsort">
+							<button mat-button [matMenuTriggerFor]="menu" #sort (menuOpened)="toggleMenuIcon(sort,'open')"
+								(menuClosed)="toggleMenuIcon(sort,'remove')">
+								Sort
+							</button>
+							<mat-menu #menu="matMenu" [overlapTrigger]="false">
+								<button mat-menu-item class="cutom_itemstyle" (click)="selectSort('all')">
+									<span>All</span>
+									<ng-container *ngIf="selectedSortFilter=='all'"><i class="fas fa-check"></i>
+									</ng-container>
+								</button>
+								<button mat-menu-item class="cutom_itemstyle" (click)="selectSort('indvonly')">
+									<span>Individual Only</span>
+									<ng-container *ngIf="selectedSortFilter=='indvonly'"><i class="fas fa-check"></i>
+									</ng-container>
+								</button>
+								<button mat-menu-item class="cutom_itemstyle" (click)="selectSort('orgonly')">
+									<span>Organization Only</span>
+									<ng-container *ngIf="selectedSortFilter=='orgonly'"><i class="fas fa-check"></i>
+									</ng-container>
+								</button>
+								<button mat-menu-item class="cutom_itemstyle" (click)="selectSort('withincommunity')">
+									<span>Within Community</span>
+									<ng-container *ngIf="selectedSortFilter=='withincommunity'"><i class="fas fa-check"></i>
+									</ng-container>
+								</button>
+							</mat-menu>
+						</li>
+						<li>
+							<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary ml-3"
+								(click)="submitSelectedFilter()">
+								Apply
+							</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<!-- <div class="container" *ngIf="doerListing.length>0"> -->
+			<div class="doer-listing row">
+				<!-- <div class="doer-listing row" infiniteScroll [infiniteScrollDistance]="10" [infiniteScrollThrottle]="1500"
+				(scrolled)="onScroll()"> -->
+				<div class="col-md-6 col-xl-4"
+					*ngFor="let eachDoer of doerListing | paginate: { itemsPerPage: pinLimit, currentPage: p, totalItems: countTotal }; let i=index;">
+					<ng-container>
+						<div class="indv-doer">
+							<!-- <h4 (click)="commonservice.openWithNewTabDoerOrPinner(eachDoer.id,2)" style="cursor:pointer;">
+								<ng-container>{{ (eachDoer?.profile_type==2)?eachDoer?.company_name:eachDoer?.name }}</ng-container>
+							</h4> -->
+							<!-- <div class="doer-selectCheckbox" *ngIf="appServices.user_type==1">
+								<input type="checkbox" (change)="selectedDoer(i)" name="doername-{{i}}" #doerOne{{i}}="ngModel" [(ngModel)]="inviteDoerModel[eachDoer.id]" id="doer-{{i}}">
+								<label for="doer-{{i}}">&nbsp;</label>
+							</div> -->
+							<!-- <ng-container *ngIf="ifloggedIn"><span class="like-box" [ngClass]="{'liked':eachDoer.favourite_doer==1}" (click)="likeDoer($event,eachDoer.id)"></span></ng-container> -->
+							<div class="profDoer d-flex mb-3">
+								<span class="prof_img" style="cursor:pointer;"
+									(click)="commonservice.openWithNewTabDoerOrPinner(eachDoer.id,2)"
+									*ngIf="eachDoer?.company_logo!='' && eachDoer?.company_logo!=null">
+									<img src="{{componentapiUrl}}/company_logo/{{eachDoer?.company_logo}}"
+										onError="this.src='assets/images/default-userImg-orange-square.svg';" alt="">
+								</span>
+								<span class="prof_img" style="cursor:pointer;"
+									(click)="commonservice.openWithNewTabDoerOrPinner(eachDoer.id,2)"
+									*ngIf="eachDoer?.company_logo=='' || eachDoer?.company_logo==null">
+									<img src="{{componentapiUrl}}/profile_photo/{{eachDoer?.profile_photo}}"
+										onError="this.src='assets/images/default-userImg-orange-square.svg';" alt="">
+								</span>
+							
+							</div>
+
+							
+
+							<div class="prof_infoDoer">
+								<!-- <h4 (click)="commonservice.openWithNewTabDoerOrPinner(eachDoer.id,2)" style="cursor:pointer;">{{ eachDoer?.name }}</h4> -->
+								<!-- <h4 class="infoName">White or Cleanfield</h4> -->
+								<!-- <p class="adress_doer" *ngIf="eachDoer?.address == null"><i class="fas fa-map-marker-alt"></i>Not Yet AVailable</p>
+								<p class="adress_doer" *ngIf="eachDoer?.address != null"><a [href]="getAddLink(eachDoer?.address)" target="_blank"><i class="fas fa-map-marker-alt"></i>{{ eachDoer?.address }}</a></p> -->
+								<h4 (click)="commonservice.openWithNewTabDoerOrPinner(eachDoer.id,2)" style="cursor:pointer;"
+									class="my-3">
+									<ng-container>
+										{{ (eachDoer?.profile_type==2)?eachDoer?.company_name:eachDoer?.name }}
+									</ng-container>
+								</h4>
+
+								<div class="mb-3">
+									<p class="adress_doer" *ngIf="eachDoer?.address == null"><i class="fas fa-map-marker-alt"></i>Not Yet
+										Available</p>
+									<p class="adress_doer" *ngIf="eachDoer?.address != null">
+										<a [href]="getAddLink('cityState',eachDoer?.city,eachDoer?.state)" target="_blank"
+											*ngIf="eachDoer?.user_controls[0]?.primary_address == 2 || (eachDoer?.user_controls[0]?.primary_address == 4 && eachDoer?.frndList != 1 && eachDoer?.communityList != 1) || eachDoer?.user_controls.length == 0"><i
+												class="fas fa-map-marker-alt"></i>{{eachDoer?.city}}, {{eachDoer?.state}}</a>
+	
+										<a [href]="getAddLink('fullAddress',eachDoer?.address,'')" target="_blank"
+											*ngIf="eachDoer?.user_controls[0]?.primary_address == 7 || !eachDoer?.user_controls || (eachDoer?.user_controls[0]?.primary_address == 4 && eachDoer?.frndList == 1) || (eachDoer?.user_controls[0]?.primary_address == 5 && eachDoer?.frndList == 1) || (eachDoer?.user_controls[0]?.primary_address == 5 && eachDoer?.frndList != 1) || (eachDoer?.user_controls[0]?.primary_address == 4 && eachDoer?.communityList == 1)"><i
+												class="fas fa-map-marker-alt"></i>{{ eachDoer?.address }}
+											{{eachDoer?.city}}, {{eachDoer?.state}} {{eachDoer?.zipcode}}</a>
+									</p>
+								</div>
+
+								<div class="ratingDoer d-flex mb-3" style="cursor:pointer;"
+									(click)="commonservice.openWithNewTabDoerOrPinner(eachDoer.id,2)" *ngIf="eachDoer?.review_count!=0">
+									<span class="indvrating" *ngFor="let eachRating of convertToarray(eachDoer?.rating_avg,'filled')"><i
+											class="fas fa-star"></i></span>
+									<p><strong>{{eachDoer?.rating_avg}}.0</strong> ({{eachDoer?.review_count}} True Reviews)</p>
+								</div>
+							</div>
+
+							
+
+
+							<div class="doerStats mb-4">
+								<h4>Services Offered</h4>
+								<ng-container *ngFor="let item of eachDoer?.doer_parent_cat_and_child_cat_dtls | slice:0:1">
+									<div class="service-infoBox-content d-xl-flex align-items-center mb-0">
+					
+									  <div class="heading-block d-flex align-items-center">
+										<span class="catIcon color-themeOrange mr-2" [ngClass]="{'ic-home': item?.parent_category_details?.id == 2 ,
+										'ic-covid_19_new':item?.parent_category_details?.id == 3,
+										'ic-entertainment':item?.parent_category_details?.id == 19,
+										'ic-personal-care':item?.parent_category_details?.id == 16 ,
+										 'ic-book':item?.parent_category_details?.id == 17 ,
+										'ic-health':item?.parent_category_details?.id == 18 ,
+										'ic-petcare':item?.parent_category_details?.id == 20}"></span>
+										<h4 class="headingText mb-0">{{ item?.parent_category_details.name }}</h4>
+									  </div>
+					  
+									  <div class="service-infoBox d-flex align-items-center pl-2">
+										<div class="d-flex align-items-center flex-wrap">
+										  <ng-container *ngFor="let subitem of item?.child_cat_dtls; let j=index">
+											<span class="custom-chips-text_ statBox my-1 mx-1" *ngIf="j<1"><span class="chips-box">{{ subitem?.child_category_details.name }}</span></span>
+										  </ng-container>
+										</div>
+										<span class="custom-chips-text_ statBox my-1 hover flex-shrink-0" *ngIf="item?.child_cat_dtls.length - 1 > 0" (click)="openExtraCategories(item?.child_cat_dtls, item?.parent_category_details.name)"><span class="chips-box">+{{ item?.child_cat_dtls.length - 1 }}</span></span>
+									  </div>
+					  
+									</div>
+								</ng-container>
+
+								<ng-container *ngIf="eachDoer?.doer_parent_cat_and_child_cat_dtls.length > 1">
+									<p class="more-cats_ statBox mt-1 mb-3 hover" (click)="showMoreCats(eachDoer?.doer_parent_cat_and_child_cat_dtls)">
+										+{{ eachDoer?.doer_parent_cat_and_child_cat_dtls.length - 1 }} <ng-container *ngIf="eachDoer?.doer_parent_cat_and_child_cat_dtls.length - 1 < 2">Category</ng-container><ng-container *ngIf="eachDoer?.doer_parent_cat_and_child_cat_dtls.length - 1 > 1">Categories</ng-container>
+									</p>
+								</ng-container>
+
+								<h4>Doer Stats</h4>
+								<!-- <span class="statBox">100 Verified Jobs</span> -->
+								<!-- <span class="statBox" (click)="goToPins('Ongoing',eachDoer.id)" style="cursor:pointer;">{{eachDoer?.ongoing_pins}} Ongoing Jobs</span>
+								<span class="statBox" (click)="goToPins('Completed',eachDoer.id)" style="cursor:pointer;">{{eachDoer?.pins_completed}} Completed Jobs</span> -->
+
+								<span class="statBox" *ngIf="eachDoer?.endorsement_count == 1">{{eachDoer?.endorsement_count}}
+									Endorsement</span>
+								<span class="statBox"
+									*ngIf="eachDoer?.endorsement_count == 0 || eachDoer?.endorsement_count > 1">{{eachDoer?.endorsement_count}}
+									Endorsements</span>
+								<!-- <span class="statBox" *ngIf="eachDoer?.emergency">Emergency Services</span> -->
+								<!-- <span class="statBox">{{eachDoer?.ongoing_pins}} Ongoing Jobs</span> -->
+								<span class="statBox" *ngIf="eachDoer?.pins_completed == 1">{{eachDoer?.pins_completed}} Completed
+									Job</span>
+								<span class="statBox"
+									*ngIf="eachDoer?.pins_completed == 0 || eachDoer?.pins_completed > 1">{{eachDoer?.pins_completed}}
+									Completed Jobs</span>
+							</div>
+							<!-- <div class="hiredBy mb-4" *ngIf="eachDoer.hiredByFriendList?.length>0"> -->
+							<div class="hiredBy mb-4">
+								<h4 *ngIf="eachDoer?.hiredByFriendList?.length == 0 || !eachDoer?.hiredByFriendList">Hired by
+									<span>no contacts yet</span>
+								</h4>
+								<h4 *ngIf="eachDoer?.hiredByFriendList?.length == 1">Hired By
+									<span>{{eachDoer.hiredByFriendList?.length}} Contact</span>
+								</h4>
+								<h4 *ngIf="eachDoer?.hiredByFriendList?.length > 1">Hired By
+									<span>{{eachDoer.hiredByFriendList?.length}} Contacts</span>
+								</h4>
+								<div class="hiredCont" *ngIf="eachDoer?.hiredByFriendList?.length > 0">
+									<span class="hiredBox" *ngFor="let each_pinner of eachDoer?.hiredByFriendList"
+										(click)=openPinnerListPopup(eachDoer?.hiredByFriendList);>
+										<img src="{{componentapiUrl}}/profile_photo/{{each_pinner?.pinner_details?.profile_photo}}"
+											onError="this.src='assets/images/default-userImg-green.svg';"
+											title="{{each_pinner?.pinner_details?.name}}">
+									</span>
+								</div>
+
+								<!-- <span class="hiredBox">
+										<img src="assets/images/hired4.jpg">
+									</span> -->
+								<span class="hireNumber"
+									*ngIf="eachDoer.hiredByFriendList?.length>4">+{{(eachDoer.hiredByFriendList?.length-4)}}</span>
+
+							</div>
+							<div class="doerBadges">
+								<h4>PinDo Badges</h4>
+								<div class="badgCont d-flex justify-content-between mt-0" *ngIf="eachDoer?.user_badges?.length>0">
+									<div class="doerBadge d-flex w-100">
+										<!-- <ng-container *ngFor="let eachBadge of eachDoer?.user_badges | slice:0:5">
+											<span class="indvBadg" (click)="goToPublicProfile(eachDoer?.id)"
+												matTooltip="{{eachBadge.badge_details?.name}}" matTooltipClass="actually-green-tooltip"><img
+													src="{{globalconstant.uploadUrl}}/badges/{{eachBadge.badge_details?.icon}}"></span>
+										</ng-container>
+										<div class="badgContNumber" *ngIf="eachDoer?.user_badges?.length > 5"
+											(click)="goToPublicProfile(eachDoer?.id)">
+											+ {{eachDoer?.user_badges?.length - 5}}
+										</div> -->
+										<!-- {{eachDoer?.user_badges | json}} -->
+										<div class="badges-slider">
+											<!-- Swiper -->
+											<div class="swiper-container">
+												<div class="swiper-wrapper">
+													<div class="swiper-slide" *ngFor="let eachBadge of commonservice.removeDuplicates( eachDoer?.user_badges, 'badge_id' )">
+														<div class="badgeImg">
+															<div class="badge_cont text-center d-flex justify-content-center w-100 h-100"
+																(click)="tooltip.show()" matTooltipPosition="above"
+																matTooltip="{{eachBadge.badge_details?.name}}" matTooltipClass="actually-green-tooltip">
+																<img src="{{globalconstant.uploadUrl}}/badges/{{eachBadge.badge_details?.icon}}" alt="">
+															</div>
+														</div>
+													</div>
+												</div>
+
+											</div>
+											<!-- Add Arrows -->
+											<div class="swiper-button-next"></div>
+											<div class="swiper-button-prev"></div>
+										</div>
+
+									</div>
+									<!-- <ng-container *ngIf="eachDoer?.user_badges.length>3">
+										<p (click)="goToPublicProfile(eachDoer?.id)">and {{eachDoer?.user_badges.length - 3}} more badges....</p>
+									</ng-container> -->
+								</div>
+								<ng-container *ngIf="eachDoer?.user_badges?.length==0">
+									No Badges Earned Yet
+								</ng-container>
+							</div>
+							<div class="abs-btngrp">
+								<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+									<mat-button-toggle value="View Details"
+										(click)="commonservice.openWithNewTabDoerOrPinner(eachDoer?.id,2)">
+										View Profile
+									</mat-button-toggle>
+									<mat-button-toggle *ngIf="appServices.user_type==1" class="custom_checkboxmattoggle">
+										<div class="custom_invitecheckbox">
+											<input type="checkbox" (change)="selectedDoer(i)" name="doername-{{i}}" #doerOne{{i}}="ngModel"
+												[(ngModel)]="inviteDoerModel[eachDoer.id]" id="doer-{{i}}">
+											<label for="doer-{{i}}">Invite</label>
+										</div>
+									</mat-button-toggle>
+									<mat-button-toggle *ngIf="appServices.user_type==1" value="Message" class="green_btn"
+										(click)="goToChat(eachDoer?.id)"><i class="fas fa-envelope"></i></mat-button-toggle>
+									<mat-button-toggle *ngIf="ifloggedIn">
+										<span class="like-box newDesign" [ngClass]="{'liked':eachDoer.favourite_doer==1}"
+											(click)="likeDoer($event,eachDoer.id)"></span>
+									</mat-button-toggle>
+									<!-- <mat-button-toggle *ngIf="appServices.user_type==1" value="Message" routerLink="/doer-details/{{encode(eachDoer?.id)}}/hire-doer">Hire</mat-button-toggle> -->
+
+								</mat-button-toggle-group>
+							</div>
+						</div>
+					</ng-container>
+				</div>
+				<div class="invite-panel" *ngIf="appServices.user_type==1">
+					<div class="container  d-flex align-items-center h-100"
+						[ngClass]="{'justify-content-between':(totalDoerSelected<6),'justify-content-center':totalDoerSelected>5}">
+						<ng-container *ngIf="totalDoerSelected<6">
+							<p><span class="numbr">{{ totalDoerSelected }}</span> doer<ng-container *ngIf="totalDoerSelected>1">s
+								</ng-container> selected</p>
+							<div class="totBtn">
+								<span class="titleText">Invite To:&nbsp;&nbsp;</span>
+								<button type="submit" mat-raised-button color="primary" [disabled]="totalDoerSelected==0"
+									class="text-uppercase mat-primary mr-2" (click)="inviteToCreateNewPin()">
+									New Pin
+								</button>
+								<button type="submit" mat-raised-button color="primary" [disabled]="totalDoerSelected==0"
+									class="text-uppercase mat-primary" (click)="inviteDoerToPin()">
+									Existing Pin
+								</button>
+							</div>
+						</ng-container>
+						<ng-container *ngIf="totalDoerSelected>5">
+							<p>Please Select less than 5 Doers</p>
+						</ng-container>
+					</div>
+				</div>
+				<!-- </div> -->
+			</div>
+			<!-- <pagination-controls class="container text-center" (pageChange)="p = $event; onChangePage($event)">
+			</pagination-controls> -->
+			<pagination-controls *ngIf="doerListing.length>0" previousLabel="" nextLabel="" class="pagination-sec colorGreen"
+				(pageChange)="p = $event; onChangePage($event)">
+			</pagination-controls>
+			<div class="container" *ngIf="doerListing?.length==0">
+				<div class="row">
+					<div class="col-md-12">
+						<ng-container *ngIf="doerListing?.length==0">
+							<div class="no_content w-100 text-center">
+
+								<!-- <div class="col-md-5">
+								<img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+							</div>
+							<div class="col-md-7">
+								<ng-container>
+									<p>So sorry but there was no match to your search criteria. Pleases broaden your
+										criteria and try again!</p>
+								</ng-container>
+							</div> -->
+
+								<p class="text-center">So sorry, but there was no match to your search criteria.</p>
+
+							</div>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--end findDoer-block-sec-->
+
+		<!-- <div class="pagination-sec pb-5">
+			<div class="container text-center">
+				<div class="pagination-block ">
+					<ul class="pagination-list d-flex align-items-center">
+						<li class="pagination-item colorGreen"><span class="ic-angle-left"></span></li>
+						<li class="pagination-item colorGreen"><span class="numb">1</span></li>
+						<li class="pagination-item colorGreen"><span class="numb">2</span></li>
+						<li class="pagination-item colorGreen"><span class="numb">3</span></li>
+						<li class="pagination-item colorGreen"><span class="numb">4</span></li>
+						<li class="pagination-item dotdot"><span class="numb">....</span></li>
+						<li class="pagination-item colorGreen"><span class="numb">20</span></li>
+						<li class="pagination-item colorGreen"><span class="ic-angle-right"></span></li>
+					</ul>
+				</div>
+			</div>
+		</div> -->
+
+	</div>
+	<app-service-doer-details #doerDetails></app-service-doer-details>

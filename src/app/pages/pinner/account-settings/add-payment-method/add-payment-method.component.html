@@ -1,0 +1,185 @@
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">
+			<!-- <span *ngIf="addOrUpdateBtn=='SAVE'">ADD</span>
+			<span *ngIf="addOrUpdateBtn=='UPDATE'">UPDATE</span> -->
+			Payment Method</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3 ">
+
+				<div class="btn-holder mb-4 text-center">
+
+					<!-- <button mat-flat-button [ngClass]="showPaymentMethodType === 'credit_card'? 'active':''"
+						class="btn-tabToggle mr-3 text-uppercase" (click)="paymentMethodTypeFnc('credit_card')">credit
+						card</button>
+					<button mat-button [ngClass]="showPaymentMethodType === 'bank_account'?'active':''"
+						class="btn-tabToggle text-uppercase" (click)="paymentMethodTypeFnc('bank_account')">bank
+						account</button> -->
+
+					<button *ngIf="showPaymentMethodType === 'credit_card'" mat-flat-button
+						class="btn-tabToggle mr-3 text-uppercase active" (click)="paymentMethodTypeFnc('credit_card')">credit
+						card</button>
+					<button *ngIf="showPaymentMethodType === 'bank_account'" mat-button
+						class="btn-tabToggle text-uppercase active" (click)="paymentMethodTypeFnc('bank_account')">bank
+						account</button>
+				</div>
+
+				<div class="matComnForm" *ngIf="showPaymentMethodType === 'credit_card'">
+					<form #cardFormValues="ngForm" [formGroup]="cardPaymentDetailsAddOrUpdateForm" autocomplete="off">
+
+						<mat-form-field appearance="outline">
+							<mat-label>Name on Card</mat-label>
+							<input matInput name="card_name" formControlName="card_name" type="text" class="form-control">
+							<mat-error *ngIf="addEditCardDetailsController.card_name.errors?.required">Required
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field appearance="outline" *ngIf="addOrUpdateBtn!='UPDATE'">
+							<mat-label>Card Number</mat-label>
+							<input matInput mask="{{cardMaskFormate}}" name="card_number" [(ngModel)]="cardNumber"
+								(ngModelChange)="getCardType()" formControlName="card_number" type="text" class="form-control">
+							<mat-error *ngIf="addEditCardDetailsController.card_number.errors?.required">Required
+							</mat-error>
+							<mat-error *ngIf="addEditCardDetailsController.card_number.errors?.pattern">Invalid card
+							</mat-error>
+							<span class="cardType-img" *ngIf="cardType!=''">
+								<img src="assets/images/payment-cards-icons/{{cardType}}.svg" width="36">
+							</span>
+						</mat-form-field>
+
+						<div class="row">
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>Exp. Month</mat-label>
+									<mat-select name="card_month" formControlName="card_month">
+										<mat-option value="" disabled selected>MM</mat-option>
+										<mat-option *ngFor="let month of monthList" [value]="month">
+											<span *ngIf="month<10">0</span>{{month}}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngIf="addEditCardDetailsController.card_month.errors?.required">Required
+									</mat-error>
+								</mat-form-field>
+							</div>
+
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>Exp. Year</mat-label>
+									<mat-select name="card_year" formControlName="card_year"
+										(selectionChange)="changeCardYear($event.value)">
+										<mat-option value="" disabled selected>YYYY</mat-option>
+										<mat-option *ngFor="let year of yearList" [value]="year">
+											{{year}}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngIf="addEditCardDetailsController.card_year.errors?.required">Required
+									</mat-error>
+								</mat-form-field>
+							</div>
+
+							<div class="col-md-4" *ngIf="addOrUpdateBtn!='UPDATE'">
+								<mat-form-field appearance="outline">
+									<mat-label>CVV</mat-label>
+									<input matInput name="card_cvv" formControlName="card_cvv" type="password" class="form-control" [(minlength)]="cvvMinLength" [(maxlength)]="cvvMaxLength">
+									<mat-error *ngIf="addEditCardDetailsController.card_cvv.errors?.required">Required
+									</mat-error>
+									<mat-error *ngIf="addEditCardDetailsController.card_cvv.errors?.pattern">Invalid
+									</mat-error>
+
+								</mat-form-field>
+							</div>
+
+						</div>
+						<!--end row-->
+
+						<div class="mb-4" *ngIf="!cardOrBankDetails.is_primary">
+							<div class="normalcheck green-color float-none">
+								<input type="checkbox" id="cardPaymentMakePrimary" name="is_primary" formControlName="is_primary"
+									class="form-control">
+								<label for="cardPaymentMakePrimary">Make Primary</label>
+							</div>
+						</div>
+
+						<div class="btn-holder text-center mt-4">
+							<button mat-flat-button type="submit" class="btn btn-greenColor smFont-lg-size text-uppercase mx-2"
+								(click)="addOrEditCardDetails()">{{addOrUpdateBtn}}</button>
+							<button mat-flat-button type="button" class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+								(click)="togglePopup()">CANCEL</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="matComnForm" *ngIf="showPaymentMethodType === 'bank_account'">
+					<form #cardFormValues="ngForm" [formGroup]="backAccountDetailsAddOrUpdateForm" autocomplete="off">
+
+						<mat-form-field appearance="outline">
+							<mat-label>Account Holder Name</mat-label>
+							<input matInput name="account_holder_name" formControlName="account_holder_name" type="text"
+								class="form-control">
+							<mat-error *ngIf="addEditBankDetailsController.account_holder_name.errors?.required">
+								Required
+							</mat-error>
+						</mat-form-field>
+
+						<ng-container *ngIf="addOrUpdateBankBtn!='UPDATE'">
+							<mat-form-field appearance="outline">
+								<mat-label>Account number</mat-label>
+								<input matInput name="account_number" formControlName="account_number" type="text" class="form-control">
+								<mat-error *ngIf="addEditBankDetailsController.account_number.errors?.required">Required
+								</mat-error>
+							</mat-form-field>
+
+
+							<mat-form-field appearance="outline">
+								<mat-label>Confirm Account Number</mat-label>
+								<input matInput name="confirm_account_number" formControlName="confirm_account_number" type="text"
+									class="form-control">
+								<mat-error *ngIf="addEditBankDetailsController.confirm_account_number.errors?.required">
+									Required
+								</mat-error>
+								<mat-error *ngIf="addEditBankDetailsController.confirm_account_number.errors?.mustMatch">
+									Account not match
+								</mat-error>
+							</mat-form-field>
+
+							<mat-form-field appearance="outline">
+								<mat-label>Routing Number</mat-label>
+								<input matInput name="routing_number" formControlName="routing_number" type="text" class="form-control">
+								<mat-error *ngIf="addEditBankDetailsController.routing_number.errors?.required">Required
+								</mat-error>
+								<mat-error *ngIf="addEditBankDetailsController.routing_number.errors?.pattern">Invalid
+									routing number
+								</mat-error>
+							</mat-form-field>
+						</ng-container>
+
+						<div class="mb-4" *ngIf="!cardOrBankDetails.is_primary">
+							<div class="normalcheck green-color float-none">
+								<input type="checkbox" id="bankAccountMakePrimary1" name="is_primary" formControlName="is_primary"
+									class="form-control">
+								<label for="bankAccountMakePrimary1">Make Primary</label>
+							</div>
+						</div>
+
+						<div class="btn-holder text-center mt-4">
+							<button mat-flat-button type="submit" class="btn btn-greenColor smFont-lg-size text-uppercase mx-2"
+								(click)="addOrEditBankDetails()">{{addOrUpdateBankBtn}}</button>
+							<button mat-flat-button type="button" class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+								(click)="togglePopup()">CANCEL</button>
+						</div>
+
+					</form>
+
+				</div>
+
+			</div>
+			<!--end col-md-6-->
+		</div>
+	</div>
+
+</div>

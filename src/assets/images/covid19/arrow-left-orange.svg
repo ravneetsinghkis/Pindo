@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="50px" viewBox="0 0 30 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 58 (101010) - https://sketch.com -->
+    <title>20BCEB5B-E44D-4C38-9AF6-2202F656C7A6</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <polygon id="path-1" points="5.51801802 0 0 5.83333333 18.1306306 25 0 44.1666667 5.51801802 50 29.1666667 25"></polygon>
+    </defs>
+    <g id="1.-Marketing-Pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="1">
+        <g id="1.-Homepage-_-24" transform="translate(-1232.000000, -1288.000000)">
+            <g id="Icon-/-Standard-/-Arrow" transform="translate(1247.000000, 1313.000000) rotate(-180.000000) translate(-1247.000000, -1313.000000) translate(1222.000000, 1288.000000)">
+                <g id="Icon-/-Arrow" transform="translate(10.416667, 0.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Color-/-Spring-Green-Color-/-Orange-Sunset" mask="url(#mask-2)" fill="#d78a55">
+                        <g transform="translate(-9.722222, 0.000000)" id="Color-/-Orange-Sunset">
+                            <rect x="0" y="0" width="46.6666641" height="50"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

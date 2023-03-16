@@ -1,0 +1,26 @@
+.upload-btn-wrapper {
+    width: 100%;
+    color: #919191;
+    padding: 7px 5px 7px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    position: relative;
+    span {
+      float: left;
+      line-height: 39px;
+    }
+    button {
+      float: right;
+    }
+    input[type="file"] {
+      opacity: 0;
+      width: 100%;
+      position: absolute;
+      height: 100%;
+      left: 0;
+      top: 0px;
+  }
+}
+#dispute_reason_desc {
+    height: 100px;
+}

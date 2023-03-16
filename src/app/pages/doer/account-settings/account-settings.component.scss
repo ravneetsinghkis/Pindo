@@ -1,0 +1,23 @@
+.scrollElement{ padding-top: 112px; 
+  height: auto; overflow-y: unset;}
+.custom :hover {
+    cursor: pointer;
+  }
+
+.stripe-text {
+  color: #6772E5;
+}
+
+.card-settings {
+  .card-main-header {
+       .settings-status{
+  
+            &.completed {
+                 .statusIcon {
+                      color: #E6854A;
+                      border: 0.83px solid #E6854A;
+                 }
+            } 
+       }
+  }
+}

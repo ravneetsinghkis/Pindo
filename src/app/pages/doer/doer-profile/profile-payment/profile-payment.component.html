@@ -1,0 +1,94 @@
+<div class="dummy_content text-center" [hidden]="isProfilePayment">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="icon-space mb-4">
+  				<img src="assets/images/icon-set/02.svg" alt="">
+  			</div>
+  			<div class="col-md-10 offset-md-1">
+  				<h6 class="maincardsubHeading">No Accepted Payment Methods</h6>
+  				<p>Please select your accepted methods of payment.</p>
+  			</div>
+  			<button mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="togglePopup()">
+                Update Now
+            </button>
+		</div>
+	</div>
+</div>
+<div class="paymentSection" *ngIf="isProfilePayment">
+	<p *ngIf="paymentModel.choosePayment.paymentCredit"><span class="iconpayment"><img src="assets/images/payment-icons/payment1.png" alt=""></span>By Credit / Debit Card</p>
+	<p *ngIf="paymentModel.choosePayment.paymentCheque"><span class="iconpayment"><img src="assets/images/payment-icons/payment2.png" alt=""></span>By Check</p>
+	<p *ngIf="paymentModel.choosePayment.paymentCash"><span class="iconpayment"><img src="assets/images/payment-icons/payment3.png" alt=""></span>By Cash</p>
+	<p *ngIf="paymentModel.choosePayment.paymentByBank"><span class="iconpayment"><img src="assets/images/payment-icons/payment3.png" alt=""></span>By Bank Account</p>
+</div>
+
+<!-- overlayPopup -->
+<div class="overlayPopup paymentSectionOv" #popUpVar>
+	<div class="popupHeader">
+		<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+		<h3>ACCEPTED METHODS OF PAYMENT</h3>
+	</div>
+	<div class="popupContent">
+		<div class="container">
+			<div class="popUpcontentHeading"><h5 class="text-center">Select one or more of the below options for accepting payments.</h5></div>
+			<form #profilePaymentForm="ngForm" novalidate (ngSubmit)="submitPaymentForm(profilePaymentForm)"> 
+				<div class="total-form mt-5 d-flex justify-content-center" ngModelGroup="choosePayment" #chosPay="ngModelGroup" appConfirmMinSingleCheckbox>
+					<div class="custom-paymentcheckbox">
+						<input type="checkbox" name="paymentCredit" #creditPayment="ngModel" [(ngModel)]="paymentModel.choosePayment.paymentCredit" id="payment-1">
+						<label for="payment-1">&nbsp;</label>
+						<div class="payment-image d-flex justify-content-center">
+							<span class="paymentimg-holder align-self-center">
+								<img src="assets/images/payment-icons/payment1_big.png" alt="">
+							</span>
+						</div>
+						<p>Credit / Debit Card</p>
+					</div>
+					<div class="custom-paymentcheckbox">
+						<input type="checkbox" name="paymentCheque" #chequePayment="ngModel" [(ngModel)]="paymentModel.choosePayment.paymentCheque" id="payment-2">
+						<label for="payment-2">&nbsp;</label>
+						<div class="payment-image d-flex justify-content-center">
+							<span class="paymentimg-holder align-self-center">
+								<img src="assets/images/payment-icons/payment2_big.png" alt="">
+							</span>
+						</div>
+						<p>Check</p>
+					</div>
+					<div class="custom-paymentcheckbox">
+						<input type="checkbox" name="paymentCash" #cashPayment="ngModel" [(ngModel)]="paymentModel.choosePayment.paymentCash" id="payment-3">
+						<label for="payment-3">&nbsp;</label>
+						<div class="payment-image d-flex justify-content-center">
+							<span class="paymentimg-holder align-self-center">
+								<img src="assets/images/payment-icons/payment3_big.png" alt="">
+							</span>
+						</div>
+						<p>Cash</p>
+					</div>
+
+					<div class="custom-paymentcheckbox">
+						<input type="checkbox" name="paymentByBank" #bankPayment="ngModel" [(ngModel)]="paymentModel.choosePayment.paymentByBank" id="payment-4">
+						<label for="payment-4">&nbsp;</label>
+						<div class="payment-image d-flex justify-content-center">
+							<span class="paymentimg-holder align-self-center">
+								<img src="assets/images/payment-icons/payment3_big.png" alt="">
+							</span>
+						</div>
+						<p>Bank Account</p>
+					</div>	
+					
+				</div>
+				<div class="mat-error text-center" *ngIf="profilePaymentForm.submitted && chosPay.errors?.notEqual">
+					Choose A Payment Option	
+				</div>
+				<div class="d-flex justify-content-center pt-5">
+					<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+						Update
+					</button>
+					<div class="custombtnboder">
+						<button type="button" mat-button class="text-uppercase" (click)="resetFunction(profilePaymentForm)">
+							Cancel
+						</button>
+					</div>		            
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

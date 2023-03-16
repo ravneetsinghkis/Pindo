@@ -1,0 +1,15 @@
+<div [formGroup]="group" class="total_field mb-3">
+
+	<h4 class="subcardcontentHeading" [innerHTML]="field.label | keepHtml"></h4>
+	<ng-container *ngFor="let control of group.get(field.name)['controls'].options.controls;let i = index;">
+
+		<mat-checkbox [formControl]="control" class="mr-2" [value]="field['values'][i]['value']">{{field['values'][i]['label']}}</mat-checkbox>  
+	</ng-container>
+	<!-- <mat-checkbox [formControlName]="field.name">{{field.values[0].label}}</mat-checkbox> -->
+	<mat-error *ngIf="group.get(field.name).valid==false && formsubmitted" style="width: 100%;">Please Select At least One</mat-error>
+	<!-- <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
+        <mat-error *ngIf="group.get(field.name).hasError(validation.name)">This is a required Field<span>{{validation.message}}</mat-error>
+    </ng-container> -->
+</div>
+<!-- <input type="checkbox" id="checkbox-{{i}}" value="{{field['values'][i]['value']}}" [formControl]="control" />
+		<label for="checkbox-{{i}}">{{field['values'][i]['label']}}</label> -->

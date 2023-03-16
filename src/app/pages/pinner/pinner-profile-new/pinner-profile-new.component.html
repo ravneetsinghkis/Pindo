@@ -1,0 +1,572 @@
+<update-profile #updateProfileInfo (listingPopulated)="loadProfile($event)"></update-profile>
+<update-interests [userinterest]="split_array_interest" #updateInterestsInfo
+	(listingPopulatedInterest)="loadProfileInterest($event)"></update-interests>
+<bio-edit #bioEditInfo *ngIf="user_data!=null" [biodescription]="user_data?.user_bio?.bio"
+	(listingPopulated)="loadProfileBio($event)"></bio-edit>
+<div class="noScrollElement">
+
+	<div class="prfl-banner-sec">
+		<!-- <ngui-map center="-34.397, 150.644" mapTypeId="roadmap"></ngui-map> -->
+		<!-- 	<ngui-map
+			zoom="13"
+			center="{{user_latitude}}, {{user_longitude}}"
+			mapTypeId="roadmap">
+			<marker position="will-fall-back-to-brampton-canada"
+			[geoFallbackPosition]="map_marker_array"
+			(dragstart)="log($event, 'dragstart')"
+			(dragend)="log($event, 'dragend')"
+			draggable="true"></marker>
+
+			</ngui-map> -->
+		<div class="map-holder">
+			<div class="h-100">
+				<ngui-map center="{{user_latitude}}, {{user_longitude}}" styles='{{myGlobals.styles}}' zoom="10"
+					[streetViewControl]="false" [fullscreenControl]="false" [panControl]="false" [disableDefaultUI]="true"
+					[draggable]="false" mapTypeId="roadmap">
+					<marker position="{{user_latitude}}, {{user_longitude}}" draggable="false" [icon]="{url:'assets/images/pinner_marker.png'}"></marker>
+					<circle center="{{user_latitude}},{{ user_longitude}}" [strokeColor]="'#BAD141'" [fillColor]="'#BAD141'" [strokeOpacity]="0.8" [strokeWeight]="0.8" [editable]="false" radius="10000" draggable="false"></circle>
+				</ngui-map>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="custom-side-col overBanner">
+				<div class="prflInfoCard text-center px-3 py-3 mb-3">
+					<ng-container *ngIf='user_control_status == 1; else otheruser'>
+						<span class="addContact-btn" (click)="toggleParentPopup('UpdateProfileComponent')">
+							<i class="material-icons" style="line-height: 38px;">
+								create
+							</i>
+						</span>
+					</ng-container>
+					<ng-template #otheruser>
+						<ng-container *ngIf='user_connectivity == 1; else pendinguser'>
+							<span class="addContact-btn ic-mail" (click)="goToChat(user_data?.id,user_data?.user_type)"></span>
+
+						</ng-container>
+						<ng-template #pendinguser>
+							<ng-container *ngIf='user_pending_status == 1,else newconnecteduser'>
+								<span class="addContact-btn ic-user-plus deActive"></span>
+							</ng-container>
+						</ng-template>
+						<ng-template #newconnecteduser>
+							<span class="addContact-btn ic-user-plus"
+								(click)="addContactToUser(user_data?.id,user_data?.user_type,'send_view_profile')"></span>
+						</ng-template>
+					</ng-template>
+
+					<!-- <update-profile #updateProfileInfo (listingPopulated)="loadProfile($event)"></update-profile> -->
+
+					<div class="prflImg mb-3 mx-auto mt-2">
+						<img [ngClass]="!profile_photo_show?'blurImg':''"
+							[src]="(user_data?.profile_photo && user_data?.profile_photo!= 'null')? profile_url+user_data?.profile_photo:'assets/images/default-userImg-green.svg'"
+							onError="this.src='assets/images/default-userImg-green.svg';">
+					</div>
+
+					<h4 class="name">
+						<ng-container *ngIf="first_name_show">
+							{{user_data?.first_name}}
+						</ng-container>
+
+						<ng-container *ngIf="last_name_show">
+							{{user_data?.last_name}}
+						</ng-container>
+
+					</h4>
+
+					<ng-container *ngIf="user_name_show">
+						<p *ngIf="user_data?.username" class="userName mb-2">@{{user_data?.username}} </p>
+					</ng-container>
+
+					<p class="JobInfoText mb-0" *ngIf="crewMemberDetails?.referral_code">Crew Referral Code: <span class="blueBoldText text-uppercase">{{ crewMemberDetails?.referral_code }}</span></p>
+
+					<div class="smBottomText mb-4">member since {{user_data?.createdAt | date: 'yyyy'}} </div>
+
+					<ng-container *ngIf="address_show; else showConditionAddress">
+						<p class="addsText mb-2">
+							<span class="ic-pointer color-themeGreen mr-2"></span>
+							<span *ngIf="user_control_status!=0">{{user_data?.address}}</span>
+							<span *ngIf="user_data?.city "> {{user_data?.city}},</span>
+							<span *ngIf="user_data?.state">{{user_data?.state}}</span>
+							<span *ngIf="user_control_status!=0 && user_data?.zipcode"> {{user_data?.zipcode}}</span>
+						</p>
+					</ng-container>
+
+					<ng-template #showConditionAddress>
+						<!-- <p class="addsText mb-2"> -->
+						<!-- <p class="addsText mb-2" *ngIf="user_control_status==3"> -->
+						<p>
+							<span class="ic-pointer color-themeGreen mr-2"></span>
+							<span *ngIf="user_data?.city "> {{user_data?.city}},</span>
+							<span *ngIf="user_data?.state">{{user_data?.state}}</span>
+						</p>
+					</ng-template>
+
+
+					<!-- <div class="rating-block d-flex justify-content-center mb-4">
+						<div class="rating-star d-flex">
+							<ng-container *ngIf="user_data?.rating_avg == 0">
+								<star-rating value="0" checkedcolor="black" uncheckedcolor="gray" size="24px"
+									readonly="true"></star-rating>
+							</ng-container>
+							<ng-container *ngIf="user_data?.rating_avg != 0">
+								<star-rating value="{{user_data?.rating_avg}}" checkedcolor="black"
+									uncheckedcolor="gray" size="24px" readonly="true"></star-rating>
+							</ng-container>
+						</div>
+						<span class="rating-star-text ml-2"
+							*ngIf="user_data?.rating_avg > 0">{{user_data?.rating_avg}}</span>
+					</div> -->
+
+
+				</div>
+
+				<div class="sideCard-border mb-3" *ngIf="showData && interest_show">
+					<div class="sideCard-main-header px-3">
+						<div class="main-header-inr pt-3 pb-3 d-flex align-items-center justify-content-between">
+							<h4 class="heading-text mb-0 text-uppercase">INTERESTS </h4>
+							<ng-container *ngIf='user_control_status == 1'>
+								<span class="edit-btn" (click)="toggleParentPopup('UpdateInterestsComponent')">
+									<i class="material-icons">
+										create
+									</i>
+								</span>
+							</ng-container>
+
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<!-- <update-interests [userinterest]="split_array_interest" #updateInterestsInfo
+						(listingPopulatedInterest)="loadProfileInterest($event)"></update-interests> -->
+
+					<div class="sideCard-body px-3 py-2">
+						<div class="d-flex flex-wrap">
+							<div class="custom-chips-text my-1 mx-1" *ngFor="let interest_val of split_array_interest; let i = index">
+								<span class="chips-box">{{interest_val.category.name}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--end sideCard-border-->
+
+
+				<div class="sideCard-border mb-3">
+
+					<div class="sideCard-main-header px-3">
+						<div class="main-header-inr pt-3 pb-3">
+							<h4 class="heading-text mb-0 text-uppercase">COMMUNITIES</h4>
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<div class="sideCard-body px-3 scroll-height green_customScroll">
+						<ng-container *ngFor="let comunity of communitydata; let i = index">
+							<div class="comnInfo-row d-flex align-items-center justify-content-between pb-3 pt-3">
+								<div class="adds-info d-flex">
+									<div class="icon addsMarkerIcon flex-shrink-0"><i class="fas fa-map-marker-alt"></i>
+									</div>
+									<div class="adds-text pl-2">
+										<p class="addsText_1 text-truncate mb-1">{{comunity.name}}</p>
+										<p class="addsText_2 text-truncate mb-0">{{comunity.zipcode}}</p>
+									</div>
+								</div>
+
+								<button mat-flat-button class="btn-greenColor btn-sm mb-1 text-uppercase"
+									*ngIf="comunity.is_joined == 0" (click)="addConnectUsersToCommunity(comunity.id)">Join</button>
+
+							</div>
+							<hr class="mt-0 mb-0">
+							<!-- </ng-container> -->
+						</ng-container>
+
+					</div>
+
+				</div>
+				<!--end sideCard-border-->
+
+				<div class="sideCard-border mb-3">
+
+					<div class="sideCard-main-header px-3">
+						<div class="main-header-inr pt-3 pb-3 d-flex align-items-center">
+							<h4 class="heading-text mb-0 text-uppercase">Contacts</h4>
+							<span class="light-gray-colorText ml-2"
+								*ngIf='user_control_status!=1 && contacts_show && number_of_mutual_friend'>{{number_of_mutual_friend}}
+								Mutual</span>
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<ng-container *ngIf="contactdata.length > 0 && contacts_show">
+
+						<div class="sideCard-body px-3">
+							<ng-container *ngFor="let friendList of contactdata | paginate: { itemsPerPage: 3,currentPage: p};">
+								<div class="prflInfo-row d-flex align-items-center justify-content-between pb-2 pt-2 cursorPointer">
+
+									<div class="prfl-info d-flex align-items-center"
+										(click)="openUserDetails(friendList?.id,friendList?.user_type)">
+										<div class="prfl-img circle">
+											<ng-container *ngIf='friendList?.user_type == 1;else doerProfileImg'>
+												<img [ngClass]="friendList?.profilePictureShow==true?'':'blurImg'"
+													[src]="friendList?.profile_photo!=null? image_url+friendList?.profile_photo:'assets/images/default-userImg-green.svg'"
+													onError="this.src='assets/images/default-userImg-green.svg';">
+
+											</ng-container>
+
+											<ng-template #doerProfileImg>
+												<img
+													[src]="friendList?.company_logo!=null?companylogo_url+friendList?.company_logo:'assets/images/default-userImg-orange.svg'"
+													onError="this.src='assets/images/default-userImg-orange.svg';">
+											</ng-template>
+										</div>
+
+										<div class="prfl-text pl-2">
+											<ng-container *ngIf='friendList?.user_type == 1;else doerProfileContactName'>
+												<!-- Fast name Settings Start-->
+												<ng-container *ngIf="friendList?.firstNameShow">
+													<span class="nameText mb-1">{{friendList.first_name}} </span>
+												</ng-container>
+												<!-- Fast name Settings End-->
+
+												<!-- Last Name Settings Start -->
+												<ng-container *ngIf="friendList?.lastNameShow">
+													<span class="nameText mb-1">{{friendList.last_name}}</span>
+												</ng-container>
+												<!-- Last Name Settings End-->
+
+												<!--User name Settings Start-->
+												<span class="nameText mb-1"
+													*ngIf="(!friendList?.firstNameShow && !friendList?.lastNameShow && friendList.username)">@{{friendList.username}}</span>
+											</ng-container>
+
+											<ng-template #doerProfileContactName>
+												<ng-container *ngIf="friendList?.profile_type == 1">
+													<span class="nameText mb-1">{{friendList.first_name}}
+													</span>
+													<span class="nameText mb-1">{{friendList.last_name}}
+													</span>
+												</ng-container>
+												<span *ngIf="friendList?.profile_type == 2" class="nameText mb-1">{{friendList.company_name}}
+												</span>
+											</ng-template>
+										</div>
+
+									</div>
+
+									<!-- SEND FRIEND REQUEST -->
+									<span class="addContact-btn ic-follow"
+										*ngIf="is_my_profile==0 && loginUserId!=friendList?.id && (friendList?.is_contacted ==undefined || friendList?.is_contacted == 0) && (friendList?.is_request_pending==undefined || friendList?.is_request_pending == 0)"
+										(click)="addContactToUser(friendList.id,friendList.user_type,'send_friend_list_profile')">
+									</span>
+
+									<!-- ALREADY FRIEND -->
+									<span class="addContact-btn ic-mail" (click)="goToChat(friendList?.id,friendList?.user_type)"
+										*ngIf="loginUserId!=friendList?.id && friendList?.is_contacted !=undefined && friendList?.is_contacted ==1">
+									</span>
+
+								</div>
+								<hr class="mt-0 mb-0">
+							</ng-container>
+						</div>
+
+						<div class="sideCard-border-footer pt-2 pb-2 text-center" *ngIf="contactdata.length > 3">
+							<a class="seeall-text pt-2 pb-2 d-inline-block"
+								(click)="contactsListOpenDialog(contactdata,is_my_profile)"> See All
+								<i class="fas fa-angle-right ml-1"></i>
+							</a>
+						</div>
+					</ng-container>
+
+					<ng-container *ngIf="contactdata.length == 0 && contacts_show">
+						No Contact yet
+					</ng-container>
+
+				</div>
+				<!--end sideCard-border-->
+			</div>
+			<!--end custom-side-col-->
+
+			<div class="custom-main-col overBanner pt-3 pt-xl-0">
+
+				<!-- <span class="prflSideMenu comnLeftSideMenu ic-equalizer d-block d-xl-none"
+					(click)="comnLeftSideBarTgl($event)"></span>
+				<div class="filterSideBar_overlay" (click)="comnLeftSideBarOverClick($event)"
+					[ngClass]="comnLeftSideBarBoxOpen?'open':''">
+				</div> -->
+
+				<div class="comnCard mb-3">
+
+					<div class="comnCard-main-header px-3 ">
+						<div class="main-header-inr d-flex align-items-center py-3 justify-content-between">
+							<h2 class="heading-text mb-0">ACTIVITY</h2>
+
+							<button *ngIf="user_control_status == 1" routerLink="/pinner/dashboard" mat-flat-button
+								class="btn-greenColor btn-sm-rounded mb-1 text-uppercase">SEE
+								ALL</button>
+
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<div class="comnCard-body px-3 py-3">
+
+						<div class="link-group d-flex">
+							<div class="link-group-btn text-center p-3 d-flex flex-column" (click)="reviewSecScroll()">
+								<span class="numbText">{{user_data?.reviewsCount}}</span>
+								<span class="titleText" *ngIf="user_data?.reviewsCount<=1">Review</span>
+								<span class="titleText" *ngIf="user_data?.reviewsCount>1">Reviews</span>
+							</div>
+							<div class="link-group-btn text-center p-3 d-flex flex-column notClickable"
+								*ngIf='user_data?.posts?.length > 0'>
+								<span class="numbText">{{user_data?.postsCount}}</span>
+								<span class="titleText" *ngIf='user_data?.postsCount <= 1'>Post</span>
+								<span class="titleText" *ngIf='user_data?.postsCount > 1'>Posts</span>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+				<!--end comnCard-->
+
+				<div class="comnCard mb-3" *ngIf="bio_show">
+
+					<div class="comnCard-main-header px-3 ">
+						<div class="main-header-inr d-flex align-items-center justify-content-between py-3">
+							<h2 class="heading-text mb-0">BIO</h2>
+
+							<ng-container *ngIf='user_control_status == 1'>
+
+								<span class="edit-btn" (click)="toggleParentPopup('BioEditComponent')">
+									<i class="material-icons">
+										create
+									</i>
+								</span>
+							</ng-container>
+
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<div class="comnCard-body px-3 py-3">
+						<div class="dsc-text-content" *ngIf="user_data?.user_bio?.bio!=null && user_data?.user_bio?.bio!=''">
+							<p [innerHTML]="user_data?.user_bio?.bio"></p>
+						</div>
+						<div class="load-btn-holder py-2 text-center"
+							*ngIf="user_data?.user_bio?.bio==null || user_data?.user_bio?.bio==''">
+							<p>No Bio yet</p>
+						</div>
+
+					</div>
+
+
+
+				</div>
+				<!--end comnCard-->
+
+
+				<!--- Doar Profile page start -->
+
+				<div class="comnCard mb-3 reviewCard" *ngIf="user_data?.user_type == 2 || user_data?.user_type == 1">
+
+					<div class="comnCard-main-header px-3 ">
+						<div class="main-header-inr d-flex align-items-center py-3">
+							<h2 class="heading-text mb-0">REVIEWS</h2>
+						</div>
+						<hr class="mb-0 mt-0">
+					</div>
+
+					<div class="comnCard-body px-3 py-3">
+
+						<ng-container *ngFor="let reviewdata of review_data; let i = index">
+							<div class="review-block-holder">
+								<div class="review-block-wrap">
+
+									<div class="review-block-top d-md-flex justify-content-between mb-md-3 mb-1">
+										<div class="prfl-info d-flex align-items-center pr-md-2 mb-3 mb-md-0">
+
+											<ng-container *ngIf='reviewdata?.doer_details?.user_type == 1'>
+												<ng-container
+													*ngIf='reviewdata?.doer_details?.user_control?.id ; else noConditionForReviewImage'>
+													<ng-container *ngIf='reviewdata?.doer_details?.user_control?.profile_photo == 3
+														|| reviewdata?.doer_details?.user_control?.profile_photo == 5
+														|| reviewdata?.doer_details?.user_control?.profile_photo == 6
+														|| reviewdata?.doer_details?.user_control?.profile_photo == 7;else noImageForReview'>
+														<div class="prfl-img mr-2 circle cursorPointer"
+															(click)="openUserDetails(reviewdata?.doer_details?.id,reviewdata?.doer_details?.user_type)">
+															<img
+																[src]="reviewdata?.doer_details?.profile_photo!=null?profile_url+reviewdata?.doer_details?.profile_photo:'assets/images/default-userImg-green.svg'"
+																onError="this.src='assets/images/default-userImg-green.svg';">
+														</div>
+
+													</ng-container>
+													<ng-template #noImageForReview>
+														<img src="assets/images/default-userImg-green.svg">
+													</ng-template>
+
+												</ng-container>
+
+												<ng-template #noConditionForReviewImage>
+													<div class="prfl-img circle mr-2 cursorPointer"
+														(click)="openUserDetails(reviewdata?.doer_details?.id,reviewdata?.doer_details?.user_type)">
+														<img
+															[src]="reviewdata?.doer_details?.profile_photo!=null?profile_url+reviewdata?.doer_details?.profile_photo:'assets/images/default-userImg-green.svg'"
+															onError="this.src='assets/images/default-userImg-green.svg';">
+													</div>
+												</ng-template>
+
+											</ng-container>
+
+											<ng-container *ngIf='reviewdata?.doer_details?.user_type == 2'>
+												<div class="prfl-img circle mr-2 cursorPointer"
+													(click)="openUserDetails(reviewdata?.doer_details?.id,reviewdata?.doer_details?.user_type)">
+													<img
+														[src]="reviewdata?.doer_details?.company_logo!=null?companylogo_url+reviewdata?.doer_details?.company_logo:'assets/images/default-userImg-orange.svg'"
+														onError="this.src='assets/images/default-userImg-orange.svg';">
+												</div>
+											</ng-container>
+
+
+											<div class="prfl-text d-sm-flex align-items-center flex-wrap">
+
+												<!-- <span class="catIcon ic-petcare color-themeGreen flex-shrink-0 mr-1"></span> -->
+
+												<div class="catInfo d-flex align-items-center flexGrow1 flex-shrink-0">
+													<span class="catIcon color-themeGreen" [ngClass]="{'ic-home-2': reviewdata?.pin?.parent_category?.id === 2 ,
+													'ic-covid-2':reviewdata?.pin?.parent_category?.id === 3,
+													'ic-entertainment-2':reviewdata?.pin?.parent_category?.id === 19,
+													'ic-personal-care':reviewdata?.pin?.parent_category?.id === 16 ,
+													'ic-book':reviewdata?.pin?.parent_category?.id === 17 ,
+					                                'ic-professional-services-2':reviewdata?.pin?.parent_category?.id === 18 ,
+													'ic-petcare':reviewdata?.pin?.parent_category?.id === 20}">
+													</span>
+													<div class="catNameText pl-2">
+														<p class="m-0 type1">{{reviewdata?.pin?.parent_category?.name}}
+														</p>
+														<p class="m-0 type2 color-themeGreen">
+															{{reviewdata?.pin?.child_category?.name}}</p>
+													</div>
+												</div>
+
+												<div class="">
+													<ng-container *ngIf='reviewdata?.doer_details?.user_type == 1'>
+
+														<ng-container *ngIf='reviewdata?.doer_details?.user_control==null
+																|| reviewdata?.doer_details?.user_control?.first_name == 3
+																|| reviewdata?.doer_details?.user_control?.first_name == 5
+																|| reviewdata?.doer_details?.user_control?.first_name == 6
+																|| reviewdata?.doer_details?.user_control?.first_name == 7'>
+															<p class="nameText mb-1 cursorPointer"
+																(click)="openUserDetails(reviewdata.doer_details.id,reviewdata.doer_details.user_type)">
+																{{reviewdata.doer_details.name}} </p>
+
+														</ng-container>
+
+														<ng-container *ngIf='reviewdata?.doer_details?.user_control==null
+																|| reviewdata?.doer_details?.user_control?.primary_address == 3
+																|| reviewdata?.doer_details?.user_control?.primary_address == 5
+																|| reviewdata?.doer_details?.user_control?.primary_address == 6
+																|| reviewdata?.doer_details?.user_control?.primary_address == 7'>
+															<h4 class="addsText mb-0">
+																{{reviewdata.doer_details.address}}
+															</h4>
+														</ng-container>
+
+													</ng-container>
+
+													<ng-container *ngIf='reviewdata?.doer_details?.user_type == 2'>
+														<p class="nameText mb-1 cursorPointer"
+															(click)="openUserDetails(reviewdata.doer_details.id,reviewdata?.doer_details?.user_type)">
+															<ng-container
+																*ngIf="reviewdata.doer_details.company_name && reviewdata.doer_details.company_name!='null'">
+																{{reviewdata.doer_details.company_name}}
+															</ng-container>
+															<ng-container
+																*ngIf="!reviewdata.doer_details.company_name || reviewdata.doer_details.company_name=='null'">
+																{{reviewdata.doer_details.name}}
+															</ng-container>
+														</p>
+
+														<h4 class="addsText mb-0">
+															{{reviewdata.doer_details.address}}
+														</h4>
+													</ng-container>
+
+												</div>
+
+											</div>
+										</div>
+										<!--end prfl-info-->
+
+										<div class="rating-block text-md-right">
+											<div class="d-flex align-items-center">
+												<div class="rating-star d-flex">
+													<ng-container *ngIf="reviewdata?.rating == 0">
+														<!-- <star-rating value="0" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3" size="18px"
+															readonly="true">
+														</star-rating> -->
+														<star-rating [showHalfStars]="true" [starType]="'svg'" [rating]="0" [readOnly]="true"
+															size="small"></star-rating>
+													</ng-container>
+													<ng-container *ngIf="reviewdata?.rating != 0">
+														<!-- <star-rating value="{{reviewdata?.rating}}" checkedcolor="#f3b13f" uncheckedcolor="#b3b3b3"
+															size="18px" readonly="true"></star-rating> -->
+														<star-rating [showHalfStars]="true" [starType]="'svg'" [rating]="reviewdata?.rating"
+															[readOnly]="true" size="small"></star-rating>
+													</ng-container>
+
+												</div>
+												<span class="rating-star-text">{{reviewdata.rating | number : '1.1-2'}}</span>
+											</div>
+											<!-- <span class="font-italic smInfo">{{reviewdata.createdAt | amTimeAgo}}</span> -->
+											<span class="smInfo">{{reviewdata.createdAt | customeTimeAgo}}</span>
+
+										</div>
+
+									</div>
+
+									<div class="review-block-dsc">
+										<h3 class="headingText mb-2">{{reviewdata.pin.title}}</h3>
+										<p [innerHTML]="reviewdata.review"></p>
+									</div>
+
+								</div>
+								<!--end review-block-wrap-->
+							</div>
+							<hr>
+						</ng-container>
+
+
+						<div class="load-btn-holder py-2 text-center" *ngIf="isLoadMoreReview">
+							<button mat-flat-button class="btn-greenColor text-uppercase" (click)="loadMoreData()">LOAD
+								MORE <i class="material-icons">
+									expand_more</i></button>
+						</div>
+
+						<div class="load-btn-holder py-2 text-center" *ngIf="review_data?.length == 0">
+							No Review Found
+						</div>
+
+					</div>
+					<!--end comnCard-->
+
+				</div>
+				<!--end comnCard-->
+
+				<!---Doar Profile page End -->
+				<!--- Pinner Profile page Start -->
+
+				<!--- Pinner Profile page End-->
+
+			</div>
+			<!--end custom-main-col-->
+
+		</div>
+		<!--end row-->
+	</div>
+
+</div>

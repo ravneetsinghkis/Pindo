@@ -1,0 +1,76 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between">
+      <div class="heading pb-2">
+        <h3 class="heading-text">PIN LIST</h3>
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+    <hr class="mt-0 mb-0">
+   
+
+    <div class="pin-detail-table">
+
+      <div class="total-table">
+
+        <div class="table-header d-flex">
+          <div class="coltab withFilter">
+            Date / Time
+          </div>
+          <div class="coltab flex-2 withFilter">
+            Pin Details
+          </div>
+          <div class="coltab flex-2 withFilter">
+              Service Location
+            </div>
+          <div class="coltab">
+          </div>
+        </div>
+
+
+
+        <ng-container>
+          <div class="table-scrollcontainer">
+            <div class="table-body white-bg">
+              <div class="table-row d-flex" *ngFor="let eachPin of pinnerPinList; let i=index">
+
+                <div class="coltab" data-heading="Date / Time">
+                  <!-- <p>{{eachPin.createdAt}}</p> -->
+                  <p>{{eachPin.createdAt | date:'dd LLL yyyy'}}&nbsp;{{eachPin.createdAt | date:'h:mm a'}}</p>
+                </div>
+                
+                <div class="coltab flex-2 align-self-center" data-heading="Pin Details">
+                  <p class="linkStyle">
+                    {{eachPin.title}}
+                  </p>
+                  <div class="green-pin">
+                    {{eachPin.parent_category.name}} > {{eachPin.child_category?.name}}
+                  </div>
+                </div>
+
+                 <div class="coltab flex-2 align-self-center" data-heading="Location">
+                  <p class="no_whitespace" *ngIf="eachPin?.location_id!='dl'">
+                      {{eachPin.address}},&nbsp;{{eachPin.city}},&nbsp;{{eachPin.state}}&nbsp;{{eachPin.zipcode}}
+                  </p>
+                  <p class="no_whitespace" *ngIf="eachPin?.location_id=='dl'">Doer's Location</p>
+                </div>
+
+                <div class="coltab align-self-center" data-heading="">
+                  <p class="no_whitespace">
+                      <button class="btn-greenColor btn-sm text-uppercase" *ngIf="eachPin?.is_invited==0" mat-flat-button (click)="inviteDoer(eachPin.slug,i)">Invite</button>
+                      <button mat-button class="btn-gray-border btn-sm text-uppercase" disabled *ngIf="eachPin?.is_invited==1">Invited</button>
+                  </p>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+    </div><!-- pin-detail-table -->
+
+
+  </div>
+</div>

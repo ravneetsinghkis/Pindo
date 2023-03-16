@@ -1,0 +1,459 @@
+<div class="totalDashboard">
+	<div class="container">
+		<div class="mainHeading">
+			<div class="meta-heading">
+				<button mat-icon-button class="btn-back float-left mr-3" routerLink="/doer/my-pins"><span
+						class="or or-return"></span></button>
+				<h3>Send Quotation</h3>
+				<p>Check the job details and set your quotation accordingly</p>
+			</div>
+		</div>
+		<div class="row mb-3 align-items-stretch">
+			<div class="col-lg-8">
+				<mat-card class="pindoCart h-100">
+					<mat-card-header>
+						<mat-card-title>
+							Job Details
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<ng-container *ngIf="show_data">
+							<div class="subcard-heading">
+								<p><span>{{fetchedPinDetails?.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}
+										{{fetchedPinDetails?.created_at?.split('-').join('/') | date:'h:mm a'}}</span>|<span>ID:
+										{{fetchedPinDetails?.pin_unique_id}}</span></p>
+								<h5>{{fetchedPinDetails?.title}}</h5>
+								<div class="heading-info mt-3 mb-5">
+									<span class="quotationlist green-pin">
+										{{fetchedPinDetails?.parent_child_cat?.parent_det?.name}} >
+										{{fetchedPinDetails?.parent_child_cat?.name}}
+									</span>
+									<span class="quotationlist" *ngIf="fetchedPinDetails?.has_budget==0">No
+										Budget</span>
+									<span class="quotationlist" *ngIf="fetchedPinDetails?.has_budget==1">$
+										{{fetchedPinDetails.budget_value}}</span>
+									<span class="quotationlist">
+										<i class="fas fa-map-marker-alt mr-2"></i>{{fetchedPinDetails?.address}}
+									</span>
+								</div>
+							</div>
+							<h6 class="maincardsubHeading">Job Description</h6>
+							<p [innerHtml]="fetchedPinDetails?.description"></p>
+						</ng-container>
+					</mat-card-content>
+				</mat-card>
+			</div>
+			<div class="col-md-4">
+				<div class="indv-doer hire-doerapplyquote" *ngIf="show_data">
+					<div class="profDoer d-flex mb-4 align-items-center">
+						<!-- <span class="prof_img">
+								<img src="assets/images/inddoer1.jpg"  alt="">
+							</span> -->
+						<span class="prof_img" *ngIf="fetchedPinDetails?.pinner_details?.profile_photo!=''">
+							<img src="{{baseCompUrl}}/profile_photo/{{fetchedPinDetails?.pinner_details?.profile_photo}}"
+								onError="this.src='assets/images/inddoer1.jpg';" alt="">
+						</span>
+						<span class="prof_img no-img" *ngIf="fetchedPinDetails?.pinner_details?.profile_photo==''">
+							<img src="assets/images/inddoer1.jpg" alt="">
+						</span>
+						<div class="prof_infoDoer">
+							<h4>{{fetchedPinDetails?.pinner_details?.name}} -
+								{{fetchedPinDetails?.pinner_details?.tag_line}}</h4>
+						</div>
+					</div>
+					<div class="doerStats mb-4">
+						<h4>Job Tasks</h4>
+						<div class="task-list mb-4">
+							<span>{{fetchedPinDetails?.title}}</span>
+						</div>
+						<ng-container *ngIf="fetchedPinDetails?.job_type!=null">
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.job_type==0">One-time job</span>
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.job_type==1">Recurring</span>
+						</ng-container>
+
+						<ng-container *ngIf="fetchedPinDetails?.how_often!=null">
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.how_often==0">Daily</span>
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.how_often==1">Weekly</span>
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.how_often==2">Bi-weekly</span>
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.how_often==3">Monthly</span>
+						</ng-container>
+						<span class="quotationlist" *ngIf="is_urgent==1">Urgent Requirement</span>
+
+
+						<ng-container *ngIf="fetchedPinDetails?.time_of_day!=null">
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.time_of_day==0">Morning</span>
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.time_of_day==1">Afternoon</span>
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.time_of_day==2">Evening</span>
+						</ng-container>
+
+						<ng-container *ngIf="fetchedPinDetails?.day_of_week!=null">
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.day_of_week==0">Anyday</span>
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.day_of_week==1">Weekday</span>
+							<span class="quotationlist" *ngIf="fetchedPinDetails?.day_of_week==3">Individual Days</span>
+							<ng-container *ngIf="fetchedPinDetails?.day_of_week==3">
+								<span class="quotationlist" *ngIf="fetchedPinDetails?.ind_monday==1">Monday</span>
+								<span class="quotationlist" *ngIf="fetchedPinDetails?.ind_tuesday==1">Tuesday</span>
+								<span class="quotationlist" *ngIf="fetchedPinDetails?.ind_wednesday==1">Wednesday</span>
+								<span class="quotationlist" *ngIf="fetchedPinDetails?.ind_thursday==1">Thursday</span>
+								<span class="quotationlist" *ngIf="fetchedPinDetails?.ind_friday==1">Friday</span>
+								<span class="quotationlist" *ngIf="fetchedPinDetails?.ind_saturday==1">Saturday</span>
+								<span class="quotationlist" *ngIf="fetchedPinDetails?.ind_sunday==1">Sunday</span>
+							</ng-container>
+						</ng-container>
+						<ng-container *ngIf="fetchedPinDetails?.pinner_details?.company_name!=null">
+							<span class="quotationlist">{{fetchedPinDetails?.pinner_details?.company_name}}</span>
+						</ng-container>
+					</div>
+					<div class="abs-btngrp">
+						<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+							<mat-button-toggle value="Message">Message</mat-button-toggle>
+						</mat-button-toggle-group>
+					</div>
+				</div>
+			</div>
+		</div>
+		<form #applyPins="ngForm" novalidate (ngSubmit)="applyPinsSubmit(applyPins)">
+			<div class="row">
+				<div class="col-md-12">
+					<mat-card class="pindoCart">
+						<mat-card-header>
+							<mat-card-title>
+								Cover Letter
+								<p class="float-right cardtitlesubtext">Write a cover letter to describe your services
+								</p>
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<mat-form-field appearance="outline">
+								<mat-label>Type your cover letter here....</mat-label>
+								<textarea name="coverLetter" #coverLet="ngModel" [(ngModel)]="appyPinsModel.coverLetter"
+									matInput placeholder="Type your cover letter here...." required></textarea>
+								<mat-error *ngIf="coverLet.errors?.required && applyPins.submitted">This is a required
+									Field</mat-error>
+							</mat-form-field>
+						</mat-card-content>
+					</mat-card>
+					<mat-card class="pindoCart">
+						<mat-card-header>
+							<mat-card-title>
+								Payment Terms
+								<p class="float-right cardtitlesubtext">Please set the milestones for the job</p>
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<ng-container *ngIf="show_data">
+								<div class="total_field d-flex"
+									*ngIf="fetchedPinDetails?.job_type==0 || fetchedPinDetails?.is_urgent==1">
+									<p class="mr-5">What kind of payment you are offerring for this job?</p>
+									<mat-radio-group class="green-color" name="typeOfPayment" #selectPayType="ngModel"
+										[(ngModel)]="appyPinsModel.selectPaymentType">
+										<mat-radio-button *ngFor="let eachPaymentType of paymentTypes"
+											[value]="eachPaymentType.value" class="mr-4" (change)="countTotalprc()">
+											{{eachPaymentType.name}}</mat-radio-button>
+									</mat-radio-group>
+								</div>
+								<div class="total-paymentSet fixedPayment"
+									*ngIf="(appyPinsModel.selectPaymentType==1 && fetchedPinDetails?.job_type==0) || (appyPinsModel.selectPaymentType==1 && fetchedPinDetails?.is_urgent==1)">
+									<h6 class="maincardsubHeading">Set Job Milestones</h6>
+									<div class="customrightgapfieldgroup" ngModelGroup="fixedPaymentGrp"
+										#fixedPaymentGrp="ngModelGroup">
+										<div class="row">
+											<div class="col-md-8">
+												<mat-form-field appearance="outline">
+													<mat-label>Milestone Name</mat-label>
+													<input matInput name="fixedPaymentmilestoneName"
+														#fixedMlsName="ngModel"
+														[(ngModel)]="appyPinsModel.fixedPrice.milestoneName"
+														placeholder="Milestone Name*"
+														[required]="(applyPins.submitted && fixedPriceMilestones.length==0) || (requiredtobeFixedPayments)">
+													<mat-error
+														*ngIf="fixedMlsName.errors?.required && (fixedMlsName.touched || applyPins.submitted)">
+														This is a required Field</mat-error>
+												</mat-form-field>
+											</div>
+											<div class="col-md-4">
+												<mat-form-field appearance="outline"
+													[ngClass]="{'mat-form-field-invalid':fixedPaymentGrp.errors?.checkEmpty && (fixedMlsPrice.touched || applyPins.submitted || detectFixedPrcAdded)}">
+													<mat-label>Milestone Price</mat-label>
+													<input matInput name="fixedPaymentmilestonePrc"
+														#fixedMlsPrice="ngModel"
+														[(ngModel)]="appyPinsModel.fixedPrice.milestonePrc"
+														placeholder="Milestone Price*" type="number"
+														[required]="(applyPins.submitted && fixedPriceMilestones.length==0) || (requiredtobeFixedPayments)">
+													<span matPrefix>$&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+													<mat-error
+														*ngIf="fixedMlsPrice.errors?.required && (fixedMlsPrice.touched || applyPins.submitted)">
+														This is a required Field</mat-error>
+												</mat-form-field>
+											</div>
+											<!-- <mat-error *ngIf="fixedPaymentGrp.errors?.checkEmpty && (fixedMlsPrice.touched || applyPins.submitted || detectFixedPrcAdded)" class="abs-error col-md-12 text-center">This is a required Field</mat-error> -->
+										</div>
+
+										<div class="absrightPos justify-content-end d-flex align-items-center">
+											<button type="button" mat-icon-button color="primary"
+												(click)="submitPrice(appyPinsModel.selectPaymentType,fixedPaymentGrp)"
+												class="add_btn">
+												<mat-icon>add</mat-icon>
+											</button>
+										</div>
+									</div>
+									<div class="customrightgapfieldgroup onlyedit"
+										*ngFor="let eachFixedPrice of fixedPriceMilestones;let i = index;">
+										<div class="row">
+											<div class="col-md-8">
+												<div class="listingshow d-flex align-items-center">
+													{{eachFixedPrice.milestoneName}}</div>
+											</div>
+											<div class="col-md-4">
+												<div class="listingshow d-flex align-items-center"><span
+														class="prefix_show">$&nbsp;|</span>&nbsp;{{eachFixedPrice.milestonePrc}}
+												</div>
+											</div>
+										</div>
+										<div class="absrightPos justify-content-end d-flex align-items-center">
+											<button type="button" mat-icon-button color="primary"
+												[disabled]="ifEditGetFixedPriceMilestonesIndex!='NULL'"
+												(click)="editThisMilestone(i,appyPinsModel.selectPaymentType)"
+												class="mr-2">
+												<mat-icon>create</mat-icon>
+											</button>
+											<button type="button" mat-icon-button color="primary"
+												(click)="removeThisMilestone(i,appyPinsModel.selectPaymentType)"
+												[disabled]="ifEditGetFixedPriceMilestonesIndex!='NULL'" class="">
+												<mat-icon>remove</mat-icon>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="total-paymentSet hourlyPayment"
+									*ngIf="(appyPinsModel.selectPaymentType==2 && fetchedPinDetails?.job_type==0) || (appyPinsModel.selectPaymentType==2 && fetchedPinDetails?.is_urgent==1)">
+									<h6 class="maincardsubHeading">Set Job Milestones</h6>
+									<div class="customrightgapfieldgroup">
+										<div class="row" ngModelGroup="hourlyPaymentGrp"
+											#hourlyPaymentGrp="ngModelGroup">
+											<div class="col-md-8">
+												<mat-form-field appearance="outline">
+													<mat-label>Milestone Name</mat-label>
+													<input matInput name="hourlyPaymentmilestoneName"
+														#hrlyPayMlsName="ngModel"
+														[(ngModel)]="appyPinsModel.hourlyPrice.milestoneName"
+														placeholder="Milestone Name*"
+														[required]="(applyPins.submitted && hourlyPriceMilestones.length==0) || (requiredtobeHourlyPayments)">
+													<mat-error
+														*ngIf="hrlyPayMlsName.errors?.required && (hrlyPayMlsName.touched || applyPins.submitted)">
+														This is a required Field</mat-error>
+												</mat-form-field>
+											</div>
+											<div class="col-md-4">
+												<div class="row">
+													<div class="col-md-6">
+														<mat-form-field appearance="outline">
+															<mat-label>Hourly Rate</mat-label>
+															<input matInput name="hourlyRate" #hrlyRate="ngModel"
+																[(ngModel)]="appyPinsModel.hourlyPrice.milestonePrc"
+																placeholder="Hourly Rate*" type="number"
+																[required]="(applyPins.submitted && hourlyPriceMilestones.length==0) || (requiredtobeHourlyPayments)">
+															<span matPrefix>$&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+															<mat-error
+																*ngIf="hrlyRate.errors?.required && (hrlyRate.touched || applyPins.submitted)">
+																This is a required Field</mat-error>
+														</mat-form-field>
+													</div>
+													<div class="col-md-6">
+														<mat-form-field appearance="outline">
+															<mat-label>Working Hours</mat-label>
+															<input matInput name="hourlyWorkingHours"
+																#hrlyWrkngHrs="ngModel"
+																[(ngModel)]="appyPinsModel.hourlyPrice.workingHrs"
+																placeholder="Working Hours*" type="number"
+																[required]="(applyPins.submitted && hourlyPriceMilestones.length==0) || (requiredtobeHourlyPayments)">
+															<mat-error
+																*ngIf="hrlyWrkngHrs.errors?.required && (hrlyWrkngHrs.touched || applyPins.submitted)">
+																This is a required Field</mat-error>
+														</mat-form-field>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="absrightPos justify-content-end d-flex align-items-center">
+											<button type="button" mat-icon-button color="primary" class="add_btn"
+												(click)="submitPrice(appyPinsModel.selectPaymentType,hourlyPaymentGrp)">
+												<mat-icon>add</mat-icon>
+											</button>
+										</div>
+									</div>
+									<div class="customrightgapfieldgroup onlyedit"
+										*ngFor="let eachHourlyPrice of hourlyPriceMilestones;let i = index;">
+										<div class="row">
+											<div class="col-md-8">
+												<div class="listingshow d-flex align-items-center">
+													{{eachHourlyPrice.milestoneName}}</div>
+											</div>
+											<div class="col-md-4">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="listingshow d-flex align-items-center"><span
+																class="prefix_show">$&nbsp;|</span>&nbsp;{{eachHourlyPrice.milestonePrc}}
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="listingshow d-flex align-items-center">
+															{{eachHourlyPrice.workingHrs}}</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="absrightPos justify-content-end d-flex align-items-center">
+											<button type="button" mat-icon-button color="primary" class="mr-2"
+												[disabled]="ifEditGetHourlyPriceMilestonesIndex!='NULL'"
+												(click)="editThisMilestone(i,appyPinsModel.selectPaymentType)">
+												<mat-icon>create</mat-icon>
+											</button>
+											<button type="button" mat-icon-button color="primary" class=""
+												(click)="removeThisMilestone(i,appyPinsModel.selectPaymentType)"
+												[disabled]="ifEditGetHourlyPriceMilestonesIndex!='NULL'">
+												<mat-icon>remove</mat-icon>
+											</button>
+										</div>
+									</div>
+								</div>
+							</ng-container>
+							<ng-container *ngIf="show_data">
+								<div class="total-paymentSet hourlyPayment" *ngIf="fetchedPinDetails?.job_type==1">
+									<h6 class="maincardsubHeading">Set Job Milestones</h6>
+									<div class="customrightgapfieldgroup pr-0">
+										<div class="row" ngModelGroup="recurringPaymentGrp"
+											#recurringPaymentGrp="ngModelGroup">
+											<div class="col-md-8">
+												<mat-form-field appearance="outline">
+													<mat-label>Milestone Name</mat-label>
+													<input matInput name="recurringPaymentmilestoneName"
+														#recurringPayMlsName="ngModel"
+														[(ngModel)]="appyPinsModel.recurringPrice.milestoneName"
+														placeholder="Milestone Name*" required>
+													<mat-error
+														*ngIf="recurringPayMlsName.errors?.required && applyPins.submitted">
+														This is a required Field</mat-error>
+												</mat-form-field>
+											</div>
+											<div class="col-md-4">
+												<div class="row">
+													<div class="col-md-6">
+														<mat-form-field appearance="outline">
+															<mat-label>Hourly Rate</mat-label>
+															<input matInput name="recurringhourlyRate"
+																#recurringhrlyRate="ngModel"
+																[(ngModel)]="appyPinsModel.recurringPrice.milestonePrc"
+																placeholder="Hourly Rate*" type="number"
+																(blur)="countTotalprc()" required>
+															<span matPrefix>$&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+															<mat-error
+																*ngIf="recurringhrlyRate.errors?.required && applyPins.submitted">
+																This is a required Field</mat-error>
+														</mat-form-field>
+													</div>
+													<div class="col-md-6">
+														<mat-form-field appearance="outline">
+															<mat-label>Working Hours</mat-label>
+															<input matInput name="recurringhourlyWorkingHours"
+																#recurringhrlyWrkngHrs="ngModel"
+																[(ngModel)]="appyPinsModel.recurringPrice.workingHrs"
+																(blur)="countTotalprc()" placeholder="Working Hours*"
+																type="number" required>
+															<mat-error
+																*ngIf="recurringhrlyWrkngHrs.errors?.required && applyPins.submitted">
+																This is a required Field</mat-error>
+														</mat-form-field>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-container>
+						</mat-card-content>
+					</mat-card>
+					<mat-card class="pindoCart">
+						<mat-card-header>
+							<mat-card-title>
+								Additional Payment Terms
+								<p class="float-right cardtitlesubtext">Please specify the additional requirements</p>
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<h6 class="maincardsubHeading">Set Other Payment Details</h6>
+							<div class="customrightgapfieldgroup">
+								<div class="row" ngModelGroup="setOtherPayment" #setOtherPayment="ngModelGroup">
+									<div class="col-md-8">
+										<mat-form-field appearance="outline">
+											<mat-label>Payment Description</mat-label>
+											<input matInput name="otherPaymentDescription" #othrPaymDesc="ngModel"
+												[(ngModel)]="appyPinsModel.addtnlPayments.paymentDesc"
+												placeholder="Payment Description*"
+												[required]="(applyPins.submitted && appyPinsModel.addtnlPayments.totalPrc!='')">
+											<mat-error
+												*ngIf="othrPaymDesc.errors?.required && (othrPaymDesc.touched || applyPins.submitted)">
+												This is a required Field</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-md-4">
+										<mat-form-field appearance="outline">
+											<mat-label>Total Price</mat-label>
+											<input matInput name="otherPaymentTotalPrc" #otherPayTotalPrc="ngModel"
+												[(ngModel)]="appyPinsModel.addtnlPayments.totalPrc"
+												placeholder="Total Price*" type="number"
+												[required]="(applyPins.submitted && appyPinsModel.addtnlPayments.paymentDesc!='')">
+											<mat-error
+												*ngIf="otherPayTotalPrc.errors?.required && (otherPayTotalPrc.touched || applyPins.submitted)">
+												This is a required Field</mat-error>
+											<span matPrefix>$&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="absrightPos justify-content-end d-flex align-items-center">
+									<button type="button" mat-icon-button color="primary" class="add_btn"
+										(click)="addOtherPayment(setOtherPayment)">
+										<mat-icon>add</mat-icon>
+									</button>
+								</div>
+							</div>
+							<div class="customrightgapfieldgroup onlyedit"
+								*ngFor="let eachOtherPayment of addOtherPaymentsCollection;let i = index;">
+								<div class="row">
+									<div class="col-md-8">
+										<div class="listingshow d-flex align-items-center">
+											{{eachOtherPayment.otherPaymentDescription}}</div>
+									</div>
+									<div class="col-md-4">
+										<div class="listingshow d-flex align-items-center"><span
+												class="prefix_show">$&nbsp;|</span>&nbsp;{{eachOtherPayment.milestonePrc}}
+										</div>
+									</div>
+								</div>
+								<div class="absrightPos justify-content-end d-flex align-items-center">
+									<button type="button" [disabled]="checkIfInEditModeOtherPayments" mat-icon-button
+										color="primary" class="mr-2" (click)="editThisOtherPayment(i)">
+										<mat-icon>create</mat-icon>
+									</button>
+									<button type="button" [disabled]="checkIfInEditModeOtherPayments" mat-icon-button
+										color="primary" class="" (click)="removeOtherPayment(i)">
+										<mat-icon>remove</mat-icon>
+									</button>
+								</div>
+							</div>
+						</mat-card-content>
+					</mat-card>
+					<div class="total_quoteVal d-flex justify-content-between">
+						<p>Total Quotation Amount</p>
+						<p class="prcVal">$ {{totalPrice}}</p>
+					</div>
+					<div class="d-flex justify-content-end pt-5">
+						<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+							submit Quotation
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

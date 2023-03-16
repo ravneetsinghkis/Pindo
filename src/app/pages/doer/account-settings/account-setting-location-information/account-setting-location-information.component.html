@@ -1,0 +1,158 @@
+<div class="card-settings-body" *ngIf="contactModel?.address || contactModel?.range_in_miles">
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="adds-list d-flex justify-content-between px-3 py-3">
+        <div class="adds-info d-flex">
+          <span class="ic-pointer color-themeOrange mr-2 flex-shrink-0" style="position: relative; top:0;"></span>
+          <div class="adds-text">
+            <h4 class="headingtext mb-1">Main Address</h4>
+            <p class="mb-0" *ngIf="contactModel?.address2 && contactModel?.address">{{contactModel?.address}}<br>
+              {{contactModel?.address2}}<br> {{contactModel?.addCity}}, {{contactModel?.addState}}
+              {{contactModel?.addZip}}</p>
+            <p class="mb-0" *ngIf="!contactModel?.address2 && contactModel?.address">{{contactModel?.address}}<br>
+              {{contactModel?.addCity}}, {{contactModel?.addState}}
+              {{contactModel?.addZip}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="adds-list d-flex justify-content-between px-3 py-3">
+        <div class="adds-info d-flex">
+          <span class="ic-pointer color-themeOrange mr-2 flex-shrink-0" style="position: relative; top:0;"></span>
+          <div class="adds-text">
+            <h4 class="headingtext mb-1">Range of Service</h4>
+            <p class="mb-0">{{contactModel?.range_in_miles}} miles</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="card-settings-body" *ngIf="!contactModel?.address">
+  No location Yet
+</div> -->
+
+<div class="overlayFullPopup" #popUpVar>
+  <div class="fullPopupHeader px-3">
+    <button mat-icon-button class="btn-back float-left orangeColor" (click)="closeModal()"><span
+        class="or or-return"></span></button>
+    <h3 class="heading-text mb-0 text-uppercase">LOCATION SETTINGS</h3>
+  </div>
+  <hr class="m-0">
+  <div class="fullPopupContent" *ngIf="afterView">
+    <div class="container">
+      <div class="col-md-10 offset-md-1 ">
+        <div class="matComnForm mx-auto">
+          <form #updateContInfo="ngForm" id="doer-contact" novalidate (ngSubmit)="submitFunction(updateContInfo)"
+            autocomplete="off">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Address Line</mat-label>
+                  <input matInput name="address" #s_address="ngModel" [(ngModel)]="contactModel.address"
+                    placeholder="Address Line*" required ngx-google-places-autocomplete [options]='mapOptions' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" id="addressLine">
+                  <mat-error *ngIf="s_address?.errors && (updateContInfo.submitted) && s_address?.errors?.required">This
+                    field required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Address 2</mat-label>
+                  <input matInput name="address2" #s_addresstwo="ngModel" [(ngModel)]="contactModel.address2"
+                    placeholder="Address 2">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <!-- <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Country</mat-label>
+                  <input matInput name="country" #contCountry="ngModel" [(ngModel)]="contactModel.addCountry"
+                    placeholder="Country*" readonly>
+                </mat-form-field>
+              </div> -->
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>City</mat-label>
+                  <input matInput name="city" #contCity="ngModel" [(ngModel)]="contactModel.addCity" placeholder="City*"
+                    required>
+                  <mat-error *ngIf="contCity.errors && (updateContInfo.submitted) && contCity.errors.required">This
+                    field required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Choose State</mat-label>
+                  <mat-select placeholder="State*" #contState="ngModel" name="state" [(ngModel)]="contactModel.addState"
+                    required>
+                    <mat-option *ngFor="let each_state of state_list" [value]="each_state.state">
+                      {{each_state.state}} ({{each_state.state_code}})
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="contState.errors && (updateContInfo.submitted) && contState.errors.required">This
+                    field required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Zip</mat-label>
+                  <!-- <input matInput name="zipcode" #contZip="ngModel" [(ngModel)]="contactModel.addZip" placeholder="Zip*"
+                    (keyup)="getfulladdressUsingZipcode()" required> -->
+                  <input matInput name="zipcode" #contZip="ngModel" [(ngModel)]="contactModel.addZip" placeholder="Zip*"
+                    required maxlength="5">
+                  <mat-error *ngIf="contZip.errors && (updateContInfo.submitted) && contZip.errors.required">This field
+                    required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="map-radius mb-3">
+              <h5 class="headingText mb-3 mt-0 text-center text-uppercase">RANGE OF SERVICE</h5>
+              <!-- <button type="button" *ngIf="map" (click)="increaseMapZoom()">+Zoom {{ map.getZoom() }}</button> -->
+
+              <div *ngIf="lat!=0">
+                <ngui-map zoom="10" center="{{lat}}, {{lng}}" styles='{{myGlobals.styles}}' [streetViewControl]="false"
+                  [fullscreenControl]="false" [panControl]="false" [disableDefaultUI]="true" [draggable]="false"
+                  scrollwheel="false" (mapReady$)="onMapReady($event)">
+                  <ng-container *ngIf="lat!=null && lng!=null">
+                    <circle center="{{lat}}, {{lng}}" [strokeColor]="'#e6854a'" [fillColor]="'#e6854a4d'"
+                      [strokeOpacity]="1" [strokeWeight]="1" [editable]="false" radius="{{rad}}" draggable="false"
+                      (radiusChanged)="radiusChange($event)" (initialized$)="onCircleInit($event)"></circle>
+                  </ng-container>
+                </ngui-map>
+              </div>
+
+              <mat-slider *ngIf="lat!=0" class="example-margin" thumbLabel [ngModelOptions]="{standalone: true}"
+                [max]="max" [min]="min" [(ngModel)]="sliderValue" tickInterval="2" (ngModelChange)="getChangeVal()"
+                [displayWith]="formatLabel">
+              </mat-slider>
+
+              <p class="clearfix label_slider mb-0"><span class="float-left">{{min}}</span><span
+                  class="float-right">{{max}}</span></p>
+            </div>
+
+            <div class="btn-holder text-center ">
+              <button type="submit" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+                id="new">
+                Save
+              </button>
+              <div class="custombtnboder">
+                <button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2" mat-flat-button type="button"
+                  (click)="closeModal()">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,271 @@
+<div class="totalDashboard adverties-wrap">
+	<div class="container">
+		<div class="mainHeading">
+			<h3>Submit Request For Advertisement</h3>
+			<p>Fill the details and post your advertisement</p>
+		</div>
+		<div class="row mb-3">
+            <div class="col-lg-12">			
+				<mat-card class="pindoCart adverties-main">
+				  <mat-card-header>			    
+				    <mat-card-title>
+                        Fill The Details			    	
+				    </mat-card-title>
+				  </mat-card-header>			  
+				    <mat-card-content>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>No. of Months *</mat-label>
+                                    <input matInput placeholder="" type="number" class="example-right-align" required>
+                                    <span class="pindo-suffix-price" matSuffix>| &nbsp; $ 2000.00</span>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Start Date *</mat-label>
+                                    <input matInput placeholder="" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select Category *" aria-required="true">
+                                        <mat-option value="option">Select Category *</mat-option>
+                                        <mat-option value="option">Option 1</mat-option>
+                                        <mat-option value="option">Option 2</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select Sub - Category *" aria-required="true">
+                                        <mat-option value="option">Select Sub - Category *</mat-option>
+                                        <mat-option value="option">Option 1</mat-option>
+                                        <mat-option value="option">Option 2</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-12 adverties-radio mb-4">
+                                    <mat-card-title>
+                                        Payment Mode			    	
+                                    </mat-card-title>
+                                <mat-radio-group class="row green-color">
+                                        <div class="col-sm-3">
+                                            <mat-label class="payment-txt">Select a mode of payment *</mat-label>
+                                        </div>    
+                                        <div class="col-sm-4 pindo-doller-hint">
+                                            <div class="payment-main">
+                                                <mat-radio-button value="1" checked>
+                                                    <span>PinDo Dollars ($00.00)</span>
+                                                </mat-radio-button>
+                                            </div>
+                                            <mat-hint>(Insufficient balance, please select cash option)</mat-hint>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="payment-main">
+                                                <mat-radio-button value="2">
+                                                    <span>By Cash</span>
+                                                </mat-radio-button>
+                                            </div>
+                                        </div>
+                                </mat-radio-group>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Write A Remark</mat-label>
+                                    <input matInput placeholder="">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <div class="help-attach">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="attachment_file" name="attachment_file">
+                                        <label class="custom-file-label" for="customFile">Upload Attachment</label>
+                                    </div>	
+                                </div>
+                            </div>
+                        </div>
+
+				  </mat-card-content>
+			  
+				</mat-card>
+
+            </div>
+            <div class="col-lg-12 d-flex justify-content-end">			
+            <div class="pt-5">
+                    <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2" (click)="openDialog()">
+                        Submit Request
+                    </button>
+            </div>
+            </div>
+		</div>
+
+		<div class="row mb-3">
+            <div class="col-lg-12">			
+				<mat-card class="pindoCart adverties-main">
+				  <mat-card-header>			    
+				    <mat-card-title>
+                        Fill The Details			    	
+				    </mat-card-title>
+				  </mat-card-header>			  
+				    <mat-card-content>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>No. of Months *</mat-label>
+                                    <input matInput placeholder="" type="number" class="example-right-align" required>
+                                    <span class="pindo-suffix-price" matSuffix>| &nbsp; $ 2000.00</span>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Start Date *</mat-label>
+                                    <input matInput placeholder="" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select Category *" aria-required="true">
+                                        <mat-option value="option">Select Category *</mat-option>
+                                        <mat-option value="option">Option 1</mat-option>
+                                        <mat-option value="option">Option 2</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select Sub - Category *" aria-required="true">
+                                        <mat-option value="option">Select Sub - Category *</mat-option>
+                                        <mat-option value="option">Option 1</mat-option>
+                                        <mat-option value="option">Option 2</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-12 adverties-radio mb-4">
+                                    <mat-card-title>
+                                        Payment Mode			    	
+                                    </mat-card-title>
+                                <mat-radio-group class="row green-color">
+                                        <div class="col-sm-3">
+                                            <mat-label class="payment-txt">Select a mode of payment *</mat-label>
+                                        </div>    
+                                        <div class="col-sm-4 pindo-doller-hint">
+                                            <div class="payment-main">
+                                                <mat-radio-button value="1" checked>
+                                                    <span>PinDo Dollars ($00.00)</span>
+                                                </mat-radio-button>
+                                            </div>
+                                            <mat-hint>(Insufficient balance, please select cash option)</mat-hint>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="payment-main">
+                                                <mat-radio-button value="2">
+                                                    <span>By Cash</span>
+                                                </mat-radio-button>
+                                            </div>
+                                        </div>
+                                </mat-radio-group>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Write A Remark</mat-label>
+                                    <input matInput placeholder="">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <div class="help-attach">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="attachment_file" name="attachment_file">
+                                        <label class="custom-file-label" for="customFile">Upload Attachment</label>
+                                    </div>	
+                                </div>
+                            </div>
+                        </div>
+
+				  </mat-card-content>
+			  
+				</mat-card>
+
+            </div>
+            <div class="col-lg-12 d-flex justify-content-end">			
+            	<div class="pt-5">
+                    <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2" (click)="openDialog()">
+                        Submit Request
+                    </button>
+            	</div>
+            </div>
+		</div>
+
+	</div>
+
+	<!-- overlayPopup -->
+	<!-- <div class="overlayPopup popupavl" #popUpManageAvailibility>
+		<div class="popupHeader">
+			<button mat-icon-button class="btn-back float-left" (click)="toggleManageAvailibilityPopup()"><span class="or or-return"></span></button>
+			<h3>Manage Availability</h3>
+		</div>
+		<div class="popupContent">
+			<div class="container">
+				<div class="popUpcontentHeading"><p class="text-center">Please select the range of dates (future dates only) during which you will not be able to provide services.<br> For a single day of unavailability, you can only select start date without end date.</p></div>
+				<div class="col-md-8 offset-md-2">
+					<form #manageAvlForm="ngForm" novalidate (ngSubmit)="submitmngavl(manageAvlForm)">
+						<div class="row" ngModelGroup="ValidateDates" appCompareDateStrings #dategrp="ngModelGroup">
+							<div class="col-md-6">
+								<mat-form-field appearance="outline">
+									<input name="start_date" (click)="pickerFrom.open()" matInput [matDatepicker]="pickerFrom" #fromDate="ngModel" [(ngModel)]="manageAvlModel.start_date" placeholder="Start Date" readonly required>
+									<mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+									<mat-datepicker #pickerFrom></mat-datepicker>
+									<mat-error *ngIf="fromDate.errors && (manageAvlForm.submitted) && fromDate.errors?.required">This field required</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="col-md-6">
+								<mat-form-field appearance="outline">
+									<input name="end_date" matInput (click)="pickerTo.open()" [matDatepicker]="pickerTo" #endDate="ngModel" [(ngModel)]="manageAvlModel.end_date" placeholder="End Date"  readonly required>
+									<mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+									<mat-datepicker #pickerTo></mat-datepicker>
+									<mat-error *ngIf="endDate.errors && (manageAvlForm.submitted) && endDate.errors?.required">This field required</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="mat-error text-center mat-custom-error col-md-12" *ngIf="manageAvlForm.submitted && dategrp.errors?.notEqual">
+								From Time is bigger than To time
+							</div>
+							<div class="mat-error text-center mat-custom-error col-md-12" *ngIf="manageAvlForm.submitted && dategrp.errors?.inRange && !dategrp.errors?.notEqual">
+								Range Already Exits
+							</div>
+						</div>
+						
+						<div class="d-flex justify-content-center pt-5">
+							<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+								Save
+							</button>						
+							<div class="custombtnboder">
+								<button type="button" mat-button class="text-uppercase" (click)="resetFunction(manageAvlForm)">
+									Reset
+								</button>
+							</div>
+						</div>					
+					</form>
+					<div class="manageavlListing mt-5">
+						<div class="total_listing" *ngFor="let eachmngVal of avlList;let i = index;">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="valu_box">
+										{{eachmngVal.start_date | date }}
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="valu_box">
+										{{eachmngVal.end_date | date }}
+									</div>
+								</div>
+							</div>
+							<button mat-icon-button class="btn_removeList" (click)="removeAvailibity(i);">
+								<i class="fas fa-minus"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+</div>

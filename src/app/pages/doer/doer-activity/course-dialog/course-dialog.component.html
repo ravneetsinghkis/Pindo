@@ -1,0 +1,17 @@
+<div class="endorsedBy">
+    <h3>Endorsed By</h3>
+    <div class="totalendorsescroll">
+        <div class="indvendorsement d-flex align-items-center" *ngFor="let eachEndorsement of display_data?.endorsementDetails">
+            <span class="endorseImg">
+                <img src="{{baseCompUrl}}/profile_photo/{{eachEndorsement?.pinner_details?.profile_photo}}" alt="">
+            </span>
+            <div class="total_info">
+                <h5>{{eachEndorsement?.pinner_details?.name}}</h5>
+                <p>{{eachEndorsement?.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}</p>
+            </div>
+        </div>            
+    </div>
+</div>
+
+
+

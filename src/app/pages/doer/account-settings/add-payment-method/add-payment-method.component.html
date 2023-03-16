@@ -1,0 +1,243 @@
+<div class="overlayFullPopup" id="toScroll" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left orangeColor" (click)="closeModal()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">{{ payment_method_title }}</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3 ">
+
+
+				<div class="btn-holder mb-4 text-center orange-btn-holder">
+					<button mat-flat-button [ngClass]="showPaymentMethodType == 'credit_card'? 'active':''"
+						class="btn-tabToggle textTypeBtn mr-3 text-uppercase" (click)="paymentMethodTypeFnc('credit_card')"
+						*ngIf="siblingMsg == 'credit_card' || !siblingMsg">credit
+						card</button>
+					<!-- <button mat-flat-button [ngClass]="showPaymentMethodType == 'bank_account'?'active':''"
+						class="btn-tabToggle textTypeBtn text-uppercase" (click)="paymentMethodTypeFnc('bank_account')"
+						*ngIf="siblingMsg == 'bank_account' || !siblingMsg" [hidden]="hideBank">bank
+						account</button> -->
+				</div>
+
+				<div class="matComnForm" *ngIf="showPaymentMethodType == 'credit_card'">
+					<form [formGroup]="formCredit" autocomplete="off" #formDirective="ngForm" (ngSubmit)="submitCard()">
+						<!-- <div class="block-wrap mb-3">
+							<div class="block-heading d-flex align-items-center justify-content-between mb-3">
+								<img class="strip-img" src="assets/images/stripe-logo.png">
+							</div>
+						</div> -->
+						<mat-form-field appearance="outline">
+							<mat-label>Name on Card</mat-label>
+							<input matInput type="text" formControlName="card_name" class="form-control">
+							<mat-error *ngIf="formCredit?.controls?.card_name?.errors?.required">Required
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field appearance="outline" *ngIf="isAddOrEdit != 'add'">
+							<mat-label>Card Number</mat-label>
+							<input matInput type="text" class="form-control" disabled value="XXXX XXXX XXXX {{ cardDetails?.last4 }}">
+						</mat-form-field>
+
+						<mat-form-field appearance="outline" *ngIf="isAddOrEdit == 'add'">
+							<mat-label>Card Number</mat-label>
+							<input matInput type="text" mask="{{ cardMaskFormate }}" formControlName="card_number"
+								class="form-control" [(ngModel)]="cardNumber" (ngModelChange)="getCardType()" name="card_number">
+							<span class="cardType-img" *ngIf="cardType!=''">
+								<img src="assets/images/payment-cards-icons/{{cardType}}.svg" width="36">
+							</span>
+							<mat-error *ngIf="formCredit.controls.card_number.errors?.required">Required
+							</mat-error>
+							<mat-error *ngIf="formCredit.controls.card_number.errors?.pattern">Invalid
+							</mat-error>
+						</mat-form-field>
+
+						<!-- <div class="row">
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>Exp. Date</mat-label>
+									<input matInput type="tel" formControlName="exp_date" class="form-control">
+									<mat-error *ngIf="formCredit.controls.exp_date.errors?.required">Required
+									</mat-error>
+								</mat-form-field>
+							</div> -->
+
+						<div class="row">
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>Exp. Month</mat-label>
+									<mat-select name="card_month" formControlName="card_month">
+										<mat-option value="" disabled selected>MM</mat-option>
+										<mat-option *ngFor="let month of monthList" [value]="month">
+											<span *ngIf="month<10">0</span>{{month}}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngIf="formCredit.controls.card_month.errors?.required">Required
+									</mat-error>
+								</mat-form-field>
+							</div>
+
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>Exp. Year</mat-label>
+									<mat-select name="card_year" formControlName="card_year">
+										<mat-option value="" disabled selected>YYYY</mat-option>
+										<mat-option *ngFor="let year of yearList" [value]="year">
+											{{year}}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngIf="formCredit.controls.card_year.errors?.required">Required
+									</mat-error>
+								</mat-form-field>
+							</div>
+
+							<div class="col-md-4" *ngIf="isAddOrEdit == 'add'">
+								<mat-form-field appearance="outline">
+									<mat-label>CVV</mat-label>
+									<input matInput type="password" formControlName="cvv" class="form-control" mask="0000" autocomplete="new-password">
+									<mat-error *ngIf="formCredit.controls.cvv.errors?.required">Required
+									</mat-error>
+									<mat-error *ngIf="formCredit.controls.cvv.errors?.pattern">Invalid
+									</mat-error>
+								</mat-form-field>
+							</div>
+
+							<div class="col-md-4" *ngIf="isAddOrEdit != 'add'">
+								<mat-form-field appearance="outline">
+									<mat-label>CVV</mat-label>
+									<input matInput type="password" class="form-control" disabled autocomplete="new-password" value="***">
+								</mat-form-field>
+							</div>
+						</div>
+						<!--end row-->
+
+						<div class="mb-4">
+							<div class="custom-checkbox orange" title="Select this to make this card your primary option">
+								<input type="checkbox" id="makePrimary" [checked]="checked_primary_credit || is_Primary || creditCardCount == 0" name="primary" [disabled]="is_Primary"
+									(change)="togglePrimary()">
+								<label for="makePrimary">{{ defaultCheckboxLabel }}</label>
+							</div>
+						</div>
+
+						<div class="btn-holder text-center mt-4">
+							<button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+								type="submit">SAVE</button>
+							<button mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+								(click)="closeModal()" type="button">CANCEL</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="matComnForm" *ngIf="showPaymentMethodType == 'bank_account_new'">
+					<form [formGroup]="backAccountDetailsAddOrUpdateForm" autocomplete="off" #bankForm="ngForm">
+
+						<mat-form-field appearance="outline">
+							<mat-label>Account Holder Name</mat-label>
+							<input matInput name="account_holder_name" formControlName="account_holder_name" type="text"
+								class="form-control">
+							<mat-error *ngIf="isformSubmitted && formControls.account_holder_name.errors?.required">
+								Required
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field appearance="outline">
+							<mat-label>Type</mat-label>
+							<mat-select placeholder="Select Type" formControlName="type" required>
+								<mat-option *ngFor="let each_type of types" [value]="each_type.value">
+									{{each_type.viewValue}}
+								</mat-option>
+							</mat-select>
+							<mat-error *ngIf="isformSubmitted && formControls.type.errors?.required">This
+								field required</mat-error>
+						</mat-form-field>
+
+						<mat-form-field appearance="outline">
+							<mat-label>Account number</mat-label>
+							<input matInput name="account_number" formControlName="account_number" type="text"
+								class="form-control">
+							<mat-error *ngIf="isformSubmitted && formControls.account_number.errors?.required">Required
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field appearance="outline">
+							<mat-label>Routing Number</mat-label>
+							<input matInput name="routing_number" formControlName="routing_number" type="text"
+								class="form-control">
+							<mat-error *ngIf="isformSubmitted && formControls.routing_number.errors?.required">Required
+							</mat-error>
+							<mat-error *ngIf="isformSubmitted && formControls.routing_number.errors?.pattern">Invalid
+								routing number
+							</mat-error>
+						</mat-form-field>
+
+						<div class="btn-holder text-center mt-4">
+							<button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2" (click)="addBankDetails()">SAVE</button>
+							<button mat-flat-button type="button"
+								class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+								(click)="togglePopup()">CANCEL</button>
+						</div>
+
+					</form>
+				</div>
+
+				<div class="matComnForm" *ngIf="showPaymentMethodType == 'bank_account'">
+					<form>
+						<div class="block-wrap mt-5 mb-5">
+							<div class="block-heading mb-4">
+								<h4 class="headingText-type3 mb-0 text-center" *ngIf="stripeAccountConnected == false">Connect your bank
+									account with</h4>
+								<h4 class="headingText-type3 mb-0 text-center" *ngIf="stripeAccountConnected == true"
+									style="font-weight: bold; font-style: italic;">Click the STRIPE button to edit your bank account</h4>
+							</div>
+							<div class="btn-holder text-center">
+								<button mat-button class="btn-strip text-uppercase" (click)="goToStripe()"
+									*ngIf="stripeAccountConnected == false" matTooltip="Click to ADD a new bank account"><img
+										src="assets/images/stripe-btn-img.svg"></button>
+								<button mat-button class="btn-strip text-uppercase" (click)="goToLink()"
+									*ngIf="stripeAccountConnected == true" matTooltip="Click to EDIT your existing bank account"><img
+										src="assets/images/stripe-btn-img.svg"></button>
+							</div>
+						</div>
+						<p *ngIf="stripeAccountConnected == true" class="text-center successStatusText mb-0"> 
+							<span class="ic-check mr-2"></span>Bank account successfully connected with Stripe!
+						</p>
+						<div class="block-wrap mt-5">
+							<p class="text-center preferences-heading">Select Preferences</p>
+							<hr class="mb-4 mt-0">
+							<div class="payment-preferenes-box">
+								<div class="custom-checkbox orange d-none">
+									<input type="checkbox" id="for_pindo_payment" [(ngModel)]="for_pindo_payment" name="for_pindo_payment">
+									<label for="for_pindo_payment" class="font-weight-bold">How to Pay PinDo</label>
+								</div>
+								<p class="ml-4 pl-2 d-none">Use this card for PinDo payments</p>
+								<div class="custom-checkbox orange">
+									<input type="checkbox" id="isCheckedPindo" [(ngModel)]="isCheckedPindo" name="isCheckedPindo">
+									<label for="isCheckedPindo" class="font-weight-bold">Make Primary</label>
+								</div>
+								<p class="ml-4 pl-2">Make this your primary bank account for accepting payments from Pinners.</p>
+							</div>
+							<!-- <div class="mb-2" *ngIf="!isCheckedPrimary">
+								<div class="custom-checkbox orange"><input type="checkbox" id="makePindo" [(ngModel)]="isCheckedPindo" name="pindo">
+									<label for="makePindo">{{ defaultCheckboxLabel }}</label>
+								</div>
+							</div> -->
+						</div>
+						<div class="btn-holder text-center mt-5">
+							<!-- <button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+								(click)="makePrimary(isCheckedPindo)" [disabled]="!isCheckedPindo">SAVE</button> -->
+							<button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+								(click)="makePrimary(isCheckedPindo)">SAVE</button>
+							<button mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+								(click)="closeModal()">CANCEL</button>
+						</div>
+					</form>
+				</div>
+
+
+			</div>
+			<!--end col-md-6-->
+		</div>
+	</div>
+
+</div>

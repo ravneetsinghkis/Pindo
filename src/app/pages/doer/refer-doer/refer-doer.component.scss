@@ -1,0 +1,277 @@
+.meta-heading .btn-back {
+	top: -5px;
+}
+.indv-doer {
+	position: relative;
+    padding-bottom: 80px;
+    height: calc( 100% - 30px);
+	.like-box {
+		position: absolute;
+		right: 40px;
+		top: 20px;
+		font-size: 20px;		
+		z-index: 7;
+		width: 20px;
+		height: 30px;
+		&:before {
+			content: "\f004";
+			color: #f4a4be;
+			font-family: Font Awesome\ 5 Free;
+			font-weight: 400;
+		}
+		&.liked:before {
+			content: "\f004";
+			font-family: Font Awesome\ 5 Free;
+			color: #ff0053;
+			font-weight: 900;
+			text-shadow: 0 0 8px rgba(255, 0, 83, 0.4);
+		}
+	}	
+	/*.profDoer {
+		padding-left: 110px;
+		position: relative;
+		min-height: 90px;
+		.prof_img {
+			width: 90px;
+			height: 90px;
+			border-radius: 4px;
+			display: block;
+			position: absolute;
+			left: 0;
+			top: 0;
+			box-shadow: 0 0 20px 4px rgba(3, 86, 112, 0.1);
+			background: #2a364e;
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				border-radius: 4px;
+			}
+		}
+		h4 {
+			font: 14px/19px 'Montserrat-SemiBold';
+			color: #565c62;
+		}
+		.adress_doer {
+			font: 11px/15px 'Montserrat-SemiBold';
+		    color: #89939c;
+		    margin-bottom: 10px;
+			i {
+				color: #bad141;
+				margin-right: 5px;
+			}
+		}
+		.ratingDoer {
+			span {
+				font-size: 12px;
+			    line-height: 16px;
+			    color: #f0b927;
+			    display: inline-block;
+			    margin-right: 3px;
+			}
+			p {
+				font: 12px/16px 'Montserrat-SemiBold';
+				color: #565c62;
+				margin-bottom: 0;
+				margin-left: 10px;
+			}
+		}
+	}*/
+	.doerStats {
+		.statBox {
+			font: 12px/15px 'Montserrat-Medium';
+			color: #89939c;
+			padding: 10px;
+			border: 1px solid #d0dde7;
+			margin: 10px 10px 0px 0;
+			display: inline-block;
+			border-radius: 4px;
+		}
+	}
+	.hiredBy {
+		p {
+			font: 11px/42px 'Montserrat-SemiBold';
+			color: #89939c;
+			margin-bottom: 0;
+			span {
+				color: #035670;
+			}
+		}
+		.hiredCont {
+			position: relative;
+			.hiredBox {
+				width: 42px;
+				height: 42px;
+				border-radius: 100%;
+				border: 1px solid #fff;
+				position: absolute;
+				right: 0;
+				top: 0;
+				z-index: 4;
+				&:nth-child(2) {
+					right: 25px;
+					z-index: 3;
+				}
+				&:nth-child(3) {
+					right: 50px;
+					z-index: 2;
+				}
+				&:nth-child(4) {
+					right: 75px;
+					z-index: 1;
+				}
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					border-radius: 100%;
+				}
+			}
+			.hireNumber {
+				width: 40px;
+			    height: 40px;
+			    line-height: 40px;
+			    color: #fff;
+			    font: 12px/42px 'Montserrat-SemiBold';
+			    border-radius: 100%;
+			    position: absolute;
+			    right: 1px;
+			    top: 1px;
+			    z-index: 5;
+			    background: rgba(0, 0, 0, 0.35);
+			    text-align: center;			
+			}
+		}		
+	}
+	.prof_infoDoer {
+		padding-top: 10px;
+	}
+}
+.badgCont {
+	margin-top: 20px;
+	p {
+		font: 11px/40px 'Montserrat-SemiBold';
+		color: #89939c;
+		margin-bottom: 0;
+	}
+	.doerBadge {
+		.indvBadg {
+			width: 42px;
+			height: 40px;
+			display: inline-block;
+			margin-right: 10px;
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+			}
+		}
+	}
+}
+.doer-selectCheckbox {
+	position: absolute;
+	left: 15px;
+	top: 0;
+	right: 15px;
+	bottom: 30px;
+	z-index: 6;
+	input[type="checkbox"] {
+		position: absolute;
+	    left: -9999px;
+	    opacity: 0;
+	}
+	input[type="checkbox"]+label {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		border-radius: 4px;
+		border: 2px solid transparent;
+		transition: all .15s ease-in-out;
+		&:after {
+			content: '';
+			width: 30px;
+			height: 30px;
+			border-radius: 30px;
+			border: 1px solid #cbe2c0;
+			background: #fff;
+			position: absolute;
+			left: -10px;
+			top: -10px;
+		}
+		&::before {
+			content: "\f00c";
+		    font-family: Font Awesome\ 5 Free;
+		    position: absolute;
+		    font-size: 15px;
+		    color: #cbe2c0;
+		    font-weight: 600;
+		    top: -5px;
+		    z-index: 3;
+		    left: -3px;
+		}
+	}
+	input[type="checkbox"]:checked+label {
+		border: 2px solid #bad141;
+		&:after {
+			background: #bad141;
+			border-color: #bad141;
+		}
+		&:before {
+			color: #fff;
+		}
+	}
+}
+.error-selected {
+	input[type="checkbox"]:checked+label {
+		border: 2px solid red;
+		&:after {
+			background: red;
+			border-color: red;
+		}
+	}
+}
+.invite-panel {
+    width: 545px;
+    position: fixed;
+    padding: 12px 10px;
+    background: #75861E;
+    height: 60px;
+    border-radius: 40px;
+    z-index: 33;
+    color: #fff;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    bottom: 95px;
+    p {
+    	font: 12px/36px 'Montserrat-SemiBold';
+    	color: #fff;
+    	margin-bottom: 0;
+    	text-transform: uppercase;
+    	margin-left: 25px;
+    }
+}
+.doer-listing {
+	padding-bottom: 100px;
+}
+.removeDoer {
+	button {
+		position: absolute;
+	    right: 15px;
+	    top: 8px;
+		font-size: 25px;
+		color: #ff0053;
+		background: transparent;
+		margin: 0;
+		padding: 0;
+		cursor: pointer;
+		border: none;
+		z-index: 9;
+	}
+}
+
+body .referDoer .mat-form-field-appearance-outline .mat-form-field-outline-end, body .referDoer .mat-form-field-appearance-outline .mat-form-field-outline-start {
+
+}

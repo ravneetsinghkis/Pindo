@@ -1,0 +1,101 @@
+<div class="total-dialogCntent text-center">
+    <!-- <div class="img_matDialog">
+        <img  *ngIf="display_data.pin_type!='public_pin'" src="assets/images/payment-icons/pin-icon.png" alt="">
+         <img  *ngIf="display_data.pin_type=='public_pin'" src="assets/images/pinnerType.png" alt="">
+    </div>
+    <h2>{{display_data.title}}</h2>
+    <p *ngIf="display_data.content!=''">{{display_data.content}}</p>
+    <div class="d-flex justify-content-center pt-5 flex-column flex-wrap">
+        <button *ngIf="display_data.pin_type!='private_pin'" type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="nevigateToActivePinListing();" [mat-dialog-close]="true">
+            DONE
+        </button>
+
+        <ng-container *ngIf="display_data.pin_type=='private_pin'">
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2 mb-2" (click)="inviteDoer(display_data.pin_id);" [mat-dialog-close]="true">
+                Invite Doer
+            </button>
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2 mb-2" (click)="markAsPublicPin(display_data.pin_id);" [mat-dialog-close]="true">
+                Mark as public pin
+            </button>
+            <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="addToPinnerToDoToInviteDoer(display_data.pin_id);" [mat-dialog-close]="true">
+                Leave anyway
+            </button>
+        </ng-container>
+    </div> -->
+
+    <div class="img_matDialog">
+        <img src="assets/images/payment-icons/pin-icon.png" alt="">
+    </div>
+    <div class="headerDialog">
+        <h2>Apply to this pin</h2>
+    </div>
+    <div class="content_part">
+        <div class="row" *ngIf="chooseAnonymous==0">
+            <div class="col-md-6">
+                <div class="inner_block">
+                    <p>Existing user? Login to your account and then apply for the pin.</p>
+                    <div class="custombtnboder mt-4">
+                      <button mat-button (click)="goToLogin();" routerLink="/login" class="text-uppercase">
+                        Login
+                      </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="inner_block">
+                    <p>New user? Register for free as a Doer and then apply for the pin.</p>
+                    <div class="custombtnboder mt-4">
+                      <button mat-button class="text-uppercase" (click)="chooseAnonymousignup()">
+                        Register
+                      </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="chooseAnonymous==1">
+            <div class="col-md-12">
+                <div class="inner_block">
+                    <form (ngSubmit)="onSubmit(anonymousSignUp)" novalidate [formGroup]="anonymousSignUp">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>First Name*</mat-label>
+                                            <input matInput id="firstname" formControlName="first_name" type="text" placeholder="First Name*">
+                                            <!-- <mat-error *ngIf="submitted && !f.controls.name.errors?.required">Invalid Name</mat-error>  -->
+                                            <mat-error *ngIf="submitted && f.first_name.errors?.required">This field required</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-6">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Last Name*</mat-label>
+                                            <input matInput id="lastname" formControlName="last_name" type="text" placeholder="Last Name*">
+                                            <!-- <mat-error *ngIf="submitted && !f.controls.name.errors?.required">Invalid Name</mat-error>  -->
+                                            <mat-error *ngIf="submitted && f.last_name.errors?.required">This field required</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Email*</mat-label>
+                                    <input matInput id="email" formControlName="email" type="text" placeholder="Email*">
+                                    <mat-error *ngIf="submitted && f.email.errors?.email">Invalid Email</mat-error>
+                                    <mat-error *ngIf="submitted && f.email.errors?.required">This field required</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center pt-5 custombtnboder">
+                            <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary">
+                                Proceed
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

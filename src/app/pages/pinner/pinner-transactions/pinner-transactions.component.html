@@ -1,0 +1,147 @@
+<div class="totalDashboard">
+	<div class="container">
+		<div class="mainHeading">
+			<h3>Transactions</h3>
+			<p>View all the transaction report and download as csv</p>	
+			<div class="abs-buttongrp" (clickOutside)="onClickedOutside($event)">
+				<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+				  <mat-button-toggle (click)="triggerClear();" *ngIf="(filterPinModel['searchby']!='' || filterPinModel['start_date']!='' || filterPinModel['end_date']!='') && !toggleFilterBool">					  	
+						Clear Filter						
+				  </mat-button-toggle>
+				  <mat-button-toggle value="bold" (click)="toggleFilter();"><ng-container *ngIf="!toggleFilterBool">Filter</ng-container><ng-container *ngIf="toggleFilterBool">Close</ng-container></mat-button-toggle>
+				  <mat-button-toggle value="bold" (click)="downloadCsv()" >Download As CSV</mat-button-toggle>	
+
+				  <angular2csv [data]="csv_data" filename="{{transaction}}" [options]="options" id="transactionId" style="width: 0; height: 0; overflow: hidden;" ></angular2csv>
+				  					  
+				</mat-button-toggle-group>
+				<div class="absFilter" *ngIf="toggleFilterBool">
+					<h4>Search Pins</h4>
+				  	<form #filterPin="ngForm" (ngSubmit)="filterPinSubmit(filterPin)" autocomplete="off">
+				  		<div class="row">
+				  			<div class="col-12">					  				
+				  				<mat-form-field appearance="outline">
+				                  <mat-label>Search by name/Pin Details</mat-label>
+				                  <input type="text" matInput name="searchby" (keyup)="searchPin($event);"  #searchby="ngModel" [(ngModel)]="filterPinModel.searchby" placeholder="Search by name/Pin Details" [required]="(filterPinModel.start_date=='' && filterPinModel.end_date=='')">
+				                  <mat-error *ngIf="searchby.errors && (filterPin.submitted) && searchby.errors.required">This field required</mat-error>  
+				                  <mat-spinner [diameter]="30" id="mat-spinner"></mat-spinner>
+				                    <div class="autocomplete_list" *ngIf="pinAutocomplete.length>0">
+										<span *ngFor="let eachPinner of pinAutocomplete" (click)="populateString(eachPinner)">
+											{{eachPinner}}
+										</span>
+									</div>
+				                </mat-form-field>					                
+				  			</div>
+				  		</div>
+				  		<h4>Filter by date</h4>
+				  		<div class="row posn_rel" ngModelGroup="ValidateDates" appCompareDateStrings #dategrp="ngModelGroup">
+							<div class="col-md-6">
+								<mat-form-field appearance="outline" [ngClass]="{'mat-form-field-invalid':(filterPin.submitted && dategrp.errors?.notEqual) || (fromDate.errors && (filterPin.submitted) && fromDate.errors?.required)}">
+									<mat-label>Start Date</mat-label>
+									<input name="start_date" (click)="pickerFrom.open()" matInput [matDatepicker]="pickerFrom" #fromDate="ngModel" [(ngModel)]="filterPinModel.start_date" placeholder="Start Date" readonly [required]="(filterPinModel.searchby=='' || filterPinModel.end_date!='') || (filterPin.submitted && dategrp.errors?.notEqual)">
+									<mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+									<mat-datepicker #pickerFrom></mat-datepicker>
+									<mat-error *ngIf="fromDate.errors && (filterPin.submitted) && fromDate.errors?.required">This field required</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="col-md-6">
+								<mat-form-field appearance="outline" [ngClass]="{'mat-form-field-invalid':(filterPin.submitted && dategrp.errors?.notEqual) || (fromDate.errors && (filterPin.submitted) && fromDate.errors?.required)}">
+									<mat-label>End Date</mat-label>
+									<input name="end_date" matInput (click)="pickerTo.open()" [matDatepicker]="pickerTo" #endDate="ngModel" [(ngModel)]="filterPinModel.end_date" placeholder="End Date"  readonly [required]="(filterPinModel.searchby=='' || filterPinModel.start_date!='') || (filterPin.submitted && dategrp.errors?.notEqual)">
+									<mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+									<mat-datepicker #pickerTo></mat-datepicker>
+									<mat-error *ngIf="endDate.errors && (filterPin.submitted) && endDate.errors?.required">This field required</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="mat-error text-center mat-custom-error col-md-12" *ngIf="filterPin.submitted && dategrp.errors?.notEqual">
+								From Time is bigger than To time
+							</div>								
+						</div>
+				  		<div class="custombtnboder text-center w-100">
+			                <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+								Apply
+							</button>
+							<button type="button" mat-button class="text-uppercase" (click)="clearForm(filterPin)">
+								Clear
+							</button>	
+						</div>
+				  	</form>
+				</div>
+			</div>		
+		</div>
+		<div class="pins-section">			
+			<div class="pin-listing mb-3">
+				<div class="total-table rightdropdown">
+			    	<div class="table-header d-flex">
+			    		<div class="coltab withFilter">
+			    			Date / Time <div class="filterasc_desc sortAppl hasDesc" (click)="filterByColumn('created_at',$event)"></div>
+			    		</div>
+			    		<div class="coltab withFilter">
+			    			Pin ID <div class="filterasc_desc" (click)="filterByColumn('pin_unique_id',$event)"></div>
+			    		</div>
+			    		<div class="coltab flex-2 withFilter">
+			    			Pin Details <div class="filterasc_desc" (click)="filterByColumn('title',$event)"></div>
+			    		</div>
+			    		<div class="coltab flex-2 withFilter">
+			    			Assigned Doer <div class="filterasc_desc" (click)="filterByColumn('address',$event)"></div>
+			    		</div>
+			    		<div class="coltab withFilter">
+			    			Payment Mode <div class="filterasc_desc" (click)="filterByColumn('budget_value',$event)"></div>
+			    		</div>			    		
+			    		<div class="coltab withFilter">
+			    			Expenses
+			    		</div>
+			    	</div>
+			    	<div class="table-body white-bg" *ngIf="transactionList.length>0">
+			    		<div class="table-row d-flex" *ngFor="let eachTransaction of transactionList">
+			    			<div class="coltab" data-heading="Date / Time">
+								<p>{{eachTransaction.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{eachTransaction.created_at?.split('-').join('/') | date:'h:mm a'}}</p>
+					    	</div>
+					    	<div class="coltab" data-heading="Pin ID">
+					    		<p class="linkStyle" routerLink="/pinner/active-quotation-details/{{eachTransaction.slug}}/{{encodeDoerId(eachTransaction.doer_id)}}">{{eachTransaction.pin_unique_id}}</p>
+					    	</div>
+					    	<div class="coltab flex-2 align-self-center" data-heading="Pin Details">
+					    		<p class="linkStyle" routerLink="/pinner/active-quotation-details/{{eachTransaction.slug}}/{{encodeDoerId(eachTransaction.doer_id)}}"><b>{{eachTransaction.title}}<br>{{eachTransaction.milestone_name}}</b></p>				    		
+					    	</div>
+					    	<div class="coltab flex-2 align-self-center" data-heading="Assigned Doer">
+					    		<div class="prof-info">
+					    			<span class="prof-img linkStyle" *ngIf="eachTransaction.company_logo!=''" routerLink="/doer-details/{{encodeDoerId(eachTransaction.doer_id)}}">
+					    				<img src="{{baseCompUrl}}/company_logo/{{eachTransaction.company_logo}}" onError="this.src='assets/images/avatar.png';" alt="">
+					    			</span>
+					    			<span class="prof-img no-img" *ngIf="eachTransaction.company_logo==''">
+					    				<img src="assets/images/avatar.png" alt="">
+					    			</span>
+					    			<h5><a routerLink="/doer-details/{{encodeDoerId(eachTransaction.doer_id)}}">{{eachTransaction.name}}</a></h5>								
+					    		</div>
+					    	</div>
+					    	<div class="coltab" data-heading="Payment Mode">
+								<p>
+									<ng-container *ngIf="eachTransaction.payment_method==1">Credit/Debit Card</ng-container>
+									<ng-container *ngIf="eachTransaction.payment_method==2">Cash</ng-container>
+									<ng-container *ngIf="eachTransaction.payment_method==3">Check</ng-container>
+								</p>
+					    	</div>					    	
+					    	<div class="coltab" data-heading="Expenses">
+								<p>${{eachTransaction.amount}}</p>
+					    	</div>
+				    	</div>
+			    	</div>
+			    	<div class="table-body white-bg" *ngIf="transactionList.length==0">
+	                        <div class="table-row d-flex">
+	                            <div class="no_content row w-100">
+	                                <div class="col-md-5">
+	                                    <img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+	                                </div>
+	                                <div class="col-md-7 align-self-center">
+	                                    <ng-container>
+	                                        <h5>No Transactions Found</h5>
+	                                        <p>No Transactions Found with the seleted Filters</p>
+	                                    </ng-container>                                    
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>

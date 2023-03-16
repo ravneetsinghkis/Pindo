@@ -1,0 +1,243 @@
+<div class="totalDashboard" *ngIf="showView">
+	<div class="container">
+		<div class="mainHeading">
+			<h3>Manage Profile</h3>
+			<p>View and update your profile.</p>
+		</div>
+		<div class="row mb-3">
+			<div class="col-lg-3 mb-2">
+				<mat-card class="pindoCart">
+				  <mat-card-header>			    
+				    <mat-card-title>
+				    	PROFILE PROGRESS...
+				    </mat-card-title>
+				  </mat-card-header>			  
+				  <mat-card-content>
+				    <p>Check that all profile fields are complete.</p>
+				    <ul class="steps-completed">
+				    	<li [ngClass]="{'active' : isBasicDetailsPopulated}">Personal Information</li>
+				    	<li [ngClass]="{'active' : isOtherContactPopulated}">My Locations</li>
+				    	<li [ngClass]="{'active' : isContactInformationPopulated==true}">Contact Information</li>
+				    </ul>
+				  </mat-card-content>				  
+				</mat-card>
+			</div>
+			<div class="col-lg-9">
+				<mat-card class="pindoCart">
+				  <mat-card-header>			    
+				    <mat-card-title>
+				    	PERSONAL INFORMATION
+				    	<button mat-raised-button class="dashboardprimary text-uppercase float-right" (click)="togglePopup()">update</button>
+				    </mat-card-title>
+				  </mat-card-header>			  
+				  <mat-card-content>
+				  	<div class="row">
+				  		<div class="col-md-3">
+								<div class="icon-space text-center prof-img">
+									<span *ngIf="perm_img" class="rounded-profimg" [ngClass]="{'alreadyHas':perm_img!=''}"><img src="{{perm_img}}" alt=""></span>
+									<span *ngIf="!perm_img" class="rounded-profimg">
+										<img src="assets/images/default-userImg-green.svg" alt=""></span>
+								</div>
+								
+				  		</div>
+				  		<div class="col-md-9">
+				  			<!-- <app-pinner-basic-detail></app-pinner-basic-detail> -->
+							<h4 class="maincardcontentHeading">{{basicDet?.name}}</h4>
+							<p><b>Screen Name:</b> {{basicDet?.username}}</p>
+				    		<h6 class="maincardsubHeading">Primary Address</h6>
+				    		<div class="dummy_content pl-0 no_minheight">
+				    			<p class="green-icon d-flex align-items-start" *ngIf="primary_location!=null">
+	                  
+										<i style="position: relative; top: 4px;" class="fas fa-map-marker-alt mr-2"></i>
+										<span class="">
+										{{primary_location?.address}}
+										 <span class="d-block" *ngIf="primary_location?.address2!=null && primary_location.address2!=''">
+											{{primary_location?.address2}}
+										 </span>
+										 <span class="d-block">
+												{{primary_location?.city}}, {{primary_location?.state}}  {{primary_location?.zipcode}}
+											 </span>
+										</span>
+				    			</p>
+				    			<p class="green-icon" *ngIf="primary_location==null">
+				    			  No primary address is set yet
+				    			</p>
+				    			
+				    		</div>
+				  		</div>
+				  	</div>				    
+				  </mat-card-content>				  
+				</mat-card>
+				<mat-card class="pindoCart">
+				  <mat-card-header>			    
+				    <mat-card-title>
+				    	MY LOCATIONS
+				    	<button mat-raised-button class="dashboardprimary text-uppercase float-right" (click)="toggleParentPopup('OterAddressesComponent')" [hidden]="!isOtherContactPopulated">update</button>
+				    </mat-card-title>
+				  </mat-card-header>			  
+				  <mat-card-content>
+				  	<div class="row">				  		
+				  		<div class="col-md-12">
+				  			<app-oter-addresses #appOtherAddress  [isChildOtherAdressPopulated]="isOtherContactPopulated" (otherAddressListingPopulated)="lengthUpdate($event,'otherAddress')"></app-oter-addresses>
+				  		</div>
+				  	</div>				    
+				  </mat-card-content>				  
+				</mat-card>
+				<mat-card class="pindoCart">
+				  <mat-card-header>			    
+				    <mat-card-title>
+				    	Contact Information
+				    	<button mat-raised-button class="dashboardprimary text-uppercase float-right" (click)="toggleParentPopup('PinnerContactInformationComponent')" [hidden]="!isContactInformationPopulated">update</button>
+				    </mat-card-title>
+				  </mat-card-header>			  
+				  <mat-card-content>
+				  	<div class="row">				  		
+				  		<div class="col-md-12">
+				  			<app-pinner-contact #cntInfo [isContactHidden]="isContactInformationPopulated" (contactPopulated)="lengthUpdate($event,'contactInformation')"></app-pinner-contact>
+				  		</div>
+				  	</div>				    
+					</mat-card-content>
+					 <mat-card-actions class="text-center">				    	
+				    	<app-change-password></app-change-password>
+				  </mat-card-actions>				  
+				</mat-card>
+			
+				<mat-card class="pindoCart">
+				  <mat-card-header>			    
+				    <mat-card-title>
+								you will receive notifications when the toggle is set to “on” and “green”.
+				    	<!-- <button mat-raised-button class="dashboardprimary text-uppercase float-right" (click)="toggleParentPopup('PinnerContactInformationComponent')" [hidden]="!isContactInformationPopulated">update</button> -->
+				    </mat-card-title>
+				  </mat-card-header>			  
+					<mat-card-content>
+				  	<div class="row">				  		
+				  		<div class="col-md-12">
+				  			<app-pinner-control #cntrolInfo [isControltHidden]="isControlInformationPopulated" (contactPopulated)="lengthUpdate($event,'controlInformation')"></app-pinner-control>
+				  		</div>
+				  	</div>				    
+				  </mat-card-content>
+					 <mat-card-actions class="text-center">				    	
+				    	
+				  </mat-card-actions>				  
+				</mat-card>
+
+
+
+				<mat-card class="pindoCart">
+						<mat-card-header>			    
+							<mat-card-title>
+							Push	Notification Settings Information
+							
+							</mat-card-title>
+						</mat-card-header>			  
+						<mat-card-content>
+							<div class="row">				  		
+								<div class="col-md-12">
+									<app-profile-notification-settings #notificationcntrolInfo [isControltHidden]="isControlInformationPopulated" (contactPopulated)="lengthUpdate($event,'notificationcontrolInformation')"></app-profile-notification-settings>
+								</div>
+							</div>				    
+						</mat-card-content>
+						 <mat-card-actions class="text-center">				    	
+								
+						</mat-card-actions>				  
+					</mat-card>
+
+
+					<mat-card class="pindoCart">
+						<mat-card-header>			    
+							<mat-card-title>
+							Email	Notification Settings Information
+							
+							</mat-card-title>
+						</mat-card-header>			  
+						<mat-card-content>
+							<div class="row">				  		
+								<div class="col-md-12">
+									<app-profile-email-settings #emailcntrolInfo  [isControltHidden]="isControlInformationPopulated" (contactPopulated)="lengthUpdate($event,'emailcontrolInformation')"></app-profile-email-settings>
+								</div>
+							</div>				    
+						</mat-card-content>
+						 <mat-card-actions class="text-center">				    	
+								
+						</mat-card-actions>				  
+					</mat-card>
+
+
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- overlayPopup -->
+	<div class="overlayPopup popupavl" #popupref>
+		<div class="popupHeader">
+			<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+			<h3>Update Profile</h3>
+		</div>
+		<div class="popupContent">
+			<div class="container">
+				<div class="popUpcontentHeading"><!-- <p class="text-center">Please select the range of dates (future dates only) during which you will not be able to provide services.<br> For a single day of unavailability, you can only select start date without end date.</p> --></div>
+				<div class="col-md-8 offset-md-2">
+					<form #basicDetailsForm="ngForm" (ngSubmit)="submitDetails(basicDetailsForm.value,basicDetailsForm.valid,basicDetailsForm,'save')">
+
+						<div class="total_img mb-5 text-center">
+							<span class="rounded-profimgprv" *ngIf="imgUrl!='' && !submitted"><img src="{{imgUrl}}" alt=""></span>
+
+							<span class="rounded-profimgprv blank_img" *ngIf="imgUrl==''"><img src="assets/images/default-userImg-green.svg" alt=""></span>
+
+											<!-- <span class="rounded-profimgprv blank_img" *ngIf="imgUrl==''"><img src="assets/images/basic-details_big.png" alt=""></span> -->
+											
+							<input-file name="pImg" fileAccept="image/*" (acceptedFile)="accptFile($event)" (deletedFile)="onDelete($event)" [(ngModel)]="basicDetailsFormModel.imgUrl" inputId="input-file" placeholder="Drop files below!"></input-file>
+							<p class="error mt-4" *ngIf="exceedSizeLimit">File Size Limit Exceeded.</p>
+							<p class="mt-4">Click or drag and drop files to upload<br>
+							You can upload a JPG or PNG file (file size limit is 2 MB)</p>
+							<div class="remove_custom" *ngIf="imgUrl!='' && !submitted" (click)="clearImage()"><mat-icon class="mat-icon material-icons">delete</mat-icon></div>
+						</div>
+
+						<!-- <mat-form-field appearance="outline">
+							<mat-label>Name</mat-label>
+							<input matInput name="name" #bDetComName="ngModel" [(ngModel)]="basicDetailsFormModel.name" placeholder="Name*" required>
+							<mat-error *ngIf="bDetComName.errors && (basicDetailsForm.submitted) && bDetComName.errors.required">This field required</mat-error>  
+							<mat-error *ngIf="bDetComName.errors && (basicDetailsForm.submitted) && (!bDetComName.errors.required)">Invalid Name.</mat-error>                  
+						</mat-form-field> -->
+
+						<div class="row">
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>First Name</mat-label>
+									<input matInput name="first_name" #bDetFirstName="ngModel" [(ngModel)]="basicDetailsFormModel.first_name" placeholder="First Name*" required>
+									<mat-error *ngIf="bDetFirstName.errors && (basicDetailsForm.submitted) && bDetFirstName.errors.required">This field required</mat-error>  
+									<mat-error *ngIf="bDetFirstName.errors && (basicDetailsForm.submitted) && (!bDetFirstName.errors.required)">Invalid Name.</mat-error>                  
+								</mat-form-field>
+							</div>
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>Last Name</mat-label>
+									<input matInput name="last_name" #bDetLastName="ngModel" [(ngModel)]="basicDetailsFormModel.last_name" placeholder="Last Name*" required>
+									<mat-error *ngIf="bDetLastName.errors && (basicDetailsForm.submitted) && bDetLastName.errors.required">This field required</mat-error>  
+									<mat-error *ngIf="bDetLastName.errors && (basicDetailsForm.submitted) && (!bDetLastName.errors.required)">Invalid Name.</mat-error>                  
+								</mat-form-field>
+							</div>
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>Screen Name</mat-label>
+									<input matInput name="username" #Uname="ngModel" [(ngModel)]="basicDetailsFormModel.username" placeholder="Screen Name*" required>
+									<mat-error *ngIf="Uname.errors && (basicDetailsForm.submitted) && Uname.errors.required">This field required</mat-error>        
+								</mat-form-field>
+							</div>
+						</div>
+
+						
+						<div class="d-flex justify-content-center pt-5">
+							<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+							Update
+							</button>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

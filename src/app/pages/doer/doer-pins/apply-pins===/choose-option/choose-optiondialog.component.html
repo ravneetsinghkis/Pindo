@@ -1,0 +1,107 @@
+<ng-container
+	*ngIf="display_data?.option!='choose_payment' && display_data?.option!='no-paymentOption' && display_data?.option!='Pay charge to Admin'">
+	<div class="total-dialogCntent text-left">
+		<h4>Select type of milestone you want to add...</h4>
+		<div class="w-100 mt-4">
+			<mat-radio-group class="green-color" [(ngModel)]="chosenSkipOption">
+				<mat-radio-button class="mr-3" *ngFor="let eachskipOptions of skipOptions" [value]="eachskipOptions">
+					{{eachskipOptions}}
+				</mat-radio-button>
+			</mat-radio-group>
+		</div>
+		<div class="d-flex pt-3">
+			<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary"
+				(click)="applyChoose();">
+				DONE
+			</button>
+		</div>
+	</div>
+</ng-container>
+<ng-container *ngIf="display_data?.option=='choose_payment'">
+	<div class="total-dialogCntent text-left">
+		<h4>Select how you want to accept payment...</h4>
+		<div class="w-100 mt-4">
+			<mat-radio-group [(ngModel)]="chosenPaymentOptionModel">
+				<!-- class="green-color" -->
+				<mat-radio-button class="mr-3" *ngFor="let eachpaymentOptions of chosenPaymentOption"
+					[value]="eachpaymentOptions">
+					{{eachpaymentOptions}}
+				</mat-radio-button>
+			</mat-radio-group>
+			<p>Bank Fees for Applicable Payment Methods from Doer selection:<br />
+				1) Credit Card: 2.9% of Quote Amount + $.30<br />
+				2) ACH: 0.8% of Quote Amount capped at $5<br />
+				3) Cash: No Fees<br />
+				4) Check: No Fees</p>
+
+			<mat-form-field appearance="outline">
+				<textarea matInput placeholder="Description"></textarea>
+				<!-- <mat-error *ngIf="submitted && pinner_support?.controls?.description?.errors?.required">This is a required Field</mat-error> -->
+			</mat-form-field>
+		</div>
+		<div class="d-flex pt-3 justify-content-center">
+			<button type="button" mat-raised-button color="primary" class="text-uppercase mr-2"
+				(click)="choosePaymentMethod();">
+				Proceed
+			</button>
+			<div class="custombtnboder">
+				<button type="button" mat-button class="text-uppercase" [mat-dialog-close]="true">
+					No
+				</button>
+			</div>
+		</div>
+
+	</div>
+</ng-container>
+<ng-container *ngIf="display_data?.option=='no-paymentOption'">
+	<div class="total-dialogCntent text-center">
+		<div class="img_matDialog mb-4">
+			<img src="assets/images/no-payment.png" alt="">
+			<!-- <img src="assets/images/pinnerType.png" alt=""> -->
+		</div>
+		<div class="col-md-12">
+			<h2 class="text-uppercase">Payment is not set</h2>
+			<p>You have not set your payment methods yet. Please add payment methods and continue to create new pins.</p>
+		</div>
+		<!-- <h2>{{display_data.title}}</h2> -->
+		<!-- <p *ngIf="display_data.content!=''">{{display_data.content}}</p> -->
+		<div class="d-flex justify-content-center pt-2">
+			<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary"
+				routerLink="/doer/payment-settings-express" [mat-dialog-close]="true">
+				Set Payment
+			</button>
+		</div>
+	</div>
+</ng-container>
+<ng-container *ngIf="display_data?.option=='Pay charge to Admin'">
+	<div class="total-dialogCntent text-center">
+		<div class="img_matDialog mb-4">
+			<img src="assets/images/no-payment.png" alt="">
+			<!-- <img src="assets/images/pinnerType.png" alt=""> -->
+		</div>
+		<div class="col-md-12">
+			<p>
+				PinDo fee of 6% Capped at $250<br />
+				Bank Fees for Applicable Payment Methods from Doer selection:<br />
+				1) Credit Card: 2.9% of Quote Amount + $.30<br />
+				2) ACH: 0.8% of Quote Amount capped at $5<br />
+				3) Cash: No Fees<br />
+				4) Check: No Fees<br />
+
+				Payment Charge (6% of total quotaion capped at $250) of ${{ display_data?.totalQuotation }} will be deducted for
+				using the system as and when the Pinner accepts your quotaions and hires you for the Job.Do you Still want to
+				proceed?<p>
+		</div>
+		<div class="d-flex pt-3 justify-content-center">
+			<button type="button" mat-raised-button color="primary" class="text-uppercase mr-2"
+				(click)="proceedToChargePinner();">
+				Proceed
+			</button>
+			<div class="custombtnboder">
+				<button type="button" mat-button class="text-uppercase" (click)="preventQuotation()">
+					No
+				</button>
+			</div>
+		</div>
+	</div>
+</ng-container>

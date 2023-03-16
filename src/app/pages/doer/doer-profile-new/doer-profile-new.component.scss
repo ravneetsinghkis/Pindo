@@ -1,0 +1,38 @@
+// .overBanner{margin-top: -100px;}
+// .star{ position: relative;}
+
+// ::ng-deep {
+//   .prfl-banner-sec {
+//       .map-holder {
+//           ngui-map {
+//               height: 400px;
+//           }
+//       }
+//   }
+
+//   body .sb-wrapper{
+//       background-color: #E6854A;
+//       color: #fff;
+//   }
+
+// }
+
+// @media only screen and (max-width: 1199px) {
+
+//         .overBanner {
+//             margin-top: 0;
+//           }
+
+// }
+.custom :hover {
+    cursor: pointer;
+}
+.overBanner {
+    margin-top: -100px;
+}
+
+@media only screen and (max-width: 1199px) {
+    .overBanner {
+        margin-top:15px;
+    }
+}

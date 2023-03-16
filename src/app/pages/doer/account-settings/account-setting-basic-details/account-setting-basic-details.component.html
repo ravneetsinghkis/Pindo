@@ -1,0 +1,145 @@
+<div class="card-settings-body">
+
+  <div class="prfl-info d-flex align-items-center px-3 py-3">
+    <div class="prfl-img mr-3 flex-shrink-0">
+      <!-- <img src="{{globalURL}}/company_logo/{{temp_image}}" *ngIf="temp_image && !imageUrl_own">
+      <img src="{{imageUrl_own}}" *ngIf="imageUrl_own">
+      <img src="assets/images/default-userImg-orange-square.svg" *ngIf="!temp_image && !imageUrl_own"> -->
+      <img src="{{imageUrl_own}}" onError="this.src = 'assets/images/default-userImg-orange-square.svg'">
+    </div>
+    <div class="prfl-text">
+      <p class="nameText mb-0"><span>{{basicDetailsFormModel?.name}}</span></p>
+      <p *ngIf="userType == 1" class="mb-0">Username: <span class="infoText mb-0">{{basicDetailsFormModel?.username}}</span></p>
+      <p *ngIf="userType == 2" class="mb-0">Company Name: <span class="infoText mb-0">{{basicDetailsFormModel?.company_name}}</span></p>
+      <p class="mb-0" *ngIf="crewMemberDetails?.referral_code">Crew Referral Code: <span class="text-uppercase font-weight-bold">{{ crewMemberDetails?.referral_code }}</span></p>
+    </div>
+  </div>
+
+  <hr class="m-0">
+
+  <div class="prfl-dscInfo px-3 py-3">
+    <h4 class="headingText mb-2">About Us</h4>
+    <div class="dsc-text" [innerHtml]="basicDetailsFormModel?.description" id="desc">
+    </div>
+  </div>
+
+</div>
+
+<div class="overlayFullPopup" #popUpVar>
+  <div class="fullPopupHeader px-3">
+    <button mat-icon-button class="btn-back float-left orangeColor" (click)="closeModal()"><span
+        class="or or-return"></span></button>
+    <h3 class="heading-text mb-0 text-uppercase">PROFILE INFORMATION</h3>
+  </div>
+  <hr class="m-0">
+  <div class="fullPopupContent">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="matComnForm">
+            <form #myForm="ngForm" autocomplete="off" [formGroup]="basicDetailsForm" (ngSubmit)="submitDetails()">
+
+              <div class="upload-prflImg mb-3 mb-xl-4 text-center">
+                <div class="prflImg-box mb-3 mx-auto">
+                  <div class="img-holder prfl-img mr-3 flex-shrink-0">
+                    <!-- <img src="{{globalURL}}/company_logo/{{temp_image}}" *ngIf="temp_image && !imageUrl_own">
+                    <img src="{{imageUrl_own}}" *ngIf="imageUrl_own">
+                    <img src="assets/images/default-userImg-orange-square.svg" *ngIf="!temp_image && !imageUrl_own"> -->
+
+                    <img onError="this.src = 'assets/images/default-userImg-orange-square.svg'" id="image">
+                  </div>
+              
+                  <!-- <div *ngIf="'assets/images/default-userImg-orange-square.svg' !=imageUrl_own" class="deleteImg-action custom" (click)="clearImage()"
+                    title="Delete Image">
+                    <mat-icon class="mat-icon material-icons">delete</mat-icon>
+                  </div> -->
+                  <div *ngIf="imageUrl_own!=doer_logo" class="deleteImg-action custom" (click)="clearImage()"
+                  title="Delete Image">
+                  <mat-icon class="mat-icon material-icons">delete</mat-icon>
+                </div>
+                </div>
+
+                <!-- <div class="input-field">
+                  <input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)">
+                  <span *ngIf="temp_image || imageUrl_own" class="linkText">Change Photo</span>
+                  <span *ngIf="!temp_image && !imageUrl_own" class="linkText">Select Photo</span>
+                </div> -->
+
+                <div class="input-field">
+                  <input type="file" #Image accept="image/*" (change)="fileChangeHandler($event)">
+                  <span *ngIf="imageUrl_own!=doer_logo" class="linkText">Change Photo</span>
+                  <span *ngIf="imageUrl_own==doer_logo" class="linkText">Select Photo</span>
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <mat-radio-group formControlName="profileType" (change)="profileTypeChanged()">
+                  <mat-radio-button value="1" class="mr-3">Individual</mat-radio-button>
+                  <mat-radio-button value="2">Company</mat-radio-button>
+                </mat-radio-group>           
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input matInput name="first_name" placeholder="First Name*" formControlName="first_name" type="text"
+                  class="form-control" [ngClass]="{ 'is-invalid': submitted && userDetailsController.first_name.errors }">
+                <mat-error *ngIf="submitted && userDetailsController.first_name.errors">This field required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput name="last_name" placeholder="Last Name*" formControlName="last_name" type="text"
+                  class="form-control" [ngClass]="{ 'is-invalid': submitted && userDetailsController.last_name.errors }">
+                <mat-error *ngIf="submitted && userDetailsController.last_name.errors">This field required
+                </mat-error>
+              </mat-form-field>
+              
+              <!-- <mat-form-field appearance="outline">
+                <mat-label>Your Name</mat-label>
+                <input matInput name="name" placeholder="Your Name*" formControlName="name" type="text"
+                  class="form-control" [ngClass]="{ 'is-invalid': submitted && userDetailsController.name.errors }">
+                <mat-error *ngIf="submitted && userDetailsController.name.errors">This field required
+                </mat-error>
+              </mat-form-field> -->
+
+              <mat-form-field appearance="outline" *ngIf="userDetailsController.profileType.value == 1">
+                <mat-label>Username</mat-label>
+                <input matInput name="username" placeholder="Your Name*" formControlName="username" type="text"
+                  class="form-control" [ngClass]="{ 'is-invalid': submitted && userDetailsController.username.errors }">
+                <mat-error *ngIf="submitted && userDetailsController.username.errors">This field required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" *ngIf="userDetailsController.profileType.value == 2">
+                <mat-label>
+                  Company Name</mat-label>
+                <input matInput name="company_name" placeholder="Company Name*" formControlName="company_name"
+                  type="text" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && userDetailsController.company_name.errors }">
+
+                <mat-error *ngIf="submitted && userDetailsController.company_name.errors">This field required
+                </mat-error>
+              </mat-form-field>
+
+              <div class="mb-3">
+                <label class="form-control-label">About</label>
+                <ckeditor name="description" [config]="ckEditorConfig" formControlName="description" skin="moono-lisa">
+                </ckeditor>
+              </div>
+
+              <div class="btn-holder text-center pt-xl-4 pt-2">
+                <button type="submit" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2">
+                  Save
+                </button>
+                <button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+                  (click)="closeModal()">CANCEL</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

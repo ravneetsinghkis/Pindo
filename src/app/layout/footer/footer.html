@@ -1,0 +1,93 @@
+<div [ngSwitch]="detectHomePage">
+	<div *ngSwitchCase="1">
+		<footer class="commonGap bigfooter">
+			<div class="container">
+				<div class="footer-logo text-center">
+					<a href=""><img src="assets/images/logo-pindo-white.svg" alt=""></a>
+				</div>
+				<div class="row">
+					<!-- <div class="col-md-3 right-border common-footgap">
+			  		<ul>
+				  		<li><a href="mailto:info@pindoit.com"><i class="fas fa-envelope"></i>&nbsp;&nbsp;&nbsp;{{footerInfo?.email}}</a></li>
+						<li><a href="tel:203 123 4567"><i class="fas fa-phone"></i>&nbsp;&nbsp;&nbsp;{{footerInfo?.contact}}</a></li>
+						<li><a href=""><i class="fas fa-comments"></i>&nbsp;&nbsp;&nbsp;Chat</a></li>
+					</ul>
+			  	</div> -->
+					<div class="col-md-4 right-border common-footgap">
+						<ul>
+							<!-- <li><a routerLink="/how-it-works">How it works</a></li> -->
+							<li><a routerLink="/benefits">Benefits</a></li>
+							<li><a routerLink="/blog-list">Blog</a></li>
+							<li><a routerLink="/crew-membership">PinDo Crew Membership</a></li>
+						</ul>
+					</div>
+					<div class="col-md-4 right-border common-footgap">
+						<ul>
+							<li><a routerLink="/faq" routerLinkActive="active">FAQs</a></li>
+							<li><a routerLink="/support" routerLinkActive="active">Support</a></li>
+							<li><a routerLink="/terms-privacy" routerLinkActive="active">Privacy / Terms</a></li>
+						</ul>
+					</div>
+					<div class="col-md-4 common-footgap">
+						<ul>
+							<li><a routerLink="/about-us">About</a></li>
+							<li><a routerLink="/press-center">Press center</a></li>
+							<li><a routerLink="/investor-relations">Investor relations</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="copyRight-text" align="center">
+				<p>Copyright &copy; PinDo Inc. {{current_year}}. All rights reserved. {{version}}</p>
+			</div>
+		</footer>
+	</div>
+	<div *ngSwitchCase="2">
+		<footer class="loginFooter">
+			<!-- <img src="assets/images/footer-icon.png" alt="">&nbsp;&nbsp;&copy; {{current_year}} PinDo. {{version}} -->
+			<div class="container-fluid">
+				<div class="row align-item-center">
+
+					<div
+						class="footer-solial-list d-none d-lg-flex align-items-center col-lg-4 justify-content-lg-start justify-content-center">
+						<a href="https://l.facebook.com/l.php?u=https%3A%2F%2Ffb.me%2Fpindoit&h=AT3ClLLjLdpGMrJ3CqFgTwhUpDpZOIqlTMmsSxiAMNs-3z-0OEQW9ANQU4nlRew9qs_06bRKNmopG3Vhy75bBhUFKBdvSgrNtZtX-7bD_Xp-qx68CpZF5L1u6ujeWu07ML98xsTnaKbL18WiCP9KhA"
+							target="_blank" class="fb-ic"><i class="fab fa-facebook-f"></i></a>
+						<a href="https://twitter.com/pindo_official" target="_blank" class="tw-ic"><i
+								class="fab fa-twitter"></i></a>
+						<a href="https://www.instagram.com/PinDo.Inc_/" target="_blank" class="in-ic"><i
+								class="fab fa-instagram"></i></a>
+						<a href="https://www.youtube.com/channel/UCXRUO9sOlSJJnJlJ1BAl4Fg" target="_blank" class="you-ic"><i
+								class="fab fa-youtube"></i></a>
+						<!-- <a class="gl-ic"><i class="fab fa-google-plus-g"></i></a> -->
+
+					</div>
+					<div class="middleText col-lg-4 mt-lg-2 mt-lg-0">
+						Copyright <img src="assets/images/footer-icon.png" alt="">&nbsp;&nbsp;&copy; {{current_year}} {{version}}
+					</div>
+
+					<div class="footer-link col-lg-4">
+						<ul class="d-none d-lg-flex mt-2 align-item-center justify-content-md-end justify-content-center ">
+							<li><a routerLink="/support">Support</a></li>
+							<li><a routerLink="/terms-privacy">Privacy/Terms</a></li>
+							<li><a routerLink="/blog-list">Blog</a></li>
+						</ul>
+					</div>
+
+				</div>
+
+
+			</div>
+
+		</footer>
+	</div>
+	<div *ngSwitchCase="3">
+		<footer class="help-center">
+			<div class="container-fluid">
+
+				<div class="copyRight-text" align="center">
+					<p>&copy; {{current_year}} PinDo. All rights reserved. {{version}}</p>
+				</div>
+			</div>
+		</footer>
+	</div>
+</div>

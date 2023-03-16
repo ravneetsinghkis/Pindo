@@ -1,0 +1,76 @@
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left orangeColor" (click)="togglePopup()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">Add Bank Account</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3 ">
+
+				<div class="matComnForm">
+					<form [formGroup]="backAccountDetailsAddOrUpdateForm" autocomplete="off" #bankForm="ngForm">
+
+						<mat-form-field appearance="outline">
+							<mat-label>Account Holder Name</mat-label>
+							<input matInput name="account_holder_name" formControlName="account_holder_name" type="text"
+								class="form-control">
+							<mat-error *ngIf="isformSubmitted && formControls.account_holder_name.errors?.required">
+								Required
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field appearance="outline">
+							<mat-label>Type</mat-label>
+							<mat-select placeholder="Select Type" formControlName="type" required>
+								<mat-option *ngFor="let each_type of types" [value]="each_type.value">
+									{{each_type.viewValue}}
+								</mat-option>
+							</mat-select>
+							<mat-error *ngIf="isformSubmitted && formControls.type.errors?.required">This
+								field required</mat-error>
+						</mat-form-field>
+
+						<mat-form-field appearance="outline">
+							<mat-label>Account number</mat-label>
+							<input matInput name="account_number" formControlName="account_number" type="text"
+								class="form-control">
+							<mat-error *ngIf="isformSubmitted && formControls.account_number.errors?.required">Required
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field appearance="outline">
+							<mat-label>Routing Number</mat-label>
+							<input matInput name="routing_number" formControlName="routing_number" type="text"
+								class="form-control">
+							<mat-error *ngIf="isformSubmitted && formControls.routing_number.errors?.required">Required
+							</mat-error>
+							<mat-error *ngIf="isformSubmitted && formControls.routing_number.errors?.pattern">Invalid
+								routing number
+							</mat-error>
+						</mat-form-field>
+
+
+						<div class="mb-4 text-center">
+							<p>Connect your bank account with Stripe for Payment Processing. When you select the Stripe button, you will be brought to Stripe's account setup form. Complete the form and you will return to PinDo.</p>
+							<button mat-button class="btn-strip text-uppercase" (click)="addBankDetails()">
+								<img src="assets/images/stripe-btn-img.svg">
+							</button>
+						</div>
+
+						<div class="btn-holder text-center mt-4">
+							<button mat-flat-button type="button"
+								class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+								(click)="togglePopup()">CANCEL</button>
+						</div>
+
+					</form>
+				</div>
+
+			</div>
+			<!--end col-md-6-->
+		</div>
+	</div>
+
+</div>

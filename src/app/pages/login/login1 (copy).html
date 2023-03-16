@@ -1,0 +1,56 @@
+<div class="page=loader"></div>
+ 
+<section class="whiteOverlay-section contactForm-section">
+    <div class="container">
+        <div class="contactForm-holder">
+            <div class="heading">
+                <h2 class="mainHeading">Register</h2>
+            </div>
+
+            <div *ngIf="appService.success_msg" class="{{appService.reg_class}}">
+                {{appService.success_msg}}
+            </div>
+
+              <form #loginfrm="ngForm" (ngSubmit)="loginFunction(loginfrm.value,loginfrm.valid)">
+
+
+                <div class="form-group error-msg-position">
+                    <input type="text" class="form-control" name="email" #emailaddress="ngModel" [(ngModel)]="email" placeholder="Email*" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                    <div *ngIf="emailaddress.errors && (loginfrm.submitted)" class="error-msg">
+                        <div [hidden]="!emailaddress.errors.required">
+                          This field required
+                        </div>
+                        <div [hidden]="(!emailaddress.errors.pattern || emailaddress.errors.required)">
+                        Invalid email format.
+                      </div>
+                    </div>
+                </div>
+
+                
+
+                <div class="form-group error-msg-position">
+                    <input type="password" class="form-control" name="password" #userpassword="ngModel" [(ngModel)]="password" placeholder="Password*" required validateEqual="con_password" reverse="true">
+                    <div *ngIf="userpassword.errors && (loginfrm.submitted)" class="error-msg">
+                        <div [hidden]="!userpassword.errors.required">
+                          This field required
+                        </div>
+                        <div [hidden]="(userpassword.valid || userpassword.errors.required)">
+                          Password mismatch
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-holder">
+                    <button type="submit" class="btn btn-wht-border" *ngIf="!pageLoder">Login</button>
+                    <img src="../../../assets/images/loading.gif" *ngIf="pageLoder">
+                </div>
+            </form>
+
+              <br />
+              <br />
+              {{words2 | json}}
+
+            
+        </div>
+    </div>
+</section>

@@ -1,0 +1,202 @@
+<div class="totalDashboard">
+	<div class="container">
+		<div class="col-md-8 offset-md-2" *ngIf="cardList.length==0">
+			<div class="no_content row">
+				<div class="col-md-6 text-right">
+					<img src="assets/images/payment_nodata.png" class="mr-4" alt="">
+				</div>
+				<div class="col-md-6">
+					<h5>No Card Added</h5>
+					<p>You have not set up a Doer payment method yet. Please add your credit/debit card to set one up.</p>
+					<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="togglePopup()">
+	                    Add now
+	                </button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="populatedCards" *ngIf="cardList.length>0">
+			<div class="row">
+				<div class="col-md-6 col-xl-4 mb-4" *ngFor="let eachCard of cardList;let i = index;">
+					<mat-card class="pindoCart">
+					  <mat-card-header>			    
+					    <mat-card-title class="d-flex justify-content-between">
+					    	<div class="left_cardtitle">
+					    		<!-- <span class="bank-logo float-left mr-3"><img src="assets/images/payment-icons/citibank.png" alt=""></span> -->
+					    		Credit Card
+					    	</div>	
+					    	<div class="custom_checkbox_tick">
+					    		<input type="radio" id="card-{{eachCard.card_id}}" name="cardIndv" [checked]="eachCard.is_primary==1" (click)="changePrimaryCard(eachCard.id);">
+					    		<label for="card-{{eachCard.card_id}}">&nbsp;</label>
+					    	</div>				    	
+					    </mat-card-title>
+					  </mat-card-header>			  
+					  <mat-card-content>
+					  	<div class="row card_information">				  		
+					  		<div class="col-md-9">
+					  			<h4 class="mb-3">Card Number<br>
+					  			xxxx xxxx xxxx {{eachCard.card_number}}</h4>
+					  			<p class="mb-4">Expiry Date - {{eachCard.expiry_month}}/{{eachCard.expiry_year}}</p>
+					  			<div class="btn-group">
+					  				<button mat-raised-button class="dashboardprimary text-uppercase small_btn mr-3" (click)="editCard(i)">Edit Card</button>
+					  				<button mat-raised-button class="dashboardprimary text-uppercase small_btn red_btn" (click)="removeCard(i)" *ngIf="eachCard.is_primary!=1">Remove</button>
+					  			</div>
+					  		</div>
+					  		<!-- <div class="col-md-3 text-right">
+					  			<img src="assets/images/payment-icons/visa-icon.png" alt="">
+					  		</div> -->
+					  	</div>				    
+					  </mat-card-content>				  
+					</mat-card>
+				</div>
+				<div class="col-md-6 col-xl-4 mb-4">
+					<div class="add-cardbox d-flex align-items-center justify-content-center h-100 flex-column" (click)="togglePopup()">
+						<mat-icon class="addcardicon">add_circle_outline</mat-icon>
+						<button class="btn btn-link">Add New Card</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="populatedCards" *ngIf="ifBankCardExist">
+			<div class="row">
+				<div class="col-md-6 col-xl-4 mb-4" *ngFor="let each_bank of bankcard_data">
+					<div >
+						<mat-card class="pindoCart">
+							<mat-card-header>			    
+							    <mat-card-title class="d-flex justify-content-between">
+							    	<div class="left_cardtitle">
+							    		<svg style="width:24px;height:24px;position: relative;top: 5px;" viewBox="0 0 24 24">
+										    <path fill="#000000" d="M11.5,1L2,6V8H21V6M16,10V17H19V10M2,22H21V19H2M10,10V17H13V10M4,10V17H7V10H4Z" />
+										</svg>
+							    		Bank Account
+							    	</div>	
+							    	<div class="custom_checkbox_tick">
+							    		<input type="radio" id="bank-{{each_bank.id}}" (click)="changePrimaryBank(each_bank.id);" [checked]="each_bank.is_primary==1">
+							    		<label for="bank-{{each_bank.id}}">&nbsp;</label>
+							    	</div>				    	
+							    </mat-card-title>
+						  	</mat-card-header>			  
+						  	<mat-card-content>
+							  	<div class="row card_information">				  		
+							  		<div class="col-md-9">
+							  			<h4 class="mb-3">Account Holder<br>
+							  			{{each_bank?.first_name}} {{each_bank?.last_name}} </h4>
+							  			<h4 class="mb-3">Account Number<br>
+							  			XXXXXXXX{{each_bank?.account_number}} <br> {{each_bank?.brand}} </h4>
+							  			<!-- <div class="btn-group">
+							  				<a mat-raised-button href="javascript:void(0)" (click)="toggleParentPopup()" class="dashboardprimary text-uppercase small_btn mr-3"> Edit Bank </a>
+							  			</div> -->
+							  			<div class="btn-group">
+							  				<button  *ngIf="each_bank.is_verified_by_stripe==0" mat-raised-button class="dashboardprimary text-uppercase small_btn mr-3" (click)="verifyBankAccount(each_bank)">Verify</button>
+							  				<button mat-raised-button class="dashboardprimary text-uppercase small_btn red_btn" (click)="removeCustomBank(each_bank)" *ngIf="each_bank.is_primary!=1">Remove</button>
+							  			</div>
+							  		</div>
+							  		<div class="col-md-3 text-right"></div>
+							  	</div>				    
+						  	</mat-card-content>
+						</mat-card>
+					</div>
+		
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 col-xl-4 mb-4">
+					<div class="add-cardbox d-flex align-items-center justify-content-center h-100 flex-column">
+						<h5>Add another Bank</h5>
+						<p>Add another Bank details to make payments. </p>
+						<!-- <p>To receive payment add your Bank details.</p> -->
+						
+						<a href="javascript:void(0)" (click)="toggleParentPopup()" class="text-uppercase mat-primary">Add Now </a>
+						<!-- <a href="{{addStripeBanksLinks}}" class="text-uppercase mat-primary">Add Now </a> -->
+					</div>
+				</div>
+				<app-pinner-add-another-bank [isHiddenaddBank]="addBankshow" [isBankDetailsAdded]="ifBankCardExist" (bank_added)="bankAddRes()" #addBank></app-pinner-add-another-bank>
+			</div>
+		</div>
+
+		<div class="populatedCards" *ngIf="!ifBankCardExist">
+			<div class="row">
+				<!-- <div class="col-md-8 mb-8">
+					<div class="add-cardbox d-flex align-items-center justify-content-center h-100 flex-column">
+						<h5>No Bank Added</h5>
+						<p>You have not added any Bank details to receive payment. Please add your Bank details to avail the services.</p>
+						<a href="javascript:void(0)" (click)="togglePopup()" class="text-uppercase mat-primary">Add Now </a>
+						<a href="{{addStripeBanksLinks}}" class="text-uppercase mat-primary">Add Now </a>
+					</div>
+				</div> -->
+				<div class="col-md-8 offset-md-2" *ngIf="!ifBankCardExist">
+					<div class="no_content row">
+						<div class="col-md-6 text-right">
+							<img src="assets/images/payment_nodata.png" class="mr-4" alt="">
+						</div>
+						<div class="col-md-6">
+							<h5>No Bank Added</h5>
+							<p>You have not set up a Doer payment method yet. Please add your Bank Account to set one up.</p>
+							<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="toggleParentPopup()">
+			                    Add now
+			                </button>
+						</div>
+					</div>
+				</div>
+				
+				<app-pinner-add-another-bank [isHiddenaddBank]="addBankshow" [isBankDetailsAdded]="ifBankCardExist" (bank_added)="bankAddRes()" #addBank></app-pinner-add-another-bank>
+				<!-- <app-doer-add-bank [isHiddenaddBank]="addBankshow" [isBankDetailsAdded]="ifBankCardExist" (bank_added)="bankAddRes()" #addBank></app-doer-add-bank> -->
+			</div>
+		</div>
+	</div>
+	<!-- overlayPopup -->
+	<div class="overlayPopup popupavl" #popupref>
+		<div class="popupHeader">
+			<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+			<h3>Add New Card Detail</h3>
+		</div>
+		<div class="popupContent">
+			<div class="container">
+				<form #payForm="ngForm" (ngSubmit)="onSubmit(payForm)" novalidate [formGroup]="payment_form">
+					<mat-form-field appearance="outline">
+						<mat-label>Name</mat-label>
+						<input matInput name="name" formControlName="name" placeholder="Name*" autocomplete="off" placeholder="Name*" required>
+						<mat-error *ngIf="payForm.submitted && payment_form.controls.name.errors?.required">This is a required Field</mat-error> 
+					</mat-form-field>
+					<mat-form-field appearance="outline" *ngIf="!editMode">
+						<mat-label>Card Number</mat-label>
+						<input matInput id="cc-number" formControlName="creditCard" type="tel" autocomplete="cc-number" placeholder="Card Number" ccNumber required>
+						<mat-error *ngIf="payForm.submitted && payment_form.controls.creditCard.errors && !payment_form.controls.creditCard.errors?.required">Wrong Card Number Format</mat-error>  
+						<mat-error *ngIf="payForm.submitted && payment_form.controls.creditCard.errors?.required">This field required</mat-error>	                
+					</mat-form-field>
+					<div *ngIf="editMode">
+						<div class="customBoxStyle">xxxx xxxx xxxx {{cardVal}}</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<mat-form-field appearance="outline">
+								<mat-label>Expiry Date (mm/yy or mm/yyyy)</mat-label>
+								<input matInput id="cc-exp-date" formControlName="expirationDate" type="tel" autocomplete="cc-exp" ccExp placeholder="Expiry Date (mm/yy or mm/yyyy)" required>
+								<mat-error *ngIf="payForm.submitted && payment_form.controls.expirationDate.errors && !payment_form.controls.expirationDate.errors?.required">Wrong Expiration Date Format</mat-error> 
+								<mat-error *ngIf="payForm.submitted && payment_form.controls.expirationDate.errors?.required">This field required</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-md-6">
+							<mat-form-field appearance="outline">
+								<mat-label>CVV</mat-label>
+								<input matInput id="cc-cvc" formControlName="cvc" type="password" autocomplete="off" ccCvc required>
+								<mat-error *ngIf="payForm.submitted && payment_form.controls.cvc.errors && !payment_form.controls.cvc.errors?.required">Wrong CVV Format</mat-error> 
+								<mat-error *ngIf="payForm.submitted && payment_form.controls.cvc.errors?.required">This field required</mat-error>	                 
+							</mat-form-field>
+						</div>
+					</div>					
+			        <!-- <input id="cc-number" formControlName="creditCard" type="tel" autocomplete="cc-number" ccNumber> -->
+			        
+			        <div class="d-flex justify-content-center pt-5">
+						<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+	                        Update
+	                    </button> 
+					</div>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>

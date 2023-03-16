@@ -1,0 +1,89 @@
+<!-- overlayPopup -->
+<div class="overlayFullPopup" #popUpManageImages>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left orangeColor" (click)="closeModal()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase" *ngIf="isAddOrEdit == 'add'">ADD NEW ALBUM</h3>
+		<h3 class="heading-text mb-0 text-uppercase" *ngIf="isAddOrEdit == 'edit'">EDIT ALBUM</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent photos">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6">
+					<div class="top-btn-holder text-right custom">
+						<span class="ic-close color-themeOrange" (click)="deleteAlbum()" matTooltip="Delete Album"></span>
+					</div>
+
+					<div class="matComnForm">
+						<mat-form-field appearance="outline">
+							<mat-label>Album Name</mat-label>
+							<input matInput name="pin_name" type="text" [(ngModel)]="album_name">
+						</mat-form-field>
+
+						<div class="album-upload-input-box" *ngIf="imgURL.length == 0">
+							<input #fileInput type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)"
+								multiple>
+							<div class="h-100 d-flex align-items-center justify-content-center">
+								<div class="text-content text-center">
+									Drag photos here or <span class="color-themeOrange">Select Photos</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="album-image-upload mt-4">
+				<div class="upload-image-content">
+					<div class="uploaded-image-container">
+						<div class="d-flex flex-wrap justify-content-center">
+
+							<div class="uploaded-image-block-holder mx-3" *ngFor="let eachImgUrl of imgURL; let i = index;">
+								<div class="uploaded-image-block mt-2 mb-3">
+									<span class="ic-close" (click)="deleteImg(i, eachImgUrl?.id)"></span>
+									<img [src]="eachImgUrl" *ngIf="isAddOrEdit == 'add'">
+									<ng-template #that>
+										<img src="{{globalURL}}/doer_gallery/{{eachImgUrl.name}}" *ngIf="isAddOrEdit == 'edit'">
+									</ng-template>
+									<img [src]="eachImgUrl" *ngIf="isAddOrEdit == 'edit' && (eachImgUrl.length > 200); else that">
+								</div>
+								<div class="comnForm">
+									<input type="text" class="form-control" placeholder="add caption" [(ngModel)]="captions[i]"
+										*ngIf="isAddOrEdit == 'add'">
+									<input type="text" class="form-control" placeholder="add caption" [(ngModel)]="captions[i]"
+										*ngIf="isAddOrEdit == 'edit' && (eachImgUrl.length > 200); else there">
+									<ng-template #there>
+										<input type="text" class="form-control" placeholder="add caption" [(ngModel)]="eachImgUrl.caption"
+											*ngIf="isAddOrEdit == 'edit'">
+									</ng-template>
+								</div>
+							</div>
+
+							<div class="uploaded-image-block-holder mx-3 matComnForm" *ngIf="imgURL.length > 0">
+								<div class="addMore-image-block mt-2 mb-3">
+									<input input #fileInput2 type="file" ngFileSelect [options]="options"
+										(uploadOutput)="onUploadOutput($event)" multiple>
+									<div class="h-100 d-flex align-items-center justify-content-center">
+										<div class="text-content text-center">
+											<span class="ic-plus"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="btn-holder text-center mt-4">
+				<button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+					(click)="onSubmit()">SAVE</button>
+				<button mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+					(click)="closeModal()">CANCEL</button>
+			</div>
+		</div>
+		<!--end container-->
+	</div>

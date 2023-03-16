@@ -1,0 +1,161 @@
+<div class="overlayPopup" #popUpVar *ngIf="showView">
+	<div class="popupHeader">
+		<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span
+				class="or or-return"></span></button>
+		<h3>Check out the details of this Pin and apply...</h3>
+	</div>
+	<div class="popupContent">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8">
+					<mat-card class="pindoCart">
+						<mat-card-header>
+							<mat-card-title>
+								Job Details
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<div class="subcard-heading">
+								<p><span>{{pinDetails?.created_at | date:'dd LLL yyyy'}}
+										{{pinDetails?.created_at | date:'h:mm a'}}</span>|<span>ID:
+										{{pinDetails?.pin_unique_id}}</span></p>
+								<h5>{{pinDetails?.title}}</h5>
+								<div class="heading-info mt-3 mb-5">
+									<span class="quotationlist green-pin">
+										{{pinDetails?.parent_child_cat?.parent_det?.name}} >
+										{{pinDetails?.parent_child_cat?.name}}
+									</span>
+									<!-- <span class="quotationlist" *ngIf="pinDetails?.has_budget==0">No Budget</span>
+                    			<span class="quotationlist" *ngIf="pinDetails?.has_budget==1">$ {{pinDetails.budget_value}}</span> -->
+									<!-- <span class="quotationlist">
+									<a [href]="addressLink" target="_blank"><i class="fas fa-map-marker-alt mr-2"></i>{{pinDetails?.address}}</a>
+								</span> -->
+									<span class="quotationlist" *ngIf="pinDetails?.city">
+										<a [href]="getAddLink(pinDetails?.city)" target="_blank">{{pinDetails?.city}}</a>
+									</span>
+									<span class="quotationlist" *ngIf="pinDetails?.state && (pinDetails?.city!=pinDetails?.state)">
+										<a [href]="getAddLink(pinDetails?.state)" target="_blank">{{pinDetails?.state}}</a>
+									</span>
+								</div>
+							</div>
+							<h6 class="maincardsubHeading">Job Description</h6>
+							<p [innerHtml]="pinDetails?.description"></p>
+						</mat-card-content>
+					</mat-card>
+
+					<mat-card class="pindoCart mb-4" *ngIf="dynamic_form_data?.length>0">
+						<mat-card-header>
+							<mat-card-title class="posn_rel">
+								Questions
+								<!-- <p class="float-right total_qtn" *ngIf="toshowQuotation">Total Amount<span>$ {{totalPrice}}</span></p> -->
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content *ngFor="let each_question of dynamic_form_data">
+							<h6 class="maincardsubHeading">
+								{{(each_question?.placeholder)?each_question?.placeholder:each_question?.label}}</h6>
+							<ng-container *ngIf="each_question?.type=='radiobutton' || each_question?.type=='checkbox'">
+								<ng-container *ngFor="let each_value of each_question.values">
+									<p *ngIf="each_value?.selected==true">{{each_value?.label}}</p>
+								</ng-container>
+							</ng-container>
+
+							<ng-container *ngIf="each_question?.type=='date'">
+								<p>{{each_question?.value | date}}</p>
+							</ng-container>
+
+							<ng-container *ngIf="each_question?.type=='input' || each_question?.type=='textarea'">
+								<p>{{each_question?.value}}</p>
+							</ng-container>
+
+						</mat-card-content>
+					</mat-card>
+
+				</div>
+				<div class="col-md-4">
+					<div class="indv-doer hire-doerapplyquote">
+						<div class="profDoer d-flex mb-4 align-items-center">
+							<!-- <span class="prof_img">
+								<img src="assets/images/inddoer1.jpg"  alt="">
+							</span> -->
+							<span class="prof_img blurImg" *ngIf="pinDetails?.pinner_details?.profile_photo!=''">
+								<!-- [ngClass]="isMsgExists == 1? '': 'blurImg'" -->
+								<img src="{{baseCompUrl}}/profile_photo/{{pinDetails?.pinner_details?.profile_photo}}"
+									onError="this.src='assets/images/inddoer1.jpg';" alt="">
+								<!-- [ngClass]="checkMsg(pinDetails?.pinner_id).__zone_symbol__value == 1? '': 'blurImg'"  -->
+							</span>
+							<span class="prof_img no-img blurImg" *ngIf="pinDetails?.pinner_details?.profile_photo==''">
+								<img src="assets/images/inddoer1.jpg" alt="">
+								<!-- [ngClass]="isMsgExists == 1? '': 'blurImg'" -->
+							</span>
+							<div class="prof_infoDoer blurText">
+								<!-- [ngClass]="isMsgExists == 1? '': 'blurText'" -->
+								<h4>
+									{{(pinDetails?.pinner_details?.screen_name)?pinDetails?.pinner_details?.screen_name:pinDetails?.pinner_details?.name}}
+								</h4>
+								<p *ngIf="pinDetails?.pinner_details?.tag_line && pinDetails?.pinner_details?.tag_line!=''">
+									{{pinDetails?.pinner_details?.tag_line}}</p>
+							</div>
+						</div>
+						<div class="doerStats mb-4">
+							<h4>Job Title</h4>
+							<div class="task-list mb-4">
+								<span>{{pinDetails?.title}}</span>
+							</div>
+							<ng-container *ngIf="pinDetails?.job_type!=null">
+								<span class="quotationlist" *ngIf="pinDetails?.job_type==0">One-time job</span>
+								<span class="quotationlist" *ngIf="pinDetails?.job_type==1">Recurring</span>
+							</ng-container>
+
+							<ng-container *ngIf="pinDetails?.how_often!=null">
+								<span class="quotationlist" *ngIf="pinDetails?.how_often==0">Daily</span>
+								<span class="quotationlist" *ngIf="pinDetails?.how_often==1">Weekly</span>
+								<span class="quotationlist" *ngIf="pinDetails?.how_often==2">Bi-weekly</span>
+								<span class="quotationlist" *ngIf="pinDetails?.how_often==3">Monthly</span>
+							</ng-container>
+							<span class="quotationlist" *ngIf="is_urgent==1">Urgent Requirement</span>
+
+
+							<ng-container *ngIf="pinDetails?.time_of_day!=null">
+								<span class="quotationlist" *ngIf="pinDetails?.time_of_day==0">Morning</span>
+								<span class="quotationlist" *ngIf="pinDetails?.time_of_day==1">Afternoon</span>
+								<span class="quotationlist" *ngIf="pinDetails?.time_of_day==2">Evening</span>
+							</ng-container>
+
+							<ng-container *ngIf="pinDetails?.day_of_week!=null">
+								<span class="quotationlist" *ngIf="pinDetails?.day_of_week==0">Anyday</span>
+								<span class="quotationlist" *ngIf="pinDetails?.day_of_week==1">Weekday</span>
+								<span class="quotationlist" *ngIf="pinDetails?.day_of_week==3">Individual Days</span>
+								<ng-container *ngIf="pinDetails?.day_of_week==3">
+									<span class="quotationlist" *ngIf="pinDetails?.ind_monday==1">Monday</span>
+									<span class="quotationlist" *ngIf="pinDetails?.ind_tuesday==1">Tuesday</span>
+									<span class="quotationlist" *ngIf="pinDetails?.ind_wednesday==1">Wednesday</span>
+									<span class="quotationlist" *ngIf="pinDetails?.ind_thursday==1">Thursday</span>
+									<span class="quotationlist" *ngIf="pinDetails?.ind_friday==1">Friday</span>
+									<span class="quotationlist" *ngIf="pinDetails?.ind_saturday==1">Saturday</span>
+									<span class="quotationlist" *ngIf="pinDetails?.ind_sunday==1">Sunday</span>
+								</ng-container>
+							</ng-container>
+							<ng-container *ngIf="pinDetails?.pinner_details?.company_name!=null">
+								<span class="quotationlist">{{pinDetails?.pinner_details?.company_name}}</span>
+							</ng-container>
+						</div>
+						<div class="abs-btngrp">
+							<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+								<mat-button-toggle value="Apply Now" *ngIf="getLoginStatus()=='0'" class="green-btn"
+									(click)="toggleParentClick()">Apply Now</mat-button-toggle>
+
+								<mat-button-toggle *ngIf="getLoginStatus()=='2'" value="Apply Now" class="green-btn"
+									(click)="toggleParentClick(pinDetails.slug)">Apply Now</mat-button-toggle>
+
+								<mat-button-toggle *ngIf="getLoginStatus()=='2'" value="Message"
+									(click)="goToChat(pinDetails?.pinner_details?.id,pinDetails?.id)">Message
+								</mat-button-toggle>
+
+							</mat-button-toggle-group>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

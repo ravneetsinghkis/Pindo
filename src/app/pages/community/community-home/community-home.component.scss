@@ -1,0 +1,75 @@
+
+::ng-deep{
+    .comn-dialog{
+        .header-content{
+            .heading{
+                    .mat-select {
+                        width: 300px;
+                  }
+            }
+        }
+    }
+
+    #map {
+        height: 400px;
+      }
+
+      ngui-map{
+        height: 250px !important;
+      }
+
+}
+
+.star {
+    position: relative;
+    display: inline-block;
+    font-size: 3rem;
+    color: #d3d3d3;
+  }
+  .full {
+    color: gray;
+  }
+  .half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    color: black;
+  }
+
+.scrollElement{ 
+  //padding-top: 112px; 
+  padding-top: 150px;
+  height: auto; overflow-y: unset;}
+
+.dsc-text-content img {
+  max-width: 100%;
+}
+
+.dsc-text-content .pdfDoc {
+  max-width: 50px;
+}
+
+.card-001-bottom-btn-holder{
+
+}
+
+.font-30 {
+  font-size: 30px;
+}
+
+@media only screen and (min-width: 768px) {
+  .side-btn-holder{
+    .btn-greenColor + .btn-greenColor{
+      -ms-flex-preferred-size: 100%; flex-basis: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .card-001-bottom-btn-holder{
+    .btn-greenColor + .btn-greenColor{
+      line-height:50px !important;
+    }
+  }
+}
+

@@ -1,0 +1,279 @@
+.folder-list {
+	span {
+		display: block;
+    	text-align: center
+	}
+	img {
+		max-width: 45px;
+	    margin-bottom: 10px;
+	    display: inline-block;
+	}
+}
+
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,600,700");
+
+@import url("https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css");
+
+
+$blue: #13ebff;
+$green: #6cefbd;
+$red: #ff7080;
+$yellow: #ffe28b;
+
+$text: #8793a2;
+$text-light: #c0c4c7;
+$border: #d2d6da;
+
+$upload-box-background: transparent;
+$upload-box-header-background: transparent;
+$upload-box-progress-background: transparent;
+$border-color: #ebf0f4;
+
+
+
+.upload-box {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  border-radius: 10px;
+  background: $upload-box-background;
+  border: 2px solid $border-color;
+  .upload-box-header {
+    width: 100%;
+    height: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: $upload-box-header-background;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .control-circles {
+      padding-left: 15px;
+      height: 14px;
+      .circle {
+        display: inline-block;
+        margin: 0 4px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        &.is-green {
+          background: $green;
+        }
+        &.is-yellow {
+          background: $yellow;
+        }
+        &.is-red {
+          background: $red;
+        }
+      }
+    }
+    .header-title {
+      h2 {
+        font-size: 18px;
+        font-weight: 400;
+        color: $text;
+        margin-bottom: 0;
+      }
+    }
+    .gh-icon {
+      padding-right: 15px;
+      i {
+        font-size: 24px;
+        color: $text;
+        margin-right: 5px;
+        margin-left: 36px;
+        cursor: pointer;
+      }
+    }
+  }
+  .upload-box-content {
+    .upload-item, .drop-container {
+      width: 100%;
+      height: 200px;
+      box-shadow: inset 0 20px 20px -20px rgba(0, 0, 0, 0.13);
+    }
+    .drop-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+      	max-width: 70px;
+    	margin-bottom: 10px;
+      }
+      p {
+        font-size: 16px;
+        font-weight: 400;
+        color: $text;
+      }
+      .upload-button {
+        display: inline-block;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-weight: 600;
+        padding: 0 2px;
+        input {
+          display: none;
+        }
+      }
+    }
+    .upload-item {
+      display: flex;
+      align-items: center;
+      padding: 0 30px;
+      .upload-item-content {
+        width: 100%;
+        .filename {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .filename-left, .filename-right {
+            display: flex;
+            align-items: center;
+          }
+          i {
+            color: $text;
+            opacity: 0.8;
+            font-size: 24px;
+            &.ion-close-round {
+              &:hover {
+                opacity: 1;
+                cursor: pointer;
+              }
+            }
+          }
+          span {
+            color: $text;
+            font-size: 14px;
+            font-weight: 400;
+            margin-left: 10px;
+          }
+        }
+        .progress-content {
+          display: flex;
+          align-items: center;
+          margin: 10px 0;
+          .progress {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 12px;
+            border-radius: 10px;
+            background: $upload-box-progress-background;
+            .bar {
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 12px;
+              background: linear-gradient(90deg, rgba(19, 235, 255, 1) 0%, rgba(108, 239, 189, 1) 100%);
+              &.is-done {
+                background: $green;
+              }
+            }
+          }
+        }
+        .progress-text-content {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: 10px 0 0 0;
+          .progress-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: $blue;
+            transition: color 200ms ease-out;
+            &.is-done {
+              color: $green;
+            }
+          }
+          .speed-and-eta-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: $text;
+          }
+        }
+      }
+    }
+  }
+  .help-text {
+    width: 100%;
+    display: inline-block;
+    padding: 10px 30px;
+    font-size: 12px;
+    color: $text;
+    box-shadow: inset 0 20px 20px -20px rgba(0, 0, 0, 0.6);
+    span {
+      display: block;
+      text-align: center;
+      margin: 5px 0;
+      img {
+        display: block;
+        width: 30px;
+        margin: 0 auto 5px auto;
+      }
+    }
+  }
+}
+.masonry-item { 
+	width: 25%; 
+}
+.masonry-item img {
+    /*max-width: 100%;*/
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+}
+.custom_upload label {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    margin: 0;
+    opacity: 0;
+}
+.grid-sizer,
+.grid-item { width: 25%}
+.gutter-sizer { width: 0%; }
+.masonry-item {
+	figure {
+    position: relative;
+    padding: 2px;
+    height: 187px;
+    margin: 0;
+		/*&::before {
+			position: absolute;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    background: -webkit-linear-gradient(top, rgba(72,76,97,0) 0%, rgba(72,76,97,0.8) 75%);
+		    background: linear-gradient(to bottom, rgba(72,76,97,0) 0%, rgba(72,76,97,0.8) 75%);
+		    content: '';
+		    opacity: 0;
+		    -webkit-transform: translate3d(0,50%,0);
+		    transform: translate3d(0,50%,0);
+		    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    		transition: opacity 0.35s, transform 0.35s;
+		}*/
+	}	
+	/*&:hover {
+		figure:before {
+			opacity: 1;
+		    -webkit-transform: translate3d(0,0,0);
+		    transform: translate3d(0,0,0);
+		}
+	}*/
+}
+.border-box-action {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #cccccc82;
+}
+.mat-card.pindoCart .mat-card-content .photo-listing {
+    padding: 0 15px;
+}
+.custom :hover{
+  cursor: pointer;
+}

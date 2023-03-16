@@ -1,0 +1,696 @@
+.top-section {
+  position: relative;
+
+  /*padding-top: 75px;*/
+  .searchPindo {
+    width: 550px;
+    float: right;
+
+    .total_search {
+      width: 100%;
+      position: relative;
+    }
+
+    .searchIcon {
+      position: absolute;
+      right: 5px;
+      top: 12px;
+      background: none;
+      border: none;
+      z-index: 9;
+      opacity: 0.6;
+
+      img {
+        max-width: 24px;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &:disabled {
+        opacity: 0.2;
+        cursor: no-drop;
+      }
+    }
+
+    .clearSearchText {
+      position: absolute;
+      right: 5px;
+      top: 11px;
+      background: none;
+      border: none;
+      z-index: 9;
+      opacity: 0.6;
+      color: #3abd39;
+      cursor: pointer;
+
+      i {
+        font-size: 20px;
+        top: 3px;
+        position: relative;
+      }
+
+      &:before {}
+    }
+
+    .form-control {
+      line-height: 40px;
+      border: 1px solid #e7e4e4;
+      box-shadow: 0px 4px 15px 5px rgba(6, 104, 193, 0.06);
+      padding: 5px 60px 5px 60px;
+      font-size: 14px;
+    }
+  }
+}
+
+.total_search {
+  mat-spinner {
+    position: absolute;
+    right: 70px;
+    top: 16px;
+  }
+
+  .mat-spinner {
+    display: none;
+  }
+}
+
+.filterSection {
+  padding: 0 0 90px;
+  background: #f3f6f9;
+  // background: transparent;
+  position: relative;
+
+  h4 {
+    font: 400 18px/22px "Montserrat-Bold";
+    color: #004467;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+}
+
+.chooseCategoryCheckbox {
+  position: relative;
+  overflow: hidden;
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    position: absolute;
+    left: -999px;
+  }
+
+  input[type="checkbox"]+label,
+  input[type="radio"]+label {
+    padding-top: 85px;
+    min-width: 90px;
+    text-align: center;
+    color: #004467;
+
+    span {
+      height: 80px;
+      width: 80px;
+      line-height: 80px;
+      border-radius: 100%;
+      border: 1px solid #D3DAE2;
+      background-color: #FFFFFF;
+      margin: 0 auto;
+      color: #757575;
+      font-size: 26px;
+
+      border-radius: 100%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+
+      svg {
+        width: 45px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &.covid_19-radio {
+        background-color: #32C2D9 !important;
+
+        &:before {
+          content: '\e849';
+          font-family: "fontello";
+          color: #fff !important;
+          font-size: 24px;
+          position: absolute;
+          left: 0;
+          right: 0;
+          margin: auto;
+          text-align: center;
+        }
+      }
+
+    }
+  }
+
+  input[type="checkbox"]:checked+label,
+  input[type="radio"]:checked+label {
+    color: #004467;
+
+    span {
+      border: solid 1px #BAD141;
+      color: #BAD141;
+      background-color: #fff;
+      box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.2);
+
+      svg * {
+        fill: #75861e;
+      }
+    }
+  }
+}
+
+.eachFilterBlock+.eachFilterBlock {
+  margin-top: 55px;
+}
+
+.eachFilterBlock {
+  float: left;
+  width: 100%;
+}
+
+.eachFilterBlock {
+  .form-control {
+    padding: 13px 15px;
+    border: none;
+    font-size: 13px;
+    color: #98a4ae;
+    font-family: "Montserrat-Medium";
+    box-shadow: 0 0 20px rgba(6, 104, 193, 0.11);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .filterinnerCont {
+    float: left;
+    margin-right: 30px;
+  }
+}
+
+.advance_filter {
+  display: none;
+}
+
+.toggleAdvanceFilter {
+  float: left;
+  width: 100%;
+
+  span {
+    font: 16px/26px "Montserrat-SemiBold";
+    display: inline-block;
+    color: #37383a;
+    // border-bottom: 1px solid #636b73;
+    cursor: pointer;
+
+    i {
+      color: #bad141;
+      font-size: 20px;
+      position: relative;
+      top: 4px;
+      margin-left: 3px;
+    }
+  }
+}
+
+.filterBottomPanel {
+  position: absolute;
+  bottom: -38px;
+  background: #fff;
+  left: 110px;
+  right: 110px;
+  padding: 0 20px;
+  box-shadow: 0px 8px 20px rgba(6, 104, 193, 0.08);
+  border-radius: 5px;
+
+  .selectedFilters {
+    padding: 0;
+    width: 50%;
+    white-space: nowrap;
+    overflow: auto;
+
+    .mat-button {
+      line-height: 84px;
+      min-width: 60px;
+      color: #98a4ae;
+    }
+  }
+
+  .swiper-slide {
+    width: 120px;
+  }
+
+  .selectedFilterBox {
+    font: 13px/40px "Montserrat-Medium";
+    color: #98a4ae;
+    border: 1px solid #d0dde7;
+    border-radius: 25px;
+    display: block;
+    cursor: pointer;
+    padding: 0 20px;
+    min-width: 112px;
+    text-align: center;
+    display: inline-block;
+    margin: 20px 10px 20px 0;
+
+    cite {
+      max-width: 90px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin-right: 8px;
+      float: left;
+    }
+  }
+
+  .right_filter {
+    ul {
+      li {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        float: left;
+        font: 14px/84px "Montserrat-SemiBold";
+        color: #7d8e9e;
+        text-transform: uppercase;
+
+        .btn-link {
+          font: 14px/82px "Montserrat-SemiBold";
+          color: #7d8e9e;
+          text-transform: uppercase;
+          border: none;
+
+          &:hover {
+            color: #035670;
+            text-decoration: none;
+          }
+
+          &.active {
+            color: #bad141;
+          }
+        }
+
+        .mat-button {
+          font: 14px/82px "Montserrat-SemiBold";
+          color: #7d8e9e;
+          text-transform: uppercase;
+          cursor: pointer;
+
+          &::after {
+            content: "\f107";
+            font-family: "Font Awesome\ 5 Free";
+            font-weight: 900;
+          }
+
+          &.opened {
+            &::after {
+              content: "\f106";
+            }
+          }
+
+          &:hover {
+            color: #035670;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.doer-listing {
+  padding: 80px 0 0;
+
+  .indv-doer {
+    position: relative;
+    padding-bottom: 80px;
+    height: calc(100% - 30px);
+
+    .abs-btngrp {
+      border-top: 1px solid #f5f9fd;
+    }
+  }
+}
+
+.autocomplete_list {
+  position: absolute;
+  background: #fff;
+  width: 100%;
+  color: #aba9a9;
+  text-align: left;
+  padding: 10px 0;
+  box-shadow: 0px 13px 15px 5px rgba(6, 104, 193, 0.06);
+  top: 75px;
+  border-top: 2px solid #3abd00;
+
+  span {
+    display: block;
+    padding: 5px 20px;
+    cursor: pointer;
+  }
+}
+
+.no_content {
+  padding: 140px 0 75px;
+
+  p {
+    color: #37383a;
+    font-size: 20px;
+    font-family: "Montserrat-Regular";
+    line-height: 32px;
+  }
+}
+
+body .forsort button.cutom_itemstyle.mat-menu-item i {
+  float: right;
+  color: #60c118;
+  position: relative;
+  top: 4px;
+}
+
+body .mat-menu-panel {
+  min-width: 180px;
+}
+
+.serviceSection .doerBadges {
+  font: 13px/42px "Montserrat-SemiBold";
+  color: #a8a8a8;
+}
+
+button.getCurrentLocation {
+  border: none;
+  padding: 0;
+  background: none;
+  max-width: 30px;
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  cursor: pointer;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.doer-selectCheckbox {
+  position: absolute;
+  left: -4px;
+  top: 0;
+  right: -4px;
+  bottom: 50px;
+  z-index: 6;
+
+  input[type="checkbox"] {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+  }
+
+  input[type="checkbox"]+label {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    transition: all 0.15s ease-in-out;
+
+    &:after {
+      content: "";
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+      border: 1px solid #cbe2c0;
+      background: #fff;
+      position: absolute;
+      left: -10px;
+      top: -10px;
+    }
+
+    &::before {
+      content: "\f00c";
+      font-family: Font Awesome\5 Free;
+      position: absolute;
+      font-size: 15px;
+      color: #cbe2c0;
+      font-weight: 600;
+      top: -5px;
+      z-index: 3;
+      left: -3px;
+    }
+  }
+
+  input[type="checkbox"]:checked+label {
+
+    /*border: 2px solid #bad141;*/
+    &:after {
+      background: #bad141;
+      border-color: #bad141;
+    }
+
+    &:before {
+      color: #fff;
+    }
+  }
+}
+
+.invite-panel {
+  width: 100%;
+  position: fixed;
+  padding: 12px 10px;
+  background: #fff;
+  height: 80px;
+  // border-radius: 40px;
+  z-index: 33;
+  color: #fff;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  bottom: 0;
+  box-shadow: 0 -8px 24px 0 rgba(0, 0, 0, 0.06);
+
+  p {
+    font: 16px/45px "Montserrat-SemiBold";
+    color: #242424;
+    margin-bottom: 0;
+    text-transform: uppercase;
+
+    .numbr {
+      width: 44px;
+      height: 44px;
+      border-radius: 3px;
+      background-color: #bad141;
+      display: inline-block;
+      text-align: center;
+      color: #fff;
+    }
+  }
+
+  .totBtn {
+    .titleText {
+      color: #242424;
+    }
+  }
+}
+
+.custom_invitecheckbox {
+  position: relative;
+  z-index: 12;
+  background: none;
+
+  input[type="checkbox"] {
+    position: absolute;
+    left: -999px;
+    top: 0;
+  }
+
+  input[type="checkbox"]+label {
+    line-height: 50px;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"]:checked+label {
+    line-height: 50px;
+    margin: 0;
+    color: #fff;
+    background: #bad141;
+  }
+}
+
+.custom_checkboxmattoggle {}
+
+.green_btn {
+  font-size: 20px !important;
+  color: #bad141 !important;
+}
+
+.chooseSubCategory .subCategoryList-holder {
+  -webkit-column-count: 5;
+  -moz-column-count: 5;
+  column-count: 5;
+}
+
+.chooseSubCategory .normalcheck {
+  width: 100% !important;
+  float: none !important;
+}
+
+@media only screen and (max-width: 1199px) {
+  .top-section {
+    .searchPindo {
+      width: 100%;
+    }
+  }
+
+  .doer-listing {
+    padding: 40px 0 0;
+  }
+
+  .chooseSubCategory .subCategoryList-holder {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
+
+}
+
+@media only screen and (max-width: 767px) {
+  .filterSection {
+    padding: 0 0 25px;
+  }
+
+  .invite-panel {
+    height: 62px;
+
+    .totBtn {
+      .titleText {
+        display: block;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .invite-panel p {
+    font: 10px/34px "Montserrat-SemiBold" !important;
+    margin-right: 7px !important;
+
+    .numbr {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .chooseSubCategory .subCategoryList-holder {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+  }
+
+}
+
+@media only screen and (max-width: 575px) {
+
+  .chooseSubCategory .subCategoryList-holder {
+    webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+  }
+
+}
+
+::ng-deep {
+  .normalcheck {
+    .mat-checkbox-layout {
+      white-space: normal;
+
+      .mat-checkbox-label {
+        line-height: 20px;
+      }
+    }
+
+    .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+    .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+      border-radius: 3px;
+    }
+
+    .mat-checkbox-frame {
+      border-radius: 3px;
+    }
+  }
+}
+
+.badgCont {
+  .doerBadge {
+    .badges-slider {
+      .swiper-button-prev {
+        &:before {
+          color: #bad241;
+        }
+      }
+
+      .swiper-button-next {
+        &:before {
+          color: #bad241;
+        }
+      }
+    }
+  }
+}
+
+.indv-doer {
+  .profDoer{
+    padding: 0 15px 15px;
+    position: relative;
+    min-height: auto;
+    -webkit-box-align: center;
+    align-items: center;
+    margin: 0 -15px;
+    border-bottom: 1px solid #e6e6e6;
+    
+    .prof_img{
+      width: auto;
+      height: 48px;
+      border-radius: 2px;
+      position: relative;
+      left: auto;
+      top: auto;
+      box-shadow:none;
+      transform: translateY(0); 
+      overflow: hidden;
+      max-width: 100%;
+      img{
+        width: auto;
+        object-fit: contain;
+        border-radius: 2px;
+        max-width: 100%;
+      }
+    }
+
+  }
+
+  .prof_infoDoer{
+    h4{
+      font: 16px/17px 'Montserrat-Medium';
+    }
+  }
+  .adress_doer {
+    i {
+      color: #E6854A;
+      font-size: 15px;
+    }
+  }
+}
+
+
+
+/*# sourceURL=services.component.scss */

@@ -1,0 +1,48 @@
+<ng-container *ngIf="display_data['popType']=='bank-added-successfully'">
+<div class="total_course">
+    <h6 class="special_header">Success</h6>
+    <p class="subheading">Bank account has been added successfully.<br /> You will receive two microdeposties from stripe to your bank account usually it takes 1-2 days to reflect those amount into the bank account. You have to provide these amount(microdeposties) to verify your bank account. Only after the verifying bank account you can do the transactions.</p>
+    
+    <div class="d-flex justify-content-center pt-5" style="clear:both;">
+        <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary">
+            Ok
+        </button>
+    </div>
+</div>
+</ng-container>
+<ng-container *ngIf="display_data['popType']=='verify-bank-account'">
+    <div class="endorsedBy">
+        <h6 class="special_header">Verify Bank Account</h6>
+        <p class="subheading">You have to provide two microdeposities amonunt that you have received by adding the bank account to stripe.<br /> <strong>Note : </strong>You can try maximum 10 times exceeding this will block your bank account for ever.</p>
+        <div class="popupContent">
+            <div class="container">
+                <div class="col-md-12 totalDashboard verifyform-holder">
+                    <form #basicDetailsForm="ngForm" (ngSubmit)="verifyBankAccount(basicDetailsForm.value,basicDetailsForm.valid,basicDetailsForm,'save')">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>First Deposit</mat-label>
+                            <input matInput name="first_deposite" #firstDeposite="ngModel" [(ngModel)]="basicDetailsFormModel.first_deposite" placeholder="First Deposit*" pattern= "^[0-9]*$" required>
+                            <mat-error *ngIf="firstDeposite.errors && (basicDetailsForm.submitted) && firstDeposite.errors.required">This field required</mat-error>        
+                           <mat-error *ngIf="firstDeposite.errors && (basicDetailsForm.submitted) && (firstDeposite.errors.pattern || !firstDeposite.errors.required)">Take only numbers.</mat-error>
+                        </mat-form-field>              
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Second Deposit</mat-label>
+                            <input matInput name="second_deposite" #secondDeposite="ngModel" [(ngModel)]="basicDetailsFormModel.second_deposite" placeholder="Second Deposit*" pattern= "^[0-9]*$" required>
+                            <mat-error *ngIf="secondDeposite.errors && (basicDetailsForm.submitted) && secondDeposite.errors.required">This field required</mat-error>  
+                            <mat-error *ngIf="secondDeposite.errors && (basicDetailsForm.submitted) && (secondDeposite.errors.pattern || !secondDeposite.errors.required)">Take only numbers.</mat-error>
+                        </mat-form-field>
+
+                        <div class="d-flex justify-content-center pt-3">
+                            <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+

@@ -1,0 +1,113 @@
+<div class="overlayFullPopup" #popUpVar>
+  <div class="fullPopupHeader px-3">
+    <button mat-icon-button class="btn-back float-left" (click)="closeModal()"><span
+        class="or or-return"></span></button>
+    <h3 class="heading-text mb-0 text-uppercase">
+      <ng-container *ngIf="updateOrAddBtn=='Save'">
+        ADD Location
+      </ng-container>
+      <ng-container *ngIf="updateOrAddBtn=='Update'">
+        Update Location
+      </ng-container>
+    </h3>
+  </div>
+  <hr class="m-0">
+  <div class="fullPopupContent">
+    <div class="container">
+      <div class="col-md-10 offset-md-1 ">
+        <div class="matComnForm mx-auto">
+          <form #myForm="ngForm" class="example-form" [formGroup]="locationChangeOrUpdateForm" autocomplete="off">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Address Line</mat-label>
+                  <input matInput placeholder="Address Line" name="address" formControlName="address" type="text"
+                    class="form-control" ngx-google-places-autocomplete [options]='mapOptions' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)">
+                  <mat-error *ngIf="addEditLocationController.address.errors?.required">Required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Address 2</mat-label>
+                  <input matInput placeholder="Address 2" name="address2" formControlName="address2" type="text"
+                    class="form-control">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>City</mat-label>
+                  <input matInput placeholder="city" name="city" formControlName="city" type="text"
+                    class="form-control">
+                  <mat-error *ngIf="addEditLocationController.city.errors?.required">Required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <!-- <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>State</mat-label>
+                  <mat-select placeholder="State" name="state" formControlName="state">
+                    <mat-option value="" disabled selected>Choose State</mat-option>
+                    <mat-option *ngFor="let each_state of stateList" [value]="each_state.state_code">
+                      {{each_state.state}} ({{each_state.state_code}})
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="addEditLocationController.state.errors?.required">Required
+                  </mat-error>
+                </mat-form-field>
+              </div> -->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>State</mat-label>
+                  <mat-select placeholder="State" name="state" formControlName="state">
+                    <mat-option value="" disabled selected>Choose State</mat-option>
+                    <mat-option *ngFor="let each_state of stateList" [value]="each_state.state_code">
+                      {{each_state.state}} ({{each_state.state_code}})
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="addEditLocationController.state.errors?.required">Required
+                  </mat-error>
+                </mat-form-field>
+              </div>              
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Zip</mat-label>
+                  <input matInput placeholder="Zip" name="zipcode" formControlName="zipcode" type="text"
+                    class="form-control" maxlength="5">
+                  <mat-error *ngIf="addEditLocationController.zipcode.errors?.required">Required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <div class="mb-4">
+              <div class="custom-checkbox green">
+                <input type="checkbox" id="makePrimary" name="is_primary" formControlName="is_primary"
+                  class="form-control">
+                <label for="makePrimary">Make Primary</label>
+              </div>
+            </div>
+
+            <div class="btn-holder text-center ">
+              <button type="submit" (click)="addOrEditLocation()" mat-flat-button
+                class="btn btn-greenColor smFont-lg-size text-uppercase mx-2">
+                {{updateOrAddBtn}}
+              </button>
+              <div class="custombtnboder">
+                <button type="button" class="btn btn-gray-border smFont-lg-size text-uppercase mx-2" mat-flat-button
+                  type="button" (click)="closeModal()">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

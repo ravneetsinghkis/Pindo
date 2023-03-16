@@ -1,0 +1,49 @@
+
+::ng-deep{
+    .comn-dialog{
+        .header-content{
+            .heading{
+                    .mat-select {
+                        width: 300px;
+                  }
+            }
+        }
+    }
+
+    #map {
+        height: 400px;
+      }
+
+
+
+}
+
+.star {
+    position: relative;
+    display: inline-block;
+    font-size: 3rem;
+    color: #d3d3d3;
+  }
+  .full {
+    color: gray;
+  }
+  .half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    color: black;
+  }
+
+.scrollElement{ 
+  // padding-top: 112px;
+  padding-top: 150px;
+  height: auto; overflow-y: unset;}
+
+.dsc-text-content img {
+  max-width: 100%;
+}
+
+.dsc-text-content .pdfDoc {
+  max-width: 50px;
+}
+

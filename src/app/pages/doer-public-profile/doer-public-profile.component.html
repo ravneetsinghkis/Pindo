@@ -1,0 +1,522 @@
+<ng-container *ngIf="afterInit">
+	<ng-container *ngIf="showAvailabilityBar=='1'">
+		<div class="green_topbar text-center text-uppercase" *ngIf="doeravailability!=null">
+			We will not be available <span *ngIf="checkifStartandenddateequal()">from
+				{{doeravailability.start_date | date:'dd LLL yyyy'}} to
+				{{doeravailability.end_date | date:'dd LLL yyyy'}}</span> <span
+				*ngIf="!checkifStartandenddateequal()">on {{doeravailability.start_date | date:'dd LLL yyyy'}}</span> as
+			we are going for holidays
+		</div>
+	</ng-container>
+	<div class="header_doerprof text-center d-flex justify-content-between container pt120">
+		<!-- <button mat-icon-button class="btn-back" (click)="backClicked()"><span class="or or-return"></span></button> -->
+		<p>Check out all the details for this Doer...</p>
+		<ng-container *ngIf="commonservice?.islogin!=0 && user_type==1">
+			<p class="markAsFav" (click)="likeDoer($event);" [ngClass]="{'liked':doerBasicDetails.is_favourite==1}">Mark
+				As Favorite</p>
+		</ng-container>
+		<ng-container *ngIf="commonservice?.islogin==0 || (commonservice?.islogin!=0 && user_type!=1)">
+			<p></p>
+		</ng-container>
+	</div>
+	<div class="container" style="padding-bottom: 100px;">
+		<mat-card class="pindoCart">
+			<mat-card-content>
+				<div class="row">
+					<div class="col-md-9">
+						<div class="left_doerprf">
+							<span class="doer-logo">
+								<ng-container
+									*ngIf="doerBasicDetails?.profile_photo==null || doerBasicDetails?.profile_photo==''">
+									<img src="{{baseUrl}}/company_logo/{{doerBasicDetails?.company_logo}}"
+										onError="this.src='assets/images/useravatar.svg';" alt=""></ng-container>
+								<ng-container
+									*ngIf="doerBasicDetails?.profile_photo!=null && doerBasicDetails?.profile_photo!=''">
+									<img src="{{baseUrl}}/profile_photo/{{doerBasicDetails?.profile_photo}}"
+										onError="this.src='assets/images/useravatar.svg';" alt=""></ng-container>
+							</span>
+							<div class="left_doerText">
+								<h3>
+									<ng-container
+										*ngIf="doerBasicDetails?.company_name && doerBasicDetails?.company_name!='null'">
+										{{doerBasicDetails.company_name}}
+									</ng-container>
+									<ng-container
+										*ngIf="!doerBasicDetails?.company_name || doerBasicDetails?.company_name=='null'">
+										{{doerBasicDetails.name}}
+									</ng-container>
+								</h3>
+								<p class="adress_doer"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;
+									<ng-container
+										*ngIf="doerBasicDetails.address!=null || doerBasicDetails.address!=''"><a
+											[href]="addressLink" target="_blank">
+											<span class="">
+												{{doerBasicDetails?.address}}
+												<span class="d-block"
+													*ngIf="doerBasicDetails?.address2!=null && doerBasicDetails.address2!=''">
+													{{doerBasicDetails?.address2}}
+												</span>
+												<span class="d-block">
+													{{doerBasicDetails?.city}}, {{doerBasicDetails?.state}}
+													{{doerBasicDetails?.zipcode}}
+												</span>
+											</span></a></ng-container>
+									<ng-container
+										*ngIf="doerBasicDetails.address==null || doerBasicDetails.address==''">Not Yet
+										Available</ng-container>
+								</p>
+								<div class="total_doerInfo d-flex flex-wrap align-items-center">
+									<div class="ratingDoer info-doer d-flex">
+										<span class="indvrating"
+											*ngFor="let eachrating of countratingArray(doerBasicDetails?.rating_avg)"><i
+												class="fas fa-star"></i></span>
+										<p>{{doerBasicDetails?.rating_avg}}.0 ({{doerBasicDetails?.review_count}} True
+											Reviews)</p>
+									</div>
+									<!-- <div class="info-doer" *ngIf="doerBasicDetails?.company_name!=null">
+										{{doerBasicDetails.company_name}}
+									</div> -->
+									<!-- <div class="info-doer" *ngIf="doerBasicDetails?.tag_line!=null">
+										{{doerBasicDetails.tag_line}}
+									</div> -->
+									<div *ngIf="hiredByFriendList.length>0"
+										class="hiredBy d-flex justify-content-between">
+										<p *ngIf="hiredByFriendList.length==1">Hired By
+											<span>{{hiredByFriendList.length}} Contact</span>
+										</p>
+										<p *ngIf="hiredByFriendList.length>1">Hired By
+											<span>{{hiredByFriendList.length}} Contacts</span>
+										</p>
+										<div class="hiredCont" (click)="openPinnerListPopup();">
+											<span class="hiredBox" *ngFor="let each_pinner of hiredByFriendList">
+												<img src="{{globalconstant.uploadUrl}}/profile_photo/{{each_pinner?.pinner_details?.profile_photo}}"
+													onError="this.src='assets/images/default-userImg-green.svg';"
+													title="{{each_pinner?.pinner_details?.name}}">
+											</span>
+											<!-- <span class="hiredBox">
+												<img src="assets/images/hired2.jpg">
+											</span>
+											<span class="hiredBox">
+												<img src="assets/images/hired3.jpg">
+											</span>
+											<span class="hiredBox">
+												<img src="assets/images/hired4.jpg">
+											</span>-->
+											<span class="hireNumber"
+												*ngIf="hiredByFriendList.length>4">+{{(hiredByFriendList.length-4)}}</span>
+										</div>
+									</div>
+								</div>
+								<div class="bot_doerInfo">
+									<div class="row">
+										<div class="col-lg-12 col-xl-12">
+											<h6 class="special_header">Doer Stats</h6>
+											<div class="row">
+												<div class="col-md-4 total_jobs">
+													<ng-container
+														*ngIf="doerBasicDetails?.ongoing_pins!=null && doerBasicDetails?.pins_completed!=null">
+														{{ doerBasicDetails?.ongoing_pins + doerBasicDetails?.pins_completed }}
+													</ng-container>
+													<ng-container
+														*ngIf="doerBasicDetails?.ongoing_pins==null || doerBasicDetails?.pins_completed==null">
+														0</ng-container>
+													<span>Total Jobs Done</span>
+												</div>
+												<div class="col-md-4 total_jobs">
+													<!-- <div id="test-circle"></div> -->
+													{{doerBasicDetails?.ongoing_pins}}
+													<span>Ongoing Pins</span>
+												</div>
+												<div class="col-md-4 total_jobs">
+													<!-- <div id="test-circle1"></div> -->
+													{{doerBasicDetails?.pins_completed}}
+													<span>Completed Pins</span>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 mobstatic">
+						<div class="top_social clearfix text-right">
+							<share-buttons [theme]="'default'" [include]="['facebook','twitter','google']"
+								[url]="'https://www.npmjs.com/package/ngx-sharebuttons'" [show]="0" [title]="'Pindo'"
+								[description]="'Pindo website'"
+								[image]="'https://pindo.exploratorstaging.com/assets/images/PinDoLogin_Final.png'">
+							</share-buttons>
+							<!-- <ul>
+								<li><a href="" class="fb-color"><i class="fab fa-facebook-f"></i></a></li>
+								<li><a href="" class="twitter-color"><i class="fab fa-twitter"></i></a></li>
+								<li><a href="" class="google-color"><i class="fab fa-google-plus-g"></i></a></li>
+								<li><a href="" class="insta-color"><i class="fab fa-instagram"></i></a></li>
+								<li><a href="" class="share-color"><i class="fas fa-share-alt"></i></a></li>
+							</ul> -->
+						</div>
+						<h6 class="special_header mt-40">PinDo Badges</h6>
+						<ng-container *ngIf="doerBasicDetails?.user_badges?.length>0">
+							<!-- <p>These badges are earned by the doer</p> -->
+							<div class="badge-slider">
+								<!-- Swiper -->
+								<div class="swiper-container">
+									<div class="swiper-wrapper">
+										<div class="swiper-slide"
+											*ngFor="let eachBadge of doerBasicDetails.user_badges">
+											<div class="badge_cont text-center d-flex justify-content-center h-100"
+												matTooltip="{{eachBadge.badge_details?.name}}"
+												matTooltipClass="green-tooltip" aria-label="">
+												<img src="{{globalconstant.uploadUrl}}/badges/{{eachBadge.badge_details?.icon}}"
+													alt="">
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Add Arrows -->
+								<div class="recentsliderarrows sidebysidearrows clearfix badgearrows">
+									<div class="swiper-button-prev commonstyle"><i class="or or-right-arrow"></i></div>
+									<div class="swiper-button-next commonstyle"><i class="or or-right-arrow"></i></div>
+								</div>
+							</div>
+						</ng-container>
+						<ng-container *ngIf="doerBasicDetails?.user_badges?.length==0">
+							<p>No Badges Earned Yet.</p>
+						</ng-container>
+					</div>
+				</div>
+			</mat-card-content>
+		</mat-card>
+		<div class="row mt-40">
+			<div class="col-md-8">
+				<mat-card class="pindoCart doerdetails">
+					<mat-card-content>
+						<h6 class="special_header">
+							<ng-container *ngIf="doerBasicDetails?.tag_line==null || doerBasicDetails?.tag_line==''">
+								Company Overview</ng-container>
+							<ng-container *ngIf="doerBasicDetails?.tag_line!=null && doerBasicDetails?.tag_line!=''">
+								{{doerBasicDetails.tag_line}}
+							</ng-container>
+						</h6>
+						<p *ngIf="doerBasicDetails.company_overview!=null">{{doerBasicDetails.company_overview}}</p>
+						<p *ngIf="doerBasicDetails.company_overview==null">No Company Overview Available Yet.</p>
+					</mat-card-content>
+				</mat-card>
+				<mat-card class="pindoCart doerdetails">
+					<mat-card-content>
+						<h6 class="special_header">Key Facts</h6>
+						<div class="d-flex flex-wrap">
+							<ng-container
+								*ngIf="doerBasicDetails?.certificates!=null && doerBasicDetails?.certificates.length>0">
+								<span class="facts-cont"
+									*ngFor="let eachCertificate of doerBasicDetails?.certificates"><i
+										class="far fa-check-circle"></i>&nbsp;&nbsp;Certificates
+									#{{eachCertificate?.name}}</span>
+							</ng-container>
+							<ng-container
+								*ngIf="doerBasicDetails?.insurances!=null && doerBasicDetails?.insurances.length>0">
+								<span class="facts-cont" *ngFor="let eachInsurance of doerBasicDetails?.insurances"><i
+										class="far fa-check-circle"></i>&nbsp;&nbsp;Insurance
+									#{{eachInsurance?.name}}</span>
+							</ng-container>
+							<ng-container
+								*ngIf="doerBasicDetails?.licenses!=null && doerBasicDetails?.licenses.length>0">
+								<span class="facts-cont" *ngFor="let eachLicense of doerBasicDetails?.licenses"><i
+										class="far fa-check-circle"></i>&nbsp;&nbsp;License
+									#{{eachLicense?.name}}</span>
+							</ng-container>
+						</div>
+					</mat-card-content>
+				</mat-card>
+				<mat-card class="pindoCart doerdetails">
+					<mat-card-content>
+						<h6 class="special_header">Services Offered</h6>
+						<ng-container *ngIf="doerservices?.length>0">
+							<!-- <p class="subheading">Check out all the services provided with the rates...</p> -->
+							<div class="servicelisting clearfix"
+								*ngFor="let eachService of doerservices | sortPipe : 'name';">
+								<h4 class="maincat">{{eachService?.name}}</h4>
+								<div class="subcatListing"
+									*ngFor="let eachSubCat of eachService.children | sortPipe : 'name'">
+									<h6 *ngIf="eachSubCat.doer_categories.hourly_rate!=null">{{eachSubCat?.name}} -
+										<span>${{eachSubCat.doer_categories.hourly_rate}} per unit</span></h6>
+									<h6 *ngIf="eachSubCat.doer_categories.hourly_rate==null">{{eachSubCat?.name}}</h6>
+									<div class="subcats d-flex flex-wrap">
+										<span class="indv-subcats">
+											<ng-container
+												*ngFor="let eachTask of eachSubCat.doer_categories.doer_tasks;let lastCheck = last;">
+												{{eachTask.doer_task_details?.name}}<ng-container *ngIf="!lastCheck">,
+												</ng-container>
+											</ng-container>
+										</span>
+									</div>
+								</div>
+							</div>
+						</ng-container>
+						<ng-container *ngIf="doerservices?.length==0">
+							<p class="subheading">Does not provide any services yet.</p>
+						</ng-container>
+					</mat-card-content>
+				</mat-card>
+				<mat-card class="pindoCart doerdetails">
+					<mat-card-content class="clearfix">
+						<app-doer-photo-listing [doerID]="doer_id"></app-doer-photo-listing>
+					</mat-card-content>
+				</mat-card>
+			</div>
+			<div class="col-md-4">
+				<mat-card class="pindoCart doerdetails custom_styling">
+					<mat-card-content>
+						<div class="custom-padding">
+							<h6 class="special_header">Endorsements<button mat-button class="endorseBtn float-right"
+									(click)="openDialog()"
+									*ngIf="endorsmentDetails.length>0 && commonservice?.islogin!=0 && appService.user_type==1 && (this.loginUserId != this.doer_id)">Endorse
+									Now</button></h6>
+							<!-- <p class="subheading" *ngIf="endorsmentDetails.length>0">Check out the endorsements by other users</p> -->
+							<p class="subheading" *ngIf="endorsmentDetails.length==0">No Endorsements Recieved Yet.</p>
+						</div>
+						<div class="total_endorse">
+							<div class="custom-padding">
+								<div class="endorse_box clearfix"
+									*ngFor="let eachEndorsement of endorsmentDetails;let outerIndex = index;">
+									<ng-container *ngIf="eachEndorsement?.has_endorsement_to_child_category>0">
+										<h4><span
+												[innerHTML]="eachEndorsement.parent_category_details.icon | keepHtml"></span>
+											{{eachEndorsement?.parent_category_details?.name}}</h4>
+										<ng-container
+											*ngFor="let indvEndorsement of eachEndorsement?.child_categories;let innerIndex = index;">
+											<div class="indv_endorse float-left"
+												*ngIf="indvEndorsement.endorsements?.length>0">
+
+												<div class="hiredBy d-flex justify-content-between">
+													<p>{{indvEndorsement?.child_category_details?.name}}</p>
+													<ng-container>
+														<div class="hiredCont"
+															(click)="openDialog('endorsedBy',innerIndex,outerIndex)">
+															<ng-container
+																*ngFor="let eachEndorsementDet of indvEndorsement.endorsements; let i = index;">
+																<span class="hiredBox" *ngIf="i<3">
+																	<img *ngIf="eachEndorsementDet?.pinner_details?.company_logo!=null"
+																		src="{{baseUrl}}/company_logo/{{eachEndorsementDet?.pinner_details?.company_logo}}"
+																		onError="this.src='assets/images/avatar.png';"
+																		alt="">
+																	<img *ngIf="eachEndorsementDet?.pinner_details?.company_logo==null"
+																		class="no-img" src="assets/images/avatar.png"
+																		alt="">
+																</span>
+																<span class="hireNumber"
+																	*ngIf="indvEndorsement.endorsements.length>3 && i==3">+{{gethiredVal(indvEndorsement.endorsements?.length,3)}}</span>
+															</ng-container>
+														</div>
+													</ng-container>
+												</div>
+
+											</div>
+										</ng-container>
+									</ng-container>
+								</div>
+							</div>
+						</div>
+					</mat-card-content>
+				</mat-card>
+				<mat-card class="pindoCart doerdetails">
+					<mat-card-content>
+						<h6 class="special_header">Hours of Operation</h6>
+						<ng-container *ngIf="doerBasicDetails.business_hours?.length>0">
+							<!-- <p class="subheading">Check out the opening hours</p> -->
+							<div class="hourListing">
+								<ng-container *ngIf="openingHrsData?.twentyfoursevenselection==1">
+									<p>OPEN 24/7</p>
+								</ng-container>
+								<ng-container *ngIf="openingHrsData?.twentyfoursevenselection==0">
+									<p *ngIf="openingHrsData.sunday==0"><i class="far fa-clock"></i>&nbsp;&nbsp;Sunday
+										.....................<span
+											class="{{(openingHrsData.today_day_name=='Sun')?'green-text':''}}">{{openingHrsData.sunday_start_time}}
+											- {{openingHrsData.sunday_end_time}}</span></p>
+									<p *ngIf="openingHrsData.sunday==1"><i class="far fa-clock"></i>&nbsp;&nbsp;Sunday
+										..........<span class="red-text">Closed</span></p>
+
+									<p *ngIf="openingHrsData.monday==0"><i class="far fa-clock"></i>&nbsp;&nbsp;Monday
+										..........<span
+											class="{{(openingHrsData.today_day_name=='Mon')?'green-text':''}}">{{openingHrsData.monday_start_time}}
+											- {{openingHrsData.monday_end_time}}</span></p>
+									<p *ngIf="openingHrsData.monday==1"><i class="far fa-clock"></i>&nbsp;&nbsp;Monday
+										..........<span class="red-text">Closed</span></p>
+
+									<p *ngIf="openingHrsData.tuesday==0"><i class="far fa-clock"></i>&nbsp;&nbsp;Tuesday
+										..........<span
+											class="{{(openingHrsData.today_day_name=='Tue')?'green-text':''}}">{{openingHrsData.tuesday_start_time}}
+											- {{openingHrsData.tuesday_end_time}}</span></p>
+									<p *ngIf="openingHrsData.tuesday==1"><i class="far fa-clock"></i>&nbsp;&nbsp;Tuesday
+										..........<span class="red-text">Closed</span></p>
+
+									<p *ngIf="openingHrsData.wednesday==0"><i
+											class="far fa-clock"></i>&nbsp;&nbsp;Wednesday ..........<span
+											class="{{(openingHrsData.today_day_name=='Wed')?'green-text':''}}">{{openingHrsData.wednesday_start_time}}
+											- {{openingHrsData.wednesday_end_time}}</span></p>
+									<p *ngIf="openingHrsData.wednesday==1"><i
+											class="far fa-clock"></i>&nbsp;&nbsp;Wednesday ..........<span
+											class="red-text">Closed</span></p>
+
+									<p *ngIf="openingHrsData.thursday==0"><i
+											class="far fa-clock"></i>&nbsp;&nbsp;Thursday ..........<span
+											class="{{(openingHrsData.today_day_name=='Thu')?'green-text':''}}">{{openingHrsData.thursday_start_time}}
+											- {{openingHrsData.thursday_end_time}}</span></p>
+									<p *ngIf="openingHrsData.thursday==1"><i
+											class="far fa-clock"></i>&nbsp;&nbsp;Thursday ..........<span
+											class="red-text">Closed</span></p>
+
+									<p *ngIf="openingHrsData.friday==0"><i class="far fa-clock"></i>&nbsp;&nbsp;Friday
+										..........<span
+											class="{{(openingHrsData.today_day_name=='Fri')?'green-text':''}}">{{openingHrsData.friday_start_time}}
+											- {{openingHrsData.friday_end_time}}</span></p>
+									<p *ngIf="openingHrsData.friday==1"><i class="far fa-clock"></i>&nbsp;&nbsp;Friday
+										..........<span class="red-text">Closed</span></p>
+
+									<p *ngIf="openingHrsData.saturday==0"><i
+											class="far fa-clock"></i>&nbsp;&nbsp;Saturday ..........<span
+											class="{{(openingHrsData.today_day_name=='Sat')?'green-text':''}}">{{openingHrsData.saturday_start_time}}
+											- {{openingHrsData.saturday_end_time}}</span></p>
+									<p *ngIf="openingHrsData.saturday==1"><i
+											class="far fa-clock"></i>&nbsp;&nbsp;Saturday ..........<span
+											class="red-text">Closed</span></p>
+								</ng-container>
+
+							</div>
+						</ng-container>
+						<ng-container *ngIf="doerBasicDetails.business_hours?.length==0">
+							<p class="subheading">No opening hours selected yet.</p>
+						</ng-container>
+					</mat-card-content>
+				</mat-card>
+				<mat-card class="pindoCart doerdetails">
+					<mat-card-content>
+						<h6 class="special_header">Accepted Methods of Payment</h6>
+						<ng-container
+							*ngIf="doerBasicDetails?.accept_payment_by_cards==1 || doerBasicDetails?.accept_payment_by_cheque==1 || doerBasicDetails?.accept_payment_by_cash==1">
+							<!-- <p class="subheading">The doer will accept the payments via</p> -->
+							<div class="pay_opt clearfix">
+								<p class="float-left" *ngIf="doerBasicDetails?.accept_payment_by_cards==1"><span><img
+											src="assets/images/creditcard.png" alt=""></span> Credit / Debit Card</p>
+								<p class="float-left" *ngIf="doerBasicDetails?.accept_payment_by_cheque==1"><span><img
+											src="assets/images/chequeicon.png" alt=""></span> Check</p>
+								<p class="float-left" *ngIf="doerBasicDetails?.accept_payment_by_cash==1"><span><img
+											src="assets/images/cashicon.png" alt=""></span> Cash</p>
+							</div>
+						</ng-container>
+						<ng-container
+							*ngIf="doerBasicDetails?.accept_payment_by_cards==0 && doerBasicDetails?.accept_payment_by_cheque==0 && doerBasicDetails?.accept_payment_by_cash==0">
+							<p class="subheading">No Payment Method Chosen Yet.</p>
+						</ng-container>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+		<div class="row mt-40" *ngIf="doerrating_review?.length>0">
+			<div class="col-md-12">
+				<mat-card class="pindoCart doerdetails">
+					<span class="quote_mark"><img src="assets/images/quote_mark.png" alt=""></span>
+					<mat-card-content>
+						<h6 class="special_header">True Reviews</h6>
+						<!-- <p>See what other pinners have to say about this doer</p> -->
+						<div class="total_reviewslider">
+							<!-- Swiper -->
+							<div class="swiper-container">
+								<div class="swiper-wrapper">
+									<div class="swiper-slide" *ngFor="let eachdoerrating_review of doerrating_review;">
+										<div class="tot_review">
+											<div class="rev_top">
+												<span class="rev_icon"><img src="assets/images/icons/pin-icon-green.png"
+														alt="" width="16"></span>
+												<div class="right_revtop">
+													<h4>{{eachdoerrating_review?.pin_details?.title}}</h4>
+													<div class="rev_rat">
+														Pinner rated&nbsp;&nbsp;
+														<span class="indv_rat"
+															*ngFor="let eachrating of countratingArray(eachdoerrating_review?.rating)"><i
+																class="fas fa-star"></i></span>
+													</div>
+												</div>
+											</div>
+											<p>{{eachdoerrating_review?.review}}</p>
+											<div class="rev_by mt-40">
+												<span class="rev_logo">
+													<img src="{{baseUrl}}/profile_photo/{{eachdoerrating_review?.pinner_details?.profile_photo}}"
+														onError="this.src='assets/images/prof_img.jpg';" alt="">
+												</span>
+												<h4>{{eachdoerrating_review?.pinner_details?.name}}</h4>
+												<h6>
+													<ng-container
+														*ngIf="eachdoerrating_review?.pinner_details?.address==null">
+														{{eachdoerrating_review?.pinner_details?.state}}</ng-container>
+													<ng-container
+														*ngIf="eachdoerrating_review?.pinner_details?.address!=null">
+														{{eachdoerrating_review?.pinner_details?.address}}
+													</ng-container>
+												</h6>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Add Arrows -->
+							<div class="recentsliderarrows sidebysidearrows clearfix col-lg-10 offset-lg-1">
+								<div class="swiper-button-prev commonstyle"><i class="or or-right-arrow"></i></div>
+								<div class="swiper-button-next commonstyle"><i class="or or-right-arrow"></i></div>
+							</div>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+	<ng-container *ngIf="doerBasicDetails?.business_hours?.length>0">
+		<div class="bottom_doerprof">
+			<div class="container">
+				<ng-container *ngIf="openingHrsData?.twentyfoursevenselection==0">
+
+					<p *ngIf="openingHrsData[dayofweek]==1 || !checkInavailibilityRange()" class="float-left">We are
+						<span class="red_text">Closed</span> Today</p>
+					<p *ngIf="openingHrsData[dayofweek]==0 && checkInavailibilityRange()" class="float-left">We are
+						available now <span>({{dayofweek | titlecase}} - {{openingHrsData[dayofweek+'_start_time']}} to
+							{{openingHrsData[dayofweek+'_end_time']}})</span></p>
+
+				</ng-container>
+				<ng-container *ngIf="openingHrsData?.twentyfoursevenselection==1">
+					<p class="float-left">Open 24x7</p>
+				</ng-container>
+
+				<button mat-button class="endorseBtn float-right text-uppercase mt24"
+					*ngIf="commonservice?.islogin!=0 &&  appService.user_type==1" (click)="getToInvitePins()">Invite To
+					Pin</button>
+				<button mat-button class="endorseBtn float-right text-uppercase mt24 mr-2"
+					*ngIf="commonservice?.islogin!=0 &&  appService.user_type==1"
+					(click)="goToChat(doerBasicDetails?.id)">Message Doer</button>
+			</div>
+		</div>
+	</ng-container>
+	<ng-container
+		*ngIf="doerBasicDetails?.business_hours?.length==0 && commonservice?.islogin!=0 && appService.user_type==1">
+		<div class="bottom_doerprof">
+			<div class="container">
+
+				<button mat-button class="endorseBtn float-right text-uppercase mt24"
+					*ngIf="commonservice?.islogin!=0 &&  appService.user_type==1" (click)="getToInvitePins()">Invite To
+					Pin</button>
+				<button mat-button class="endorseBtn float-right text-uppercase mt24 mr-2"
+					*ngIf="commonservice?.islogin!=0 &&  appService.user_type==1"
+					(click)="goToChat(doerBasicDetails?.id)">Message Doer</button>
+			</div>
+		</div>
+	</ng-container>
+	<ng-container *ngIf="commonservice?.islogin==0">
+		<div class="bottom_doerprof">
+			<div class="container">
+
+				<button mat-button class="endorseBtn float-right text-uppercase mt24"
+					(click)="invitewhenNotLoggedIn()">Invite To Pin</button>
+
+			</div>
+		</div>
+	</ng-container>
+</ng-container>

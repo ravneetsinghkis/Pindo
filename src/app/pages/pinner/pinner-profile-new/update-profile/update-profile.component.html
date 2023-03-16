@@ -1,0 +1,92 @@
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left" (click)="closeModal()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">Update Profile</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3">
+				<form autocomplete="off" [formGroup]="update_profile" name="update_profile"
+					(ngSubmit)="onSubmitUpdateProfile()">
+					<div class="matComnForm">
+
+						<div class="upload-prflImg mb-4 text-center">
+							<div class="prflImg-box mb-3 mx-auto">
+								<div class="img-holder">
+									<!-- <img src="{{imageUrl_own}}"> -->
+									<img src="assets/images/default-userImg-green.svg" onError="this.src = 'assets/images/default-userImg-green.svg'" id="image">
+								</div>
+
+								<!-- <div class="noImg">
+									<i class="material-icons">
+										account_circle
+									</i>
+								</div> -->
+							</div>
+
+							<div class="input-field">
+								<!-- <input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)"> -->
+								<input type="file" #Image accept="image/*" (change)="fileChangeHandler($event)">
+								<span *ngIf="imageUrl_own!=pinner_logo" class="linkText">Change Photo </span>
+								<span *ngIf="imageUrl_own==pinner_logo" class="linkText">Select Photo </span>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>First Name</mat-label>
+									<input type="text" [(ngModel)]="user_data_own.first_name" formControlName="first_name" matInput>
+								</mat-form-field>
+								<label class="formLabel-error"
+									*ngIf="update_profile.get('first_name').hasError('required') && submitted">This
+									Field is
+									Required</label>
+							</div>
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>Last Name</mat-label>
+									<input type="text" [(ngModel)]="user_data_own.last_name" formControlName="last_name" matInput>
+								</mat-form-field>
+								<label class="formLabel-error"
+									*ngIf="update_profile.get('last_name').hasError('required') && submitted">This Field
+									is
+									Required</label>
+							</div>
+
+							<div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>Screen Name</mat-label>
+									<input type="text" [(ngModel)]="user_data_own.username" formControlName="username" matInput>
+								</mat-form-field>
+								<label class="formLabel-error"
+									*ngIf="update_profile.get('username').hasError('required') && submitted">This Field
+									is
+									Required</label>
+							</div>
+
+							<!-- <div class="col-md-4">
+								<mat-form-field appearance="outline">
+									<mat-label>Screen Name</mat-label>
+									<input matInput name="username" [(ngModel)]="basicDetailsFormModel.username" placeholder="Screen Name*" required>
+									<mat-error *ngIf="Uname.errors && (basicDetailsForm.submitted) && Uname.errors.required">This field required</mat-error>        
+								</mat-form-field>
+							</div> -->
+						</div>
+
+						<div class="btn-holder text-center">
+							<button type="submit" mat-flat-button
+								class="btn btn-greenColor smFont-lg-size text-uppercase mx-2">SAVE</button>
+							<button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+								(click)="closeModal()">CANCEL</button>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>

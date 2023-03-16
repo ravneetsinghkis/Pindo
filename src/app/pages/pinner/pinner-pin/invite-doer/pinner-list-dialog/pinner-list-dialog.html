@@ -1,0 +1,39 @@
+<div class="comn-dialog">
+	<div mat-dialog-content>
+		<div class="header-content mb-0 d-flex justify-content-between">
+			<div class="heading pb-2">
+				<h3 class="heading-text">Pinner List</h3>
+			</div>
+			<div class="dialog-close-link" (click)="close()"><span class="ic-close"></span></div>
+		</div>
+		<hr class="mt-0 mb-0">
+
+		<ng-container *ngIf="pinner_list.length>0">
+			<div class="dialog-list-holder">
+				<!-- <h3 class="block-headingText mt-3 mb-0" > testest </h3> -->
+
+				<div class="prflInfo-row d-flex align-items-center justify-content-between pb-3 pt-3"
+					*ngFor="let each_pinner of pinner_list">
+
+					<div class="prfl-info d-flex align-items-center">
+						<div class="prfl-img circle"><img class=""
+								src="{{gbConst.uploadUrl}}/profile_photo/{{each_pinner?.pinner_details?.profile_photo}}"
+								onError="this.src='assets/images/default-userImg-green.svg';"></div>
+						<div class="prfl-text pl-2">
+							<p class="nameText text-truncate mb-0">{{each_pinner?.pinner_details?.name}} <span
+									class="sm-light-color font-italic">@{{each_pinner?.pinner_details?.username}}</span></p>
+							<h4 class="typeText greenText text-uppercase">PINNER</h4>
+						</div>
+					</div>
+
+					<div class="flex-shrink-0">
+						<button mat-flat-button class="btn btn-greenColor btn-sm-rounded text-uppercase mr-2"
+							(click)="openUserDetails(each_pinner?.pinner_details?.id)">VIEW PROFILE</button>
+						<!-- <span class="addContact-btn ic-follow"></span> -->
+					</div>
+
+				</div>
+			</div>
+		</ng-container>
+	</div>
+</div>

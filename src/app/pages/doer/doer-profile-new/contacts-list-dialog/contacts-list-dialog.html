@@ -1,0 +1,81 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between">
+      <div class="heading pb-2">
+        <h3 class="heading-text">Contacts List</h3>
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+    <hr class="mt-0 mb-0">
+
+
+    <div class="dialog-list-holder">
+
+      <ng-container *ngFor="let hiredProfile of hiredByDetailsList">
+        <div class="prflInfo-row d-flex align-items-center justify-content-between pb-3 pt-3">
+
+          <div class="prfl-info d-flex align-items-center">
+            <div class="prfl-img circle">
+              <ng-container *ngIf="hiredProfile?.user_type==1">
+                <img [ngClass]="hiredProfile?.profilePictureShow==false?'blurImg':''"
+                  [src]="hiredProfile?.profile_photo!=null? image_url+hiredProfile?.profile_photo:'assets/images/default-userImg-green.svg'"
+                  onError="this.src='assets/images/default-userImg-green.svg';">
+              </ng-container>
+
+              <ng-container *ngIf="hiredProfile?.user_type==2">
+                <img
+                  [src]="hiredProfile?.company_logo!=null? companylogo_url+hiredProfile?.company_logo:'assets/images/default-userImg-orange.svg'"
+                  onError="this.src='assets/images/default-userImg-orange.svg';">
+              </ng-container>
+
+            </div>
+
+            <div class="prfl-text pl-2">
+              <ng-container>
+                <p class="nameText text-truncate mb-0">
+                  <ng-container *ngIf="hiredProfile?.firstNameShow">
+                    {{hiredProfile.first_name}}&nbsp;
+                  </ng-container>
+
+                  <ng-container *ngIf="hiredProfile?.lastNameShow">
+                    {{hiredProfile.last_name}}
+                  </ng-container>
+
+                  <span class="sm-light-color font-italic">
+                    <ng-container *ngIf="(!hiredProfile?.firstNameShow && !hiredProfile?.lastNameShow)">
+                      &nbsp;@{{hiredProfile.username}}
+                    </ng-container>
+                  </span>
+                </p>
+              </ng-container>
+
+              <h4 *ngIf="hiredProfile?.user_type==1" class="typeText greenText text-uppercase">PINNER</h4>
+              <h4 *ngIf="hiredProfile?.user_type==2" class="typeText orangeText text-uppercase">DOER</h4>
+            </div>
+          </div>
+
+          <div class="flex-shrink-0">
+            <!-- <button mat-flat-button class="btn btn-sm-rounded text-uppercase mr-2" [ngClass]="{'btn-greenColor': hiredProfile.user_type==1 , 
+											'btn-orangeColor':hiredProfile.user_type==2}"
+              (click)="openUserDetails(hiredProfile.id,hiredProfile.user_type)">VIEW PROFILE</button>
+            <span class="addContact-btn ic-mail" [ngClass]="{'bgcolor-themeGreen': hiredProfile.user_type==1 , 
+                      'bgcolor-themeOrange':hiredProfile.user_type==2}"></span> -->
+
+            <button mat-flat-button class="btn btn-sm-rounded btn-orangeColor text-uppercase mr-2"
+              (click)="openUserDetails(hiredProfile?.id,hiredProfile?.user_type)">VIEW PROFILE </button>
+
+            <span class="addContact-btn ic-mail bgcolor-themeOrange"
+              *ngIf="commonservice?.islogin==1 && user_type==1" routerLink="/pinner/chat" (click)="closeDialog()"></span>
+            <span class="addContact-btn ic-mail bgcolor-themeOrange"
+              *ngIf="commonservice?.islogin==1 && user_type==2" routerLink="/doer/chat" (click)="closeDialog()"></span>
+          </div>
+
+        </div>
+
+        <hr class="mt-0 mb-0">
+      </ng-container>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,253 @@
+<div class="totalDashboard" *ngIf="fullyLoaded">
+	<div class="container">
+		<div class="mainHeading mt-4">
+			<div class="meta-heading">
+				<button mat-icon-button class="btn-back float-left mr-3" (click)="backClicked()"><span
+						class="or or-return"></span></button>
+				<p><span>{{pinDetails?.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}
+						{{pinDetails?.created_at?.split('-').join('/') | date:'h:mm a'}}</span><span>ID:
+						{{pinDetails?.pin_unique_id}}</span></p>
+				<div class="abs-buttongrp">
+					<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+
+						<mat-button-toggle class="btn-greenColor"  value="bold" routerLink="/pinner/edit-pin/{{pinDetails?.slug}}">
+							<!-- <i class="far fa-edit"></i>&nbsp; -->Edit Pin</mat-button-toggle>
+						<!-- <mat-button-toggle value="bold">Close Pin</mat-button-toggle> -->
+
+						<mat-button-toggle class="btn-greenColor" value="bold" routerLink="/pinner/invite-doer/{{pinDetails?.slug}}">Invite
+							Doer</mat-button-toggle>
+
+						<!-- <mat-button-toggle *ngIf="pinInviteListingDetails.length==0" (click)="closePin()">
+                        Close Pin               
+                        </mat-button-toggle> -->
+						<mat-button-toggle class="btn-greenColor" (click)="closePin()">
+							Close Pin
+						</mat-button-toggle>
+					</mat-button-toggle-group>
+				</div>
+			</div>
+			<h3>{{pinDetails?.title}}</h3>
+			<div class="heading-info d-flex mt-3 flex-wrap">
+				<span class="quotationlist green-pin">
+					{{pinDetails.parent_child_cat?.parent_det?.name}} > {{pinDetails?.parent_child_cat?.name}}
+				</span>
+				<!-- <span class="quotationlist">
+                    <cite *ngIf="pinDetails.has_budget==0">No Budget</cite>
+                    <cite *ngIf="pinDetails.has_budget==1">$ {{pinDetails.budget_value}}</cite>
+                </span> -->
+				<span class="quotationlist green-pin" *ngIf="pinDetails.address!=null">
+					<a [href]="addressLink" target="_blank"><i
+							class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;{{pinDetails.address}}</a>
+				</span>
+				<span class="quotationlist green-pin" *ngIf="pinDetails.job_type!=null">
+					<cite *ngIf="pinDetails.job_type==0">One-time job</cite>
+					<cite *ngIf="pinDetails.job_type==1">Recurring</cite>
+				</span>
+				<span class="quotationlist green-pin" *ngIf="pinDetails.time_of_day!=null">
+					<cite *ngIf="pinDetails.time_of_day=='0'">Morning</cite>
+					<cite *ngIf="pinDetails.time_of_day=='1'">Afternoon</cite>
+					<cite *ngIf="pinDetails.time_of_day=='2'">Evening</cite>
+					<cite *ngIf="pinDetails.time_of_day=='3'">Anytime</cite>
+				</span>
+				<span class="quotationlist green-pin" *ngIf="pinDetails.day_of_week!=null">
+					<cite *ngIf="pinDetails.day_of_week==0">Anyday</cite>
+					<cite *ngIf="pinDetails.day_of_week==1">Weekday</cite>
+					<cite *ngIf="pinDetails.day_of_week==3">Individual Days</cite>
+				</span>
+				<span class="quotationlist green-pin" *ngIf="pinDetails.how_often!=null">
+					<cite *ngIf="pinDetails.how_often==0">Daily</cite>
+					<cite *ngIf="pinDetails.how_often==1">Weekly</cite>
+					<cite *ngIf="pinDetails.how_often==2">Bi-weekly</cite>
+					<cite *ngIf="pinDetails.how_often==3">Monthly</cite>
+				</span>
+			</div>
+		</div>
+		<div class="pins-section">
+			<!-- <div class="control-tabs d-flex">
+                <div class="tab_radio">
+                    <input type="radio" checked name="pinner_type" (change)="pinTabChange('Invited')" id="pin-1">
+                    <label for="pin-1">Invited <span class="quoteVal">{{pinDetails.no_of_registered_user}}</span></label>
+                </div>
+                <div class="tab_radio">
+                    <input type="radio" name="pinner_type" (change)="pinTabChange('Anonymous')" id="pin-2">
+                    <label for="pin-2">Anonymous<span class="quoteVal">{{pinDetails.no_of_anonymous_user}}</span></label>
+                </div>
+            </div> -->
+			<div class="pin-listing">
+				<div class="total-table customfirstPad">
+					<div class="table-header d-flex">
+						<div class="coltab">
+							Date / Time
+						</div>
+						<div class="coltab flex-2">
+							Details
+						</div>
+						<div class="coltab flex-3">
+							Job Stats
+						</div>
+						<div class="coltab flex-2">
+							&nbsp;
+						</div>
+					</div>
+					<div class="table-body white-bg" *ngIf="pinInviteListingDetails.length>0">
+						<ng-container *ngFor="let eachpinInviteListingDetails of pinInviteListingDetails">
+							<div class="table-row d-flex">
+								<div class="coltab" data-heading="Date / Time">
+									{{eachpinInviteListingDetails.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}
+									<br>{{eachpinInviteListingDetails.created_at?.split('-').join('/') | date:'h:mm a'}}
+								</div>
+								<div class="coltab flex-2" data-heading="Pin ID">
+									<div class="prof-info">
+										<div>
+											<span class="prof-img doer-prof-img" style="cursor:pointer;"
+												(click)="commonservice.openWithNewTabDoerOrPinner(eachpinInviteListingDetails.user_id,2)">
+												<img src="{{uploadUrl}}/company_logo/{{eachpinInviteListingDetails.company_logo}}"
+													onError="this.src='assets/images/default-userImg-orange-square.svg';" alt="">
+											</span>
+											<h5 style="cursor:pointer;"
+												(click)="commonservice.openWithNewTabDoerOrPinner(eachpinInviteListingDetails.user_id,2)">
+												{{(eachpinInviteListingDetails.company_name && eachpinInviteListingDetails.company_name!='null' && eachpinInviteListingDetails?.profile_type == 2)?eachpinInviteListingDetails.company_name: eachpinInviteListingDetails.name}}
+											</h5>
+											<div class="ratingDoer d-flex" *ngIf="pinTypeSelected=='Invited'">
+												<span class="indvrating"
+													*ngFor="let eachRating of convertToarray(eachpinInviteListingDetails.rating_avg,'filled')"><i
+														class="fas fa-star"></i></span>
+												<!-- <span class="indvrating" *ngFor="let eachRating of convertToarray(eachpinInviteListingDetails.rating_avg,'empty')"><i class="far fa-star"></i></span> -->
+												<p>{{eachpinInviteListingDetails.rating_avg |number:'1.1-1'}}
+													({{eachpinInviteListingDetails.review_count}} True Reviews)</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="coltab flex-3 align-self-center" data-heading="Pin Details">
+									<div class="doerStats">
+										<!-- <span class="statBox">100 Verified Jobs</span> -->
+										<!-- <span class="statBox" style="cursor:pointer;" (click)="goToPins('Ongoing',eachpinInviteListingDetails.user_id)">{{eachpinInviteListingDetails.ongoing_pins}} Ongoing Jobs</span>
+                                        <span class="statBox" style="cursor:pointer;" (click)="goToPins('Completed',eachpinInviteListingDetails.user_id)">{{eachpinInviteListingDetails.completed_pins}} Completed Jobs</span> -->
+
+										<span class="statBox">{{eachpinInviteListingDetails.ongoing_pins}} Ongoing
+											Jobs</span>
+										<span class="statBox">{{eachpinInviteListingDetails.completed_pins}} Completed
+											Jobs</span>
+									</div>
+									<div class="green-pin orange-color"
+										*ngIf="eachpinInviteListingDetails.quotation_submitted>0 && eachpinInviteListingDetails.is_registered==1">
+										Quotation Received
+									</div>
+									<div class="green-pin orange-color" *ngIf="eachpinInviteListingDetails.is_registered==0">
+										Anonymous User
+									</div>
+								</div>
+								<div class="coltab flex-2 align-self-center flex-row justify-md-content-end"
+									data-heading="Service Location">
+									<ng-container *ngIf="eachpinInviteListingDetails.status==0">
+										<!-- <div class="custombtnboder">
+                                            <button type="button" mat-button class="text-uppercase" (click)="hireDoer(eachpinInviteListingDetails.user_id,eachpinInviteListingDetails.id)">
+                                                Hire
+                                            </button>
+                                        </div> -->
+										Not Applied
+									</ng-container>
+									<ng-container *ngIf="eachpinInviteListingDetails.status==1 && is_registered==1">
+										<div class="custombtnboder">
+											<button type="button" mat-button class="text-uppercase"
+												routerLink="/pinner/active-quotation-details/{{job_ID}}/{{getEncryptedData(eachpinInviteListingDetails.user_id)}}">
+												View Details
+											</button>
+										</div>
+									</ng-container>
+									<ng-container *ngIf="eachpinInviteListingDetails.status==1 && is_registered==0">
+										<div class="custombtnboder">
+											<button type="button" mat-button class="text-uppercase"
+												routerLink="/pinner/active-quotation-details/{{job_ID}}/{{getEncryptedData(eachpinInviteListingDetails.user_id)}}">
+												View Details
+											</button>
+										</div>
+									</ng-container>
+									<ng-container *ngIf="eachpinInviteListingDetails.status==6">
+										<div class="custombtnboder">
+											<button type="button" mat-button class="text-uppercase"
+												routerLink="/pinner/active-quotation-details/{{job_ID}}/{{getEncryptedData(eachpinInviteListingDetails.user_id)}}">
+												Hired
+											</button>
+										</div>
+
+									</ng-container>
+									<!-- <ng-container *ngIf="eachpinInviteListingDetails.status==2">
+                                        <div class="custombtnboder">
+                                            <button type="button" mat-button class="text-uppercase" routerLink="/pinner/active-quotation-details/{{job_ID}}/{{getEncryptedData(eachpinInviteListingDetails.user_id)}}">
+                                                Requested to hire
+                                            </button>
+                                        </div>
+                                        
+                                    </ng-container> -->
+									<ng-container *ngIf="eachpinInviteListingDetails.status==3">
+										<!-- Quote rejected by Pinner -->
+										<div class="custombtnboder">
+											<button type="button" mat-button class="text-uppercase"
+												routerLink="/pinner/active-quotation-details/{{job_ID}}/{{getEncryptedData(eachpinInviteListingDetails.user_id)}}">
+												Quote Declined
+											</button>
+										</div>
+									</ng-container>
+									<ng-container *ngIf="eachpinInviteListingDetails.status==4">
+										Declined by doer
+									</ng-container>
+									<ng-container *ngIf="eachpinInviteListingDetails.status==5">
+										<div class="hiredCont d-flex align-items-center ratingDoer"
+											(click)="togglePopup(eachpinInviteListingDetails.doer_id)">
+											<ng-container *ngIf="getTotalReferralNum(eachpinInviteListingDetails.doer_id).length>0">
+												Referred</ng-container>
+											<ng-container
+												*ngFor="let hireVal of getTotalReferralNum(eachpinInviteListingDetails.doer_id);let i = index;">
+												<span class="hiredBox" *ngIf="i<=4"><img src="assets/images/hired{{i+1}}.jpg"></span>
+											</ng-container>
+											<span
+												class="hireNumber">+{{getTotalReferralNum(eachpinInviteListingDetails.doer_id).length}}</span>
+										</div>
+									</ng-container>
+								</div>
+							</div>
+						</ng-container>
+					</div>
+					<div class="table-body white-bg" *ngIf="pinInviteListingDetails.length==0">
+						<div class="table-row d-flex">
+							<div class="no_content row w-100">
+								<div class="col-md-5">
+									<img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+								</div>
+								<div class="col-md-7">
+									<ng-container *ngIf="is_registered==1">
+										<h5>No Invited Doers</h5>
+										<p>No Doers are invited to quote this job. Please check the Doer list and send
+											invites.</p>
+										<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2"
+											routerLink="/pinner/invite-doer/{{job_ID}}/{{doerID}}">
+											Invite
+										</button>
+									</ng-container>
+									<ng-container *ngIf="is_registered==0">
+										<h5>No Anonymous Doers</h5>
+										<p>No Anonymous Doers applied for this job.</p>
+									</ng-container>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="overlayPopup" #popUpVar>
+		<div class="popupHeader">
+			<button mat-icon-button class="btn-back float-left" (click)="togglePopup('NULL')"><span
+					class="or or-return"></span></button>
+			<h3>Referred Doers</h3>
+		</div>
+		<div class="popupContent">
+			<div class="container">
+				<app-referred-doer [doerListing]="refferredDoers"></app-referred-doer>
+			</div>
+		</div>
+	</div>
+</div>

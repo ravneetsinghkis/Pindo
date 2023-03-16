@@ -1,0 +1,550 @@
+.green_topbar {
+	background: #bad141;
+    height: 46px;
+    font: 11px/46px 'Montserrat-SemiBold';
+    color: #17050a;
+	span {
+		color: #fff;
+		text-decoration: underline;
+	}
+}
+.mt24 {
+	margin-top: 24px !important
+}
+.header_doerprof {
+	.btn-back {
+	    font-size: 24px;
+	    line-height: 36px;
+	    color: #83878c;
+	    margin-top: 18px;
+	}
+	p {
+		font: 12px/80px 'Montserrat-SemiBold';
+		color: #035670;
+		margin: 0;
+		&.markAsFav {
+			font: 12px/80px 'Montserrat-SemiBold';
+			color: #a0a8ab;
+			cursor: pointer;
+			i {
+				margin-right: 10px;
+				color: #ff0053;
+			}
+			&:before {
+				content: "\f004";
+				color: #f4a4be;
+				font-family: Font Awesome\ 5 Free;
+				font-weight: 400;
+				margin-right: 5px;
+			}
+			&.liked:before {
+				content: "\f004";
+				font-family: Font Awesome\ 5 Free;
+				color: #ff0053;
+				font-weight: 900;
+				text-shadow: 0 0 8px rgba(255, 0, 83, 0.4);
+			}
+		}
+	}
+}
+.left_doerprf {
+	padding-left: 290px;
+	position: relative;
+	min-height: 240px;
+	.doer-logo {
+		width: 240px;
+	    height: 240px;
+	    border-radius: 0;
+	    /*background: #2a364e;*/
+	    position: absolute;
+	    left: 20px;
+	    top: 0;
+		img {
+			max-width: 100%;
+		    max-height: 100%;
+		    /*width: 100%;
+    		height: 100%;*/
+		    object-fit: cover;
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%,-50%);
+		}
+	}
+	.left_doerText {
+		h3 {
+			font: 28px/30px 'Montserrat-SemiBold';
+			color: #565c62;
+		}
+		.total_doerInfo {
+			.info-doer {
+				font: 14px/36px 'Montserrat-SemiBold';
+			    color: #484f56;
+			    padding: 0 20px;
+			    border: 1px solid #dae7f1;
+			    border-radius: 20px;
+			    margin-right: 10px;
+			}
+			.ratingDoer {				
+			    p {
+			    	font: 14px/36px 'Montserrat-SemiBold';
+				    color: #484f56;				    
+			    	margin-bottom: 0;
+			    }
+			    span {
+			    	line-height: 38px;
+			    }
+			}
+			.hiredBy {
+				margin-top: 1rem;
+				p {
+					font: 12px/38px 'Montserrat-Medium';
+					color: #89939c;
+					span {
+						color: #035670;
+						font-family: 'Montserrat-SemiBold';
+						margin-right: 15px;
+					}
+				}
+			}
+		}
+		.bot_doerInfo {
+			font: 12px/16px 'Montserrat-Medium';
+			color: #636a70;
+			.total_jobs {
+				font: 22px/24px 'Montserrat-SemiBold';
+				color: #484f56;
+				span {
+					display: block;
+					font: 11px/16px 'Montserrat-Medium';
+					color: #484f56;
+				}
+			}
+		}
+	}
+}
+.special_header {
+	font: 12px/40px 'Montserrat-SemiBold';
+	color: #484f56;
+	position: relative;
+	margin-bottom: 20px !important;
+	&::before {
+		content: '';
+		width: 40px;
+		height: 1px;
+		background: #bad141;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+	}
+}
+.mat-card.pindoCart:not([class*=mat-elevation-z]) {
+    box-shadow: 0 0 40px 0px rgba(6, 104, 193, 0.07);
+}
+.pindoCart.doerdetails {
+	.mat-card-content {
+		padding: 30px 40px;
+		p {
+			font: 12px/24px 'Montserrat-Medium';
+			color: #656b70;
+			white-space: pre-wrap;
+		}
+		.tot_review{
+			.rev_top {
+				padding-left: 42px;
+				position: relative;
+				margin-bottom: 15px;
+				.rev_icon {
+					// position: absolute;
+				    // left: -5px;
+					// top: -3px;
+					position: absolute;
+					left: 12px;
+					top: 2px;
+				}
+				h4 {
+					font: 14px/21px 'Montserrat-SemiBold';
+	    			color: #37383a;
+				    margin-bottom: 5px;
+				}
+				.rev_rat {
+					font: 12px/20px 'Montserrat-SemiBold';
+					color: #89939c;
+					.indv_rat {
+						color: #f0b927;
+					}
+				}
+			}
+			p {
+				font: 20px/30px 'Montserrat-MediumItalic';
+				color: #89939c;
+			}
+		}
+	}
+	&.custom_styling {
+		.mat-card-content {
+			padding: 30px 0;
+			.custom-padding {
+				padding: 0 40px;
+			}
+		}
+	}
+}
+.facts-cont {
+	padding: 0 20px;
+	font: 12px/38px 'Montserrat-Medium';
+	color: #7d8e9e;
+	border: 1px solid #dbeed2;
+	border-radius: 5px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	i {
+		color: #bad141;
+	}
+}
+.mt-40 {
+	margin-top: 40px !important;
+}
+.servicelisting {
+	.maincat {
+		font: 11px/30px 'Montserrat-SemiBold';
+		color:#fff;
+		background: #bad141;
+		float: left;
+		padding: 0 10px;
+		text-transform: uppercase;
+	}
+	.subcatListing {
+	    margin-top: 10px;
+	    clear: both;
+	    float: left;
+	    width: 100%;
+		h6 {
+			font: 13px/25px 'Montserrat-SemiBold';
+			color: #656b70;
+			span {
+				color: #035670;
+			}
+		}
+		.indv-subcats {
+			color: #89939c;
+			font: 11px/30px 'Montserrat-SemiBold';
+			padding: 0 10px;
+			background: #f6fbff;
+			display: inline-block;
+			margin: 0 10px 10px 0;
+		}
+	}
+}
+.subcatListing+.subcatListing {
+	margin-top: 15px;
+}
+.quote_mark {
+	width: 349px;
+	height: 275px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	z-index: 1;
+}
+.rev_by {
+    position: relative;
+    padding-left: 70px;
+    min-height: 51px;
+	span.rev_logo {
+		height: 50px;
+		width: 50px;
+		border-radius: 50px;
+		position: absolute;
+		left: 0;
+		top: 0;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			border-radius: 100%;
+		}
+	}
+	h4 {
+		font: 14px/21px 'Montserrat-SemiBold';
+	    color: #565c62;
+	    margin-bottom: 0;
+	    padding-top: 5px;
+	}
+	h6 {
+		font: 12px/20px 'Montserrat-Medium';
+    	color: #89939c;
+	}
+}
+.sidebysidearrows {
+	&.recentsliderarrows {
+		position: absolute;
+	    top: 35px;
+	    right: 20px;
+	    margin: 0;
+	    width: auto;
+	    z-index: 11;
+	    &.badgearrows {
+	    	top: auto;
+	    	bottom: 0;
+	    	left: 50%;
+	    	transform: translateX(-50%);	
+	    }
+	}	
+	.commonstyle {
+	    background: none;
+	    position: static;
+	    float: left;
+	    margin: 0;
+	    height: auto;
+	    width: auto;
+	    font-size: 27px;
+	    vertical-align: top;
+	    &.swiper-button-prev {
+	    	-webkit-transform: rotate(-180deg);
+		    transform: rotate(-180deg);
+		    /* margin-left: 0; */
+		    margin-right: 35px;
+		    position: relative;
+		    top: auto;
+		    left: auto;
+	    	&:before {
+	    		content: '';
+			    width: 65px;
+			    background: #e1eaf1;
+			    height: 1px;
+			    position: absolute;
+			    right: 27px;
+			    top: 19px;
+			    z-index: -1;
+	    	}
+	    }
+	}
+}
+.top_social {	
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		float: right;
+		li {
+			float: left;
+			margin-left: 10px;
+			a {
+				display: inline-block;
+				
+				&.fb-color {
+					background: #3456ad;
+				}
+				&.twitter-color {
+					background: #37aeeb;
+				}
+				&.google-color {
+					background: #ea4c2d;
+				}
+				&.insta-color {
+					background: #e4006b;
+				}
+				&.share-color {
+					background: #035670;
+				}
+			}
+		}
+	}
+}
+.badge-slider {
+	position: relative;
+	padding-bottom: 60px;
+}
+.circliful .outer {
+    fill: transparent;
+    stroke: #333;
+    stroke-width: 19.8;
+    stroke-dasharray: 534;
+    transition: stroke-dashoffset 1s;
+    -webkit-animation-play-state: running;
+    /* firefox bug fix - won't rotate at 90deg angles */
+    -moz-transform: rotate(-89deg) translateX(-190px);
+}
+
+/* full circle 25 empty 534 */
+.circliful .inner {
+    fill: transparent;
+    stroke: orange;
+    stroke-width: 5;
+    stroke-dasharray: 534;
+    transition: stroke-dashoffset 1s;
+    -webkit-animation-play-state: running;
+    /* firefox bug fix - won't rotate at 90deg angles */
+    -moz-transform: rotate(-89deg) translateX(-190px);
+    stroke-dashoffset: 0;
+}
+
+.circliful {
+    overflow: visible !important;
+
+}
+
+.svg-container {
+    width: 100%;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+svg .icon {
+    font-family: FontAwesome;
+}
+.pindoCart.doerdetails .endorse_box {
+	h4 {
+		font: 400 11px/25px 'Montserrat-SemiBold';
+	    color: #656b70;
+	    padding-left: 30px;
+	    position: relative;
+	    margin-bottom: 10px;
+		span {
+			position: absolute;
+			left: 0;
+			svg * {
+				fill: #e6854a;
+			}			
+			img {
+				width: 24px;
+				height: 24px;
+				object-fit: contain;
+			}
+		}
+	}
+	.indv_endorse {
+		padding: 9px 15px;
+		border: 1px solid #dbeed2;
+		border-radius: 5px;
+		margin: 0 6px 6px 0;
+		p {
+			margin-bottom: 0;
+			line-height: 30px;
+		}
+		.hiredCont  {
+			min-height: 32px;
+    		min-width: 80px;
+			.hireNumber {
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+    			font-size: 12px;
+			}
+			.hiredBox {
+				width: 32px;
+				height: 32px;
+				&:nth-child(2) {
+					right: 20px;
+				}	
+				&:nth-child(3) {
+					right: 40px;
+				}			
+			}
+		}
+	}
+	&+.endorse_box {
+		margin-top: 10px;
+	}
+}
+.pindoCart.doerdetails .mat-card-content .pay_opt {
+	p {
+		font: 11px/20px 'Montserrat-SemiBold';
+		color: #656b70;
+		margin-right: 20px;
+		span {
+			display: inline-block;
+			margin-right: 5px;
+		}
+	}
+}
+.bottom_doerprof {
+    height: 80px;
+    background: #fff;
+    box-shadow: 0 0 40px 0px rgba(6, 104, 193, 0.07);
+    margin-top: 95px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 9; 
+    p {
+    	font: 12px/80px 'Montserrat-SemiBold';
+    	color: #565c62;
+    	margin-bottom: 0;
+    	span {
+    		color: #3abd00;
+    		&.red_text {
+    			color: red;
+    		}
+    	}
+    }
+}
+.total_endorse {
+	max-height: 300px;
+}
+.like-box {
+	position: absolute;
+	right: 40px;
+	top: 20px;
+	font-size: 20px;		
+	z-index: 7;
+	width: 20px;
+	height: 30px;	
+}
+
+/deep/ body .mat-dialog-container {
+    padding: 25px;
+    border-radius: 10px;
+}
+footer.loginFooter {
+	display: none !important;
+}
+.badge-slider {
+	.swiper-slide {
+		height: auto;
+	}
+	.badge_cont { 
+		height: 100%;
+		img {
+		    max-height: 80px;
+		    max-width: 100%;
+		    object-fit: contain;
+		}
+	}
+}
+.pt120 {
+	padding-top: 120px !important;
+}
+@media only screen and (max-width: 767px) {
+	.left_doerprf {
+	    padding-left: 0;
+	    .doer-logo {
+		    width: 100%;
+		    height: 170px;
+		    border-radius: 170px;
+		    position: static;
+		    display: block;
+		    text-align: center;
+		    img {
+			    object-fit: contain;
+			    position: static;	    
+			    transform: none;
+			    display: inline-block;
+			}
+		}
+	}
+	.quote_mark {
+	    width: 25%;
+    	height: auto;
+	}
+}
+
+/*# sourceURL=doer-public-profile.component.scss */
+
+
+
+
+
+

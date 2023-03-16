@@ -1,0 +1,216 @@
+<div class="top-section topCutomisedNewBar pinner_section findDoer-banner">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="mainHeading">
+					<h1>FIND A DOER</h1>
+					<p>Select a Category.</p>
+				</div>
+			</div>
+			<div class="col-md-7">
+
+			</div>
+		</div>
+		<div class="chooseCategory d-flex justify-content-between">
+			<div class="chooseCategoryCheckbox" *ngFor="let eachCategory of categoryList;let i = index">
+				<input type="radio" id="checkCat-{{i}}" (change)="selectedCategory(i,$event)" name="selectCategoryRadio"
+					[disabled]="disableSubcategory">
+				<label for="checkCat-{{i}}">
+					<!-- <span
+						[innerHTML]="eachCategory?.icon | keepHtml"></span>
+						{{eachCategory.name}} -->
+					<span
+						[ngClass]="{'ic-home-2': eachCategory?.id === 2 , 'ic-covid-2':eachCategory?.id === 3,'ic-entertainment-2':eachCategory?.id === 19, 'ic-personal-care':eachCategory?.id === 16 , 'ic-book':eachCategory?.id === 17 , 'ic-professional-services-2':eachCategory?.id === 18 ,  'ic-petcare':eachCategory?.id === 20}"></span>
+					{{eachCategory?.name}}
+				</label>
+			</div>
+		</div>
+	</div>
+
+	<div class="serviceSection">
+		<div class="filterSection clearfix">
+			<div class="container">
+
+				<div class="w-100 d-flex justify-content-center py-3">
+					<div class="searchPindo">
+						<div class="total_search">
+							<mat-spinner [diameter]="30" id="mat-spinner"></mat-spinner>
+							<input type="text" class="form-control" [(ngModel)]="searchfieldVal" id="searchFieldUnique"
+								#searchField (keyup)="searchPin($event);" placeholder="Search by category or doer">
+							<div class="autocomplete_list" *ngIf="pinnerAutocomplete.length>0">
+								<span *ngFor="let eachPinner of pinnerAutocomplete" (click)="populateString($event)">
+									{{eachPinner}}
+								</span>
+							</div>
+							<button type="button" class="getCurrentLocation" (click)="getCurrentAddress()"><img
+									src="assets/images/target.svg" alt=""></button>
+							<button type="button" [disabled]="!searchEnabled" class="searchIcon"
+								(click)="submitSelectedFilter()"
+								*ngIf="searchField.value.trim()!=searchVal.trim() || searchField.value.trim()==''"><img
+									src="assets/images/top_search.png" alt=""></button>
+							<button type="button" class="clearSearchText" (click)="clearSearchText(searchField)"
+								*ngIf="searchField.value.trim()==searchVal.trim() && searchField.value.trim()!=''"></button>
+						</div>
+					</div>
+				</div>
+
+				<div class="chooseSubCategory eachFilterBlock" *ngIf="subCategoryList.length>0">
+					<h4>Subcategories <i class="fas fa-chevron-down ml-2 hover" (click)="toggleSubCategories()" [ngClass]="showSubCategories ? 'fa-chevron-down' : 'fa-chevron-up'"></i></h4>
+					<ng-container *ngIf="subCategoryList.length==0">No Subcategories Found in this category</ng-container>
+					<div [hidden]="!showSubCategories">
+						<ng-container *ngFor="let eachSubCat of subCategoryList;let outIndex = index;">
+							<p *ngIf="eachSubCat.length==0">No Subcategories Found in this category</p>
+	
+							<!-- <div class="greyCheck" *ngFor="let eachSub of eachSubCat;let i = index;">
+							<input type="radio" id="subCat-{{eachSub.id}}" (change)="selectedSubCats(outIndex,i,$event)" name="selectSubCat">
+							<label for="subCat-{{eachSub.id}}">{{eachSub.name}}</label>
+						</div> -->
+							<div class="normalcheck green-color" *ngFor="let eachSub of eachSubCat;let i = index;">
+								<input type="checkbox" id="subCat-{{eachSub.id}}"
+									(change)="selectedSubCats(outIndex,i,$event)" [(ngModel)]="selected[i]"
+									name="selectSubCat" [disabled]="disableSubcategory">
+								<label for="subCat-{{eachSub.id}}">{{eachSub.name}}</label>
+								<!-- <mat-checkbox class="mr-2" id="subCat-{{eachSub.id}}" (change)="selectedSubCats(outIndex,i,$event)" name="selectSubCat">{{eachSub.name}}</mat-checkbox> -->
+							</div>
+						</ng-container>
+					</div>
+				</div>
+
+				
+
+				<div class="advance_filter">
+					<div class="eachFilterBlock mt-4">
+						<div class="row">
+							<div class="col-md-7">
+								<h4>Rating</h4>
+								<div class="greyCheck ratingCheckbox" *ngFor="let eachRatingOptn of availableRatings;">
+									<input type="radio" id="ratingSelect-{{eachRatingOptn}}"
+										[(ngModel)]="rateOptnSelectVal" value="{{eachRatingOptn}}" name="rateOptn"
+										(change)="selectOrDeselectRating(eachRatingOptn)">
+									<label for="ratingSelect-{{eachRatingOptn}}">
+										<span class="indvrating"
+											*ngFor="let eachstar of getstarCountArray(eachRatingOptn)"><i
+												class="fas fa-star"></i></span>
+										{{eachRatingOptn}}.0 +
+									</label>
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="filterinnerCont emergency_filter">
+									<h4>Emergency/24-HR Service</h4>
+									<div class="custom_radioGreen"
+										*ngFor="let eachemergencyVals of emergencyVals;let i = index;">
+										<input type="radio" name="emergencySelect" [(ngModel)]="emergencySelectVal"
+											value="{{eachemergencyVals}}" id="emergency-{{i}}"
+											(click)="selectEmergengyFilter(eachemergencyVals,i)">
+										<label for="emergency-{{i}}">{{eachemergencyVals}}</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="eachFilterBlock">
+						<div class="filterinnerCont minpinscompleted">
+							<h4>Minimum Pins Completed</h4>
+							<div class="greyCheck" *ngFor="let eachminPinsCompleted of minPinsCompleted;let i = index;">
+								<input type="radio" name="minpinscompletedselect" id="minpins-{{i}}"
+									[(ngModel)]="minPinscompletedselection" value="{{eachminPinsCompleted}}"
+									(change)="selectOrDeselectMinPinsCompleted(eachminPinsCompleted)">
+								<label for="minpins-{{i}}" *ngIf="eachminPinsCompleted=='0'">None</label>
+								<label for="minpins-{{i}}" *ngIf="eachminPinsCompleted!='0'">{{eachminPinsCompleted}}+
+									Pins</label>
+							</div>
+						</div>
+					</div>
+					<div class="eachFilterBlock">
+						<h4>Badges Earned</h4>
+						<div class="greyCheck" *ngFor="let eachBadge of badgesList;let i = index;">
+							<input type="checkbox" name="minpinscompletedselect" id="badgesearned-{{i}}"
+								(change)="selectedBadges(i,$event)">
+							<label for="badgesearned-{{i}}">{{eachBadge.name}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="text-center toggleAdvanceFilter mt-4 d-none">
+					<span class="" *ngIf="!showingAdvanceFilter" (click)="toggleAdvanceFilterView()">Show Advanced
+						Filter <i class="fas fa-angle-down"></i></span>
+					<span class="" *ngIf="showingAdvanceFilter" (click)="toggleAdvanceFilterView()">Hide Advanced Filter
+						<i class="fas fa-angle-up"></i></span>
+				</div>
+			</div>
+			<div class="filterBottomPanel d-xl-flex justify-content-between align-items-center">
+				<div class="selectedFilters clearfix">
+					<div class="selectedFilterBox"
+						*ngFor="let eachSeletedFilter of selectedFiltersTogether | slice:0:3;let i = index">
+						<cite title="{{eachSeletedFilter.name}}">{{eachSeletedFilter.name}}</cite>&nbsp;&nbsp;<span
+							class="remove_filter" id="filter-{{eachSeletedFilter.id}}" (click)="deselectFilter(i)"><i
+								class="fas fa-times"></i></span>
+					</div>
+					<ng-container *ngIf="selectedFiltersTogether.length>3">
+						<button mat-button [matMenuTriggerFor]="menudrop">
+							<i class="fas fa-ellipsis-h"></i>
+						</button>
+						<mat-menu #menudrop="matMenu" [overlapTrigger]="false">
+							<button mat-menu-item class="cutom_itemstyle withfilter"
+								*ngFor="let eachSeletedFilter of selectedFiltersTogether | slice:3:selectedFiltersTogether.length;let i = index"
+								(click)="deselectFilter(i+3)">
+								<cite title="{{eachSeletedFilter.name}}">{{eachSeletedFilter.name}}</cite> <span
+									class="remove_filter" id="filter-{{eachSeletedFilter.id}}"><i
+										class="fas fa-times"></i></span>
+							</button>
+						</mat-menu>
+					</ng-container>
+				</div>
+				<div class="right_filter">
+					<ul class="d-flex align-items-center justify-content-xl-end">
+						<li>
+							<button class="btn-link" (click)="clearAllSelectedFilters()"
+								*ngIf="currentAddress || showFavDoerData || searchField.value!='' || rateOptnSelectVal || emergencySelectVal || minPinscompletedselection != '0' || selectedBadgeList.length > 0">Clear
+								Filters</button>
+						</li>
+						<li>
+							<button class="btn-link" (click)="showFavDoer()" *ngIf="ifloggedIn">
+								<ng-container *ngIf="!showFavDoerData">Show Favorite Doers</ng-container>
+								<ng-container *ngIf="showFavDoerData">Show All Doers</ng-container>
+							</button>
+						</li>
+						<li class="forsort">
+							<button mat-button [matMenuTriggerFor]="menu" #sort
+								(menuOpened)="toggleMenuIcon(sort,'open')" (menuClosed)="toggleMenuIcon(sort,'remove')">
+								Sort
+							</button>
+							<mat-menu #menu="matMenu" [overlapTrigger]="false">
+								<button mat-menu-item class="cutom_itemstyle" (click)="selectSort('all')">
+									<span>All</span>
+									<ng-container *ngIf="selectedSortFilter=='all'"><i class="fas fa-check"></i>
+									</ng-container>
+								</button>
+								<button mat-menu-item class="cutom_itemstyle" (click)="selectSort('indvonly')">
+									<span>Individual Only</span>
+									<ng-container *ngIf="selectedSortFilter=='indvonly'"><i class="fas fa-check"></i>
+									</ng-container>
+								</button>
+								<button mat-menu-item class="cutom_itemstyle" (click)="selectSort('orgonly')">
+									<span>Organization Only</span>
+									<ng-container *ngIf="selectedSortFilter=='orgonly'"><i class="fas fa-check"></i>
+									</ng-container>
+								</button>
+								<button mat-menu-item class="cutom_itemstyle" (click)="selectSort('withincommunity')">
+									<span>Within Community</span>
+									<ng-container *ngIf="selectedSortFilter=='withincommunity'"><i
+											class="fas fa-check"></i></ng-container>
+								</button>
+							</mat-menu>
+						</li>
+						<li>
+							<button type="button" mat-raised-button color="primary"
+								class="text-uppercase mat-primary ml-3" (click)="submitSelectedFilter()">
+								Apply
+							</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

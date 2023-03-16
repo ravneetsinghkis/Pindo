@@ -1,0 +1,53 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between mb-0">
+      <div class="heading pb-3">
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+
+    <div class="lg-content text-center px-sm-4 px-0 pb-3">
+
+      <div class="content-heading mb-sm-4 mb-3">
+        <h3 class="content-heading-text">Searching For</h3>
+      </div>
+      <form autocomplete="off" [formGroup]="OpenPindo">
+
+        <div class="matComnForm ">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Send to</mat-label>
+            <!-- <input matInput type="text" [(ngModel)]="name" name="name"> -->
+            <mat-select matNativeControl [(ngModel)]="send" name="send" formControlName="send1">
+              <mat-option value="contact">Contact</mat-option>
+              <mat-option value="community">Community</mat-option>
+              <mat-option value="both">Both</mat-option>
+            </mat-select>
+            <mat-error *ngIf="submitted && OpenPindo.controls.send1.errors">This field required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Add Service</mat-label>
+            <input matInput type="text" [(ngModel)]="service" name="service" readonly  formControlName="service">
+          </mat-form-field>
+
+          <div class="mb-3">
+            <mat-label>Message</mat-label>
+            <!-- <textarea matInput matAutosize="true" class="height2" [(ngModel)]="msgText" name="message" formControlName="message"></textarea> -->
+            <ckeditor name="message" [config]="ckEditorConfig" [(ngModel)]="msgText" formControlName="message" skin="moono-lisa"></ckeditor>
+            <mat-error *ngIf="submitted && OpenPindo.controls.message.errors">This field required
+            </mat-error>
+          </div>
+
+          <div class="btn-holder">
+            <button type="submit" mat-flat-button class="btn-greenColor text-uppercase smFont-lg-size"
+              (click)="onSend()" style="margin-right: 1.5%;">POST</button>
+            <button type="submit" mat-flat-button class="btn-gray-border text-uppercase smFont-lg-size"
+              (click)="closeDialog()">CANCEL</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

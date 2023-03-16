@@ -1,0 +1,265 @@
+<!-- class="totalDashboard" -->
+
+ <div class="pinner-chat-Dashboard totalDashboard customtop_padding">
+	<div class="container-fluid chat-fluid">
+		<!-- <div class="mainHeading">
+			<h3>Message Board</h3>
+			<p>View all the conversations between you and the doer and send new messages to them</p>			
+        </div> -->
+		<div class="chatbox-wrapper">
+                <div class="container">
+                    <div class="left seller-left left-panel">
+                        <div class="left_inr" id="user-menu">
+                            <div class="top">
+                                <div class="chat-search-area">
+                                    <input type="text" name="srch" id="srch" placeholder="Search" [formControl]="searchValue" (keyup)="searchByTitle()">
+                                </div>
+                            </div>
+                            <!--end top-->
+                           <!--  <div class="left-middle-content" id="content-left-scroll" *ngIf="pinDatas.length!=0 || doerPublicDatas.length!=0">
+                                <div id="refresh">
+                                    <ul class="people">
+                                        <li class="per-user person" *ngFor="let eachPublicDoer of doerPublicDatas" id="lid_{{eachPublicDoer.doerList.id}}">
+                                            <div class="ticket-subj-list-info" (click)="activePublicDoer(eachPublicDoer.pub_pinner_id,eachPublicDoer.doerList)">
+                                                <span class="numb" *ngIf="eachPublicDoer.Count!=0">{{eachPublicDoer.Count}}</span>
+                                                <div class="ticket-img" *ngIf="eachPublicDoer.doerList.profile_photo!=null">
+                                                    <img src="{{imgUrl}}/profile_photo/{{eachPublicDoer.doerList.profile_photo}}" alt="">
+                                                </div>
+                                                <div class="ticket-img" *ngIf="eachPublicDoer.doerList.company_logo!=null">
+                                                    <img src="{{imgUrl}}/company_logo/{{eachPublicDoer.doerList.company_logo}}" alt="">
+                                                </div>
+                                                <div class="ticket-img" *ngIf="eachPublicDoer.doerList.profile_photo==null && eachPublicDoer.doerList.company_logo==null">
+                                                    <img src="./assets/images/avatar.png" alt="">
+                                                </div>
+                                                <div class="text-info">
+                                                    <h3 class="ticket-subj-name">
+                                                    {{eachPublicDoer.doerList.name}}</h3>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="person per-job" *ngFor="let eachPinData of pinDatas" id="liID_{{eachPinData.pin.id}}">
+                                            <div class="ticket-subj-list-info" (click)="activePin(eachPinData.pub_pinner_id,eachPinData.pub_doer_id,eachPinData.pin)">
+                                                <span class="numb" *ngIf="eachPinData.Count!=0">{{eachPinData.Count}}</span>
+                                                <div class="text-info">
+                                                    <h3 class="ticket-subj-name">
+                                                    {{eachPinData.pin.title}}</h3>
+                                                    <h4 class="ticket-subj-smInfo">{{eachPinData.pin.pin_unique_id}}</h4>
+                                                </div>
+                                            </div>
+                                        </li>
+                                     </ul>
+                                </div>
+                            </div> -->
+
+
+                             <div class="left-middle-content" id="content-left-scroll" *ngIf="pinDatas.length!=0 || doerPublicDatas.length!=0">
+                                <div id="refresh">
+                                    <ul class="people">
+                                      <div  *ngFor="let eachPublicDoer of leftPanelDatas">
+                                        <span *ngIf="eachPublicDoer.pin.id==0">
+                                             <li class="per-user person" id="lid_{{eachPublicDoer.doerList.id}}">
+                                                <div class="ticket-subj-list-info" (click)="activePublicDoer(eachPublicDoer.pub_pinner_id,eachPublicDoer.doerList)" *ngIf="eachPublicDoer.pin.id==0">
+                                                <span class="numb" *ngIf="eachPublicDoer.Count!=0">{{eachPublicDoer.Count}}</span>
+                                                <div class="ticket-img" *ngIf="eachPublicDoer.doerList.profile_photo!=null">
+                                                    <img src="{{imgUrl}}/profile_photo/{{eachPublicDoer.doerList.profile_photo}}" alt="">
+                                                </div>
+                                                <div class="ticket-img" *ngIf="eachPublicDoer.doerList.company_logo!=null">
+                                                    <img src="{{imgUrl}}/company_logo/{{eachPublicDoer.doerList.company_logo}}" alt="">
+                                                </div>
+                                                <div class="ticket-img" *ngIf="eachPublicDoer.doerList.profile_photo==null && eachPublicDoer.doerList.company_logo==null">
+                                                    <img src="./assets/images/avatar.png" alt="">
+                                                </div>
+                                                <div class="text-info">
+                                                    <h3 class="ticket-subj-name">
+                                                    {{eachPublicDoer.doerList.name}}</h3>
+                                                </div>
+                                            </div>
+                                            </li>
+                                        </span>
+                                        <span *ngIf="eachPublicDoer.pin.id!=0">
+                                            <li class="person per-job" id="liID_{{eachPublicDoer.pin.id}}">
+                                                <div *ngIf="eachPublicDoer.pin.id!=0" class="ticket-subj-list-info" (click)="activePin(eachPublicDoer.pub_pinner_id,eachPublicDoer.pub_doer_id,eachPublicDoer.pin)">
+                                                <span class="numb" *ngIf="eachPublicDoer.Count!=0">{{eachPublicDoer.Count}}</span>
+                                                <div class="text-info">
+                                                    <h3 class="ticket-subj-name">
+                                                    {{eachPublicDoer.pin.title}}</h3>
+                                                    <h4 class="ticket-subj-smInfo">{{eachPublicDoer.pin.pin_unique_id}}</h4>
+                                                </div>
+                                            </div>
+                                            </li>
+                                        </span>
+     
+                                    </div>
+                                        
+                                     </ul>
+                                </div>
+                            </div>
+                           
+                            <div class="left-middle-content" id="content-left-scroll" *ngIf="pinDatas.length==0 && doerPublicDatas.length==0">
+                                <div id="refresh">
+                                    <ul class="people">
+                                        <li class="person">
+                                            <div class="ticket-subj-list-info">
+                                                <div>
+                                                    <h6>
+                                                        <!-- Data Not Found! -->
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                    <!--end left-->
+                    <div class="right seller-right chat-right" id="chatGrid" [ngClass]="{'msgBoxDialog': innerChatGrid }">
+
+                        <div class="top d-flex align-items-center justify-content-between">
+                            <div class="chat-close-btn" (click)="closeChatbox()"><span class="ic-close" ></span></div>
+                            <div class="top-ticket-right-info" *ngIf="pinCount==1">
+                                <h2 class="subject-name" (click)="backClicked()" style="cursor: pointer; color: blue">{{pinTitle}}</h2>
+                                <h4 class="issue-date"><span class="date">{{pinDate | date:"short"}}</span> | <span class="uid" (click)="backClicked()" style="cursor: pointer; color: blue">ID:{{pinUniqueId}}</span></h4>
+                            </div>
+                            <div class="top-ticket-right-info" *ngIf="doerCountSlug==1">
+                                <h2 class="subject-name">{{doerName}}</h2>
+                            </div>
+                        </div>
+                        <div class="chat-outer" id="right_id">
+
+                          <div class="doerOpenClose-btn" *ngIf="doerSlug==1" (click)="showDoerSection()">Doer List</div>
+
+                            <div class="chat-outer-content">
+                                <div class="chat" id="content-middle-scroll" *ngIf="pinDatas.length!=0 || doerPublicDatas.length!=0">
+                                    <div class="chat-wrap">
+                                        <div *ngFor="let chatData of chatDatas;let count = index">
+                                        {{last ? callFunction(i) : ''}}
+                                            <div class="day-show" *ngIf="(count>0 &&  (chatDatas[count-1].created_at | date:'fullDate') != (chatDatas[count].created_at | date:'fullDate')) || count == 0">
+                                                 <ng-container [ngSwitch]="true">
+                                                    <span *ngSwitchCase="(currentDate | date:'fullDate') == (chatData.created_at | date:'fullDate')">Today</span>
+                                                    <span *ngSwitchCase="(yesterDay | date:'fullDate') == (chatData.created_at | date:'fullDate')">Yesterday</span>
+                                                    <span *ngSwitchDefault>{{chatData.created_at | date:'fullDate'}}</span>
+                                                </ng-container>
+                                            </div>
+                                           <div class="bubble-you" *ngIf="chatData.reply_from==doerId">
+                                               <!--  <div class="message-data-info">
+                                                    <div class="message-data-name">
+                                                        <div class="person-img">
+                                                        <img src="./assets/images/{{chatData.doerList.profile_photo}}" alt="">
+                                                        </div>
+                                                        {{chatData.doerList.name}}
+                                                        <span class="message-time">{{chatData.created_at | date:"shortTime"}}</span>
+                                                    </div>
+                                                </div> -->
+                                                <div class="bubble-content">
+                                                    <p>{{chatData.message}}</p>
+                                                   <p>
+                                                    <!-- <a href="{{globalConstant.chatFileUrl}}/chat/{{chatData.attachment}}" target="_blank">{{chatData.attachment}}</a> -->
+                                                    <!-- <a href="{{imgUrl}}/chat_images/{{chatData.attachment}}" target="_blank">{{chatData.attachment}}</a> -->
+                                                    <a href="{{chatFileUpload}}/chat/{{chatData.attachment}}" target="_blank">{{chatData.attachment}}</a>
+                                                </p>
+                                                    <sub> <span class="message-time">{{chatData.created_at | date:"shortTime"}}</span> </sub>
+                                                </div>
+                                            </div>
+                                            <div class="bubble-me" *ngIf="chatData.reply_from==pinnerId">
+                                                <!-- <div class="message-data-info">
+                                                    <div class="message-data-name">
+                                                        {{chatData.doerList.name}}
+                                                        <span class="message-time">{{chatData.created_at | date:"shortTime"}}</span>
+                                                        <div class="person-img">
+                                                                <img src="./assets/images/{{chatData.doerList.profile_photo}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                                <div class="bubble-content">
+                                                    <p>{{chatData.message}} </p>
+                                                    <!-- <p><a href="{{globalConstant.chatFileUrl}}/chat/{{chatData.attachment}}" target="_blank">{{chatData.attachment}}</a></p> -->
+                                                    <!-- <p><a href="{{imgUrl}}/chat_images/{{chatData.attachment}}" target="_blank">{{chatData.attachment}}</a></p> -->
+                                                    <p><a href="{{chatFileUpload}}/chat/{{chatData.attachment}}" target="_blank">{{chatData.attachment}}</a></p>
+                                                    <sub> <span class="message-time">{{chatData.created_at | date:"shortTime"}}</span> </sub>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <!--end chat-->
+                                </div>
+                                 <div class="chat" id="content-middle-scroll" *ngIf="pinDatas.length==0 && doerPublicDatas.length==0">
+                                    <div class="chat-wrap">
+                                        <div>
+                                          <!--  <h6>No Message!</h6> -->
+                                        </div>
+                                    </div>
+                                        <!--end chat-->
+                                </div>
+                                <div class="write">
+                                   <form name="chatForm" id="chatForm" #chatForm="ngForm" [formGroup]="chatform" (ngSubmit)="sendChat(chatform.value)" enctype="multipart/form-data">
+
+                                        <div class="write-inr">
+                                            <div class="write-input-wrap">
+                                                <textarea class="form-control" placeholder="Write your message..." [formControl]="chatform.controls['chatValue']" (keypress)="keyPressOnTextArea($event)" [readonly]="disbale_msg_textarea"></textarea>
+                                                <span class="attach">
+                                                <i class="fa fa-paperclip"  *ngIf="chatImage==''"></i>
+                                                <i class="fa fa-paperclip" style="color: green" *ngIf="chatImage!=''"></i>
+                                                <input type="file" name="attachment_file" id="attachment_file" (change)="onChange($event)" >
+                                                <input type="hidden" [formControl]="chatform.controls['pin_id']">
+                                                <input type="hidden" [formControl]="chatform.controls['pinner_id']">
+                                                <input type="hidden" [formControl]="chatform.controls['doer_id']">
+                                                </span>
+                                            </div>
+                                            <div class="send-btn">
+                                                <button class="chatSend-btn" type="submit" id="subbtn" [disabled]="disbale_msg_textarea"></button>
+                                            </div>
+                                         </div>
+                                        <!--end write-inr-->
+                                    </form>
+                                    <!--end write-inr-->
+                                </div>
+                            </div>
+
+                        <div class="user-sidebar" [ngClass]="{'open': DoerChatgrid }">
+                            <div class="user-sidebar-content left seller-left doer-right-user">
+                                <div class="left_inr" id="user-menu">
+                                    <div class="top doer-top">
+                                        <div class="media" *ngIf="doerSlug==1">
+                                            <div class="media-body">
+                                              <h5>Doers</h5>
+                                            </div>
+                                            <div class="chat-close-btn" ><span class="ic-close" ></span></div>
+                                           <button class="user-count" (click)="hideDoerSection()">{{doerCount}}</button>
+                                        </div>
+                                    </div>
+                                    <!--end top-->
+                                    <div class="left-middle-content doer-user-right-list" id="content-right-scroll" *ngIf="doerSlug==1">
+                                       
+                                            <div id="refresh">
+                                                <ul class="people">
+                                                    <li class="person" *ngFor="let eachdoerData of doerDatas" id="li_{{eachdoerData.doerList.id}}">
+                                                        <div class="ticket-subj-list-info" (click)="activeDoer(eachdoerData.doerList.id)">
+                                                            <span class="numb" *ngIf="eachdoerData.Count!=0">{{eachdoerData.Count}}</span>
+                                                            <div class="ticket-img" *ngIf="eachdoerData.doerList.company_logo!=null || eachdoerData.doerList.company_logo!='null'"><img src="{{imgUrl}}/company_logo/{{eachdoerData.doerList.company_logo}}" alt="">
+                                                             </div>
+                                                            <div class="ticket-img" *ngIf="eachdoerData.doerList.company_logo==null || eachdoerData.doerList.company_logo=='null'"><img src="./assets/images/avatar.png" alt="">
+                                                            </div>
+                                                            <div class="text-info">
+                                                                <h3 class="ticket-subj-name">{{eachdoerData.doerList.name}}</h3>
+                                                                <!-- <h4 class="ticket-subj-smInfo">Also, please let me know about  occaecati cupiditate non provident</h4> -->
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                       
+                                    </div>
+                                </div>
+                            
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--end right-->
+                </div>
+                <!--end container-->
+            </div>
+        </div>
+</div>

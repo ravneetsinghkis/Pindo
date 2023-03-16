@@ -1,0 +1,126 @@
+<div class="totalDashboard adverties-wrap">
+	<div class="container">
+		<div class="mainHeading">
+			<h3>My Advertisement </h3>
+			<p>View Advertisement details </p>
+			<div class="abs-buttongrp">
+				<mat-button-toggle-group name="fontStyle" aria-label="Font Style">			      		
+				  <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="toggleParentPopup()">
+	                    Request New
+	                </button>				  					  					  
+				</mat-button-toggle-group>
+			</div>
+		</div>
+	    <app-request-advertisement [isHiddenRequestAdds]="requestAddshow" #requestAdd ></app-request-advertisement>
+
+		<div class="col-md-8 offset-md-2" *ngIf="!isaddrequested"  >
+			<div class="no_content row">
+				<div class="col-md-6 text-right">
+					<img src="assets/images/payment_nodata.png" class="mr-4" alt="">
+				</div>
+				<div class="col-md-6">
+					<h5>No Advertisement Requested</h5>
+					<p>You have not requested any Advertisement. Request your first Advertisement to get promoted.</p>
+					<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="toggleParentPopup()">
+	                    Request now
+	                </button>
+				</div>
+			</div>
+		</div>
+		<div class="pins-section">
+			
+			<div class="pin-listing mb-5">
+				<ng-container *ngIf="isaddrequested">
+					<!-- <button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary" (click)="toggleParentPopup()">
+	                    Request New
+	                </button> -->
+					<div class="total-table">
+				    	<div class="table-header d-flex">
+				    		<div class="coltab withFilter"> Banner </div>
+
+				    		<div class="coltab withFilter"> Amount </div>
+
+				    		<div class="coltab withFilter"> Payment Method </div>
+
+				    		<div class="coltab withFilter"> Posted date </div>
+
+				    		<div class="coltab withFilter"> Requested date </div>
+
+				    		<div class="coltab withFilter"> Remarks </div>
+
+				    		<div class="coltab withFilter"> Category </div>
+
+				    		<div class="coltab withFilter"> Status </div>
+				    	</div>
+
+				    	<div class="scrollcontainer" *ngIf="requestedAdds.length>0;">
+				    		<div class="table-body white-bg">
+								<div class="table-row d-flex" *ngFor="let eachrequestedAdds of requestedAdds">
+
+							    	<div class="coltab" data-heading="Banner">
+							    		<span class="prof_img" *ngIf="eachrequestedAdds?.add_banner_file!=''">
+						    				<img src="{{baseCompUrl}}/advertisement/{{eachrequestedAdds?.add_banner_file}}" onError="this.src='assets/images/default-image.jpg';" alt="" style="height: 50px;width: 50px;object-fit: contain;">
+						    			</span>
+						    			<span class="prof_img no-img d-flex align-items-center text-center" *ngIf="eachrequestedAdds?.add_banner_file==''">				No Image		    				
+						    			</span>										
+							    	</div>
+
+							    	<div class="coltab" data-heading="Amount">
+										<p>$ {{eachrequestedAdds.subtotal_amount}}</p>
+							    	</div>
+
+							    	<div class="coltab" data-heading="Payment  Method">
+										<p> <span *ngIf="eachrequestedAdds.payment_method==1"> Pindo $ </span><span *ngIf="eachrequestedAdds.payment_method==2"> Cash </span> </p>
+							    	</div>
+
+							    	<div class="coltab" data-heading="Posted  Date">
+										<p>{{eachrequestedAdds.start_date?.split('-').join('/') | date:'dd LLL yyyy'}} </p> -
+										<p>{{eachrequestedAdds.end_date?.split('-').join('/') | date:'dd LLL yyyy'}}</p>
+							    	</div>
+
+							    	<div class="coltab" data-heading="Requested Date">
+										<p>{{eachrequestedAdds.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}<br>{{eachrequestedAdds.created_at?.split('-').join('/') | date:'h:mm a'}}</p>
+							    	</div>
+							    	<div class="coltab" data-heading="Remarks">
+							    		<ng-container *ngIf="eachrequestedAdds.remarks!=null && eachrequestedAdds.remarks!='null'"><p title="{{eachrequestedAdds.remarks}}">{{eachrequestedAdds.remarks}}</p></ng-container>
+							    		<ng-container *ngIf="eachrequestedAdds.remarks==null || eachrequestedAdds.remarks=='null'"><p>No Remarks</p></ng-container>
+							    	</div>
+
+							    	<div class="coltab" data-heading="Category">
+							    		<div class="green-pin">
+							    			<ng-container *ngIf="eachrequestedAdds.parent != ''">{{eachrequestedAdds.parent.name}} ></ng-container>
+							    			<ng-container *ngIf="eachrequestedAdds.children != ''">{{eachrequestedAdds.children.name}}</ng-container>
+							    		</div>							    		
+							    	</div>
+
+							    	<div class="coltab" data-heading="Status">
+							    		<p> <span *ngIf="eachrequestedAdds.status==1">
+							    		<font color="green"> Active </font>  </span><span *ngIf="eachrequestedAdds.status==0"> <font color="red"> InActive </font></span> </p>
+							    	</div>
+							    </div>					    
+					    	</div>
+				    	</div>
+				    </div>
+			    	
+			    	<div class="table-body white-bg" *ngIf="requestedAdds.length==0">
+                        <div class="table-row d-flex">
+                            <div class="no_content row w-100">
+                                <div class="col-md-5">
+                                    <img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+                                </div>
+                                <div class="col-md-7 align-self-center">
+                                    <ng-container>
+                                        <h5>No Adds Found</h5>
+                                        <p>No Adds Found with the seleted Filters</p>
+                                    </ng-container>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>	
+
+			    </ng-container>
+			</div>
+		</div>
+
+	</div>
+</div>

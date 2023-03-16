@@ -1,0 +1,871 @@
+<!-- <div class="hourListing" *ngIf="isOpeningHours">
+	<ng-container *ngIf="openingHrsData?.twentyfoursevenselection==1">
+		<p>OPEN 24/7</p>
+	</ng-container>
+	<ng-container *ngIf="openingHrsData?.twentyfoursevenselection==0">
+		<div class="time-schedule py-3 px-3">
+			<div class="d-flex align-items-center">
+				<span class="dayText">
+					<i class="material-icons color-themeOrange mr-1">
+						schedule
+					</i>
+					<span>Sunday</span>
+				</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.sunday==0">{{openingHrsData.sunday_start_time}} -
+					{{openingHrsData.sunday_end_time}}</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.sunday==1">Closed</span>
+			</div>
+		</div>
+		<hr class="m-0">
+
+		<div class="time-schedule py-3 px-3">
+			<div class="d-flex align-items-center">
+				<span class="dayText">
+					<i class="material-icons color-themeOrange mr-1">
+						schedule
+					</i>
+					<span>Monday</span>
+				</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.monday==0">{{openingHrsData.monday_start_time}} -
+					{{openingHrsData.monday_end_time}}</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.monday==1">Closed</span>
+			</div>
+		</div>
+		<hr class="m-0">
+
+		<div class="time-schedule py-3 px-3">
+			<div class="d-flex align-items-center">
+				<span class="dayText">
+					<i class="material-icons color-themeOrange mr-1">
+						schedule
+					</i>
+					<span>Tuesday</span>
+				</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.tuesday==0">{{openingHrsData.tuesday_start_time}}
+					- {{openingHrsData.tuesday_end_time}}</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.tuesday==1">Closed</span>
+			</div>
+		</div>
+		<hr class="m-0">
+
+		<div class="time-schedule py-3 px-3">
+			<div class="d-flex align-items-center">
+				<span class="dayText">
+					<i class="material-icons color-themeOrange mr-1">
+						schedule
+					</i>
+					<span>Wednesday</span>
+				</span>
+				<span class="orange-badge ml-3"
+					*ngIf="openingHrsData.wednesday==0">{{openingHrsData.wednesday_start_time}} -
+					{{openingHrsData.wednesday_end_time}}</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.wednesday==1">Closed</span>
+			</div>
+		</div>
+		<hr class="m-0">
+
+		<div class="time-schedule py-3 px-3">
+			<div class="d-flex align-items-center">
+				<span class="dayText">
+					<i class="material-icons color-themeOrange mr-1">
+						schedule
+					</i>
+					<span>Thursday</span>
+				</span>
+				<span class="orange-badge ml-3"
+					*ngIf="openingHrsData.thursday==0">{{openingHrsData.thursday_start_time}} -
+					{{openingHrsData.thursday_end_time}}</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.thursday==1">Closed</span>
+			</div>
+		</div>
+		<hr class="m-0">
+
+		<div class="time-schedule py-3 px-3">
+			<div class="d-flex align-items-center">
+				<span class="dayText">
+					<i class="material-icons color-themeOrange mr-1">
+						schedule
+					</i>
+					<span>Friday</span>
+				</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.friday==0">{{openingHrsData.friday_start_time}} -
+					{{openingHrsData.friday_end_time}}</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.friday==1">Closed</span>
+			</div>
+		</div>
+		<hr class="m-0">
+
+		<div class="time-schedule py-3 px-3">
+			<div class="d-flex align-items-center">
+				<span class="dayText">
+					<i class="material-icons color-themeOrange mr-1">
+						schedule
+					</i>
+					<span>Saturday</span>
+				</span>
+				<span class="orange-badge ml-3"
+					*ngIf="openingHrsData.saturday==0">{{openingHrsData.saturday_start_time}} -
+					{{openingHrsData.saturday_end_time}}</span>
+				<span class="orange-badge ml-3" *ngIf="openingHrsData.saturday==1">Closed</span>
+			</div>
+		</div>
+		<hr class="m-0">
+	</ng-container>
+
+</div> -->
+<div class="hourListing">
+	<div class="sideCard-main-header px-3">
+		<hr class="mb-0 mt-0">
+	</div>
+
+	<div class="sideCard-body px-3 py-0">
+
+		<ng-container *ngIf="doerProfileHoursOfOperationDetails?.monday == 0">
+			<div class="time-schedule py-3">
+				<div class="d-flex align-items-center justify-content-between mb-2">
+					<span class="dayText">
+						<i class="material-icons color-themeOrange mr-1">
+							schedule
+						</i>
+						<span>Monday</span>
+					</span>
+					<span class="hrText">{{doerProfileHoursOfOperationDetails?.mondayDiffer}}</span>
+				</div>
+
+				<div>
+					<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.monday_start_time }}
+						- {{ doerProfileHoursOfOperationDetails?.monday_end_time }}
+					</span>
+				</div>
+			</div>
+			<hr class="m-0">
+		</ng-container>
+
+		<ng-container *ngIf="doerProfileHoursOfOperationDetails?.tuesday == 0">
+			<div class="time-schedule py-3">
+				<div class="d-flex align-items-center justify-content-between mb-2">
+					<span class="dayText">
+						<i class="material-icons color-themeOrange mr-1">
+							schedule
+						</i>
+						<span>Tuesday</span>
+					</span>
+					<span class="hrText">{{doerProfileHoursOfOperationDetails?.tuesdayDiffer}}</span>
+				</div>
+
+				<div>
+					<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.tuesday_start_time }}
+						- {{ doerProfileHoursOfOperationDetails?.tuesday_end_time }}
+					</span>
+				</div>
+			</div>
+			<hr class="m-0">
+		</ng-container>
+
+		<ng-container *ngIf="doerProfileHoursOfOperationDetails?.wednesday == 0">
+			<div class="time-schedule py-3">
+				<div class="d-flex align-items-center justify-content-between mb-2">
+					<span class="dayText">
+						<i class="material-icons color-themeOrange mr-1">
+							schedule
+						</i>
+						<span>Wednesday</span>
+					</span>
+					<span class="hrText">{{doerProfileHoursOfOperationDetails?.wednesdayDiffer}}</span>
+				</div>
+
+				<div>
+					<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.wednesday_start_time }}
+						- {{ doerProfileHoursOfOperationDetails?.wednesday_end_time }}
+					</span>
+				</div>
+			</div>
+			<hr class="m-0">
+		</ng-container>
+
+		<ng-container *ngIf="doerProfileHoursOfOperationDetails?.thursday == 0">
+			<div class="time-schedule py-3">
+				<div class="d-flex align-items-center justify-content-between mb-2">
+					<span class="dayText">
+						<i class="material-icons color-themeOrange mr-1">
+							schedule
+						</i>
+						<span>Thursday</span>
+					</span>
+					<span class="hrText">{{doerProfileHoursOfOperationDetails?.thursdayDiffer}}</span>
+				</div>
+
+				<div>
+					<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.thursday_start_time }}
+						- {{ doerProfileHoursOfOperationDetails?.thursday_end_time }}
+					</span>
+				</div>
+			</div>
+			<hr class="m-0">
+		</ng-container>
+
+		<ng-container *ngIf="doerProfileHoursOfOperationDetails?.friday == 0">
+			<div class="time-schedule py-3">
+				<div class="d-flex align-items-center justify-content-between mb-2">
+					<span class="dayText">
+						<i class="material-icons color-themeOrange mr-1">
+							schedule
+						</i>
+						<span>Friday</span>
+					</span>
+					<span class="hrText">{{doerProfileHoursOfOperationDetails?.fridayDiffer}}</span>
+				</div>
+
+				<div>
+					<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.friday_start_time }}
+						- {{ doerProfileHoursOfOperationDetails?.friday_end_time }}
+					</span>
+				</div>
+			</div>
+			<hr class="m-0">
+		</ng-container>
+
+		<ng-container *ngIf="doerProfileHoursOfOperationDetails?.saturday == 0">
+			<div class="time-schedule py-3">
+				<div class="d-flex align-items-center justify-content-between mb-2">
+					<span class="dayText">
+						<i class="material-icons color-themeOrange mr-1">
+							schedule
+						</i>
+						<span>Saturday</span>
+					</span>
+					<span class="hrText">{{doerProfileHoursOfOperationDetails?.saturdayDiffer}}</span>
+				</div>
+
+				<div>
+					<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.saturday_start_time }}
+						- {{ doerProfileHoursOfOperationDetails?.saturday_end_time }}
+					</span>
+				</div>
+			</div>
+		</ng-container>
+
+		<ng-container *ngIf="doerProfileHoursOfOperationDetails?.sunday == 0">
+			<div class="time-schedule py-3">
+				<div class="d-flex align-items-center justify-content-between mb-2">
+					<span class="dayText">
+						<i class="material-icons color-themeOrange mr-1">
+							schedule
+						</i>
+						<span>Sunday</span>
+					</span>
+					<span class="hrText">{{ doerProfileHoursOfOperationDetails?.sundayDiffer }}</span>
+				</div>
+
+				<div>
+					<span class="orange-badge">{{ doerProfileHoursOfOperationDetails?.sunday_start_time }}
+						- {{ doerProfileHoursOfOperationDetails?.sunday_end_time }}
+					</span>
+				</div>
+			</div>
+			<hr class="m-0">
+		</ng-container>
+	</div>
+</div>
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back orangeColor" (click)="togglePopup('back')"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">Update Opening Hours</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="popUpcontentHeading">
+				<h4 class="text-center regular-heading">Set the opening hours for each day</h4>
+			</div>
+			<form class="matComnForm" #openingHrsFrm="ngForm" novalidate
+				(ngSubmit)="submitFunction(openingHrsFrm.value,openingHrsFrm.valid,openingHrsFrm)">
+				<div class="row">
+					<div class="col-12">
+						<mat-slide-toggle class="custom-slide-toggle orange-slide-toggle" name="twentyfoursevenselection"
+							(change)="changedtwentyfourseven($event)" #twentyseven="ngModel" [(ngModel)]="twentyfoursevenchecked">
+							Select Open 24/7
+						</mat-slide-toggle>
+					</div>
+				</div>
+				<div class="row opngCont borderTopNone">
+					<div class="col-md-3 d-flex align-items-center justifymobile_spacebetween">
+						<p>Sunday</p>
+						<mat-checkbox name="sunday" #sundayClosed="ngModel" (change)="setDefaultHrs('sunday')"
+							[disabled]="twentyfoursevenchecked" [(ngModel)]="sundclose">Closed for the day
+						</mat-checkbox>
+					</div>
+					<div class="col-md-9 p-25 p-25">
+						<div class="row" ngModelGroup="chooseSundayTime" #chosSunday="ngModelGroup" appCompareTime>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="sunday_start_time" #sundayfrom="ngModel" (selectionChange)="formValChanged=true"
+												[(ngModel)]="sundFrm" [disabled]="sundclose || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachHr of hours | slice:0:(hours.length-1)">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="sundayfrom.errors && (openingHrsFrm.submitted) && sundayfrom.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="sunday_start_timeampm" #sundayfromampm="ngModel"
+												(selectionChange)="formValChanged=true" [(ngModel)]="sunday_start_timeampm"
+												[disabled]="sundclose || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="sundayfromampm.errors && (openingHrsFrm.submitted) && sundayfromampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="sunday_end_time" #sundayto="ngModel" (selectionChange)="formValChanged=true"
+												[(ngModel)]="sundTo" [disabled]="sundclose || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachHr of hours">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="sundayto.errors && (openingHrsFrm.submitted) && sundayto.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="sunday_end_timeampm" #sundaytoampm="ngModel"
+												(selectionChange)="formValChanged=true" [(ngModel)]="sunday_end_timeampm"
+												[disabled]="sundclose || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="sundaytoampm.errors && (openingHrsFrm.submitted) && sundaytoampm.errors.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+							<div class="mat-error text-center mat-custom-error"
+								*ngIf="openingHrsFrm.submitted && chosSunday.errors?.notEqual">
+								End Time must be greater than Start Time
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row opngCont">
+					<div class="col-md-3 d-flex align-items-center justifymobile_spacebetween">
+						<p>Monday</p>
+						<mat-checkbox name="mondclose" #monClosed="ngModel" (change)="setDefaultHrs('monday')"
+							[disabled]="twentyfoursevenchecked" [(ngModel)]="mondclose">Closed for the day
+						</mat-checkbox>
+					</div>
+					<div class="col-md-9 p-25">
+						<div class="row" ngModelGroup="chooseMondayTime" #chosMunday="ngModelGroup" appCompareTime>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="monday_start_time" #mondayfrom="ngModel" (selectionChange)="formValChanged=true"
+												[(ngModel)]="mundFrm" [disabled]="mondclose || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachHr of hours | slice:0:(hours.length-1)">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="mondayfrom.errors && (openingHrsFrm.submitted) && mondayfrom.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="monday_start_timeampm" #mondayfromampm="ngModel"
+												(selectionChange)="formValChanged=true" [(ngModel)]="monday_start_timeampm"
+												[disabled]="mondclose || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="mondayfromampm.errors && (openingHrsFrm.submitted) && mondayfromampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+
+											<mat-select name="monday_end_time" #mondayto="ngModel" (selectionChange)="formValChanged=true"
+												[(ngModel)]="mundTo" [disabled]="mondclose || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachHr of hours">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="mondayto.errors && (openingHrsFrm.submitted) && mondayto.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="monday_end_timeampm" #mondayendampm="ngModel"
+												(selectionChange)="formValChanged=true" [(ngModel)]="monday_end_timeampm"
+												[disabled]="mondclose || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="mondayendampm.errors && (openingHrsFrm.submitted) && mondayendampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mat-error text-center mat-custom-error"
+							*ngIf="openingHrsFrm.submitted && chosMunday.errors?.notEqual">
+							End Time must be greater than Start Time
+						</div>
+					</div>
+				</div>
+				<div class="row opngCont">
+					<div class="col-md-3 d-flex align-items-center justifymobile_spacebetween">
+						<p>Tuesday</p>
+						<mat-checkbox name="tuesClosed" #tuesdClosed="ngModel" (change)="setDefaultHrs('tuesday')"
+							[disabled]="twentyfoursevenchecked" [(ngModel)]="tuesClosed">Closed for the day
+						</mat-checkbox>
+					</div>
+					<div class="col-md-9 p-25">
+						<div class="row" ngModelGroup="chooseTuesdayTime" #chostuesday="ngModelGroup" appCompareTime>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="tuesday_start_time" #tuesdayfrom="ngModel"
+												(selectionChange)="formValChanged=true" [(ngModel)]="tuesFrm"
+												[disabled]="tuesClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachHr of hours | slice:0:(hours.length-1)">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="tuesdayfrom.errors && (openingHrsFrm.submitted) && tuesdayfrom.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="tuesday_start_timeampm" #tuesdayfromampm="ngModel"
+												(selectionChange)="formValChanged=true" [(ngModel)]="tuesday_start_timeampm"
+												[disabled]="tuesClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="tuesdayfromampm.errors && (openingHrsFrm.submitted) && tuesdayfromampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="tuesday_end_time" #tuesdayto="ngModel" [(ngModel)]="tuesTo"
+												(selectionChange)="formValChanged=true" [disabled]="tuesClosed || twentyfoursevenchecked"
+												required>
+												<ng-container *ngFor="let eachHr of hours">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="tuesdayto.errors && (openingHrsFrm.submitted) && tuesdayto.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="tuesday_end_timeampm" #tuesdayendampm="ngModel"
+												(selectionChange)="formValChanged=true" [(ngModel)]="tuesday_end_timeampm"
+												[disabled]="tuesClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="tuesdayendampm.errors && (openingHrsFrm.submitted) && tuesdayendampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mat-error text-center mat-custom-error"
+							*ngIf="openingHrsFrm.submitted && chostuesday.errors?.notEqual">
+							End Time must be greater than Start Time
+						</div>
+					</div>
+				</div>
+				<div class="row opngCont">
+					<div class="col-md-3 d-flex align-items-center justifymobile_spacebetween">
+						<p>Wednesday</p>
+						<mat-checkbox name="wedClosed" #wednesdayClosed="ngModel" (change)="setDefaultHrs('wednesday')"
+							[disabled]="twentyfoursevenchecked" [(ngModel)]="wedClosed">Closed for the day
+						</mat-checkbox>
+					</div>
+					<div class="col-md-9 p-25">
+						<div class="row" ngModelGroup="chooseWednesdayTime" #choswedday="ngModelGroup" appCompareTime>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="wednesday_start_time" (selectionChange)="formValChanged=true"
+												#wednesdayfrom="ngModel" [(ngModel)]="wedFrm" [disabled]="wedClosed || twentyfoursevenchecked"
+												required>
+												<ng-container *ngFor="let eachHr of hours | slice:0:(hours.length-1)">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="wednesdayfrom.errors && (openingHrsFrm.submitted) && wednesdayfrom.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="wednesday_start_timeampm" (selectionChange)="formValChanged=true"
+												#wedfromampm="ngModel" [(ngModel)]="wednesday_start_timeampm"
+												[disabled]="wedClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="wedfromampm.errors && (openingHrsFrm.submitted) && wedfromampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="wednesday_end_time" (selectionChange)="formValChanged=true"
+												#wednesdayto="ngModel" [(ngModel)]="wedTo" [disabled]="wedClosed || twentyfoursevenchecked"
+												required>
+												<ng-container *ngFor="let eachHr of hours">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="wednesdayto.errors && (openingHrsFrm.submitted) && wednesdayto.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="wednesday_end_timeampm" (selectionChange)="formValChanged=true"
+												#wedendampm="ngModel" [(ngModel)]="wednesday_end_timeampm"
+												[disabled]="wedClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="wedendampm.errors && (openingHrsFrm.submitted) && wedendampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mat-error text-center mat-custom-error"
+							*ngIf="openingHrsFrm.submitted && choswedday.errors?.notEqual">
+							End Time must be greater than Start Time
+						</div>
+					</div>
+				</div>
+				<div class="row opngCont">
+					<div class="col-md-3 d-flex align-items-center justifymobile_spacebetween">
+						<p>Thursday</p>
+						<mat-checkbox name="thursClosed" #thursdayClosed="ngModel" (change)="setDefaultHrs('thursday')"
+							[disabled]="twentyfoursevenchecked" [(ngModel)]="thursClosed">Closed for the day
+						</mat-checkbox>
+					</div>
+					<div class="col-md-9 p-25">
+						<div class="row" ngModelGroup="chooseThursdayTime" #chosthursday="ngModelGroup" appCompareTime>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="thursday_start_time" (selectionChange)="formValChanged=true"
+												#thursdayfrom="ngModel" [(ngModel)]="thursFrm"
+												[disabled]="thursClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachHr of hours | slice:0:(hours.length-1)">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="thursdayfrom.errors && (openingHrsFrm.submitted) && thursdayfrom.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="thursday_start_timeampm" (selectionChange)="formValChanged=true"
+												#thursstartampm="ngModel" [(ngModel)]="thursday_start_timeampm"
+												[disabled]="thursClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="thursstartampm.errors && (openingHrsFrm.submitted) && thursstartampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="thursday_end_time" (selectionChange)="formValChanged=true" #thursdayto="ngModel"
+												[(ngModel)]="thursTo" [disabled]="thursClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachHr of hours">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="thursdayto.errors && (openingHrsFrm.submitted) && thursdayto.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="thursday_end_timeampm" (selectionChange)="formValChanged=true"
+												#thursendampm="ngModel" [(ngModel)]="thursday_end_timeampm"
+												[disabled]="thursClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="thursendampm.errors && (openingHrsFrm.submitted) && thursendampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mat-error text-center mat-custom-error"
+							*ngIf="openingHrsFrm.submitted && chosthursday.errors?.notEqual">
+							End Time must be greater than Start Time
+						</div>
+					</div>
+				</div>
+				<div class="row opngCont">
+					<div class="col-md-3 d-flex align-items-center justifymobile_spacebetween">
+						<p>Friday</p>
+						<mat-checkbox name="friClosed" #fridayClosed="ngModel" (change)="setDefaultHrs('friday')"
+							[disabled]="twentyfoursevenchecked" [(ngModel)]="friClosed">Closed for the day
+						</mat-checkbox>
+					</div>
+					<div class="col-md-9 p-25">
+						<div class="row" ngModelGroup="chooseFridayTime" #chosfriday="ngModelGroup" appCompareTime>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="friday_start_time" (selectionChange)="formValChanged=true" #fridayfrom="ngModel"
+												[(ngModel)]="friFrm" [disabled]="friClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachHr of hours | slice:0:(hours.length-1)">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="fridayfrom.errors && (openingHrsFrm.submitted) && fridayfrom.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="friday_start_timeampm" (selectionChange)="formValChanged=true"
+												#fristartampm="ngModel" [(ngModel)]="friday_start_timeampm"
+												[disabled]="friClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="fristartampm.errors && (openingHrsFrm.submitted) && fristartampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="friday_end_time" #fridayto="ngModel" (selectionChange)="formValChanged=true"
+												[(ngModel)]="friTo" [disabled]="friClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachHr of hours">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="fridayto.errors && (openingHrsFrm.submitted) && fridayto.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="friday_end_timeampm" (selectionChange)="formValChanged=true"
+												#friendampm="ngModel" [(ngModel)]="friday_end_timeampm"
+												[disabled]="friClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="friendampm.errors && (openingHrsFrm.submitted) && friendampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mat-error text-center mat-custom-error"
+							*ngIf="openingHrsFrm.submitted && chosfriday.errors?.notEqual">
+							End Time must be greater than Start Time
+						</div>
+					</div>
+				</div>
+				<div class="row opngCont">
+					<div class="col-md-3 d-flex align-items-center justifymobile_spacebetween">
+						<p>Saturday</p>
+						<mat-checkbox name="satClosed" #saturdayClosed="ngModel" (change)="setDefaultHrs('saturday')"
+							[disabled]="twentyfoursevenchecked" [(ngModel)]="satClosed">Closed for the day
+						</mat-checkbox>
+					</div>
+					<div class="col-md-9 p-25">
+						<div class="row" ngModelGroup="chooseSaturdayTime" #chossaturday="ngModelGroup" appCompareTime>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="saturday_start_time" (selectionChange)="formValChanged=true"
+												#satdayfrom="ngModel" [(ngModel)]="satFrm" [disabled]="satClosed || twentyfoursevenchecked"
+												required>
+												<ng-container *ngFor="let eachHr of hours | slice:0:(hours.length-1)">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="satdayfrom.errors && (openingHrsFrm.submitted) && satdayfrom.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="saturday_start_timeampm" (selectionChange)="formValChanged=true"
+												#satstartampm="ngModel" [(ngModel)]="saturday_start_timeampm"
+												[disabled]="satClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error
+												*ngIf="satstartampm.errors && (openingHrsFrm.submitted) && satstartampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-7">
+										<mat-form-field appearance="outline">
+											<mat-label>Select Hours</mat-label>
+											<mat-select name="saturday_end_time" (selectionChange)="formValChanged=true" #satdayto="ngModel"
+												[(ngModel)]="satTo" [disabled]="satClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachHr of hours">
+													<mat-option [value]="eachHr">{{eachHr}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="satdayto.errors && (openingHrsFrm.submitted) && satdayto.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col-5">
+										<mat-form-field appearance="outline">
+											<mat-label>Select AM/PM</mat-label>
+											<mat-select name="saturday_end_timeampm" (selectionChange)="formValChanged=true"
+												#satendampm="ngModel" [(ngModel)]="saturday_end_timeampm"
+												[disabled]="satClosed || twentyfoursevenchecked" required>
+												<ng-container *ngFor="let eachformat of amppm">
+													<mat-option [value]="eachformat">{{eachformat}}</mat-option>
+												</ng-container>
+											</mat-select>
+											<mat-error *ngIf="satendampm.errors && (openingHrsFrm.submitted) && satendampm.errors?.required">
+												This field required</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mat-error text-center mat-custom-error"
+							*ngIf="openingHrsFrm.submitted && chossaturday.errors?.notEqual">
+							End Time must be greater than Start Time
+						</div>
+					</div>
+				</div>
+				<div class="d-flex justify-content-center pt-3 pt-md-5">
+					<button type="submit" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+						id="submit-opening">
+						Update
+					</button>
+					<button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+						(click)="togglePopup('back')">CANCEL</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

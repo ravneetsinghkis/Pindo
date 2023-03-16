@@ -1,0 +1,115 @@
+<div class="totalDashboard">
+	<div class="container">
+		<div class="mainHeading">
+			<h3>Post Your Pin For Doers To Bid On</h3>
+			<p>Follow the steps below to post your Pin. Once posted you will start receiving Doer bids. note: Doers may
+				ask questions to clarify your job before providing a bid.</p>
+		</div>
+		<div class="row mb-3 scroll-container" #boundary1>
+
+			<ng-container>
+				<div class="col-lg-3 mb-3">
+					<mat-card class="pindoCart">
+						<mat-card-header>
+							<mat-card-title>
+								Check Progress...
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<p>See a Category, Subcategory or something else missing? Contact <a
+									href="mailto:pins@pindo.com">pins@pindo.com</a>.</p>
+							<ul class="steps-completed">
+								<li [ngClass]="{'active' : (regConfig.length>0)}">Choose Category &amp; Subcategory</li>
+								<li [ngClass]="{'active' : (form?.value?.staticForm?.title!='' && regConfig.length>0)}">
+									Basic Details</li>
+								<ng-container *ngIf="form?.value?.staticForm?.frequency?.day_of_week=='3'">
+									<li [ngClass]="{'active' : checkIfDone(form?.value?.staticForm?.frequency?.indv_days)}">
+										Frequency</li>
+								</ng-container>
+								<ng-container *ngIf="form?.value?.staticForm?.address=='0'">
+									<li
+										[ngClass]="{'active' : (form?.value?.staticForm?.newAddress?.addressLine!=null && form?.value?.staticForm?.newAddress?.country!=null && form?.value?.staticForm?.newAddress?.city!=null && form?.value?.staticForm?.newAddress?.state!=null && form?.value?.staticForm?.newAddress?.zipcode!=null)}">
+										New Address</li>
+								</ng-container>
+							</ul>
+						</mat-card-content>
+					</mat-card>
+				</div>
+				<div class="col-lg-9">
+					<!-- <ng-container *ngIf="regConfig.length>0">{{ form?.value | json }}</ng-container> -->
+					<mat-card class="pindoCart mb40">
+						<mat-card-header>
+							<mat-card-title>
+								Choose Category and Subcategory
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<div class="row">
+								<div class="col-md-6">
+									<mat-form-field appearance="outline">
+										<mat-select placeholder="Select Category" [(ngModel)]="selectCatModel"
+											(selectionChange)="getSubCatList()">
+											<mat-option *ngFor="let item of parent_categories" [value]="item.id">
+												{{item.name}}</mat-option>
+										</mat-select>
+										<!-- <mat-error *ngIf="mainformRef.parentcat?.errors?.required">
+							                Please Fill in the field.
+							            </mat-error> -->
+									</mat-form-field>
+								</div>
+								<div class="col-md-6">
+									<mat-form-field appearance="outline">
+										<mat-select placeholder="Select Sub-category" [(ngModel)]="selectSubcatModel"
+											(selectionChange)="getFormFields()">
+											<mat-option *ngFor="let item of sub_categories" [value]="item.id">
+												{{item.name}}</mat-option>
+										</mat-select>
+										<!-- <mat-error *ngIf="mainformRef.sub_cat_id?.errors?.required">
+							                Please Fill in the field.
+							            </mat-error> -->
+									</mat-form-field>
+								</div>
+							</div>
+						</mat-card-content>
+					</mat-card>
+
+					<dynamic-form [fields]="regConfig" [staticFieldInfo]="staticData" [seletedSubCatId]="subcatid"
+						[selectedparent_cat_id]="parent_cat_id" [ifEditMode]="inEditMode" (submit)="submit($event)"
+						*ngIf="regConfig.length>0"></dynamic-form>
+
+					<mat-card class="pindoCart mb40" *ngIf="regConfig.length==0">
+						<!-- <mat-card-header>			    
+						    <mat-card-title>
+						  		No Dynamic Fields Added
+						    </mat-card-title>
+						</mat-card-header> -->
+						<mat-card-content>
+							<div class="dummy_content no_minheight">
+								<div class="row">
+									<div class="col-md-4 align-self-center">
+										<div class="icon-space text-center">
+											<img src="assets/images/updateaddresspinner.png" alt="">
+										</div>
+									</div>
+									<div class="col-md-8 align-self-center" *ngIf="selectSubcatModel!='' && selectSubcatModel!=null">
+										<h6 class="maincardsubHeading">Add Dynamic Fields</h6>
+										<div class="col-md-5 pl-0">
+											<p>Add dynamic fields from admin to create pin on this sub category id</p>
+										</div>
+									</div>
+									<div class="col-md-8 align-self-center" *ngIf="selectSubcatModel=='' || selectSubcatModel==null">
+										<h6 class="maincardsubHeading">Please Select Category and Subcategory</h6>
+										<div class="col-md-5 pl-0">
+											<p>Please select a Category and a Subcategory to create a new Pin.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</mat-card-content>
+					</mat-card>
+
+				</div>
+			</ng-container>
+		</div>
+	</div>
+</div>

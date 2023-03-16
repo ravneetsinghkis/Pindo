@@ -1,0 +1,117 @@
+<section class="totalDashboard" *ngIf="showView">
+	<div class="container mt-4">
+		<app-raise-dispute-form [isHiddenPinId]="PinDetails?.id" #popUpRaiseDispute></app-raise-dispute-form>
+		<div class="alert alert-danger" role="alert"
+			*ngIf="PinDetails?.status==2 && totalDataToPrepoluate?.quotation_dtls?.status==3" style="text-align: center;">
+			Your payment request has been rejected by pinner<br><br>
+			<b>Reason: {{totalDataToPrepoluate?.quotation_dtls?.reject_reason}}</b><br>
+			<b>Reason: {{totalDataToPrepoluate?.quotation_dtls?.reject_description}}</b><br><br>
+			<button type="button" class="btn btn-link"
+				(click)="goToChat(PinDetails?.pinner_details?.id,PinDetails?.id)">Message Pinner</button>or<button type="button"
+				class="btn btn-link" (click)="toggleChildPopup()">Raise Dispute</button>
+		</div>
+		<div class="row">
+
+			<div class="col-lg-8">
+				<mat-card class="pindoCart mb-4">
+					<mat-card-header>
+						<mat-card-title class="posn_rel">
+							Job Details
+							<p class="float-right total_qtn" *ngIf="toshowQuotation">Total Amount<span>$
+									{{totalPrice | number:'.2-2'}}</span></p>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<ng-container>
+							<div class="subcard-heading">
+								<p><span>{{PinDetails?.created_at?.split('-').join('/') | date:'dd LLL yyyy'}}
+										{{PinDetails?.created_at?.split('-').join('/') | date:'h:mm a'}}</span>|<span>ID:
+										{{PinDetails?.pin_unique_id}}</span></p>
+								<h5>{{PinDetails?.title}}</h5>
+								<div class="heading-info mt-3 mb-5">
+									<span class="quotationlist orange-pin">
+										{{PinDetails?.parent_child_cat?.parent_det?.name}} >
+										{{PinDetails?.parent_child_cat?.name}}
+									</span>
+									<!-- <span class="quotationlist" *ngIf="PinDetails?.has_budget==0">No Budget</span> -->
+									<span class="quotationlist" *ngIf="PinDetails?.has_budget==1">$
+										{{PinDetails.budget_value | number:'.2-2'}}</span>
+									<span class="quotationlist">
+										<a [href]="addressLink" target="_blank"><i
+												class="fas fa-map-marker-alt mr-2"></i>{{PinDetails?.address}}</a>
+									</span>
+								</div>
+							</div>
+							<h6 class="maincardsubHeading">Job Description</h6>
+							<p [innerHtml]="PinDetails?.description"></p>
+							<div class="fileiconlisting pt-3">
+								<ng-container *ngIf="PinDetails?.attachments?.length>0">
+									<h6 class="maincardsubHeading">Attachments Uploaded by Pinner</h6>
+									<p class="mb-0">Added Attachment:</p>
+									<div class="d-flex">
+										<span *ngFor="let eachattachment of PinDetails?.attachments;let i = index;">
+											<p class="align-items-center fileicons">
+												<a href="{{baseCompUrl}}/jobs/{{eachattachment?.name}}" target="_blank">
+													<!-- <a href="{{baseCompUrl}}/jobs/{{eachattachment?.name}}" target="_blank"> -->
+													<span
+														*ngIf="(eachattachment.name.split('.')[eachattachment.name.split('.').length-1]=='pdf'); else that">
+														<img src="assets/images/PDF_Symbol.png" alt="">
+													</span>
+													<ng-template #that>
+														<span>
+															<img src="{{baseCompUrl}}/jobs/{{eachattachment?.name}}" alt="">
+														</span>
+
+													</ng-template>
+													{{eachattachment?.original_name}}
+												</a>
+											</p>
+										</span>
+									</div>
+								</ng-container>
+							</div>
+						</ng-container>
+					</mat-card-content>
+				</mat-card>
+			</div>
+			<div class="col-md-4">
+				<app-profile-details [fetchedPinDetails]="PinDetails" [totalDataDetails]="totalDataToPrepoluate"
+					(onJobDeclineRequestSend)="declineJobResponse($event)">
+				</app-profile-details>
+			</div>
+		</div>
+		<div class="row">
+			<!-- <div class="col-md-12 mb-3" *ngIf="totalDataToPrepoluate?.application_dtls?.status==0 || (totalDataToPrepoluate?.application_dtls?.status!=1 && attachment.length>0)">
+				<mat-card class="pindoCart">
+				  <mat-card-header>			    
+				    <mat-card-title>
+				    	Attachments	    	
+				    </mat-card-title>
+				  </mat-card-header>
+				  <mat-card-content>
+				  		<div class="total_attach clearfix">
+							<div class="upload_attachment mb-2" *ngIf="totalDataToPrepoluate?.application_dtls?.status==0 || totalDataToPrepoluate?.application_dtls?.status==1">
+								<button type="button" mat-raised-button class="text-uppercase mat-primary">Add Attachment</button>
+								<input type="file" (change)="uploadAttachment($event)">
+							</div>
+							<p class="attachment_grp" *ngIf="attachment.length>0">Added Attachment:								  	
+							  	<span *ngFor="let eachattachment of attachment;let i = index;"><a href="{{uploadUrl}}/jobs/{{eachattachment?.file_name}}" target="_blank">{{eachattachment?.original_name}}</a>&nbsp;&nbsp;<ng-container *ngIf="totalDataToPrepoluate?.application_dtls?.status==0 || totalDataToPrepoluate?.application_dtls?.status==1"><i class="far fa-times-circle" (click)="removeAttachment(i);"></i></ng-container></span>
+						  	</p>
+						</div>
+				  </mat-card-content>
+				</mat-card>
+			</div> -->
+			<div class="col-12">
+				<app-submit-quotation-form *ngIf="(totalDataToPrepoluate | json)!='{}' 
+                && totalDataToPrepoluate?.application_dtls?.status!=4 
+                && totalDataToPrepoluate?.application_dtls?.status!=3"
+					[quotationDetails]="totalDataToPrepoluate?.quotation_dtls"
+					[paymentOptions]="totalDataToPrepoluate?.doer_payment_options" [pinSlug]="pin_id"
+					[fetchedPinDetails]="totalDataToPrepoluate?.pin_details"
+					[applicationDetails]="totalDataToPrepoluate?.application_dtls"
+					[adminCommissionDetails]="totalDataToPrepoluate?.admin_commission_details">
+				</app-submit-quotation-form>
+			</div>
+		</div>
+	</div>
+</section>

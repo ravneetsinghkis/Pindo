@@ -1,0 +1,48 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between mb-0">
+      <div class="heading pb-3">
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+
+    <div class="lg-content text-center px-sm-4 px-0 pb-3">
+
+      <div class="content-heading mb-sm-4 mb-3">
+        <h3 class="content-heading-text">Invite a Doer</h3>
+      </div>
+      <form autocomplete="off" [formGroup]="invite_pindo">
+
+        <div class="matComnForm ">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Name of provider or company</mat-label>
+            <input matInput type="text" [(ngModel)]="name" name="name" formControlName="name">
+            <mat-error *ngIf="submitted && invite_pindo.controls.name.errors">This field required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>E-mail address</mat-label>
+            <input matInput type="text" [(ngModel)]="email" name="email" formControlName="email">
+            <mat-error *ngIf="submitted && invite_pindo.controls.email.errors">This field required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Message</mat-label>
+            <textarea matInput matAutosize="true" class="height2" [(ngModel)]="msgText" name="message" formControlName="msgText"></textarea>
+            <mat-error *ngIf="submitted && invite_pindo.controls.msgText.errors">This field required
+            </mat-error>
+          </mat-form-field>
+
+          <div class="btn-holder">
+            <button type="submit" mat-flat-button class="btn-greenColor text-uppercase smFont-lg-size"
+              (click)="onSend()">SEND
+              INVITATION</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

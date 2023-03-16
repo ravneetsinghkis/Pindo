@@ -1,0 +1,89 @@
+<div class="overlayPopup popupavl" #popuprefbank>
+	<div class="popupHeader">
+		<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span
+				class="or or-return"></span></button>
+		<h3>Add New Bank </h3>
+	</div>
+	<div class="popupContent" *ngIf="afterInit">
+		<div class="container">
+			<form #addBankForm="ngForm" (ngSubmit)="onSubmit(addBankForm)" novalidate [formGroup]="bank_add_form">
+				<div class="row">
+					<div class="col-md-6">
+						<mat-form-field appearance="outline">
+							<mat-label>First Name</mat-label>
+							<input matInput id="first_name" formControlName="first_name" type="text" placeholder="First Name"
+								required>
+							<mat-error *ngIf="addBankForm?.submitted && f.first_name.errors && !f.first_name.errors?.required">Invalid
+								Account holder name</mat-error>
+							<mat-error *ngIf="addBankForm?.submitted && f.first_name.errors?.required">This field required</mat-error>
+						</mat-form-field>
+					</div>
+
+					<div class="col-md-6">
+						<mat-form-field appearance="outline">
+							<mat-label>Last Name</mat-label>
+							<input matInput id="last_name" formControlName="last_name" type="text" placeholder="Last Name" required>
+							<mat-error *ngIf="addBankForm?.submitted && f.last_name.errors && !f.last_name.errors?.required">Invalid
+								Account holder name</mat-error>
+							<mat-error *ngIf="addBankForm?.submitted && f.last_name.errors?.required">This field required</mat-error>
+						</mat-form-field>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-6">
+						<mat-form-field appearance="outline">
+							<mat-label>Routing number</mat-label>
+							<input matInput id="routing_number" formControlName="routing_number" type="text"
+								placeholder="Routing number" required>
+							<mat-error *ngIf="addBankForm?.submitted && f.routing_number.errors?.required">This field required
+							</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="col-md-6">
+						<mat-form-field appearance="outline">
+							<mat-label>Account number</mat-label>
+							<input matInput id="account_number" formControlName="account_number" type="text"
+								placeholder="Account number" required>
+							<mat-error *ngIf="addBankForm?.submitted && f.account_number.errors?.required">This field required
+							</mat-error>
+						</mat-form-field>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<mat-form-field appearance="outline">
+							<mat-label>Country</mat-label>
+							<mat-select placeholder="Select Country" formControlName="country" required>
+								<mat-option *ngFor="let each_country of countries" [value]="each_country.iso_2">
+									{{each_country.name}}
+								</mat-option>
+							</mat-select>
+							<mat-error *ngIf="addBankForm?.submitted && f.country.errors?.required">This field required</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="col-md-6">
+						<mat-form-field appearance="outline">
+							<mat-label>Type</mat-label>
+							<mat-select placeholder="Select Type" formControlName="type" required>
+								<mat-option *ngFor="let each_type of types" [value]="each_type.value">
+									{{each_type.viewValue}}
+								</mat-option>
+							</mat-select>
+							<mat-error *ngIf="addBankForm?.submitted && f.type.errors?.required">This field required</mat-error>
+						</mat-form-field>
+					</div>
+				</div>
+
+				<div class="d-flex justify-content-center pt-5">
+					<button type="submit" mat-raised-button color="primary" value="submit"
+						class="text-uppercase mat-primary mr-2">
+						Add Bank Details
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

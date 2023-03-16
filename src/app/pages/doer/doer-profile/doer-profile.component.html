@@ -1,0 +1,354 @@
+<div class="totalDashboard">
+	<div class="container">
+		<div class="mainHeading d-flex justify-content-between">
+			<div class="titleandtext">
+				<h3>Manage Profile</h3>
+				<p>View and update your public profile.</p>
+			</div>
+			<button mat-raised-button color="primary" class="text-uppercase prfl-orange-btn" *ngIf="prof_id!=''"
+				(click)="commonservice.openWithNewTab(prof_id)">View Profile</button>
+		</div>
+		<div class="row mb-3">
+			<div class="col-lg-8">
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							TOPLINE INFORMATION
+							<button mat-raised-button class="dashboardprimary text-uppercase float-right"
+								(click)="toggleParentPopup('DoerBasicDetailsComponent')">update</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<app-doer-basic-details [isHiddenBasicDetails]="basicDetails" #doerBasicDetails (ProfileId)="getId($event)">
+						</app-doer-basic-details>
+					</mat-card-content>
+					<mat-card-actions>
+						<div class="d-flex justify-content-between">
+							<h6>Do you provide emergency service?</h6>
+							<mat-radio-group class="align-self-center" [(ngModel)]="favoriteSeason">
+								<mat-radio-button class="pindo-radio-button ml-3" *ngFor="let emservice of emergencyService"
+									[value]="emservice.value" (click)="setEmergencyServices()">
+									{{emservice.text}}
+								</mat-radio-button>
+							</mat-radio-group>
+						</div>
+					</mat-card-actions>
+				</mat-card>
+				<mat-card class="pindoCart">
+					<div class="badges-section">
+						<p>PINDO BADGES</p>
+						<div class="badges-slider" *ngIf="doerBadges.length>0">
+							<!-- Swiper -->
+							<div class="swiper-container">
+								<div class="swiper-wrapper">
+									<div class="swiper-slide" *ngFor="let eachBadge of doerBadges">
+										<div class="badge_cont text-center" matTooltip="{{eachBadge?.badge_details?.name}}"
+											matTooltipClass="green-tooltip" aria-label="">
+											<img src="assets/images/badges-icon/{{eachBadge?.badge_details?.icon}}" alt="">
+										</div>
+									</div>
+								</div>
+								<!-- Add Arrows -->
+								<div class="total-swiperpag">
+									<div class="swiper-button-next">
+										<!-- <i class="fas fa-chevron-right"></i> -->
+									</div>
+									<div class="swiper-button-prev">
+										<!-- <i class="fas fa-chevron-left"></i> -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<button mat-flat-button class="btn-greenColor text-uppercase request-badge-btn">Request Badge</button>
+					</div>
+
+				</mat-card>
+
+
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							Services Offered
+							<button mat-raised-button class="dashboardprimary text-uppercase float-right"
+								(click)="toggleParentPopup('DoerAddServices')">Add Service</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="forScroll forservice">
+							<app-profile-services [isHiddenService]="dummyService" #DoerServices
+								(listingPopulated)="lengthUpdate($event,'DoerServices')"></app-profile-services>
+						</div>
+					</mat-card-content>
+				</mat-card>
+
+
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							Insurance
+							<button mat-raised-button *ngIf="dummyInsurance" class="dashboardprimary text-uppercase float-right"
+								(click)="toggleParentPopup('profileInsurance');">update</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="forScroll">
+							<app-profile-insurance [isHidden]="dummyInsurance" #profileInsurance
+								(listingPopulated)="lengthUpdate($event,'profileInsurance')"></app-profile-insurance>
+						</div>
+					</mat-card-content>
+				</mat-card>
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							LICENSES
+							<button mat-raised-button *ngIf="dummyLicence" class="dashboardprimary text-uppercase float-right"
+								(click)="toggleParentPopup('profileLicense');">update</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="forScroll">
+							<app-profile-licence [isHiddenLicence]="dummyLicence" #profileLicense
+								(listingPopulated)="lengthUpdate($event,'profileLicense')"></app-profile-licence>
+						</div>
+					</mat-card-content>
+				</mat-card>
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							Affiliations &amp; Certificates
+							<button mat-raised-button *ngIf="dummyCertificates" class="dashboardprimary text-uppercase float-right"
+								(click)="toggleParentPopup('profileCertificates');">update</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="forScroll">
+							<app-profile-certificates [isHiddenCertificates]="dummyCertificates" #profileCertificates
+								(listingPopulated)="lengthUpdate($event,'profileCertificates')"></app-profile-certificates>
+						</div>
+					</mat-card-content>
+				</mat-card>
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							Photo Gallery
+							<button mat-raised-button class="dashboardprimary text-uppercase float-right"
+								(click)="openDialog()">Create New Folder</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<app-doer-photos (editFolderEvent)="editIndvFolder($event)"></app-doer-photos>
+					</mat-card-content>
+				</mat-card>
+
+
+				<!-- doer profile settings start -->
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							Settings Information
+							<!-- <button mat-raised-button class="dashboardprimary text-uppercase float-right" (click)="toggleParentPopup('PinnerContactInformationComponent')" [hidden]="!isContactInformationPopulated">update</button> -->
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="row">
+							<div class="col-md-12">
+								<app-doer-control #cntrolInfo [isControltHidden]="isControlInformationPopulated"></app-doer-control>
+							</div>
+						</div>
+					</mat-card-content>
+					<mat-card-actions class="text-center">
+
+					</mat-card-actions>
+				</mat-card>
+				<!-- Doer profile Settings End -->
+
+				<!-- Doer Push Notification Settings start -->
+
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							Push Notification Settings Information
+
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="row">
+							<div class="col-md-12">
+								<app-doer-profile-notification-settings #notificationcntrolInfo
+									[isControltHidden]="isControlInformationPopulated"></app-doer-profile-notification-settings>
+							</div>
+						</div>
+					</mat-card-content>
+					<mat-card-actions class="text-center">
+
+					</mat-card-actions>
+				</mat-card>
+
+				<!-- Doer Push Notification settings End -->
+				<!-- Doer Email Notification Settings start -->
+
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							Email Notification Settings Information
+
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<div class="row">
+							<div class="col-md-12">
+								<app-doer-profile-email-settings #emailcntrolInfo [isControltHidden]="isControlInformationPopulated">
+								</app-doer-profile-email-settings>
+							</div>
+						</div>
+					</mat-card-content>
+					<mat-card-actions class="text-center">
+
+					</mat-card-actions>
+				</mat-card>
+
+
+				<!-- Doer Email Notification Settings End -->
+
+
+
+
+			</div>
+			<div class="col-md-4 right_doerprofile">
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							Contact Information
+							<button mat-raised-button class="dashboardprimary text-uppercase float-right"
+								(click)="toggleParentPopup('DoerContactInformationComponent')"
+								[hidden]="dummyContactinformation">update</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<app-doer-contact-information #cntInfo></app-doer-contact-information>
+					</mat-card-content>
+					<mat-card-actions class="text-center">
+						<app-change-password></app-change-password>
+					</mat-card-actions>
+				</mat-card>
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							HOURS OF OPERATION
+							<button mat-raised-button class="dashboardprimary text-uppercase float-right"
+								[hidden]="!dummyOpeningHours" (click)="toggleParentPopup('profileOpeningHours');">update</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<app-opening-hours [isOpeningHours]="dummyOpeningHours" #profileOpeningHours
+							(listingPopulated)="lengthUpdate($event,'profileOpeningHours')"></app-opening-hours>
+					</mat-card-content>
+					<mat-card-actions class="text-center">
+						<button class="btn btn-link orange-text text-uppercase" (click)="toggleManageAvailibilityPopup()">Manage
+							Availability</button>
+					</mat-card-actions>
+				</mat-card>
+				<mat-card class="pindoCart">
+					<mat-card-header>
+						<mat-card-title>
+							ACCEPTED METHODS OF PAYMENT
+							<button mat-raised-button class="dashboardprimary text-uppercase float-right"
+								[hidden]="!dummyProfilePayment" (click)="toggleParentPopup('profilePayment');">update</button>
+						</mat-card-title>
+					</mat-card-header>
+					<mat-card-content>
+						<app-profile-payment [isProfilePayment]="dummyProfilePayment" #profilePayment
+							(listingPopulated)="lengthUpdate($event,'profilePayment')"></app-profile-payment>
+
+					</mat-card-content>
+				</mat-card>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- overlayPopup -->
+	<div class="overlayPopup popupavl" #popUpManageAvailibility>
+		<div class="popupHeader">
+			<button mat-icon-button class="btn-back float-left" (click)="toggleManageAvailibilityPopup()"><span
+					class="or or-return"></span></button>
+			<h3>Manage Availability</h3>
+		</div>
+		<div class="popupContent">
+			<div class="container">
+				<div class="popUpcontentHeading">
+					<p class="text-center">Please select the time period that you will not be providing services.
+						<!-- <br> For a single day of unavailability, you can only select start date without end date. -->
+					</p>
+				</div>
+				<div class="col-md-8 offset-md-2">
+					<form #manageAvlForm="ngForm" novalidate (ngSubmit)="submitmngavl(manageAvlForm)">
+						<p>
+							<mat-slide-toggle (change)="onSingleDaySelection($event)"><b>Select a Single Day</b></mat-slide-toggle>
+						</p>
+						<div class="row" ngModelGroup="ValidateDates" appCompareDateStrings #dategrp="ngModelGroup">
+							<div class="col-md-6">
+								<mat-form-field appearance="outline">
+									<input name="start_date" (click)="pickerFrom.open()" matInput [matDatepicker]="pickerFrom"
+										#fromDate="ngModel" [(ngModel)]="manageAvlModel.start_date" (dateChange)="onStartDateChange()"
+										placeholder="Start Date" readonly required>
+									<mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+									<mat-datepicker #pickerFrom></mat-datepicker>
+									<mat-error *ngIf="fromDate.errors && (manageAvlForm.submitted) && fromDate.errors?.required">This
+										field required</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="col-md-6">
+								<mat-form-field appearance="outline">
+									<input name="end_date" matInput (click)="toggleDatepicker(pickerTo)" [matDatepicker]="pickerTo"
+										#endDate="ngModel" [(ngModel)]="manageAvlModel.end_date" placeholder="End Date" readonly required>
+									<mat-datepicker-toggle matSuffix [for]="pickerTo" *ngIf="!singleDaySelection"></mat-datepicker-toggle>
+									<mat-datepicker #pickerTo></mat-datepicker>
+									<mat-error *ngIf="endDate.errors && (manageAvlForm.submitted) && endDate.errors?.required">This field
+										required</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="mat-error text-center mat-custom-error col-md-12"
+								*ngIf="manageAvlForm.submitted && dategrp.errors?.notEqual">
+								From Time is bigger than To time
+							</div>
+							<div class="mat-error text-center mat-custom-error col-md-12"
+								*ngIf="manageAvlForm.submitted && dategrp.errors?.inRange && !dategrp.errors?.notEqual">
+								Range Already Exits
+							</div>
+						</div>
+						<div class="d-flex justify-content-center pt-sm-5">
+							<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+								Save
+							</button>
+							<!-- <div class="custombtnboder">
+								<button type="button" mat-button class="text-uppercase" (click)="resetFunction(manageAvlForm)">
+									Reset
+								</button>
+							</div> -->
+						</div>
+					</form>
+					<div class="manageavlListing mt-4 mt-sm-5">
+						<div class="total_listing" *ngFor="let eachmngVal of avlList;let i = index;">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="valu_box">
+										{{eachmngVal.start_date | date }}
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="valu_box">
+										{{eachmngVal.end_date | date }}
+									</div>
+								</div>
+							</div>
+							<button mat-icon-button class="btn_removeList" (click)="removeAvailibity(i);">
+								<i class="fas fa-minus"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

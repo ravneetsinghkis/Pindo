@@ -1,0 +1,35 @@
+<h6 class="special_header">Photo Gallery</h6>
+<div class="photo-listing">
+	<ul>
+		<ng-container *ngFor="let eachFolder of doerFolderListing;let i = index;">
+			<li (click)="togglePopup(i)">
+				<div class="forpad">
+					<div class="photo_img d-flex justify-content-center" [ngClass]="{'no-image': eachFolder?.photos.length==0}">
+						<ng-container *ngIf="eachFolder?.photos.length>0"><img src="{{eachFolder?.url}}/{{eachFolder?.folder_name}}/{{eachFolder?.photos['0']?.name}}" alt=""></ng-container>
+						<ng-container *ngIf="eachFolder?.photos.length==0">
+							<i class="far fa-image align-self-center" style="font-size: 36px;"></i>
+						</ng-container>
+					</div>
+				</div>
+				<p class="text-center">{{ eachFolder?.folder_name }}</p>
+			</li>		
+		</ng-container>
+	</ul>	
+</div>
+<!-- overlayPopup -->
+<div class="overlayPopup popupavl" #popUpVar>
+	<div class="popupHeader">
+		<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span class="or or-return"></span></button>
+		<h3>View Photos</h3>
+	</div>
+	<div class="popupContent">
+		<div class="container">
+			<div class="popUpcontentHeading mb-4" *ngIf="selectedFolderDescription">
+				<p class="text-center">{{selectedFolderDescription}}</p>
+				<hr>
+			</div>
+			<crystal-gallery [images]="myImages" [config]="myConfig"></crystal-gallery>
+			<p *ngIf="myImages.length==0">No Images Uploaded Yet</p> 
+		</div>
+	</div>
+</div>

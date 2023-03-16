@@ -1,0 +1,158 @@
+<div class="row">
+	<div class="photo-listing">
+		<ul>
+			<ng-container *ngFor="let eachFolder of createdfolderList;let i = index;">
+				<li>
+					<div class="forpad">
+						<div class="photo_img d-flex justify-content-center" (click)="togglePopup(i)"
+							[ngClass]="{'no-image': eachFolder?.photos.length==0}">
+							<ng-container *ngIf="eachFolder?.photos.length>0"><img
+									src="{{eachFolder?.url}}/{{eachFolder?.folder_name}}/{{eachFolder?.photos['0']?.name}}" alt="">
+							</ng-container>
+							<ng-container *ngIf="eachFolder?.photos.length==0">
+								<i class="far fa-image align-self-center" style="font-size: 36px;"></i>
+							</ng-container>
+						</div>
+						<p class="text-center" (click)="togglePopup(i)">{{ eachFolder?.folder_name }}</p>
+					</div>
+
+					<div class="border-box-action">
+						<button mat-icon-button class="btn-action float-left" (click)="editFolderName(i)"><i
+								class="far fa-edit"></i></button>
+						<button mat-icon-button class="btn-action float-left" (click)="removeThisFolder(i)"><i
+								class="far fa-trash-alt"></i></button>
+					</div>
+				</li>
+			</ng-container>
+		</ul>
+	</div>
+	<!-- <ng-container *ngFor="let eachFolder of createdfolderList;let i = index;">
+        <div class="folder-list col-md-4 text-center mb-2">
+            <span (click)="togglePopup(i)"><img src="assets/images/folder.svg" alt=""></span>
+            <p (click)="togglePopup(i)">{{eachFolder?.folder_name}}</p>
+            
+        </div>
+    </ng-container> -->
+</div>
+<!-- overlayPopup -->
+<div class="overlayPopup popupavl" #popUpManageImages>
+	<div class="popupHeader">
+		<button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span
+				class="or or-return"></span></button>
+		<h3 [class.is-hidden]="">Manage Photos</h3>
+	</div>
+	<div class="popupContent photos">
+		<div class="container">
+			<div class="popUpcontentHeading mb-4" *ngIf="selectedFolderDescription">
+				<p class="text-center">{{selectedFolderDescription}}</p>
+				<hr>
+			</div>
+			<div class="upload-bar d-flex justify-content-between mb-4" *ngIf="masonryItems.length>0">
+				<div class="left_top d-flex">
+					<div class="total_slect">
+						<mat-checkbox [(ngModel)]="checkedAll" (change)="selectAllImages()">&nbsp;</mat-checkbox>
+						<button mat-button [matMenuTriggerFor]="menu"><i class="far fa-caret-square-down"></i></button>
+						<mat-menu #menu="matMenu">
+							<button mat-menu-item (click)="selectAllTrigger()">Select All</button>
+							<button mat-menu-item (click)="selectNoneTrigger()">None</button>
+						</mat-menu>
+					</div>
+					<button mat-icon-button class="btn-action float-left ml-2" (click)="removeImages()"
+						*ngIf="toremoveImg.length>0"><i class="far fa-trash-alt"></i></button>
+				</div>
+				<button type="submit" mat-raised-button color="primary"
+					class="text-uppercase mat-primary posn_rel custom_upload">
+					Upload Images
+					<label class="upload-button">
+						<input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)"
+							[uploadInput]="uploadInput" multiple>
+						or choose file(s)
+					</label>
+				</button>
+			</div>
+			<hr *ngIf="masonryItems.length>0">
+			<!-- <crystal-gallery [images]="masonryItems" [config]="myConfig" >
+        		<ng-container (click)="handleMasonryLayoutEvents($event)">asdasdasd</ng-container>
+        	</crystal-gallery> -->
+			<ngx-masonry [options]="masonryOptions" [useImagesLoaded]="true">
+				<div class="grid-sizer"></div>
+				<div class="gutter-sizer"></div>
+
+				<ngxMasonryItem class="masonry-item" [ngClass]="{'selected':item.checkboxStatus}"
+					*ngFor="let item of masonryItems; let i = index;" lightbox-group>
+					<figure>
+						<div class="checkuncheck">
+							<mat-checkbox [(ngModel)]="item.checkboxStatus" (change)="checkuncheckToRemove(i)">&nbsp;</mat-checkbox>
+						</div>
+						<!-- <button (click)="lightbox.open([{full: item.imagepath}])">Photo of hill</button>	 -->
+						<!-- <img src="{{iamgeUrl}}/{{item.name}}" lightbox alt="" lightbox animationDuration="500" (click)="lightbox.open([{full: item.imagepath}])"> -->
+						<img src="{{iamgeUrl}}/{{item.name}}" lightbox alt="" lightbox animationDuration="500">
+					</figure>
+				</ngxMasonryItem>
+			</ngx-masonry>
+			<div class="col-md-8 offset-md-2" [hidden]="masonryItems.length > 0">
+				<div class="upload-box">
+					<div class="upload-box-header">
+						<div class="control-circles">
+							<span class="circle is-green"></span>
+							<span class="circle is-yellow"></span>
+							<span class="circle is-red"></span>
+						</div>
+						<div class="header-title">
+							<h2>Upload New Images</h2>
+						</div>
+						<div class="gh-icon">
+							<!-- <a target="_blank" href="https://github.com/bleenco/ngx-uploader">
+        	                  <i class="ionicon ion-social-github"></i>
+        	                </a> -->
+						</div>
+					</div>
+					<div class="upload-box-content">
+						<div class="drop-container flex-column" ngFileDrop [options]="options"
+							(uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput">
+							<img src="assets/images/upload-to-cloud.svg" alt="">
+							<p>
+								Drag files here or
+								<label class="upload-button">
+									<input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)"
+										[uploadInput]="uploadInput" multiple> browse
+								</label>
+								to upload.
+							</p>
+						</div>
+						<div class="upload-item" *ngFor="let f of files; let i = index;">
+							<div class="upload-item-content">
+								<div class="filename">
+									<div class="filename-left">
+										<i class="ionicon ion-ios-copy"></i>
+										<span>{{ f.name }}</span>
+									</div>
+									<div class="filename-right">
+										<i class="ionicon ion-close-round" (click)="cancelUpload(f.id)"></i>
+									</div>
+								</div>
+								<div class="progress-content">
+									<div class="progress">
+										<span class="bar" [style.width]="f?.progress?.data?.percentage + '%'"
+											[class.is-done]="f?.progress?.data?.percentage === 100"></span>
+									</div>
+								</div>
+								<div class="progress-text-content">
+									<span class="progress-text" [class.is-done]="f?.progress?.data?.percentage === 100">
+										<span>{{ f.progress?.data?.percentage }}% </span>
+										<span *ngIf="f.progress?.data?.percentage !== 100">Uploading...</span>
+										<span *ngIf="f.progress?.data?.percentage === 100">Done</span>
+									</span>
+									<span class="speed-and-eta-text"
+										*ngIf="f.progress?.data?.percentage !== 0 && f.progress?.data?.percentage !== 100">
+										<span>{{ f.progress?.data?.speedHuman }} </span>
+										<span>ETA {{ f.progress?.data?.etaHuman }}</span>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

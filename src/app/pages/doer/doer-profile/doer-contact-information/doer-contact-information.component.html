@@ -1,0 +1,198 @@
+<div class="contact-info">
+  <p>
+    <span class="icon-contact"><i class="fas fa-map-marker-alt"></i></span>
+    <button class="btn btn-link" (click)="togglePopup()" *ngIf="newobj.address=='' || newobj.address==null">Add your
+      office address</button>
+    {{newobj.address}}
+    <ng-container *ngIf="newobj.address2!='' && newobj.address2">
+      <br />{{newobj.address2}}
+    </ng-container>
+    <br /> {{newobj.city}}, {{newobj.state}} {{newobj.zipcode}}
+  </p>
+  <p>
+    <span class="icon-contact"><i class="fas fa-phone-volume"></i></span>
+    <ng-container *ngIf="newobj.mobile_no!=null && newobj.mobile_no!=''">
+      <a href="tel:+{{newobj.mobile_no}}">{{newobj.mobile_no}}</a>
+    </ng-container>
+    <button class="btn btn-link" (click)="togglePopup()" *ngIf="newobj.mobile_no==null || newobj.mobile_no==''">Add your
+      mobile no.</button>
+  </p>
+  <p>
+    <span class="icon-contact"><i class="fas fa-envelope"></i></span>
+    <a href="mailto:info@scotfindpvtltd.com">{{newobj.email}}</a></p>
+  <p>
+    <span class="icon-contact"><i class="fas fa-globe"></i></span>
+    <ng-container *ngIf="newobj.website!=null && newobj.website!=''">
+      {{newobj.website}}
+    </ng-container>
+    <button class="btn btn-link" (click)="togglePopup()" *ngIf="newobj.website==null || newobj.website==''">Add your
+      official website</button>
+  </p>
+</div>
+<div class="overlayPopup" #popUpVar>
+  <div class="popupHeader">
+    <button mat-icon-button class="btn-back float-left" (click)="togglePopup()"><span
+        class="or or-return"></span></button>
+    <h3>Update Contact Information</h3>
+  </div>
+  <div class="popupContent" *ngIf="afterView">
+    <div class="container">
+      <div class="col-md-10 offset-md-1">
+        <form #updateContInfo="ngForm" id="doer-contact" novalidate (ngSubmit)="submitFunction(updateContInfo)"
+          autocomplete="off">
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Address Line</mat-label>
+                <input matInput name="address" #s_address="ngModel" [(ngModel)]="contactModel.address"
+                  placeholder="Address Line*" required>
+                <!--  <input matInput ngx-google-places-autocomplete name="address" #s_address="ngModel" [(ngModel)]="contactModel.address" [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Address Line*" autocomplete="false" required> -->
+                <mat-error *ngIf="s_address?.errors && (updateContInfo.submitted) && s_address?.errors?.required">This
+                  field required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+
+                <mat-label>Address 2</mat-label>
+
+                <!-- <input matInput name="addOne" #contAddOne="ngModel" [(ngModel)]="contactModel.addOne" placeholder="Address Line 1*" required> -->
+                <input matInput name="address2" #s_addresstwo="ngModel" [(ngModel)]="contactModel.address2"
+                  placeholder="Address 2">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Country</mat-label>
+                <input matInput name="country" #contCountry="ngModel" [(ngModel)]="contactModel.addCountry"
+                  placeholder="Country*" readonly="readonly" required>
+                <mat-error *ngIf="contCountry.errors && (updateContInfo.submitted) && contCountry.errors.required">This
+                  field required</mat-error>
+
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline">
+                <mat-label>City</mat-label>
+                <input matInput name="city" #contCity="ngModel" [(ngModel)]="contactModel.addCity" placeholder="City*"
+                  required>
+                <mat-error *ngIf="contCity.errors && (updateContInfo.submitted) && contCity.errors.required">This field
+                  required</mat-error>
+
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Choose State</mat-label>
+                <mat-select placeholder="State" #contState="ngModel" name="state" [(ngModel)]="contactModel.addState"
+                  required>
+                  <mat-option *ngFor="let each_state of state_list" [value]="each_state.state_code">
+                    {{each_state.state}}({{each_state.state_code}})
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="contState.errors && (updateContInfo.submitted) && contState.errors.required">This
+                  field required</mat-error>
+              </mat-form-field>
+
+              <!-- <mat-form-field appearance="outline">
+                          <mat-label>State</mat-label>
+                          <input matInput name="state" #contState="ngModel" [(ngModel)]="contactModel.addState" placeholder="State*" required>
+                          <mat-error *ngIf="contState.errors && (updateContInfo.submitted) && contState.errors.required">This field required</mat-error>  
+                           
+                      </mat-form-field> -->
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Zip</mat-label>
+                <input matInput name="zipcode" #contZip="ngModel" [(ngModel)]="contactModel.addZip" placeholder="Zip*"
+                  (keyup)="getfulladdressUsingZipcode()" required>
+                <mat-error *ngIf="contZip.errors && (updateContInfo.submitted) && contZip.errors.required">This field
+                  required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="map-radius mb-4">
+            <h5>Location of Service</h5>
+            <p class="mb-4">Adjust the service location range in miles</p>
+            <mat-slider *ngIf="lat!=0" class="example-margin" thumbLabel [ngModelOptions]="{standalone: true}"
+              [max]="max" [min]="min" [(ngModel)]="sliderValue" tickInterval="2" (ngModelChange)="getChangeVal()"
+              [displayWith]="formatLabel">
+            </mat-slider>
+            <p class="clearfix label_slider"><span class="float-left">{{min}}</span><span
+                class="float-right">{{max}}</span></p>
+            <div *ngIf="lat!=0">
+              <ngui-map zoom="10" center="{{lat}}, {{lng}}" styles='{{myGlobals.styles}}' [streetViewControl]="false"
+                [fullscreenControl]="false" [panControl]="false" [disableDefaultUI]="true" [draggable]="false"
+                scrollwheel="false" (mapReady$)="onMapReady($event)">
+                <ng-container *ngIf="lat!=null && lng!=null">
+                  <circle center="{{lat}}, {{lng}}" [strokeColor]="'#e6854a'" [fillColor]="'#e6854a4d'"
+                    [strokeOpacity]="1" [strokeWeight]="1" [editable]="false" radius="{{rad}}" draggable="false"
+                    (radiusChanged)="radiusChange($event)" (initialized$)="onCircleInit($event)"></circle>
+                </ng-container>
+              </ngui-map>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Email Address</mat-label>
+                <input matInput name="email" #emailaddress="ngModel" [(ngModel)]="contactModel.email"
+                  placeholder="Email*" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+
+                <mat-error *ngIf="emailaddress.errors && (updateContInfo.submitted) && emailaddress.errors.required">
+                  This field required</mat-error>
+                <mat-error
+                  *ngIf="emailaddress.errors && (updateContInfo.submitted) && (emailaddress.errors.pattern || !emailaddress.errors.required)">
+                  Invalid email.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input matInput name="mobile_no" #pnumber="ngModel" [(ngModel)]="contactModel.pnumber" prefix="+1"
+                  mask="(000) 000-0000" pattern="^\(?(\d{3})\)?[-\. ]?(\d{3})[-\. ]?(\d{4})( x\d{4})?$"
+                  placeholder="Phone Number*" required>
+                <mat-error *ngIf="pnumber.errors && (updateContInfo.submitted) && pnumber.errors.required">This field
+                  required</mat-error>
+                <mat-error
+                  *ngIf="pnumber.errors && (updateContInfo.submitted) && (pnumber.errors.pattern || !pnumber.errors.required)">
+                  Invalid Phone Number.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Website</mat-label>
+                <input matInput name="website" #website="ngModel" [(ngModel)]="contactModel.website"
+                  placeholder="Website*" pattern="(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)">
+
+                <!-- <mat-error *ngIf="website.errors && (updateContInfo.submitted) && website.errors.required">This field required</mat-error>   -->
+                <mat-error
+                  *ngIf="website.errors && (updateContInfo.submitted) && (website.errors.pattern || !website.errors?.required)">
+                  Invalid url.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-center pt-5 flex-wrap align-content-end">
+            <button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+              Save
+            </button>
+            <div class="custombtnboder">
+              <button type="button" mat-button class="text-uppercase" (click)="resetFunction(updateContInfo)">
+                Reset
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

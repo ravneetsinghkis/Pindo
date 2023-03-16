@@ -1,0 +1,42 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+    <div class="header-content mb-0 d-flex justify-content-between mb-2">
+      <div class="heading pb-3">
+      </div>
+      <div class="dialog-close-link" (click)="closeDialog()"><span class="ic-close"></span></div>
+    </div>
+
+
+    <div class="lg-content text-center px-sm-5 px-0 pb-3">
+
+      <div class="content-heading mb-sm-4 mb-2">
+          <h3 class="content-heading-text">Invite to join PinDo</h3>
+      </div>
+      <form autocomplete="off" [formGroup]="invite_pindo" name="invite_pindo" (ngSubmit)="onSubmitCreatePost(invite_pindo.value)">
+
+      <div class="comnForm">
+          <div class="form-group mb-md-4 mb-2">
+            
+              <div class="form-control-wrap mb-3">
+                  <input type="text" class="form-control" formControlName="invite_user_name" placeholder="Name of user to invite"/>
+                  <label class="formLabel-error text-left d-block" *ngIf="invite_pindo.get('invite_user_name').hasError('required') && submitted">This Field is Requerd</label>
+                </div>
+
+              <div class="form-control-wrap mb-3">
+                <input type="text" class="form-control" formControlName="invite_email" placeholder="Email address of user to invite" name="contactMailSend" [(ngModel)]="contactMailSend" />
+                <label class="formLabel-error text-left d-block" *ngIf="invite_pindo.get('invite_email').hasError('required') && submitted">This Field is Requerd</label>
+              </div>
+            </div>
+            <div class="btn-holder">
+                <button type="submit" mat-flat-button class="btn-greenColor text-uppercase">Invite</button>
+              </div>
+        </div>
+      
+      </form>
+
+    </div>
+
+
+
+  </div>
+</div>

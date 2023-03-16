@@ -1,0 +1,99 @@
+<div class="overlayFullPopup" #popUpVar>
+  <div class="fullPopupHeader px-3">
+    <button mat-icon-button class="btn-back float-left" (click)="closeModal()"><span
+        class="or or-return"></span></button>
+    <h3 class="heading-text mb-0 text-uppercase">Profile Information</h3>
+  </div>
+  <hr class="m-0">
+  <div class="fullPopupContent">
+    <div class="container">
+      <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12 offset-0">
+        <div class="matComnForm">
+          <form [formGroup]="update_profile" autocomplete="off" name="update_profile"
+            (ngSubmit)="onSubmitUpdateProfile()">
+            <div class="upload-prflImg mb-4 text-center">
+              <!-- <button type="button" (click)="rotate()">Press me to rotate</button>
+              <canvas id="canvas"></canvas> -->
+              <div class="prflImg-box mb-3 mx-auto">
+                <div class="img-holder">
+                  <!-- <img [@rotatedState]='state' src="{{imageUrl_own}}" onError="this.src = 'assets/images/default-userImg-green.svg'" id="image"> -->
+                  <img src="{{imageUrl_own}}" onError="this.src = 'assets/images/default-userImg-green.svg'" id="image">
+                </div>
+              
+                <div *ngIf="imageUrl_own!=pinner_logo" class="deleteImg-action custom" (click)="clearImage()"
+                  title="Delete Image">
+                  <mat-icon class="mat-icon material-icons">delete</mat-icon>
+                </div>
+              </div>
+
+              <div class="input-field">
+                <input type="file" #Image accept="image/*" (change)="fileChangeHandler($event)">
+                <span *ngIf="imageUrl_own!=pinner_logo" class="linkText">Change Photo</span>
+                <span *ngIf="imageUrl_own==pinner_logo" class="linkText">Select Photo</span>
+              </div>
+
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>First Name</mat-label>
+                  <input type="text" matInput [(ngModel)]="basicDetails.first_name" formControlName="first_name">
+                </mat-form-field>
+                <label class="formLabel-error"
+                  *ngIf="update_profile.get('first_name').hasError('required') && submitted">This
+                  Field is
+                  Required</label>
+              </div>
+
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Last Name</mat-label>
+                  <input type="text" matInput [(ngModel)]="basicDetails.last_name" formControlName="last_name">
+                </mat-form-field>
+                <label class="formLabel-error"
+                  *ngIf="update_profile.get('last_name').hasError('required') && submitted">This Field
+                  is
+                  Required</label>
+              </div>
+
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>User Name</mat-label>
+                  <input type="text" matInput [(ngModel)]="basicDetails.username" formControlName="username">
+                </mat-form-field>
+                <label class="formLabel-error"
+                  *ngIf="update_profile.get('username').hasError('required') && submitted">This Field
+                  is
+                  Required</label>
+              </div>
+            </div>
+
+            <div class="mb-3">
+
+
+              <label class="form-control-label">
+                Bio
+              </label>
+              <ckeditor name="bio" [config]="ckEditorConfig" [(ngModel)]="basicDetails.bio" formControlName="bio"
+                skin="moono-lisa">
+              </ckeditor>
+              <!-- <mat-error *ngIf="update_profile.controls.description.errors">
+                <mat-error *ngIf="update_profile.controls.description.errors.required">This field required</mat-error>
+              </mat-error> -->
+            </div>
+
+            <div class="btn-holder text-center pt-xl-4 pt-2">
+              <button type="submit" mat-flat-button class="btn btn-greenColor smFont-lg-size text-uppercase mx-2">
+                Save
+              </button>
+              <button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+                (click)="closeModal()">CANCEL
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="totalDashboard">
+	<div class="container">
+		<div class="mainHeading">
+			<h3>Payment Settings</h3>
+			<p>View, add or edit Bank details </p>
+		</div>
+
+		<div class="col-md-8 offset-md-2" *ngIf="!ifBankCardExist">
+			<div class="no_content row">
+				<div class="col-md-6 text-right">
+					<img src="assets/images/payment_nodata.png" class="mr-4" alt="">
+				</div>
+				<div class="col-md-6">
+					<h5>No Bank Added</h5>
+					<p>You have not added any Bank details to receive payment. Please add your Bank details to avail the services.</p>
+					<!-- <a href="{{addStripeBanksLinks}}" class="text-uppercase mat-primary">Add Now </a> -->
+					<button (click)="goToStripe()" class="text-uppercase mat-primary">Add Now</button>
+				</div>
+			</div>
+		</div>
+		<div class="populatedCards" *ngIf="ifBankCardExist">
+			<div class="row" *ngIf="isObjectIsBank(bankcard_data.object)" >
+				<div class="col-md-8">
+					<mat-card class="pindoCart">
+						<mat-card-header>			    
+						    <mat-card-title class="d-flex justify-content-between">
+						    	<div class="left_cardtitle">
+						    		<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+									    <path fill="#000000" d="M11.5,1L2,6V8H21V6M16,10V17H19V10M2,22H21V19H2M10,10V17H13V10M4,10V17H7V10H4Z" />
+									</svg>
+						    		Bank Account
+						    	</div>	
+						    	<div class="custom_checkbox_tick">
+						    		<input type="radio" id="card-1">
+						    		<label for="card-1">&nbsp;</label>
+						    	</div>				    	
+						    </mat-card-title>
+						  </mat-card-header>			  
+						  <mat-card-content>
+						  	<div class="row card_information">				  		
+						  		<div class="col-md-9">
+						  			<h4 class="mb-3">Account Number<br>
+						  			XXXXXXXX{{bankcard_data.last4}}</h4>
+						  			<div class="btn-group">
+										<button (click)="createStripeLoginLink()" class="text-uppercase mat-primary small_btn mr-3 dashboardprimary">Edit Card/Bank  </button>
+						  			</div>
+						  		</div>
+						  		<div class="col-md-3 text-right">{{bankcard_data.brand}}</div>
+						  	</div>				    
+						  </mat-card-content>
+					</mat-card>
+				</div>
+			</div>
+			<div class="row" *ngIf="!isObjectIsBank(bankcard_data.object)" >
+				<div class="col-md-8">
+					<mat-card class="pindoCart">
+						<mat-card-header>			    
+						    <mat-card-title class="d-flex justify-content-between">
+						    	<div class="left_cardtitle">
+						    		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+						    		Debit Card
+						    	</div>	
+						    	<div class="custom_checkbox_tick">
+						    		<input type="radio" id="card-1">
+						    		<label for="card-1">&nbsp;</label>
+						    	</div>				    	
+						    </mat-card-title>
+						  </mat-card-header>			  
+						  <mat-card-content>
+						  	<div class="row card_information">				  		
+						  		<div class="col-md-9">
+						  			<h4 class="mb-3">Card Number<br>
+						  			xxxx xxxx xxxx xx{{bankcard_data.last4}}</h4>
+						  			<!-- <p class="mb-4">Expiry Date - 04/29</p> -->
+						  			<div class="btn-group">
+						  				<a mat-button href="{{updateStripeBanksLinks}}" class="text-uppercase mat-primary small_btn mr-3 dashboardprimary"> Edit Card/Bank </a>
+						  			</div>
+						  		</div>
+						  		<div class="col-md-3 text-right">
+						  			{{bankcard_data.brand}}
+						  		</div>
+						  	</div>				    
+						  </mat-card-content>
+					</mat-card>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

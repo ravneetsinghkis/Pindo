@@ -1,0 +1,31 @@
+.rounded-profimgprv {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.rounded-profimgprv img {
+    width: 64%;
+    height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
+    height: 10rem;
+    -o-object-fit: contain;
+    object-fit: contain;
+    width: 10rem;
+    border-radius: 100%;
+    display: inline-block;
+    margin: 0 auto;
+    object-fit: cover;
+}
+
+p.error {
+    color: #f44336 !important;
+}
+

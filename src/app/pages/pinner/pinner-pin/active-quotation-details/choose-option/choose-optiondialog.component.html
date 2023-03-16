@@ -1,0 +1,132 @@
+<div class="total-dialogCntent text-center">
+	<ng-container *ngIf="payment_receive_mode=='offline'">
+		<div class="img_matDialog mb-4">
+			<img src="assets/images/paymentbycash.png" alt="">
+			<!-- <img src="assets/images/pinnerType.png" alt=""> -->
+		</div>
+		<div class="col-md-8 offset-2">
+			<h2 class="text-uppercase">payment request</h2>
+			<p>Doer has requested for a offline payment (by cash). Do you want to pay offline?</p>
+		</div>
+		<!-- <h2>{{display_data.title}}</h2> -->
+		<!-- <p *ngIf="display_data.content!=''">{{display_data.content}}</p> -->
+		<div class="d-flex justify-content-center pt-2">
+			<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary"
+				[mat-dialog-close]="true" (click)="completeOfflinePayment();">
+				DONE
+			</button>
+		</div>
+	</ng-container>
+
+	<ng-container *ngIf="payment_receive_mode=='online'">
+		<!-- <div class="img_matDialog mb-4">
+        <ng-container *ngIf="data?.tempObj?.doerTypeImg=='company'">
+            <img src="{{uploadUrl}}/company_logo/{{data.tempObj['doer_img']}}" alt="">
+        </ng-container>
+        <ng-container *ngIf="doerTypeImg=='profile' && (data.tempObj['doer_img']!='' || data.tempObj['doer_img']!=null)">
+            <img src="{{uploadUrl}}/profile_photo/{{data.tempObj['doer_img']}}" alt="">
+        </ng-container>
+        <ng-container *ngIf="doerTypeImg=='profile' && (data.tempObj['doer_img']=='' || data.tempObj['doer_img']==null)">
+            <img src="assets/images/pinnerType.png" alt="">
+        </ng-container>
+        
+        </div> -->
+		<div class="col-12">
+			<h5 class="text-uppercase">Payment Summary</h5>
+			<p>The agreed method of payment is</p>
+		</div>
+
+
+		<mat-radio-group class="green-color" [(ngModel)]="payment_method">
+			<mat-radio-button class="mr-3" *ngFor="let eachpaymentOptions of chosenPaymentOption"
+				[value]="eachpaymentOptions.value" (change)="onChangePaymentMethod($event)">
+				{{eachpaymentOptions.text}}
+			</mat-radio-button>
+		</mat-radio-group>
+		<p>
+			<table width="100%" style="margin-top: 10px;">
+				<tr>
+					<td>Total Invoice Amount</td>
+					<td>=</td>
+					<td><strong>${{tempObj.total_quotation_amount | number:'.2'}}</strong></td>
+				</tr>
+				<!-- <tr *ngIf="payment_method==1" style="border-bottom: 1px solid;">
+                    <td> Credit card charges</td>
+                    <td>=</td>
+                    <td><strong> ${{creditCardCharges | number:'.2-2'}}</strong></td>
+                </tr>
+                <tr *ngIf="payment_method==1">
+                    <td>Gross Amount</td>
+                    <td>=</td>
+                    <td><strong> ${{grossAmount | number:'.2-2'}}</strong></td>
+                </tr> -->
+			</table>
+
+			<!-- <p style="margin-top: 10px;">Credit card payment charges applicable:<br />
+                Credit Card: <strong>2.9%</strong> of Quote Amount + <strong>$.30</strong><br /></p> -->
+			<div class="d-flex justify-content-center pt-2 flex-wrap">
+				<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2 mb-2"
+					[mat-dialog-close]="true" (click)="acceptPayment();">
+					Complete Payment
+				</button>
+
+				<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2 mb-2"
+					[mat-dialog-close]="true" (click)="choosePaymentRequest();">
+					Back
+				</button>
+				<!-- <div class="custombtnboder">
+                <button type="button" class="text-uppercase mat-button" [mat-dialog-close]="true" (click)="rejectPayment();">
+                    Reject
+                </button>
+            </div> -->
+			</div>
+	</ng-container>
+
+	<ng-container *ngIf="payment_receive_mode=='reject_payment'">
+		<form [formGroup]="paymentRejectForm" (ngSubmit)="rejectPaymentRequest(paymentRejectTemplate.valid)"
+			#paymentRejectTemplate="ngForm">
+			<div class="col-12">
+				<h5 class="text-uppercase pb-2">Please state the reason you are rejecting this payment request</h5>
+			</div>
+			<div class="col-md-12">
+				<mat-form-field appearance="outline">
+					<mat-select placeholder="Select Reason" formControlName="reason">
+						<mat-option *ngFor="let each_reason of reasons" [value]="each_reason.title">
+							{{each_reason.title}}
+						</mat-option>
+					</mat-select>
+					<mat-error *ngIf="submitted && paymentRejectForm?.controls?.reason?.errors?.required">
+						Please select one reason for rejection.
+					</mat-error>
+				</mat-form-field>
+			</div>
+			<div class="col-md-12">
+				<mat-form-field appearance="outline">
+					<textarea formControlName="description" matInput placeholder="Description"></textarea>
+					<mat-error *ngIf="submitted && paymentRejectForm?.controls?.description?.errors?.required">
+						This field is required.
+					</mat-error>
+				</mat-form-field>
+			</div>
+			<!-- <h2>{{display_data.title}}</h2> -->
+			<!-- <p *ngIf="display_data.content!=''">{{display_data.content}}</p> -->
+			<div class="d-flex justify-content-center pt-2">
+
+				<button type="submit" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2">
+					Submit
+				</button>
+
+				<button type="button" mat-raised-button color="primary" class="text-uppercase mat-primary mr-2"
+					[mat-dialog-close]="true" (click)="choosePaymentRequest()">
+					Back
+				</button>
+				<!-- <div class="custombtnboder">
+                    <button type="button" class="text-uppercase mat-button" [mat-dialog-close]="true" (click)="rejectPayment();">
+                        Reject
+                    </button>
+                </div> -->
+			</div>
+		</form>
+	</ng-container>
+
+</div>

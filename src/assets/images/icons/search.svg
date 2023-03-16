@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="58px" height="57px" viewBox="0 0 58 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>magnifying-glass-finder</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="magnifying-glass-finder" fill="#010002" fill-rule="nonzero">
+            <path d="M56.135,50.469 L46.164,40.497 C49.116,36.345 50.869,31.284 50.869,25.812 C50.869,11.787 39.459,0.377 25.434,0.377 C11.409,0.377 0,11.787 0,25.812 C0,39.836 11.409,51.246 25.434,51.246 C31.293,51.246 36.679,49.236 40.983,45.895 L50.845,55.757 C51.575,56.487 52.534,56.853 53.49,56.853 C54.448,56.853 55.405,56.488 56.135,55.757 C57.596,54.298 57.596,51.93 56.135,50.469 Z M5.986,25.813 C5.986,15.088 14.712,6.363 25.436,6.363 C36.16,6.363 44.886,15.088 44.886,25.813 C44.886,30.275 43.361,34.379 40.823,37.665 C39.984,38.75 39.042,39.751 37.996,40.638 C34.604,43.516 30.223,45.263 25.436,45.263 C14.711,45.262 5.986,36.537 5.986,25.813 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

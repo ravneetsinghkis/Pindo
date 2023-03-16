@@ -1,0 +1,79 @@
+<div class="comn-dialog">
+  <div mat-dialog-content>
+
+    <ng-container>
+      <div class="header-content mb-0 d-flex justify-content-between">
+        <div class="heading pb-2">
+          <h3 class="heading-text" *ngIf="data?.user_type == 1">Pin A Job Now</h3>
+          <h3 class="heading-text" *ngIf="data?.user_type == 2">Create Your Profile</h3>
+        </div>
+        <div class="dialog-close-link" (click)="closeDialog(null)"><span class="ic-close"></span></div>
+      </div>
+      <hr class="mt-0 mb-3">
+  
+      <div class="block-wrap">
+        <p *ngIf="data?.user_type == 1">Please provide an email address and password to create a Pin.</p>
+        <p *ngIf="data?.user_type == 2">Please provide your email address and password to create your complete profile</p>
+
+        <form [formGroup]="registrationForm" (submit)="registerUser()" autocomplete="off">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline">
+                <mat-label>First Name*</mat-label>
+                <input matInput formControlName="firstName" placeholder="First Name*">
+                <mat-error *ngIf="registrationFormSubmitted && registractionFormControls.firstName.invalid">
+                  <mat-error *ngIf="registractionFormControls.firstName.errors.required">This field is required</mat-error>   
+                </mat-error>             
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Last Name*</mat-label>
+                <input matInput formControlName="lastName" placeholder="Last Name*">
+                <mat-error *ngIf="registrationFormSubmitted && registractionFormControls.lastName.invalid">
+                  <mat-error *ngIf="registractionFormControls.lastName.errors.required">This field is required</mat-error>    
+                </mat-error>            
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Email Address*</mat-label>
+                <input type="email" matInput formControlName="email" placeholder="Email Address*">
+                <mat-error *ngIf="registrationFormSubmitted && registractionFormControls.email.invalid">
+                  <mat-error *ngIf="registractionFormControls.email.errors.required">This field is required</mat-error>        
+                </mat-error>        
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Password*</mat-label>
+                <input type="password" matInput formControlName="password" placeholder="Password*" autocomplete="new-password" [type]="hide ? 'password' : 'text'">
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                <mat-error *ngIf="registrationFormSubmitted && registractionFormControls.password.invalid">
+                  <mat-error *ngIf="registractionFormControls.password.errors.required">This field is required</mat-error>                
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <div class="rember_forgot">
+                <mat-checkbox formControlName="terms">I have agreed to the <a target="_blank" routerLink="/terms-privacy">Terms &amp; Conditions</a></mat-checkbox>
+                
+                <small>
+                  <mat-error *ngIf="registrationFormSubmitted && registractionFormControls.terms.invalid">
+                    <mat-error *ngIf="registractionFormControls.terms.errors.required">This field is required</mat-error> 
+                  </mat-error>
+                </small>
+              </div>
+            </div>
+            <div class="col-md-12 mt-3 d-flex justify-content-center">
+              <button mat-button class="text-uppercase btn-greenColor w-100 lg-size mb-2" *ngIf="data?.user_type == 1">CREATE PIN</button>
+              <button mat-button class="text-uppercase btn-greenColor w-100 lg-size mb-2" *ngIf="data?.user_type == 2">CREATE PROFILE</button>
+            </div>
+          </div>
+        </form>
+
+      </div>      
+    </ng-container>
+
+  </div>
+</div>

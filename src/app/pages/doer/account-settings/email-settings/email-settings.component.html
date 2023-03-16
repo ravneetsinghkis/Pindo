@@ -1,0 +1,156 @@
+<div class="overlayFullPopup" #popUpVar>
+	<div class="fullPopupHeader px-3">
+		<button mat-icon-button class="btn-back float-left orangeColor" (click)="closeModal()"><span
+				class="or or-return"></span></button>
+		<h3 class="heading-text mb-0 text-uppercase">Email Settings</h3>
+	</div>
+	<hr class="m-0">
+	<div class="fullPopupContent">
+		<div class="container">
+			<div class="col-md-6 offset-md-3 matComnForm">
+				<form>
+					<div class="email-settings-block mb-4">
+						<h4 class="pb-3 block-headeing-text text-uppercase">Email Notifications</h4>
+						<hr class="m-1">
+
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3">
+							<!-- <span class="title">Daily feed summary</span> -->
+							<span class="title" mat-raised-button
+								matTooltip="Get an email with a summary for the day of top posts, new reviews, endorsements, and new Doer members"
+								matTooltipClass="customMatTooltip" >Daily feed summary</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle orange-slide-toggle" (change)="setToggle($event, 'feed')"
+									[checked]="feedVal" matTooltip="Get an email with a summary for the day of top posts, new reviews, endorsements, and new Doer members"
+							matTooltipClass="customMatTooltip" matTooltipPosition="above">
+								</mat-slide-toggle>
+							</div>
+						</div>
+
+					
+
+						<!-- <hr class="m-0">
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3">
+							<span class="title">Responses to my posts</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle orange-slide-toggle"
+									(change)="setToggle($event, 'response')" [checked]="responseVal">
+								</mat-slide-toggle>
+							</div>
+						</div> -->
+
+						<hr class="m-0">
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3">
+							<!-- <span class="title">Invitations to connect</span> -->
+							<span class="title" mat-raised-button
+							matTooltip="Get an email when a PinDo user invites you to connect"
+							matTooltipClass="customMatTooltip">Invitations to connect</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle orange-slide-toggle"
+									(change)="setToggle($event, 'connect')" [checked]="conectVal" matTooltip="Get an email when a PinDo user invites you to connect"
+							matTooltipClass="customMatTooltip" matTooltipPosition="above"
+									>
+								</mat-slide-toggle>
+							</div>
+						</div>
+
+						<hr class="m-0">
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3">
+							<span class="title">My invitations to connect have been accepted</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle orange-slide-toggle"
+									(change)="setToggle($event, 'accepted')" matTooltip="Get an email when a PinDo user accepts your invitation to connect" matTooltipClass="customMatTooltip" [checked]="acceptedVal">
+								</mat-slide-toggle>
+							</div>
+						</div>
+
+					<!-- 	<hr class="m-0">
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3"> -->
+							<!-- <span class="title">New Community has been added</span> -->
+						<!-- 	<span class="title" mat-raised-button
+							matTooltip="Get an email when a new Community is added so you can see if it’s one you want to join"
+							matTooltipClass="customMatTooltip">New Community has been added</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle orange-slide-toggle" (change)="setToggle($event, 'added')"
+									[checked]="addedVal" >
+								</mat-slide-toggle>
+							</div>
+						</div> -->
+
+
+						<hr class="m-0">
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3">
+							<!-- <span class="title">A new user that I invited to PinDo has joined</span> -->
+							<span class="title" mat-raised-button
+							matTooltip="Get an email when someone you invited to join PinDo signs up and becomes a member"
+							matTooltipClass="customMatTooltip">
+							New user that I invited to PinDo has joined</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle orange-slide-toggle" (change)="setToggle($event, 'joined')"
+									[checked]="joinedVal" matTooltip="Get an email when someone you invited to join PinDo signs up and becomes a member"
+							matTooltipClass="customMatTooltip" matTooltipPosition="above">
+								</mat-slide-toggle>
+							</div>
+						</div>
+					</div>
+					<!--end email-settings-block-->
+
+					<!-- <div class="email-settings-block mb-4">
+
+						<h4 class="pb-3 block-headeing-text text-uppercase">Email Subscriptions</h4>
+						<hr class="m-0">
+
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3">
+							<span class="title">Responses to my posts</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle">
+								</mat-slide-toggle>
+							</div>
+						</div>
+
+						<hr class="m-0">
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3">
+							<span class="title">Invitations to connect</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle">
+								</mat-slide-toggle>
+							</div>
+						</div>
+
+						<hr class="m-0">
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3">
+							<span class="title">My invitations to connect have beend accepted</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle">
+								</mat-slide-toggle>
+							</div>
+						</div>
+						<hr class="m-0">
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3">
+							<span class="title">A new Community has been added</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle">
+								</mat-slide-toggle>
+							</div>
+						</div>
+						<hr class="m-0">
+						<div class="email-settings-item-row d-flex align-items-center justify-content-between py-3">
+							<span class="title">A new user that I invited to PinDo has joined</span>
+							<div class="slide-toggle-holder">
+								<mat-slide-toggle class="custom-slide-toggle">
+								</mat-slide-toggle>
+							</div>
+						</div>
+					</div> -->
+
+					<div class="btn-holder text-center">
+						<button mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+							(click)="onSave()">SAVE</button>
+						<button mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+							(click)="closeModal()">CANCEL</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>

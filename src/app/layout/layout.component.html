@@ -1,0 +1,14 @@
+<mat-sidenav #sidenav [mode]="'push'" [fixedInViewport]="true" [fixedTopGap]="0" [fixedBottomGap]="0"
+  (openedStart)="openstateMobileMenu=true" (closedStart)="openstateMobileMenu=false">
+  <!-- <button mat-button (click)="sidenav.toggle()">Toggle</button> -->
+
+  <!-- <app-header class="mobile-navigationmaterial" *ngIf="inMobileView" (onNavToggle)="sidenav.toggle()"></app-header> -->
+  <!-- <app-header class="mobile-navigationmaterial" (onNavToggle)="sidenav.toggle()"></app-header> -->
+  <!-- <app-header class="mobile-navigationmaterial" *ngIf="onMobileView" (onNavToggle)="sidenav.toggle()"></app-header> -->
+
+</mat-sidenav>
+
+
+<app-header (onNavToggle)="sidenav.toggle()" [mobileNavState]="openstateMobileMenu"></app-header>
+<router-outlet></router-outlet>
+<app-footer></app-footer>

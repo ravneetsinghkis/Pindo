@@ -1,0 +1,263 @@
+<div class="common_topgap">
+	<div class="top-section service-top-section topCutomisedNewBar" [ngClass]="userType == 1 ? 'pinner_section' : ''">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5">
+					<div class="mainHeading">
+						<h1>FIND A PIN</h1>
+						<p>Select the category that fits your business.</p>
+					</div>
+				</div>
+		
+			</div>
+			<div class="chooseCategory d-flex justify-content-between">
+				<div class="chooseCategoryCheckbox" [ngClass]="userType == 1 ? 'green_color' : ''" *ngFor="let eachCategory of categoryList;let i = index">
+					<input type="radio" id="checkCat-{{i}}" (change)="selectedCategory(i,$event)" name="selectCat">
+					<label for="checkCat-{{i}}">
+						<!-- <span
+							[innerHTML]="eachCategory?.icon | keepHtml">
+						</span>{{eachCategory?.name}} -->
+						<span
+							[ngClass]="{'ic-home-2': eachCategory?.id === 2 , 'ic-covid-2':eachCategory?.id === 3,'ic-entertainment-2':eachCategory?.id === 19, 'ic-personal-care':eachCategory?.id === 16 , 'ic-book':eachCategory?.id === 17 , 'ic-professional-services-2':eachCategory?.id === 18 ,  'ic-petcare':eachCategory?.id === 20}"></span>
+						{{eachCategory?.name}}
+					</label>
+				</div>
+			</div>
+
+			<div class="w-100 d-flex justify-content-center py-3">
+				<div class="searchPindo">
+					<div class="total_search">
+						<form class="example-form" #searchDoer="ngForm">
+							<mat-spinner [diameter]="30" id="mat-spinner"></mat-spinner>
+							<input placeholder="Search Subcategory or Pin Name" type="text" class="form-control" (ngModelChange)="onkeyupSearch($event)"
+								[ngModelOptions]="{standalone: true}" [(ngModel)]="publicPinTextBox" [matAutocomplete]="auto"
+								#searchDoersField="ngModel">
+							<button type="button" class="getCurrentLocation" (click)="getCurrentAddress()"><img
+									src="assets/images/target.svg" alt=""></button>
+							<mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayFn"
+								(optionSelected)="selectedValSearch($event['option']['value'])" class="orangeAutomplete">
+								<ng-container *ngFor="let option of filteredOptions;let i = index;">
+									<mat-option [value]="option">
+										<ng-container *ngIf="option?.category==null && option?.subcategory==null">
+											<div class="d-flex justify-content-between">
+												<span>{{ option.text }}</span>
+												<span>in <b>{{ option['type'] }}</b></span>
+											</div>
+										</ng-container>
+										<ng-container *ngIf="option?.category!=null && option?.subcategory!=null">
+											<div class="d-flex justify-content-between">
+												<span>{{ option.text }}</span>
+												<span>in <b>{{ option['category']['name'] }}</b></span>
+											</div>
+										</ng-container>
+										<ng-container *ngIf="option?.category!=null && option?.subcategory==null">
+											<div class="d-flex justify-content-between">
+												<span>{{ option.text }}</span>
+												<span>in <b>categories</b></span>
+											</div>
+										</ng-container>
+									</mat-option>
+								</ng-container>
+							</mat-autocomplete>
+							<button type="button" disabled class="searchIcon" *ngIf="publicPinTextBox==''"><img
+									src="{{commonservice.myGlobals.imagepath}}top_search.png" alt=""></button>
+							<button type="button" class="clearSearchText" (click)="clearSearchText()"
+								*ngIf="publicPinTextBox!=''"></button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="filterSection clearfix">
+		<div class="container">
+			<div class="chooseSubCategory eachFilterBlock" *ngIf="subCategoryList.length>0">
+				<h4>SUBCATEGORIES</h4>
+				<div class="subCategoryList-holder">
+					<ng-container *ngIf="subCategoryList.length==0">No Sub Categories Found in this category</ng-container>
+					<ng-container *ngFor="let eachSubCat of subCategoryList;let outIndex = index;">
+						<p *ngIf="eachSubCat.length==0">No Sub Categories Found in this category</p>
+						<div class="normalcheck" *ngFor="let eachSub of eachSubCat;let i = index;">
+							<input type="checkbox" id="subCat-{{eachSub.id}}" (change)="selectedSubCats(outIndex,i,$event)">
+							<label for="subCat-{{eachSub.id}}">{{eachSub?.name}}</label>
+							<!-- <mat-checkbox class="mr-2" id="subCat-{{eachSub.id}}" (change)="selectedSubCats(outIndex,i,$event)" name="selectSubCat">{{eachSub?.name}}</mat-checkbox> -->
+						</div>
+					</ng-container>
+				</div>
+			</div>
+			<div class="" *ngIf="commonservice.addressHeader!=null">
+				<div class="eachFilterBlock" [ngClass]="{'mt-55':subCategoryList.length>0}">
+					<div class="row">
+						<div class="col-md-12">
+							<h4>SEARCH RANGE - miles</h4>
+							<mat-slider class="orange-slide w-100" thumbLabel [max]="max" [min]="min" [(ngModel)]="sliderValue"
+								[tickInterval]="tickintervelOptns" (change)="getChangeVal()" [displayWith]="formatLabel"
+								[step]="stepvalue">
+							</mat-slider>
+							<div class="rangeNumber-holder" style="position: relative;">
+								<span class="rangeNumber_0">0</span>
+								<span class="rangeNumber_1">10</span>
+								<span class="rangeNumber_2">20</span>
+								<span class="rangeNumber_3">30</span>
+								<span class="rangeNumber_4">40</span>
+								<span class="rangeNumber_5">50</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="d-flex justify-content-center pt-4 w-100">
+				<button type="button" mat-flat-button class="btn btn-orangeColor smFont-lg-size text-uppercase mx-2"
+					(click)="submitSelectedFilter()">
+					Apply
+				</button>
+				<div class="custombtnboder">
+					<button type="button" mat-flat-button class="btn btn-gray-border smFont-lg-size text-uppercase mx-2"
+						(click)="clearAllSelectedFilters()">
+						Reset
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="publicPinListing">
+		<div class="container">
+			<h3 class="mb-5" *ngIf="pinList.length>0">RESULTS</h3>
+			<div class="doer-listing row" #pinListElm infiniteScroll [infiniteScrollDistance]="0"
+				[infiniteScrollThrottle]="150" (scrolled)="onScroll()">
+				<ng-container *ngIf="pinList.length>0">
+					<div class="col-md-4 align-self-stretch mb-3" *ngFor="let eachDoer of pinList;let i = index;">
+						<div class="indv-doer">
+
+							<div class="name_section mb-4">
+								<h4>ID: {{eachDoer?.pin_unique_id}}</h4>
+								<h2 class="hover" (click)="toggleChildPopup(i)">{{eachDoer?.title}}</h2>
+								<p class="adress_doer" *ngIf="eachDoer?.address == null"><i class="fas fa-map-marker-alt"></i>Not Yet
+									AVailable</p>
+								<p class="adress_doer" *ngIf="eachDoer?.address != null">
+									<!-- <ng-container *ngIf="eachDoer?.city && eachDoer?.state"> -->
+									<a [href]="(eachDoer?.city && eachDoer?.state)?getAddLink(eachDoer?.city+'+'+eachDoer?.state):(eachDoer?.city && !eachDoer?.state)?getAddLink(eachDoer?.city):(!eachDoer?.city && eachDoer?.state)?getAddLink(eachDoer?.state):getAddLink('')"
+										target="_blank"><i class="fas fa-map-marker-alt"></i>
+										<ng-container *ngIf="eachDoer?.city!=null && eachDoer?.city!=''">{{ eachDoer?.city }},
+										</ng-container>
+										<ng-container *ngIf="eachDoer?.state!=null && eachDoer?.state!=''">{{ eachDoer?.state }}
+										</ng-container>
+									</a>
+									<!-- </ng-container> -->
+								</p>
+							</div>
+							<div class="d-flex mb-4">
+								<span class="green-pin orange-color">
+									{{eachDoer?.parent_child_cat?.parent_det?.name}} > {{eachDoer?.parent_child_cat?.name}}
+								</span>
+							</div>
+							<div class="qtnList mb-4">
+								<h4 class="mb-2">Tags</h4>
+								<!-- <span class="quotationlist" *ngIf="eachDoer?.has_budget==0">No Budget</span>
+                			<span class="quotationlist" *ngIf="eachDoer?.has_budget==1">$ {{eachDoer.budget_value}}</span> -->
+								<span class="quotationlist" *ngIf="eachDoer?.city">
+									<a>{{eachDoer?.city}}</a>
+									<!-- <a [href]="getAddLink(eachDoer?.address)" target="_blank"><i class="fas fa-map-marker-alt mr-2"></i>{{eachDoer?.address}}</a> -->
+								</span>
+								<span class="quotationlist" *ngIf="eachDoer?.state && (eachDoer?.city!=eachDoer?.state)">
+									<a>{{eachDoer?.state}}</a>
+								</span>
+								<ng-container *ngIf="eachDoer?.job_type!=null">
+									<span class="quotationlist" *ngIf="eachDoer?.job_type==0">One-time job</span>
+									<span class="quotationlist" *ngIf="eachDoer?.job_type==1">Recurring</span>
+								</ng-container>
+
+								<ng-container *ngIf="eachDoer?.how_often!=null">
+									<span class="quotationlist" *ngIf="eachDoer?.how_often==0">Daily</span>
+									<span class="quotationlist" *ngIf="eachDoer?.how_often==1">Weekly</span>
+									<span class="quotationlist" *ngIf="eachDoer?.how_often==2">Bi-weekly</span>
+									<span class="quotationlist" *ngIf="eachDoer?.how_often==3">Monthly</span>
+								</ng-container>
+								<span class="quotationlist" *ngIf="is_urgent==1">Urgent Requirement</span>
+
+
+								<ng-container *ngIf="eachDoer?.time_of_day!=null">
+									<span class="quotationlist" *ngIf="eachDoer?.time_of_day==0">Morning</span>
+									<span class="quotationlist" *ngIf="eachDoer?.time_of_day==1">Afternoon</span>
+									<span class="quotationlist" *ngIf="eachDoer?.time_of_day==2">Evening</span>
+								</ng-container>
+
+								<ng-container *ngIf="eachDoer?.day_of_week!=null">
+									<span class="quotationlist" *ngIf="eachDoer?.day_of_week==0">Anyday</span>
+									<span class="quotationlist" *ngIf="eachDoer?.day_of_week==1">Weekday</span>
+									<span class="quotationlist" *ngIf="eachDoer?.day_of_week==3">Individual Days</span>
+									<ng-container *ngIf="eachDoer?.day_of_week==3">
+										<span class="quotationlist" *ngIf="eachDoer?.ind_monday==1">Monday</span>
+										<span class="quotationlist" *ngIf="eachDoer?.ind_tuesday==1">Tuesday</span>
+										<span class="quotationlist" *ngIf="eachDoer?.ind_wednesday==1">Wednesday</span>
+										<span class="quotationlist" *ngIf="eachDoer?.ind_thursday==1">Thursday</span>
+										<span class="quotationlist" *ngIf="eachDoer?.ind_friday==1">Friday</span>
+										<span class="quotationlist" *ngIf="eachDoer?.ind_saturday==1">Saturday</span>
+										<span class="quotationlist" *ngIf="eachDoer?.ind_sunday==1">Sunday</span>
+									</ng-container>
+								</ng-container>
+								<ng-container *ngIf="eachDoer?.pinner_details?.company_name!=null">
+									<span class="quotationlist">Company</span>
+									<span class="quotationlist">{{eachDoer?.pinner_details?.company_name}}</span>
+								</ng-container>
+							</div>
+							<div class="profDoer d-flex mb-4 align-items-center no_background">
+								<span class="prof_img">
+									<img class="blurImg" src="{{baseUrl}}/profile_photo/{{eachDoer?.pinner_details?.profile_photo}}"
+										onError="this.src='assets/images/default-userImg-green.svg';" alt="">
+									<!-- [ngClass]="isMsgExists[i] == 1? '': 'blurImg -->
+								</span>
+								<div class="prof_infoDoer">
+									<h4 class="blurText">{{eachDoer?.pinner_details?.username}}</h4>
+									<!-- [ngClass]="isMsgExists[i] == 1? '': 'blurText'" -->
+
+									<!-- <p class="adress_doer"><i class="fas fa-map-marker-alt"></i>Not Yet AVailable</p> -->
+									<!-- <p class="adress_doer" *ngIf="eachDoer.address != null"><i class="fas fa-map-marker-alt"></i>{{ eachDoer.address }}</p> -->
+
+								</div>
+							</div>
+							<!-- <div class="doerStats mb-4" *ngIf="eachDoer?.pin_tasks.length>0">
+							<h4>Job Tasks</h4>
+							<div class="task-list"><span *ngFor="let eachTask of eachDoer?.pin_tasks">{{eachTask.task_details?.name}}</span></div>
+						</div> -->
+							<div class="abs-btngrp">
+								<mat-button-toggle-group>
+									<mat-button-toggle value="View Details" (click)="toggleChildPopup(i)">View Details</mat-button-toggle>
+									<mat-button-toggle value="Apply Now" *ngIf="getLoginStatus()==0"
+										(click)="openDialog(eachDoer.id,eachDoer.slug)">Apply Now</mat-button-toggle>
+									<mat-button-toggle *ngIf="getLoginStatus()==2" value="Apply Now"
+										routerLink="/doer/apply-pins/{{eachDoer.slug}}">Apply Now</mat-button-toggle>
+									<mat-button-toggle *ngIf="getLoginStatus()==2" class="orange_btn" value="Message"
+										(click)="goToChat(eachDoer?.pinner_details?.id,eachDoer?.id)"><i class="fas fa-envelope"></i>
+									</mat-button-toggle>
+								</mat-button-toggle-group>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+				<div class="col-md-12 justify-content-center">
+					<div class="load_more" id="small_loader">Loading more <h1 class="dot one">.</h1>
+						<h1 class="dot two">.</h1>
+						<h1 class="dot three">.</h1>
+					</div>
+				</div>
+				<ng-container *ngIf="pinList.length==0">
+					<div class="no_content row w-100">
+						<div class="col-md-5">
+							<img src="assets/images/nocontentinvite.png" class="float-right" alt="">
+						</div>
+						<div class="col-md-7">
+							<ng-container>
+								<h5>No Pins Found</h5>
+								<p>No Pins found with selected filters.</p>
+							</ng-container>
+						</div>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</div>
+<app-public-pin-details #pinDetails [pinSlug]="selectedPin" (applyCLicked)="openDialog($event)">
+</app-public-pin-details>
